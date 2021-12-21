@@ -1,0 +1,44 @@
+<resources>
+    <string name="app_name">Gunjan</string>
+    <string name="enter_mobile_number">Enter Mobile Number</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="by_signing_you_agree_with_our">By signing,you agree with our</string>
+    <string name="terms_amp_conditions">Terms &amp; Conditions</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="dummy">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="forgotpassword">Forgot Password</string>
+    <string name="retrieve">Please enter your registered mobile number in order to retrieve your password</string>
+    <string name="submit">Submit</string>
+    <string name="otp_verification">OTP Verification</string>
+    <string name="otp_mobile">OTP sent to your mobile number</string>
+    <string name="verify">Verify</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="please_reset_your_password">Please reset your password</string>
+    <string name="enter_new_password">Enter New Password</string>
+    <string name="enter_confirm_password">Enter Confirm Password</string>
+    <string name="next">Next</string>
+    <string name="register_mobile_number">Register Mobile Number</string>
+    <string name="profile_setup">Profile Setup</string>
+    <string name="enter_first_name">Enter First Name</string>
+    <string name="enter_profile_name">Enter profile Name</string>
+    <string name="enter_last_name">Enter Last Name</string>
+    <string name="enter_pincode">Enter PinCode</string>
+    <string name="what_is_my_pincode">What is My PinCode?</string>
+    <string name="continue_txt">Continue</string>
+    <string name="profile_identification">Profile Identification</string>
+    <string name="upload_profile_photo_for">Upload profile photo for</string>
+    <string name="identification">Identification</string>
+    <string name="add_profile_photo">Add Profile Photo</string>
+    <string name="about_yourself">About Yourself</string>
+    <string name="tell_us_about_yourself">Tell us about yourself</string>
+    <string name="add_photo">Add Photo</string>
+    <string name="write_here">Write here...</string>
+    <string name="select_your_community">Select Your Community</string>
+    <string name="send_request_to_join">Send request to join</string>
+    <string name="add_your_community">Add Your Community</string>
+    <string name="tell_about_your_community">Tell About Your Community...</string>
+    <string name="add_logo">Add Logo</string>
+
+</resources>
