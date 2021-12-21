@@ -23,19 +23,19 @@ class LoginActivity : AppCompatActivity() {
         flageye = false
 
         tc.setOnClickListener {
-            startActivity(Intent(this,TcActivity::class.java))
+            startActivity(Intent(this, TcActivity::class.java))
         }
 
         privacy.setOnClickListener {
-            startActivity(Intent(this,PrivacyPolicyActivity::class.java))
+            startActivity(Intent(this, PrivacyPolicyActivity::class.java))
         }
 
         Login.setOnClickListener {
-            startActivity(Intent(this,OtpActivity::class.java))
+            startActivity(Intent(this, OtpActivity::class.java))
         }
 
         signUpPage.setOnClickListener {
-            startActivity(Intent(this,MobileRegisterActivity::class.java))
+            startActivity(Intent(this, MobileRegisterActivity::class.java))
         }
     }
 }

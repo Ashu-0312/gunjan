@@ -4,77 +4,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     android:background="@color/white"
+    android:fillViewport="true"
     tools:context=".activities.ForgotPasswordActivity">
 
     <RelativeLayout
-        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
         <RelativeLayout
-            android:background="@color/light_white"
-            android:paddingBottom="@dimen/margin_20dp"
-            android:paddingTop="@dimen/margin_10dp"
             android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/light_white"
+            android:paddingTop="@dimen/margin_10dp"
+            android:paddingBottom="@dimen/margin_20dp">
+
             <ImageView
-                android:layout_marginTop="@dimen/margin_15"
                 android:id="@+id/back"
-                android:layout_marginStart="@dimen/margin_15"
                 android:layout_width="@dimen/margin_20dp"
                 android:layout_height="@dimen/margin_20dp"
+                android:layout_marginStart="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_15"
                 android:src="@drawable/back"
                 tools:ignore="RtlCompat" />
+
             <TextView
-                android:textSize="@dimen/text_17sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:fontFamily="@font/popinbold"
+                android:gravity="center"
                 android:text="@string/profile_setup"
                 android:textColor="@color/pink"
-                android:gravity="center"
-                android:layout_marginTop="@dimen/margin_10dp"
-                android:fontFamily="@font/popinbold"/>
+                android:textSize="@dimen/text_17sp" />
         </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_below="@+id/header">
+            android:layout_below="@+id/header"
+            android:orientation="vertical">
+
             <RelativeLayout
-                android:layout_gravity="center"
                 android:id="@+id/choosePic"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/margin_15"
-                android:layout_below="@id/back"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@id/back"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_15">
+
                 <de.hdodenhof.circleimageview.CircleImageView
-                    app:civ_border_width="@dimen/padding_2"
-                    app:civ_border_color="@color/pink"
                     android:id="@+id/profilePic"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/user_avatar"/>
+                    android:src="@drawable/user_avatar"
+                    app:civ_border_color="@color/pink"
+                    app:civ_border_width="@dimen/padding_2" />
+
                 <ImageView
                     android:layout_width="@dimen/text_30sp"
                     android:layout_height="@dimen/text_30sp"
-                    android:src="@drawable/add"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="80dp"/>
+                    android:layout_marginTop="80dp"
+                    android:src="@drawable/add" />
             </RelativeLayout>
+
             <TextView
 
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:layout_gravity="center"
                 android:fontFamily="@font/poppins_semibold"
+                android:text="@string/add_profile_photo"
                 android:textColor="@color/pink"
-                android:text="@string/add_profile_photo"/>
+                android:textSize="14sp" />
+
             <LinearLayout
-                android:elevation="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -83,40 +91,41 @@
                 android:layout_marginEnd="@dimen/margin_15"
                 android:layout_marginBottom="@dimen/padding_5"
                 android:background="@drawable/edittext_bg"
+                android:elevation="3dp"
                 android:orientation="horizontal"
                 android:padding="@dimen/padding_5">
 
                 <ImageView
-                    android:layout_marginBottom="@dimen/padding_2"
                     android:layout_width="@dimen/margin_15"
+                    android:layout_height="@dimen/margin_15"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/text_16sp"
-                    android:src="@drawable/user"
-                    android:layout_height="@dimen/margin_15"/>
+                    android:layout_marginBottom="@dimen/padding_2"
+                    android:src="@drawable/user" />
 
                 <EditText
-                    android:layout_weight="1"
-                    android:layout_marginTop="1dp"
-                    android:layout_gravity="center"
                     android:id="@+id/profileName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:hint="@string/enter_profile_name"
-                    android:maxLines="1"
-                    android:maxLength="40"
-                    android:inputType="textCapWords"
+                    android:layout_gravity="center"
                     android:layout_marginStart="7dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:fontFamily="@font/poppins_light"
+                    android:hint="@string/enter_profile_name"
+                    android:inputType="textCapWords"
+                    android:maxLength="40"
+                    android:maxLines="1"
                     android:paddingTop="@dimen/text_13sp"
                     android:paddingRight="@dimen/margin_10dp"
                     android:paddingBottom="@dimen/text_13sp"
-                    android:fontFamily="@font/poppins_light"
                     android:textColor="@color/txt_color"
                     android:textColorHint="@color/txt_color"
                     android:textSize="@dimen/text_13sp" />
             </LinearLayout>
+
             <LinearLayout
-                android:elevation="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -125,40 +134,41 @@
                 android:layout_marginEnd="@dimen/margin_15"
                 android:layout_marginBottom="@dimen/padding_5"
                 android:background="@drawable/edittext_bg"
+                android:elevation="3dp"
                 android:orientation="horizontal"
                 android:padding="@dimen/padding_5">
 
                 <ImageView
-                    android:layout_marginBottom="@dimen/padding_2"
                     android:layout_width="@dimen/margin_15"
+                    android:layout_height="@dimen/margin_15"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/text_16sp"
-                    android:src="@drawable/user"
-                    android:layout_height="@dimen/margin_15" />
+                    android:layout_marginBottom="@dimen/padding_2"
+                    android:src="@drawable/user" />
 
                 <EditText
-                    android:layout_weight="1"
-                    android:layout_marginTop="1dp"
-                    android:layout_gravity="center"
                     android:id="@+id/firstName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:hint="@string/enter_first_name"
-                    android:maxLines="1"
-                    android:maxLength="40"
-                    android:inputType="textCapWords"
+                    android:layout_gravity="center"
                     android:layout_marginStart="7dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:fontFamily="@font/poppins_light"
+                    android:hint="@string/enter_first_name"
+                    android:inputType="textCapWords"
+                    android:maxLength="40"
+                    android:maxLines="1"
                     android:paddingTop="@dimen/text_13sp"
                     android:paddingRight="@dimen/margin_10dp"
                     android:paddingBottom="@dimen/text_13sp"
-                    android:fontFamily="@font/poppins_light"
                     android:textColor="@color/txt_color"
                     android:textColorHint="@color/txt_color"
                     android:textSize="@dimen/text_13sp" />
             </LinearLayout>
+
             <LinearLayout
-                android:elevation="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -167,40 +177,41 @@
                 android:layout_marginEnd="@dimen/margin_15"
                 android:layout_marginBottom="@dimen/padding_5"
                 android:background="@drawable/edittext_bg"
+                android:elevation="3dp"
                 android:orientation="horizontal"
                 android:padding="@dimen/padding_5">
 
                 <ImageView
-                    android:layout_marginBottom="@dimen/padding_2"
                     android:layout_width="@dimen/margin_15"
+                    android:layout_height="@dimen/margin_15"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/text_16sp"
-                    android:src="@drawable/user"
-                    android:layout_height="@dimen/margin_15" />
+                    android:layout_marginBottom="@dimen/padding_2"
+                    android:src="@drawable/user" />
 
                 <EditText
-                    android:layout_weight="1"
-                    android:layout_marginTop="1dp"
-                    android:layout_gravity="center"
                     android:id="@+id/lastName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:hint="@string/enter_last_name"
-                    android:maxLines="1"
-                    android:maxLength="40"
-                    android:inputType="textCapWords"
+                    android:layout_gravity="center"
                     android:layout_marginStart="7dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:fontFamily="@font/poppins_light"
+                    android:hint="@string/enter_last_name"
+                    android:inputType="textCapWords"
+                    android:maxLength="40"
+                    android:maxLines="1"
                     android:paddingTop="@dimen/text_13sp"
                     android:paddingRight="@dimen/margin_10dp"
                     android:paddingBottom="@dimen/text_13sp"
-                    android:fontFamily="@font/poppins_light"
                     android:textColor="@color/txt_color"
                     android:textColorHint="@color/txt_color"
                     android:textSize="@dimen/text_13sp" />
             </LinearLayout>
+
             <LinearLayout
-                android:elevation="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -209,51 +220,53 @@
                 android:layout_marginEnd="@dimen/margin_15"
                 android:layout_marginBottom="@dimen/padding_5"
                 android:background="@drawable/edittext_bg"
+                android:elevation="3dp"
                 android:orientation="horizontal"
                 android:padding="@dimen/padding_5">
 
                 <ImageView
-                    android:layout_marginBottom="@dimen/padding_2"
                     android:layout_width="@dimen/margin_15"
+                    android:layout_height="@dimen/margin_15"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/text_16sp"
-                    android:src="@drawable/location_marker"
-                    android:layout_height="@dimen/margin_15" />
+                    android:layout_marginBottom="@dimen/padding_2"
+                    android:src="@drawable/location_marker" />
 
                 <EditText
-                    android:layout_weight="1"
-                    android:layout_marginTop="1dp"
-                    android:layout_gravity="center"
                     android:id="@+id/pinCode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:hint="@string/enter_pincode"
-                    android:maxLines="1"
-                    android:maxLength="10"
-                    android:inputType="number"
+                    android:layout_gravity="center"
                     android:layout_marginStart="7dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:fontFamily="@font/poppins_light"
+                    android:hint="@string/enter_pincode"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:maxLines="1"
                     android:paddingTop="@dimen/text_13sp"
                     android:paddingRight="@dimen/margin_10dp"
                     android:paddingBottom="@dimen/text_13sp"
-                    android:fontFamily="@font/poppins_light"
                     android:textColor="@color/txt_color"
                     android:textColorHint="@color/txt_color"
                     android:textSize="@dimen/text_13sp" />
             </LinearLayout>
+
             <TextView
-                android:layout_marginStart="@dimen/text_17sp"
-                android:layout_marginEnd="@dimen/text_17sp"
-                android:layout_marginTop="@dimen/margin_7"
-                android:layout_gravity="start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13dp"
+                android:layout_gravity="start"
+                android:layout_marginStart="@dimen/text_17sp"
+                android:layout_marginTop="@dimen/margin_7"
+                android:layout_marginEnd="@dimen/text_17sp"
                 android:fontFamily="@font/poppin_medium"
+                android:text="@string/what_is_my_pincode"
                 android:textColor="@color/pink"
-                android:text="@string/what_is_my_pincode"/>
+                android:textSize="13dp" />
+
             <LinearLayout
-                android:elevation="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -262,50 +275,52 @@
                 android:layout_marginEnd="@dimen/margin_15"
                 android:layout_marginBottom="@dimen/padding_5"
                 android:background="@drawable/edittext_bg"
+                android:elevation="3dp"
                 android:orientation="horizontal"
                 android:padding="@dimen/padding_5">
 
                 <ImageView
-                    android:layout_marginBottom="@dimen/padding_2"
                     android:layout_width="@dimen/margin_15"
+                    android:layout_height="@dimen/margin_15"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/text_16sp"
+                    android:layout_marginBottom="@dimen/padding_2"
                     android:src="@drawable/password"
-                    android:layout_height="@dimen/margin_15"
                     tools:ignore="RtlCompat" />
 
                 <EditText
-                    android:layout_weight="1"
-                    android:layout_marginTop="1dp"
-                    android:layout_gravity="center"
                     android:id="@+id/newPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:hint="@string/enter_password"
-                    android:maxLines="1"
-                    android:maxLength="40"
-                    android:inputType="textPassword"
+                    android:layout_gravity="center"
                     android:layout_marginStart="7dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:fontFamily="@font/poppins_light"
+                    android:hint="@string/enter_password"
+                    android:inputType="textPassword"
+                    android:maxLength="40"
+                    android:maxLines="1"
                     android:paddingTop="@dimen/text_13sp"
                     android:paddingRight="@dimen/margin_10dp"
                     android:paddingBottom="@dimen/text_13sp"
-                    android:fontFamily="@font/poppins_light"
                     android:textColor="@color/txt_color"
                     android:textColorHint="@color/txt_color"
                     android:textSize="@dimen/text_13sp"
                     tools:ignore="RtlCompat" />
+
                 <ImageView
-                    android:layout_marginEnd="@dimen/text_18sp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/padding_8"
                     android:id="@+id/showPassword1"
                     android:layout_width="@dimen/text_22sp"
                     android:layout_height="@dimen/text_22sp"
-                    android:src="@drawable/hide_password"/>
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/padding_8"
+                    android:layout_marginEnd="@dimen/text_18sp"
+                    android:src="@drawable/hide_password" />
             </LinearLayout>
+
             <LinearLayout
-                android:elevation="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -314,51 +329,53 @@
                 android:layout_marginEnd="@dimen/margin_15"
                 android:layout_marginBottom="@dimen/padding_5"
                 android:background="@drawable/edittext_bg"
+                android:elevation="3dp"
                 android:orientation="horizontal"
                 android:padding="@dimen/padding_5">
 
                 <ImageView
-                    android:layout_marginBottom="@dimen/padding_2"
                     android:layout_width="@dimen/margin_15"
+                    android:layout_height="@dimen/margin_15"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/text_16sp"
+                    android:layout_marginBottom="@dimen/padding_2"
                     android:src="@drawable/password"
-                    android:layout_height="@dimen/margin_15"
                     tools:ignore="RtlCompat" />
 
                 <EditText
-                    android:layout_weight="1"
-                    android:layout_marginTop="1dp"
-                    android:layout_gravity="center"
                     android:id="@+id/confirmPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:hint="@string/enter_confirm_password"
-                    android:maxLines="1"
-                    android:maxLength="40"
-                    android:inputType="textPassword"
+                    android:layout_gravity="center"
                     android:layout_marginStart="7dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:fontFamily="@font/poppins_light"
+                    android:hint="@string/enter_confirm_password"
+                    android:inputType="textPassword"
+                    android:maxLength="40"
+                    android:maxLines="1"
                     android:paddingTop="@dimen/text_13sp"
                     android:paddingRight="@dimen/margin_10dp"
                     android:paddingBottom="@dimen/text_13sp"
-                    android:fontFamily="@font/poppins_light"
                     android:textColor="@color/txt_color"
                     android:textColorHint="@color/txt_color"
                     android:textSize="@dimen/text_13sp"
                     tools:ignore="RtlCompat" />
+
                 <ImageView
-                    android:layout_marginEnd="@dimen/text_18sp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/padding_8"
                     android:id="@+id/showPassword2"
                     android:layout_width="@dimen/text_22sp"
                     android:layout_height="@dimen/text_22sp"
-                    android:src="@drawable/hide_password"/>
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/padding_8"
+                    android:layout_marginEnd="@dimen/text_18sp"
+                    android:src="@drawable/hide_password" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/Continue"
-                android:elevation="1dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -367,19 +384,21 @@
                 android:layout_marginEnd="@dimen/margin_40dp"
                 android:layout_marginBottom="@dimen/margin_20dp"
                 android:background="@drawable/button_bg"
+                android:elevation="1dp"
                 android:orientation="horizontal"
                 android:padding="@dimen/padding_5">
+
                 <TextView
-                    android:layout_marginTop="@dimen/padding_5"
-                    android:layout_marginBottom="@dimen/padding_5"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_18sp"
-                    android:fontFamily="@font/popinbold"
-                    android:textColor="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/continue_txt"/>
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/padding_5"
+                    android:layout_marginBottom="@dimen/padding_5"
+                    android:fontFamily="@font/popinbold"
+                    android:gravity="center"
+                    android:text="@string/continue_txt"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_18sp" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

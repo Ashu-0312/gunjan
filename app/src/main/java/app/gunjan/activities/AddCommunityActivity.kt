@@ -12,7 +12,7 @@ import app.gunjan.R
 import kotlinx.android.synthetic.main.activity_add_community.*
 
 class AddCommunityActivity : AppCompatActivity() {
-    private var list:ArrayList<String> = ArrayList<String>()
+    private var list: ArrayList<String> = ArrayList<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_community)
@@ -29,7 +29,8 @@ class AddCommunityActivity : AppCompatActivity() {
 
         val arrayAdapter1: ArrayAdapter<String> = object : ArrayAdapter<String>(
             this,
-            R.layout.spinner_layout, list) {
+            R.layout.spinner_layout, list
+        ) {
             override fun isEnabled(position: Int): Boolean {
                 return position != 0
             }
