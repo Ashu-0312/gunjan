@@ -15,20 +15,20 @@ import app.gunjan.adapters.AdminMembersAdapter
 import kotlin.system.exitProcess
 
 class AdminMembersFragment : Fragment() {
-    private var listRecycler: RecyclerView?=null
+    private var listRecycler: RecyclerView? = null
     private var list: ArrayList<String> = ArrayList<String>()
     private var stateList: ArrayList<String> = ArrayList<String>()
     private var cityList: ArrayList<String> = ArrayList<String>()
     private var blockList: ArrayList<String> = ArrayList<String>()
-    private var filter:ImageView?=null
+    private var filter: ImageView? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_admin_members, container, false)
-        listRecycler=view.findViewById(R.id.list_recycler)
-        filter=view.findViewById(R.id.filter)
+        listRecycler = view.findViewById(R.id.list_recycler)
+        filter = view.findViewById(R.id.filter)
         initData()
         return view
     }
@@ -57,13 +57,14 @@ class AdminMembersFragment : Fragment() {
 
         filter!!.setOnClickListener { filterDialog() }
     }
+
     fun filterDialog() {
-        var reset: TextView?=null
-        var apply: LinearLayout?=null
-        var close: ImageView?=null
-        var stateSpinner: Spinner?=null
-        var citySpinner: Spinner?=null
-        var blockSpinner: Spinner?=null
+        var reset: TextView? = null
+        var apply: LinearLayout? = null
+        var close: ImageView? = null
+        var stateSpinner: Spinner? = null
+        var citySpinner: Spinner? = null
+        var blockSpinner: Spinner? = null
         val dialog = context?.let { Dialog(it) }
         // Include dialog.xml file
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)

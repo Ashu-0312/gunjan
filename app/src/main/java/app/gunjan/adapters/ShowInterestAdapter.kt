@@ -13,9 +13,9 @@ import app.gunjan.activities.HomeActivity
 import java.util.*
 
 class ShowInterestAdapter(
-        var context: Context?,
-        data: ArrayList<String>
-) :RecyclerView.Adapter<ShowInterestAdapter.ViewHolder>() {
+    var context: Context?,
+    data: ArrayList<String>
+) : RecyclerView.Adapter<ShowInterestAdapter.ViewHolder>() {
     private var data: ArrayList<String> = data
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

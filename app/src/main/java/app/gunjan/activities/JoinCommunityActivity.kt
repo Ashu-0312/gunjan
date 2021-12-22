@@ -20,14 +20,14 @@ class JoinCommunityActivity : AppCompatActivity() {
         back.setOnClickListener { finish() }
 
         Join.setOnClickListener {
-           joinDialog()
+            joinDialog()
         }
     }
 
     fun joinDialog() {
-        var apply: LinearLayout?=null
-        var close: ImageView?=null
-                val dialog = Dialog(this)
+        var apply: LinearLayout? = null
+        var close: ImageView? = null
+        val dialog = Dialog(this)
         // Include dialog.xml file
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog!!.setContentView(R.layout.joincommunity_dialog)

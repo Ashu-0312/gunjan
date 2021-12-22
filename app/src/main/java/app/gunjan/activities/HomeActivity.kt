@@ -27,11 +27,11 @@ class HomeActivity : AppCompatActivity() {
         fragment = HomeFragment()
         loadFragment(fragment!!)
         addCommunity.setOnClickListener {
-            startActivity(Intent(this,AddCommunityActivity::class.java))
+            startActivity(Intent(this, AddCommunityActivity::class.java))
         }
 
         notification.setOnClickListener {
-            startActivity(Intent(this,JoinCommunityActivity::class.java))
+            startActivity(Intent(this, JoinCommunityActivity::class.java))
         }
 
         home.setOnClickListener {
@@ -86,6 +86,7 @@ class HomeActivity : AppCompatActivity() {
             loadFragment(fragment!!)
         }
     }
+
     private fun loadFragment(fragment: Fragment) {
         // load fragment
         val transaction = supportFragmentManager.beginTransaction()
@@ -93,6 +94,7 @@ class HomeActivity : AppCompatActivity() {
         transaction.addToBackStack(null)
         transaction.commit()
     }
+
     override fun onBackPressed() {
         findViewById<View>(R.id.frame_container).visibility = View.VISIBLE
         when {

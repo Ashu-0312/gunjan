@@ -8,7 +8,8 @@ public class Model {
         this.isSelected = isSelected;
     }
 
-    private Boolean isSelected=false;
+    private Boolean isSelected = false;
+
     public String getName() {
         return name;
     }

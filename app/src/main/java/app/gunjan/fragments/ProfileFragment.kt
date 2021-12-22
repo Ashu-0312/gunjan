@@ -15,50 +15,50 @@ import app.gunjan.activities.PrivacyPolicyActivity
 import app.gunjan.activities.TcActivity
 
 class ProfileFragment : Fragment() {
-     private var leaveCommunity:LinearLayout?=null
-     private var tc:LinearLayout?=null
-     private var privacy:LinearLayout?=null
-     private var editProfile:RelativeLayout?=null
-     private var deleteAccount:LinearLayout?=null
+    private var leaveCommunity: LinearLayout? = null
+    private var tc: LinearLayout? = null
+    private var privacy: LinearLayout? = null
+    private var editProfile: RelativeLayout? = null
+    private var deleteAccount: LinearLayout? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
-        leaveCommunity=view.findViewById(R.id.leave_community)
-        tc=view.findViewById(R.id.tc)
-        privacy=view.findViewById(R.id.privacy)
-        editProfile=view.findViewById(R.id.editProfile)
-        deleteAccount=view.findViewById(R.id.delete_account)
+        leaveCommunity = view.findViewById(R.id.leave_community)
+        tc = view.findViewById(R.id.tc)
+        privacy = view.findViewById(R.id.privacy)
+        editProfile = view.findViewById(R.id.editProfile)
+        deleteAccount = view.findViewById(R.id.delete_account)
         initData()
         return view
     }
 
     private fun initData() {
-       leaveCommunity!!.setOnClickListener {
-           startActivity(Intent(context,LeaveCommunityActivity::class.java))
-       }
+        leaveCommunity!!.setOnClickListener {
+            startActivity(Intent(context, LeaveCommunityActivity::class.java))
+        }
 
         tc!!.setOnClickListener {
-            startActivity(Intent(context,TcActivity::class.java))
+            startActivity(Intent(context, TcActivity::class.java))
         }
 
         privacy!!.setOnClickListener {
-            startActivity(Intent(context,PrivacyPolicyActivity::class.java))
+            startActivity(Intent(context, PrivacyPolicyActivity::class.java))
         }
 
         editProfile!!.setOnClickListener {
-            startActivity(Intent(context,EditProfileActivity::class.java))
+            startActivity(Intent(context, EditProfileActivity::class.java))
         }
 
         deleteAccount!!.setOnClickListener { deleteAccountDialog() }
     }
 
     fun deleteAccountDialog() {
-        var yes: LinearLayout?=null
-        var no: LinearLayout?=null
-        var close: ImageView?=null
+        var yes: LinearLayout? = null
+        var no: LinearLayout? = null
+        var close: ImageView? = null
         val dialog = context?.let { Dialog(it) }
         // Include dialog.xml file
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)

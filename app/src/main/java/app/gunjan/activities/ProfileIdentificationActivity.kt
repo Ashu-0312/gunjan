@@ -17,7 +17,7 @@ class ProfileIdentificationActivity : AppCompatActivity() {
         back.setOnClickListener { finish() }
 
         AddPhoto.setOnClickListener {
-            startActivity(Intent(this,AddAboutActivity::class.java))
+            startActivity(Intent(this, AddAboutActivity::class.java))
         }
     }
 }

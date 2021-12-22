@@ -19,15 +19,15 @@ class MobileRegisterActivity : AppCompatActivity() {
         back.setOnClickListener { finish() }
 
         tc.setOnClickListener {
-            startActivity(Intent(this,TcActivity::class.java))
+            startActivity(Intent(this, TcActivity::class.java))
         }
 
         privacy.setOnClickListener {
-            startActivity(Intent(this,PrivacyPolicyActivity::class.java))
+            startActivity(Intent(this, PrivacyPolicyActivity::class.java))
         }
 
         Next.setOnClickListener {
-            startActivity(Intent(this,OtpActivity::class.java))
+            startActivity(Intent(this, OtpActivity::class.java))
         }
 
     }

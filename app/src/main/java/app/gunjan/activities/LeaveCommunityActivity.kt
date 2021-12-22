@@ -25,8 +25,8 @@ class LeaveCommunityActivity : AppCompatActivity() {
     }
 
     fun leaveCommunityDialog() {
-        var yes: LinearLayout?=null
-        var no: LinearLayout?=null
+        var yes: LinearLayout? = null
+        var no: LinearLayout? = null
         val dialog = Dialog(this)
         // Include dialog.xml file
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)

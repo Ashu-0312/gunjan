@@ -37,31 +37,31 @@ class OtpActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                resend.visibility= View.VISIBLE
+                resend.visibility = View.VISIBLE
             }
         }.start()
         back.setOnClickListener { finish() }
 
         tc.setOnClickListener {
-            startActivity(Intent(this,TcActivity::class.java))
+            startActivity(Intent(this, TcActivity::class.java))
         }
 
         privacy.setOnClickListener {
-            startActivity(Intent(this,PrivacyPolicyActivity::class.java))
+            startActivity(Intent(this, PrivacyPolicyActivity::class.java))
         }
 
 
         Verify.setOnClickListener {
-            startActivity(Intent(this,SetProfileActivity::class.java))
+            startActivity(Intent(this, SetProfileActivity::class.java))
         }
 
         resend.setOnClickListener {
             txtTimer.start()
-            timer.isEnabled=false
-            resend.visibility= View.GONE
+            timer.isEnabled = false
+            resend.visibility = View.GONE
         }
 
-        resend.visibility= View.GONE
+        resend.visibility = View.GONE
 
         otp2!!.setOnKeyListener { v, keyCode, event -> //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
             if (keyCode == KeyEvent.KEYCODE_DEL) {
@@ -119,8 +119,11 @@ class OtpActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
-                val keyboard: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                if (otp4!!.text.toString().trim { it <= ' ' }.length == 1) keyboard.hideSoftInputFromWindow(otp4.windowToken, 0)
+                val keyboard: InputMethodManager =
+                    getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                if (otp4!!.text.toString()
+                        .trim { it <= ' ' }.length == 1
+                ) keyboard.hideSoftInputFromWindow(otp4.windowToken, 0)
             }
         })
     }

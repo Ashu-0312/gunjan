@@ -38,7 +38,7 @@ class ResetPasswordActivity : AppCompatActivity() {
             }
         }
 
-        flageye2=false
+        flageye2 = false
         confirmPassword.transformationMethod = PasswordTransformationMethod()
         showPassword2.setOnClickListener {
             if (flageye2) {

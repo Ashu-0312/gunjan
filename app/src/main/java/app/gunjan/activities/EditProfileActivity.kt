@@ -23,18 +23,19 @@ import kotlin.collections.ArrayList
 
 class EditProfileActivity : AppCompatActivity() {
     private var mYear = 0
-    private  var mMonth:Int = 0
-    private  var mDay:Int = 0
+    private var mMonth: Int = 0
+    private var mDay: Int = 0
     private var dob = ""
     var yourDate: String? = null
     var fromDateValue: String? = null
-    private var genderList:ArrayList<String> = ArrayList<String>()
-    private var list:ArrayList<String> = ArrayList<String>()
+    private var genderList: ArrayList<String> = ArrayList<String>()
+    private var list: ArrayList<String> = ArrayList<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
         initData()
     }
+
     private fun initData() {
         genderList.add("Select Gender")
         genderList.add("Male")
@@ -48,7 +49,7 @@ class EditProfileActivity : AppCompatActivity() {
         var interestAdapter = ShowInterestAdapter(
             this, list
         )
-        var layoutManager: GridLayoutManager? = GridLayoutManager(this,3)
+        var layoutManager: GridLayoutManager? = GridLayoutManager(this, 3)
         interest_recycler!!.layoutManager = layoutManager
         interest_recycler!!.adapter = interestAdapter
 
@@ -95,7 +96,7 @@ class EditProfileActivity : AppCompatActivity() {
         back.setOnClickListener { finish() }
 
         viewAll.setOnClickListener {
-            startActivity(Intent(this,AddInterestActivity::class.java))
+            startActivity(Intent(this, AddInterestActivity::class.java))
         }
     }
 
@@ -133,26 +134,26 @@ class EditProfileActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
-                            fromDateValue = "$year-$month-$date"
-                            val date = SimpleDateFormat("MM/dd/yyyy").parse("$month/$date/$year")
-                            try {
-                                var format = SimpleDateFormat("yyyy-MM-dd")
-                                val date1 = format.parse(fromDateValue)
-                                val date2 = format.format(date1)
-                                format =
-                                    if (date2.endsWith("01") && !date2.endsWith("11")) SimpleDateFormat(
-                                        "d'st' MMM, yyyy"
-                                    ) else if (date2.endsWith(
-                                            "02"
-                                        ) && !date2.endsWith("12")
-                                    ) SimpleDateFormat("d'nd' MMM, yyyy") else if (date2.endsWith("03") && !date2.endsWith(
-                                            "13"
-                                        )
-                                    ) SimpleDateFormat("d'rd' MMM, yyyy") else SimpleDateFormat("d'th' MMM, yyyy")
-                                yourDate = format.format(date1)
-                                edtDob!!.text = yourDate
-                            } catch (e: Exception) {
-                            }
+                        fromDateValue = "$year-$month-$date"
+                        val date = SimpleDateFormat("MM/dd/yyyy").parse("$month/$date/$year")
+                        try {
+                            var format = SimpleDateFormat("yyyy-MM-dd")
+                            val date1 = format.parse(fromDateValue)
+                            val date2 = format.format(date1)
+                            format =
+                                if (date2.endsWith("01") && !date2.endsWith("11")) SimpleDateFormat(
+                                    "d'st' MMM, yyyy"
+                                ) else if (date2.endsWith(
+                                        "02"
+                                    ) && !date2.endsWith("12")
+                                ) SimpleDateFormat("d'nd' MMM, yyyy") else if (date2.endsWith("03") && !date2.endsWith(
+                                        "13"
+                                    )
+                                ) SimpleDateFormat("d'rd' MMM, yyyy") else SimpleDateFormat("d'th' MMM, yyyy")
+                            yourDate = format.format(date1)
+                            edtDob!!.text = yourDate
+                        } catch (e: Exception) {
+                        }
                     }
                 }, mYear, mMonth, mDay
             )

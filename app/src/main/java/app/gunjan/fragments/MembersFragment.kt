@@ -11,16 +11,16 @@ import app.gunjan.adapters.MembersTabAdapter
 import com.google.android.material.tabs.TabLayout
 
 class MembersFragment : Fragment() {
-    private var tabLayout: TabLayout?=null
-    private var viewPager: ViewPager?=null
+    private var tabLayout: TabLayout? = null
+    private var viewPager: ViewPager? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_members, container, false)
-        tabLayout=view.findViewById(R.id.tab_layout)
-        viewPager=view.findViewById(R.id.view_pager)
+        tabLayout = view.findViewById(R.id.tab_layout)
+        viewPager = view.findViewById(R.id.view_pager)
         initData()
         return view
     }

@@ -20,7 +20,7 @@ class SetProfileActivity : AppCompatActivity() {
         back.setOnClickListener { finish() }
 
         Continue.setOnClickListener {
-            startActivity(Intent(this,ProfileIdentificationActivity::class.java))
+            startActivity(Intent(this, ProfileIdentificationActivity::class.java))
         }
 
         flageye = false
@@ -42,7 +42,7 @@ class SetProfileActivity : AppCompatActivity() {
             }
         }
 
-        flageye2=false
+        flageye2 = false
         confirmPassword.transformationMethod = PasswordTransformationMethod()
         showPassword2.setOnClickListener {
             if (flageye2) {

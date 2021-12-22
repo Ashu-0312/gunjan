@@ -17,7 +17,7 @@ class AddAboutActivity : AppCompatActivity() {
         back.setOnClickListener { finish() }
 
         Continue.setOnClickListener {
-            startActivity(Intent(this,CommunityListActivity::class.java))
+            startActivity(Intent(this, CommunityListActivity::class.java))
         }
     }
 }

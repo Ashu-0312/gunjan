@@ -13,9 +13,9 @@ import app.gunjan.activities.HomeActivity
 import java.util.*
 
 class ActiveMembersAdapter(
-        var context: Context?,
-        data: ArrayList<String>
-) :RecyclerView.Adapter<ActiveMembersAdapter.ViewHolder>() {
+    var context: Context?,
+    data: ArrayList<String>
+) : RecyclerView.Adapter<ActiveMembersAdapter.ViewHolder>() {
     private var data: ArrayList<String> = data
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -26,8 +26,8 @@ class ActiveMembersAdapter(
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder!!.itemView.setOnClickListener {
-            var intent=Intent(context,HomeActivity::class.java)
-            intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            var intent = Intent(context, HomeActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             context!!.startActivity(intent)
         }
     }

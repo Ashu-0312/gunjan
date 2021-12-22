@@ -12,7 +12,7 @@ import app.gunjan.adapters.AdminMembersAdapter
 import app.gunjan.adapters.MessagesAdapter
 
 class MessagesFragment : Fragment() {
-    private var listRecycler: RecyclerView?=null
+    private var listRecycler: RecyclerView? = null
     private var list: ArrayList<String> = ArrayList<String>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -20,7 +20,7 @@ class MessagesFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_messages, container, false)
-        listRecycler=view.findViewById(R.id.messages_recycler)
+        listRecycler = view.findViewById(R.id.messages_recycler)
         initData()
         return view
     }

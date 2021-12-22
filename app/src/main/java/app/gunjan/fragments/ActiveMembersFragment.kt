@@ -16,8 +16,8 @@ import kotlinx.android.synthetic.main.activity_add_community.*
 import kotlinx.android.synthetic.main.activity_community_list.*
 
 class ActiveMembersFragment : Fragment() {
-    private var listRecycler:RecyclerView?=null
-    private var filter:ImageView?=null
+    private var listRecycler: RecyclerView? = null
+    private var filter: ImageView? = null
     private var list: ArrayList<String> = ArrayList<String>()
     private var stateList: ArrayList<String> = ArrayList<String>()
     private var cityList: ArrayList<String> = ArrayList<String>()
@@ -28,8 +28,8 @@ class ActiveMembersFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_active_members, container, false)
-        listRecycler=view.findViewById(R.id.list_recycler)
-        filter=view.findViewById(R.id.filter)
+        listRecycler = view.findViewById(R.id.list_recycler)
+        filter = view.findViewById(R.id.filter)
         initData()
         return view
     }
@@ -60,13 +60,14 @@ class ActiveMembersFragment : Fragment() {
             filterDialog()
         }
     }
+
     fun filterDialog() {
-        var reset: TextView?=null
-        var apply: LinearLayout?=null
-        var close: ImageView?=null
-        var stateSpinner: Spinner?=null
-        var citySpinner: Spinner?=null
-        var blockSpinner: Spinner?=null
+        var reset: TextView? = null
+        var apply: LinearLayout? = null
+        var close: ImageView? = null
+        var stateSpinner: Spinner? = null
+        var citySpinner: Spinner? = null
+        var blockSpinner: Spinner? = null
         val dialog = context?.let { Dialog(it) }
         // Include dialog.xml file
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -209,7 +210,7 @@ class ActiveMembersFragment : Fragment() {
         close.setOnClickListener { dialog.cancel() }
 
         apply.setOnClickListener {
-          dialog.cancel()
+            dialog.cancel()
         }
 
         reset.setOnClickListener {
