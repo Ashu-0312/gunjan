@@ -12,14 +12,14 @@ import app.gunjan.R
 import app.gunjan.activities.HomeActivity
 import java.util.*
 
-class CommunityListAdapter(
+class AdminMembersAdapter(
         var context: Context?,
         data: ArrayList<String>
-) :RecyclerView.Adapter<CommunityListAdapter.ViewHolder>() {
+) :RecyclerView.Adapter<AdminMembersAdapter.ViewHolder>() {
     private var data: ArrayList<String> = data
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val listItem: View = layoutInflater.inflate(R.layout.community_item, parent, false)
+        val listItem: View = layoutInflater.inflate(R.layout.member_item, parent, false)
         return ViewHolder(listItem)
     }
 

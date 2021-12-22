@@ -19,6 +19,7 @@
     <string name="enter_new_password">Enter New Password</string>
     <string name="enter_confirm_password">Enter Confirm Password</string>
     <string name="next">Next</string>
+    <string name="valid_age">Must be 18 year old</string>
     <string name="register_mobile_number">Register Mobile Number</string>
     <string name="profile_setup">Profile Setup</string>
     <string name="enter_first_name">Enter First Name</string>
@@ -40,5 +41,28 @@
     <string name="add_your_community">Add Your Community</string>
     <string name="tell_about_your_community">Tell About Your Community...</string>
     <string name="add_logo">Add Logo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="filter">Filter</string>
+    <string name="reset">Reset</string>
+    <string name="join_community">Join Community</string>
+    <string name="leave_community">Leave Community</string>
+    <string name="your_request_for_joining_the_community_is_pending_we_will_notify_once_admin_approves_your_request">Your request for joining the community is pending. We will notify once admin approves your request.</string>
+    <string name="do_you_really_want_to_leave_this_community">Do you really want to leave this community?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="community_help">Community Help</string>
+    <string name="theme">Theme</string>
+    <string name="switch_community">Switch Community</string>
+    <string name="community_setting">Community Setting</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="logout">Logout</string>
+    <string name="do_you_want_to_delete_your_account">Do you want to delete your account?</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="enter_email_address">Enter Email Address</string>
+    <string name="enter_date_of_birth">Enter Date of Birth</string>
+    <string name="save">Save</string>
+    <string name="add_edit_interest">Add/Edit Interest</string>
 
 </resources>

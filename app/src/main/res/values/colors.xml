@@ -19,4 +19,5 @@
     <color name="yellow">#FFD800</color>
     <color name="blue">#afd1fe</color>
     <color name="pink">#f9077c</color>
+    <color name="bg">#fafafa</color>
 </resources>

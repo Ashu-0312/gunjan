@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingStart="@dimen/margin_10dp"
+    android:paddingEnd="@dimen/margin_10dp"
+    android:paddingTop="@dimen/margin_15"
+    android:paddingBottom="@dimen/margin_15"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="@dimen/padding_3"
+    android:layout_marginStart="@dimen/margin_10dp"
+    android:layout_marginEnd="@dimen/margin_10dp"
+    android:layout_marginTop="@dimen/padding_5"
+    android:layout_marginBottom="@dimen/padding_5"
+    android:background="@drawable/circle_white">
+    <ImageView
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="@dimen/margin_7"
+        android:layout_alignParentEnd="true"
+        android:layout_width="@dimen/text_30sp"
+        android:layout_height="@dimen/text_30sp"
+        android:src="@drawable/chats"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_marginStart="@dimen/margin_10dp"
+            android:layout_gravity="center"
+            android:gravity="top"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/user_avatar"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="@dimen/padding_5"
+            android:layout_marginStart="@dimen/margin_7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_marginStart="@dimen/padding_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/popinbold"
+                android:textSize="@dimen/margin_15"
+                android:textColor="#2C2A2A"
+                android:text="Bharat Yuva Shakti"/>
+            <LinearLayout
+                android:layout_marginStart="@dimen/padding_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:gravity="start"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/padding_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppin_regular"
+                    android:textSize="@dimen/text_12sp"
+                    android:textColor="#4B4B4B"
+                    android:text="this will be bio of user"/>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

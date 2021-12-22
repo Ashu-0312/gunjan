@@ -22,7 +22,27 @@
         android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity"
         tools:replace="allowBackup">
-        <activity android:name=".activities.AddCommunityActivity"
+        <activity android:name=".activities.AddInterestActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LoginTheme" />
+        <activity
+            android:name=".activities.EditProfileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LoginTheme" />
+        <activity
+            android:name=".activities.LeaveCommunityActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LoginTheme" />
+        <activity
+            android:name=".activities.JoinCommunityActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LoginTheme" />
+        <activity
+            android:name=".activities.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LoginTheme" />
+        <activity
+            android:name=".activities.AddCommunityActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity

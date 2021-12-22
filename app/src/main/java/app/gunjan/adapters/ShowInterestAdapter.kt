@@ -12,24 +12,19 @@ import app.gunjan.R
 import app.gunjan.activities.HomeActivity
 import java.util.*
 
-class CommunityListAdapter(
+class ShowInterestAdapter(
         var context: Context?,
         data: ArrayList<String>
-) :RecyclerView.Adapter<CommunityListAdapter.ViewHolder>() {
+) :RecyclerView.Adapter<ShowInterestAdapter.ViewHolder>() {
     private var data: ArrayList<String> = data
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val listItem: View = layoutInflater.inflate(R.layout.community_item, parent, false)
+        val listItem: View = layoutInflater.inflate(R.layout.interest_item, parent, false)
         return ViewHolder(listItem)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder!!.itemView.setOnClickListener {
-            var intent=Intent(context,HomeActivity::class.java)
-            intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            context!!.startActivity(intent)
-        }
     }
 
     override fun getItemCount(): Int {
