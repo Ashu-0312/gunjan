@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingStart="@dimen/margin_20dp"
+    android:paddingEnd="@dimen/margin_20dp"
+    android:paddingTop="@dimen/margin_10dp"
+    android:paddingBottom="@dimen/margin_10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/aboutus"
+    android:orientation="vertical"
+    android:elevation="@dimen/padding_3"
+    android:layout_marginStart="@dimen/margin_10dp"
+    android:layout_marginEnd="@dimen/margin_10dp"
+    android:layout_marginTop="@dimen/padding_5"
+    android:layout_marginBottom="@dimen/padding_5"
+    android:background="@drawable/circle_white">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lorem ipsum dolor sit amet,Lorem ipsum dolor sit amet"
+        android:textColor="#444444"
+        android:fontFamily="@font/poppin_regular"
+        android:textSize="@dimen/text_12sp"/>
+    <LinearLayout
+        android:layout_marginTop="@dimen/padding_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="@dimen/margin_15"
+            android:layout_height="@dimen/margin_15"
+            android:src="@drawable/time_grey"
+            android:layout_marginEnd="@dimen/padding_5"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3:30pm"
+            android:textColor="@color/light_grey2"
+            android:fontFamily="@font/poppin_regular"
+            android:textSize="@dimen/text_12sp"/>
+    </LinearLayout>
+</LinearLayout>

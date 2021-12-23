@@ -9,10 +9,7 @@ import androidx.fragment.app.Fragment
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import app.gunjan.R
-import app.gunjan.activities.EditProfileActivity
-import app.gunjan.activities.LeaveCommunityActivity
-import app.gunjan.activities.PrivacyPolicyActivity
-import app.gunjan.activities.TcActivity
+import app.gunjan.activities.*
 
 class ProfileFragment : Fragment() {
     private var leaveCommunity: LinearLayout? = null
@@ -20,6 +17,11 @@ class ProfileFragment : Fragment() {
     private var privacy: LinearLayout? = null
     private var editProfile: RelativeLayout? = null
     private var deleteAccount: LinearLayout? = null
+    private var contactUs: LinearLayout? = null
+    private var communityHelp: LinearLayout? = null
+    private var addMedia: LinearLayout? = null
+    private var switchCommunity: LinearLayout? = null
+    private var theme: LinearLayout? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,17 +33,43 @@ class ProfileFragment : Fragment() {
         privacy = view.findViewById(R.id.privacy)
         editProfile = view.findViewById(R.id.editProfile)
         deleteAccount = view.findViewById(R.id.delete_account)
+        contactUs = view.findViewById(R.id.contact_us)
+        communityHelp = view.findViewById(R.id.community_help)
+        addMedia = view.findViewById(R.id.addMedia)
+        switchCommunity = view.findViewById(R.id.switch_community)
+        theme = view.findViewById(R.id.theme)
         initData()
         return view
     }
 
     private fun initData() {
+
+        theme!!.setOnClickListener {
+            startActivity(Intent(context, OthersProfileActivity::class.java))
+        }
+
         leaveCommunity!!.setOnClickListener {
             startActivity(Intent(context, LeaveCommunityActivity::class.java))
         }
 
         tc!!.setOnClickListener {
             startActivity(Intent(context, TcActivity::class.java))
+        }
+
+        addMedia!!.setOnClickListener {
+            startActivity(Intent(context, AddMediaActivity::class.java))
+        }
+
+        contactUs!!.setOnClickListener {
+            startActivity(Intent(context, ContactUsActivity::class.java))
+        }
+
+        switchCommunity!!.setOnClickListener {
+            startActivity(Intent(context, JoinCommunityActivity::class.java))
+        }
+
+        communityHelp!!.setOnClickListener {
+            startActivity(Intent(context, CommunityHelpActivity::class.java))
         }
 
         privacy!!.setOnClickListener {

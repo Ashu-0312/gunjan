@@ -9,25 +9,25 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
-import app.gunjan.activities.ChatActivity
 import app.gunjan.activities.HomeActivity
 import java.util.*
 
-class MessagesAdapter(
+class DonationReceiveAdapter(
     var context: Context?,
     data: ArrayList<String>
-) : RecyclerView.Adapter<MessagesAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<DonationReceiveAdapter.ViewHolder>() {
     private var data: ArrayList<String> = data
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val listItem: View = layoutInflater.inflate(R.layout.messages_item, parent, false)
+        val listItem: View = layoutInflater.inflate(R.layout.donatereceive_item, parent, false)
         return ViewHolder(listItem)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder!!.itemView.setOnClickListener {
-            var intent = Intent(context, ChatActivity::class.java)
+            var intent = Intent(context, HomeActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             context!!.startActivity(intent)
         }
     }

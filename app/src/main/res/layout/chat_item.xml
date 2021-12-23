@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/leftLayout"
+        android:padding="@dimen/padding_5"
+        android:layout_marginBottom="@dimen/padding_5"
+        android:elevation="5dp"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:layout_marginStart="@dimen/margin_10dp"
+        android:layout_marginEnd="@dimen/margin_10dp"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/left_chat_bg"
+        android:layout_width="wrap_content"
+        android:minWidth="100dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:fontFamily="@font/poppin_regular"
+            android:id="@+id/left_message"
+            android:layout_marginEnd="@dimen/margin_10dp"
+            android:layout_marginStart="@dimen/margin_10dp"
+            android:layout_marginTop="@dimen/padding_5"
+            android:layout_marginBottom="@dimen/padding_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_11"
+            android:textColor="@color/txt_color">
+        </TextView>
+
+        <TextView
+            android:id="@+id/leftTime"
+            android:fontFamily="@font/poppin_medium"
+            android:gravity="end"
+            android:layout_gravity="end"
+            android:layout_below="@+id/left_message"
+            android:layout_marginEnd="@dimen/margin_10dp"
+            android:layout_marginStart="@dimen/margin_10dp"
+            android:layout_marginBottom="@dimen/padding_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_11"
+            android:textColor="@color/txt_color">
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:minWidth="100dp"
+        android:id="@+id/rightLayout"
+        android:elevation="5dp"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_5"
+        android:layout_marginBottom="@dimen/padding_5"
+        android:layout_marginStart="@dimen/margin_10dp"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:layout_marginEnd="@dimen/margin_10dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/right_chat_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="All Good"
+            android:fontFamily="@font/poppin_regular"
+            android:id="@+id/right_message"
+            android:layout_marginEnd="@dimen/margin_10dp"
+            android:layout_marginStart="@dimen/margin_10dp"
+            android:layout_marginTop="@dimen/padding_5"
+            android:layout_marginBottom="@dimen/padding_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_11"
+            android:textColor="@color/white">
+        </TextView>
+
+        <TextView
+            android:text="9:30pm"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:id="@+id/rightTime"
+            android:fontFamily="@font/poppin_medium"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/right_message"
+            android:layout_marginEnd="@dimen/margin_10dp"
+            android:layout_marginStart="@dimen/margin_10dp"
+            android:layout_marginBottom="@dimen/padding_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_11"
+            android:textColor="@color/white">
+        </TextView>
+
+    </LinearLayout>
+
+</RelativeLayout>

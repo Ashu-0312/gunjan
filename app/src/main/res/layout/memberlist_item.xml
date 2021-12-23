@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="@dimen/margin_15"
+    android:layout_marginEnd="@dimen/margin_15"
+    android:layout_marginBottom="@dimen/padding_5"
+    android:layout_marginTop="@dimen/padding_5"
+    android:orientation="vertical"
+    android:elevation="@dimen/padding_5"
+    app:cardCornerRadius="@dimen/margin_10dp"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:id="@+id/leftLayout"
+        android:paddingTop="@dimen/text_18sp"
+        android:paddingBottom="@dimen/text_18sp"
+        android:paddingLeft="@dimen/margin_15"
+        android:paddingRight="@dimen/margin_10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/activity_pic"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/user_avatar"/>
+
+        <LinearLayout
+            android:layout_marginTop="1dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/margin_7"
+            android:layout_marginEnd="@dimen/padding_5"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:text="Johny Ive"
+                android:id="@+id/activity_name"
+                android:fontFamily="@font/popinbold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_13sp"
+                android:textColor="@color/black"/>
+            <TextView
+                android:text="Musician"
+                android:fontFamily="@font/poppin_medium"
+                android:id="@+id/dob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_12sp"
+                android:textColor="@color/txt_color"/>
+        </LinearLayout>
+        <CheckBox
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/pink"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -35,7 +35,7 @@ class MembersFragment : Fragment() {
             )
         viewPager!!.adapter = tabsAdapter
         viewPager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
-        tabLayout!!.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        tabLayout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 viewPager!!.currentItem = tab.position
             }
