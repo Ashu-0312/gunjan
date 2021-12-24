@@ -273,6 +273,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:elevation="@dimen/padding_3"
+                    android:id="@+id/block_list"
                     android:background="@drawable/circle_white2">
                     <ImageView
 
@@ -288,7 +289,7 @@
                         android:textSize="@dimen/margin_15"
                         android:fontFamily="@font/poppin_regular"
                         android:textColor="#080808"
-                        android:text="@string/community_setting"/>
+                        android:text="@string/blocked_user_list"/>
                 </LinearLayout>
                 <LinearLayout
                     android:paddingTop="@dimen/margin_20dp"

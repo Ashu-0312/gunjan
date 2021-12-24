@@ -81,5 +81,13 @@
     <string name="notifications">Notifications</string>
     <string name="add_members">Add Members</string>
     <string name="add">Add</string>
+    <string name="report_user">Report User</string>
+    <string name="please_enter_reason">Please Enter Reason</string>
+    <string name="copy_post">Copy Post</string>
+    <string name="block_user">Block User</string>
+    <string name="block">Do you want to block this user?</string>
+    <string name="cancel">Cancel</string>
+    <string name="blocked_user_list">Blocked User List</string>
+    <string name="unblock">Unblock</string>
 
 </resources>

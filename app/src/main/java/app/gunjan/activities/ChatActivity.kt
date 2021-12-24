@@ -1,6 +1,7 @@
 package app.gunjan.activities
 
 import android.app.Dialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -41,6 +42,11 @@ class ChatActivity : AppCompatActivity() {
         swipeRefresh.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
             swipeRefresh.isRefreshing = false
         })
+
+        userPic.setOnClickListener {
+            startActivity(Intent(this, OthersProfileActivity::class.java))
+
+        }
 
         back.setOnClickListener { finish() }
 

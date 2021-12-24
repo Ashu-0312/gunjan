@@ -22,6 +22,7 @@ class ProfileFragment : Fragment() {
     private var addMedia: LinearLayout? = null
     private var switchCommunity: LinearLayout? = null
     private var theme: LinearLayout? = null
+    private var blockList: LinearLayout? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,6 +39,7 @@ class ProfileFragment : Fragment() {
         addMedia = view.findViewById(R.id.addMedia)
         switchCommunity = view.findViewById(R.id.switch_community)
         theme = view.findViewById(R.id.theme)
+        blockList = view.findViewById(R.id.block_list)
         initData()
         return view
     }
@@ -45,11 +47,14 @@ class ProfileFragment : Fragment() {
     private fun initData() {
 
         theme!!.setOnClickListener {
-            startActivity(Intent(context, OthersProfileActivity::class.java))
         }
 
         leaveCommunity!!.setOnClickListener {
             startActivity(Intent(context, LeaveCommunityActivity::class.java))
+        }
+
+        blockList!!.setOnClickListener {
+            startActivity(Intent(context, BlockListActivity::class.java))
         }
 
         tc!!.setOnClickListener {

@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-
-    tools:context=".activities.NotificationActivity">
+    tools:context=".activities.BlockListActivity">
 
     <RelativeLayout
         android:id="@+id/header"
@@ -31,7 +30,7 @@
             android:layout_marginTop="@dimen/margin_10dp"
             android:fontFamily="@font/popinbold"
             android:gravity="center"
-            android:text="@string/notifications"
+            android:text="@string/blocked_user_list"
             android:textColor="@color/pink"
             android:textSize="@dimen/text_17sp" />
     </RelativeLayout>
@@ -44,7 +43,7 @@
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/notificationRecycler"
+            android:id="@+id/blockRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none" />
