@@ -70,7 +70,6 @@ class ProfileFragment : Fragment() {
         }
 
         switchCommunity!!.setOnClickListener {
-            startActivity(Intent(context, JoinCommunityActivity::class.java))
         }
 
         communityHelp!!.setOnClickListener {

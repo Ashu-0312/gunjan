@@ -46,6 +46,7 @@ class JoinCommunityActivity : AppCompatActivity() {
 
         apply.setOnClickListener {
             dialog.cancel()
+            finish()
         }
         dialog.show()
     }

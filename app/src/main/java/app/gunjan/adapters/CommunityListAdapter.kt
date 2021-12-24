@@ -6,10 +6,12 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
 import app.gunjan.activities.HomeActivity
+import app.gunjan.activities.JoinCommunityActivity
 import java.util.*
 
 class CommunityListAdapter(
@@ -30,6 +32,10 @@ class CommunityListAdapter(
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             context!!.startActivity(intent)
         }
+
+        holder.sendRequest!!.setOnClickListener {
+            context!!.startActivity(Intent(context,JoinCommunityActivity::class.java))
+        }
     }
 
     override fun getItemCount(): Int {
@@ -37,10 +43,10 @@ class CommunityListAdapter(
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        /*var profilePic: ImageView? =null
+        var sendRequest: LinearLayout? =null
         init {
-            profilePic=itemView.findViewById<ImageView>(R.id.pic)
-        }*/
+            sendRequest=itemView.findViewById(R.id.send_request)
+        }
     }
 
 }
