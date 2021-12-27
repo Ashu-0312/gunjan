@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.activity_others_profile.back
 class OthersProfileActivity : AppCompatActivity() {
     private var animShow: Animation? = null
     private var reasonList: ArrayList<String> = ArrayList<String>()
-    private var reasonLayout:LinearLayout?=null
+    private var reasonLayout: LinearLayout? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_others_profile)
@@ -183,11 +183,11 @@ class OthersProfileActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    fun showReasonLayout(status:String){
+    fun showReasonLayout(status: String) {
         if (status.equals("1")) {
             reasonLayout!!.visibility = View.VISIBLE
             reasonLayout!!.startAnimation(animShow)
-        }else{
+        } else {
             reasonLayout!!.visibility = View.GONE
         }
     }
