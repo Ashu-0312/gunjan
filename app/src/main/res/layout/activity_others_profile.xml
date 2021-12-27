@@ -4,73 +4,81 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     android:background="@color/white"
+    android:fillViewport="true"
     tools:context=".activities.OthersProfileActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <RelativeLayout
-            android:background="@color/light_white"
-            android:paddingBottom="@dimen/margin_20dp"
-            android:paddingTop="@dimen/margin_10dp"
             android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/light_white"
+            android:paddingTop="@dimen/margin_10dp"
+            android:paddingBottom="@dimen/margin_20dp">
+
             <ImageView
-                android:layout_marginTop="@dimen/margin_15"
                 android:id="@+id/back"
-                android:layout_marginStart="@dimen/margin_15"
                 android:layout_width="@dimen/margin_20dp"
                 android:layout_height="@dimen/margin_20dp"
+                android:layout_marginStart="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_15"
                 android:src="@drawable/back"
                 tools:ignore="RtlCompat" />
+
             <TextView
-                android:textSize="@dimen/text_17sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:fontFamily="@font/popinbold"
+                android:gravity="center"
                 android:text="@string/profile_details"
                 android:textColor="@color/pink"
-                android:gravity="center"
-                android:layout_marginTop="@dimen/margin_10dp"
-                android:fontFamily="@font/popinbold"/>
+                android:textSize="@dimen/text_17sp" />
         </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/header"
             android:orientation="vertical">
+
             <LinearLayout
-                android:layout_marginBottom="@dimen/padding_5"
-                android:padding="@dimen/text_13sp"
-                android:layout_marginStart="@dimen/margin_10dp"
-                android:layout_marginEnd="@dimen/margin_10dp"
-                android:layout_marginTop="@dimen/margin_15"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_marginStart="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_15"
+                android:layout_marginEnd="@dimen/margin_10dp"
+                android:layout_marginBottom="@dimen/padding_5"
+                android:background="@drawable/circle_white"
                 android:elevation="@dimen/padding_3"
-                android:background="@drawable/circle_white">
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_gravity="center"
-                            app:civ_border_width="@dimen/padding_2"
-                            android:layout_width="100dp"
-                            app:civ_border_color="@color/pink"
-                            android:layout_height="100dp"
-                            android:id="@+id/user_pic"
-                            android:src="@drawable/user_avatar"/>
-                    <TextView
-                        android:id="@+id/user_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/padding_5"
-                        android:layout_marginEnd="@dimen/padding_5"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:textColor="@color/black"
-                        android:text="Johny Ive"
-                        android:textSize="@dimen/text_16sp" />
+                android:orientation="vertical"
+                android:padding="@dimen/text_13sp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/user_pic"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/user_avatar"
+                    app:civ_border_color="@color/pink"
+                    app:civ_border_width="@dimen/padding_2" />
+
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/padding_5"
+                    android:layout_marginEnd="@dimen/padding_5"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="Johny Ive"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_16sp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -78,20 +86,23 @@
                     android:layout_marginStart="@dimen/padding_5"
                     android:layout_marginEnd="@dimen/padding_5"
                     android:fontFamily="@font/poppin_regular"
-                    android:textColor="@color/txt_color"
                     android:text="Musician"
+                    android:textColor="@color/txt_color"
                     android:textSize="@dimen/text_16sp" />
+
                 <LinearLayout
-                    android:layout_marginTop="@dimen/margin_10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10dp"
                     android:orientation="horizontal">
+
                     <LinearLayout
-                        android:layout_weight="1"
                         android:id="@+id/follower"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:orientation="vertical">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -99,9 +110,10 @@
                             android:layout_marginStart="@dimen/padding_5"
                             android:layout_marginEnd="@dimen/padding_5"
                             android:fontFamily="@font/poppin_regular"
-                            android:textColor="@color/pink"
                             android:text="Followers"
+                            android:textColor="@color/pink"
                             android:textSize="@dimen/text_16sp" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -109,16 +121,18 @@
                             android:layout_marginStart="@dimen/padding_5"
                             android:layout_marginEnd="@dimen/padding_5"
                             android:fontFamily="@font/poppins_light"
-                            android:textColor="@color/pink"
                             android:text="40K"
+                            android:textColor="@color/pink"
                             android:textSize="@dimen/text_16sp" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/following"
-                        android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:orientation="vertical">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -126,9 +140,10 @@
                             android:layout_marginStart="@dimen/padding_5"
                             android:layout_marginEnd="@dimen/padding_5"
                             android:fontFamily="@font/poppin_regular"
-                            android:textColor="@color/pink"
                             android:text="Following"
+                            android:textColor="@color/pink"
                             android:textSize="@dimen/text_16sp" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -136,114 +151,124 @@
                             android:layout_marginStart="@dimen/padding_5"
                             android:layout_marginEnd="@dimen/padding_5"
                             android:fontFamily="@font/poppins_light"
-                            android:textColor="@color/pink"
                             android:text="40K"
+                            android:textColor="@color/pink"
                             android:textSize="@dimen/text_16sp" />
                     </LinearLayout>
                 </LinearLayout>
-                </LinearLayout>
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-            <LinearLayout
-                android:layout_marginStart="@dimen/margin_10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_weight="1"
-                android:id="@+id/SocialProfile"
-                android:elevation="1dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/pink_border2"
-                android:orientation="horizontal"
-                android:padding="@dimen/padding_5">
-                <TextView
-                    android:layout_marginTop="@dimen/padding_5"
-                    android:layout_marginBottom="@dimen/padding_5"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="@dimen/margin_15"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:textColor="@color/pink"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Social Profile"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_marginStart="@dimen/margin_10dp"
-                android:layout_marginEnd="@dimen/margin_10dp"
-                android:layout_weight="1"
-                android:id="@+id/Follow"
-                android:elevation="1dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal"
-                android:padding="@dimen/padding_5">
-                <ToggleButton
-                    android:background="@drawable/pink_border2"
-                    android:layout_marginTop="@dimen/padding_5"
-                    android:layout_marginBottom="@dimen/padding_5"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="@dimen/margin_15"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:textColor="@color/pink"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textOff="Follow"
-                    android:textAllCaps="false"
-                    android:textOn="Unfollow"/>
-            </LinearLayout>
+
                 <LinearLayout
+                    android:id="@+id/SocialProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/pink_border2"
+                    android:elevation="1dp"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/padding_5">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/padding_5"
+                        android:layout_marginBottom="@dimen/padding_5"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center"
+                        android:text="Social Profile"
+                        android:textColor="@color/pink"
+                        android:textSize="@dimen/margin_15" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/Follow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_10dp"
                     android:layout_marginEnd="@dimen/margin_10dp"
                     android:layout_weight="1"
-                    android:id="@+id/Message"
                     android:elevation="1dp"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/padding_5">
+
+                    <ToggleButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/padding_5"
+                        android:layout_marginBottom="@dimen/padding_5"
+                        android:background="@drawable/pink_border2"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/pink"
+                        android:textOff="Follow"
+                        android:textOn="Unfollow"
+                        android:textSize="@dimen/margin_15" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/Message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_10dp"
+                    android:layout_marginEnd="@dimen/margin_10dp"
+                    android:layout_weight="1"
                     android:background="@drawable/pink_border2"
+                    android:elevation="1dp"
                     android:orientation="horizontal"
                     android:padding="@dimen/padding_5">
+
                     <TextView
-                        android:layout_marginTop="@dimen/padding_5"
-                        android:layout_marginBottom="@dimen/padding_5"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textSize="@dimen/margin_15"
-                        android:fontFamily="@font/poppins_semibold"
-                        android:textColor="@color/pink"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Message"/>
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/padding_5"
+                        android:layout_marginBottom="@dimen/padding_5"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center"
+                        android:text="Message"
+                        android:textColor="@color/pink"
+                        android:textSize="@dimen/margin_15" />
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
-                android:layout_below="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@+id/header"
                 android:orientation="vertical">
+
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    app:tabIndicatorHeight="3dp"
-                    app:tabIndicatorFullWidth="true"
                     android:minHeight="?attr/actionBarSize"
-                    app:tabSelectedTextColor="@color/pink"
-                    app:tabTextColor="#6E6E6E"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     app:tabIndicatorColor="@color/blue"
+                    app:tabIndicatorFullWidth="true"
+                    app:tabIndicatorHeight="3dp"
+                    app:tabSelectedTextColor="@color/pink"
                     app:tabTextAppearance="@style/tab_text"
-                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+                    app:tabTextColor="#6E6E6E" />
+
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/view_pager"
                     android:layout_width="match_parent"
                     android:layout_height="fill_parent"
-                    android:layout_below="@id/tab_layout"/>
+                    android:layout_below="@id/tab_layout" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
