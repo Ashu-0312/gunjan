@@ -45,7 +45,6 @@ class ChatActivity : AppCompatActivity() {
 
         userPic.setOnClickListener {
             startActivity(Intent(this, OthersProfileActivity::class.java))
-
         }
 
         back.setOnClickListener { finish() }

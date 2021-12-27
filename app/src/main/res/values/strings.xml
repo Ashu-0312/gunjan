@@ -89,5 +89,9 @@
     <string name="cancel">Cancel</string>
     <string name="blocked_user_list">Blocked User List</string>
     <string name="unblock">Unblock</string>
+    <string name="discussion">Discussion</string>
+    <string name="announcement">Announcement</string>
+    <string name="trending">Trending</string>
+    <string name="events">Events</string>
 
 </resources>
