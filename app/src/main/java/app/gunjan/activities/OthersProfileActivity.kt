@@ -177,10 +177,6 @@ class OthersProfileActivity : AppCompatActivity() {
 
         report.setOnClickListener { reportDialog() }
 
-        copyPost.setOnClickListener {
-            communityDescriptionDialog()
-        }
-
         block.setOnClickListener {
             blockDialog()
         }
@@ -196,27 +192,4 @@ class OthersProfileActivity : AppCompatActivity() {
         }
     }
 
-    fun communityDescriptionDialog() {
-        var close: ImageView? = null
-        val dialog = Dialog(this)
-        // Include dialog.xml file
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.communitydescription_dialog)
-        dialog!!.setCancelable(true)
-        val window = dialog.window
-        window!!.setGravity(Gravity.CENTER)
-        window.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT
-        )
-        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
-        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-        close = dialog.findViewById(R.id.close)
-
-        close.setOnClickListener {
-            dialog.cancel()
-        }
-
-        dialog.show()
-    }
 }
