@@ -1,271 +1,297 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.HomeFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <LinearLayout
-        android:layout_marginStart="@dimen/margin_15"
-        android:layout_marginEnd="@dimen/margin_15"
-        android:layout_marginTop="@dimen/margin_20dp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:elevation="@dimen/padding_2"
-        android:layout_width="70dp"
-        android:id="@+id/show_description"
-        app:civ_border_color="@color/pink"
-        app:civ_border_width="1dp"
-        android:layout_height="70dp"
-        android:src="@drawable/user_avatar"/>
-        <TextView
-            android:layout_marginEnd="@dimen/padding_5"
-            android:layout_weight="1"
-            android:layout_marginStart="@dimen/margin_10dp"
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/popinbold"
-            android:textSize="@dimen/text_16sp"
-            android:textColor="#2C2A2A"
-            android:text="Bharat Yuva Shakti"/>
-        <ImageView
-            android:id="@+id/whatsapp"
-            android:layout_width="@dimen/text_30sp"
-            android:layout_height="@dimen/text_30sp"
-            android:src="@drawable/whatsapp"/>
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_20dp"
+            android:layout_marginEnd="@dimen/margin_15"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/show_description"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:elevation="@dimen/padding_2"
+                android:src="@drawable/user_avatar"
+                app:civ_border_color="@color/pink"
+                app:civ_border_width="1dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_10dp"
+                android:layout_marginEnd="@dimen/padding_5"
+                android:layout_weight="1"
+                android:fontFamily="@font/popinbold"
+                android:text="Bharat Yuva Shakti"
+                android:textColor="#2C2A2A"
+                android:textSize="@dimen/text_16sp" />
+
+            <ImageView
+                android:id="@+id/whatsapp"
+                android:layout_width="@dimen/text_30sp"
+                android:layout_height="@dimen/text_30sp"
+                android:src="@drawable/whatsapp" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/txt_color"
             android:layout_marginTop="@dimen/margin_15"
-            android:layout_marginBottom="@dimen/margin_15"/>
+            android:layout_marginBottom="@dimen/margin_15"
+            android:background="@color/txt_color" />
+
         <RelativeLayout
-            android:layout_marginStart="@dimen/margin_15"
-            android:layout_marginEnd="@dimen/margin_15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical">
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/margin_15"
+            android:layout_marginEnd="@dimen/margin_15">
+
             <FrameLayout
+                android:id="@+id/frames"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/frames">
+                android:layout_height="wrap_content">
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/student1"
-                    android:src="@drawable/user_avatar"
                     android:layout_width="36dip"
                     android:layout_height="36dip"
-                    app:civ_border_width="1dp"
+                    android:src="@drawable/user_avatar"
                     app:civ_border_color="#ffffff"
+                    app:civ_border_width="1dp"
 
                     />
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/student2"
-                    android:src="@drawable/user_avatar"
                     android:layout_width="36dip"
                     android:layout_height="36dip"
                     android:layout_marginStart="@dimen/margin_25"
-                    app:civ_border_width="1dp"
+                    android:src="@drawable/user_avatar"
                     app:civ_border_color="#ffffff"
+                    app:civ_border_width="1dp"
 
                     />
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/student3"
-                    android:src="@drawable/user_avatar"
                     android:layout_width="36dip"
                     android:layout_height="36dip"
                     android:layout_marginStart="50dp"
-                    app:civ_border_width="1dp"
+                    android:src="@drawable/user_avatar"
                     app:civ_border_color="#ffffff"
+                    app:civ_border_width="1dp"
 
                     />
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/student4"
-                    android:src="@drawable/user_avatar"
                     android:layout_width="36dip"
                     android:layout_height="36dip"
                     android:layout_marginStart="75dp"
-                    app:civ_border_width="1dp"
+                    android:src="@drawable/user_avatar"
                     app:civ_border_color="#ffffff"
+                    app:civ_border_width="1dp"
 
                     />
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/student5"
-                    android:src="@drawable/user_avatar"
                     android:layout_width="36dip"
                     android:layout_height="36dip"
                     android:layout_marginStart="100dp"
-                    app:civ_border_width="1dp"
+                    android:src="@drawable/user_avatar"
                     app:civ_border_color="#ffffff"
-                    />
+                    app:civ_border_width="1dp" />
+
                 <androidx.cardview.widget.CardView
-                    android:layout_toRightOf="@+id/frames"
                     android:layout_width="35dip"
                     android:layout_height="35dip"
+                    android:layout_marginStart="125dp"
+                    android:layout_toRightOf="@+id/frames"
                     app:cardBackgroundColor="@color/black"
-                    app:cardCornerRadius="@dimen/text_30sp"
-                    android:layout_marginStart="125dp">
+                    app:cardCornerRadius="@dimen/text_30sp">
+
                     <TextView
-                        android:layout_gravity="center"
+                        android:id="@+id/nmr_of_students"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_13sp"
+                        android:layout_gravity="center"
                         android:text="+20"
-                        android:textStyle="bold"
                         android:textColor="@color/white"
-                        android:id="@+id/nmr_of_students"
-                        />
+                        android:textSize="@dimen/text_13sp"
+                        android:textStyle="bold" />
                 </androidx.cardview.widget.CardView>
             </FrameLayout>
+
             <LinearLayout
                 android:id="@+id/invite"
-                android:elevation="1dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/button_bg"
+                android:elevation="1dp"
                 android:orientation="horizontal">
+
                 <TextView
-                    android:layout_marginStart="@dimen/margin_20dp"
-                    android:layout_marginEnd="@dimen/margin_20dp"
-                    android:layout_marginTop="@dimen/margin_7"
-                    android:layout_marginBottom="@dimen/margin_7"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_13sp"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:textColor="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="+Invite"/>
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_20dp"
+                    android:layout_marginTop="@dimen/margin_7"
+                    android:layout_marginEnd="@dimen/margin_20dp"
+                    android:layout_marginBottom="@dimen/margin_7"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:gravity="center"
+                    android:text="+Invite"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_13sp" />
             </LinearLayout>
         </RelativeLayout>
+
         <HorizontalScrollView
-            android:scrollbars="none"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_marginTop="@dimen/margin_15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:scrollbars="none">
+
             <LinearLayout
-                android:layout_marginBottom="@dimen/padding_3"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="@dimen/margin_7"
-                android:id="@+id/discussion"
-                android:elevation="3dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:background="@drawable/pink_border2"
+                android:layout_marginTop="@dimen/margin_15"
                 android:orientation="horizontal">
-                <TextView
-                    android:layout_marginStart="@dimen/margin_10dp"
-                    android:layout_marginEnd="@dimen/margin_20dp"
-                    android:layout_marginTop="@dimen/margin_7"
-                    android:layout_marginBottom="@dimen/margin_7"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_size_11"
-                    android:fontFamily="@font/poppin_regular"
-                    android:textColor="@color/black3"
-                    android:layout_width="match_parent"
+
+                <LinearLayout
+                    android:id="@+id/discussion"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/discussion"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_marginBottom="@dimen/padding_3"
-                android:layout_marginStart="@dimen/margin_7"
-                android:layout_marginEnd="@dimen/margin_7"
-                android:id="@+id/trending"
-                android:elevation="3dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:background="@drawable/edittext_bg"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_marginStart="@dimen/margin_10dp"
-                    android:layout_marginEnd="@dimen/margin_10dp"
-                    android:layout_marginTop="@dimen/margin_7"
-                    android:layout_marginBottom="@dimen/margin_7"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_size_11"
-                    android:fontFamily="@font/poppin_regular"
-                    android:textColor="@color/black3"
-                    android:layout_width="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="@dimen/margin_7"
+                    android:layout_marginBottom="@dimen/padding_3"
+                    android:background="@drawable/pink_border2"
+                    android:elevation="3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/margin_10dp"
+                        android:layout_marginTop="@dimen/margin_7"
+                        android:layout_marginEnd="@dimen/margin_20dp"
+                        android:layout_marginBottom="@dimen/margin_7"
+                        android:fontFamily="@font/poppin_regular"
+                        android:gravity="center"
+                        android:text="@string/discussion"
+                        android:textColor="@color/black3"
+                        android:textSize="@dimen/text_size_11" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/trending"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/trending"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_marginBottom="@dimen/padding_3"
-                android:layout_marginStart="@dimen/margin_7"
-                android:layout_marginEnd="@dimen/margin_7"
-                android:id="@+id/announce"
-                android:elevation="3dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:background="@drawable/edittext_bg"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_marginStart="@dimen/margin_20dp"
-                    android:layout_marginEnd="@dimen/margin_20dp"
-                    android:layout_marginTop="@dimen/margin_7"
-                    android:layout_marginBottom="@dimen/margin_7"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_size_11"
-                    android:fontFamily="@font/poppin_regular"
-                    android:textColor="@color/black3"
-                    android:layout_width="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="@dimen/margin_7"
+                    android:layout_marginEnd="@dimen/margin_7"
+                    android:layout_marginBottom="@dimen/padding_3"
+                    android:background="@drawable/edittext_bg"
+                    android:elevation="3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/margin_10dp"
+                        android:layout_marginTop="@dimen/margin_7"
+                        android:layout_marginEnd="@dimen/margin_10dp"
+                        android:layout_marginBottom="@dimen/margin_7"
+                        android:fontFamily="@font/poppin_regular"
+                        android:gravity="center"
+                        android:text="@string/trending"
+                        android:textColor="@color/black3"
+                        android:textSize="@dimen/text_size_11" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/announce"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/announcement"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_marginBottom="@dimen/padding_3"
-                android:layout_marginStart="@dimen/margin_7"
-                android:layout_marginEnd="@dimen/margin_15"
-                android:id="@+id/event"
-                android:elevation="3dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:background="@drawable/edittext_bg"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_marginStart="@dimen/margin_20dp"
-                    android:layout_marginEnd="@dimen/margin_20dp"
-                    android:layout_marginTop="@dimen/margin_7"
-                    android:layout_marginBottom="@dimen/margin_7"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_size_11"
-                    android:fontFamily="@font/poppin_regular"
-                    android:textColor="@color/black3"
-                    android:layout_width="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="@dimen/margin_7"
+                    android:layout_marginEnd="@dimen/margin_7"
+                    android:layout_marginBottom="@dimen/padding_3"
+                    android:background="@drawable/edittext_bg"
+                    android:elevation="3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/margin_20dp"
+                        android:layout_marginTop="@dimen/margin_7"
+                        android:layout_marginEnd="@dimen/margin_20dp"
+                        android:layout_marginBottom="@dimen/margin_7"
+                        android:fontFamily="@font/poppin_regular"
+                        android:gravity="center"
+                        android:text="@string/announcement"
+                        android:textColor="@color/black3"
+                        android:textSize="@dimen/text_size_11" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/event"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/events"/>
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="@dimen/margin_7"
+                    android:layout_marginEnd="@dimen/margin_15"
+                    android:layout_marginBottom="@dimen/padding_3"
+                    android:background="@drawable/edittext_bg"
+                    android:elevation="3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/margin_20dp"
+                        android:layout_marginTop="@dimen/margin_7"
+                        android:layout_marginEnd="@dimen/margin_20dp"
+                        android:layout_marginBottom="@dimen/margin_7"
+                        android:fontFamily="@font/poppin_regular"
+                        android:gravity="center"
+                        android:text="@string/events"
+                        android:textColor="@color/black3"
+                        android:textSize="@dimen/text_size_11" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
         </HorizontalScrollView>
+
         <LinearLayout
-            android:layout_marginBottom="@dimen/padding_2"
-            android:layout_marginEnd="@dimen/margin_15"
-            android:layout_marginTop="@dimen/margin_15"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_gravity="center"
             android:layout_marginStart="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_15"
+            android:layout_marginEnd="@dimen/margin_15"
+            android:layout_marginBottom="@dimen/padding_2"
             android:background="@drawable/edittext_bg"
             android:elevation="2dp"
             android:orientation="horizontal"
@@ -277,12 +303,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
-                android:gravity="top"
                 android:layout_marginStart="7dp"
                 android:layout_marginTop="1dp"
                 android:layout_weight="1"
                 android:background="@null"
                 android:fontFamily="@font/poppins_light"
+                android:gravity="top"
                 android:hint="Start discussing...."
                 android:inputType="textMultiLine"
                 android:maxLength="100"
@@ -293,43 +319,47 @@
                 android:textColorHint="@color/red"
                 android:textSize="@dimen/text_13sp" />
         </LinearLayout>
+
         <LinearLayout
-            android:layout_marginTop="@dimen/margin_10dp"
-            android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/text_18sp"
-            android:layout_marginStart="@dimen/padding_size_larger_18"
             android:id="@+id/submit"
-            android:elevation="1dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_gravity="end"
+            android:layout_marginStart="@dimen/padding_size_larger_18"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_marginEnd="@dimen/text_18sp"
             android:background="@drawable/button_bg"
+            android:elevation="1dp"
             android:orientation="horizontal">
+
             <TextView
-                android:layout_marginStart="@dimen/margin_20dp"
-                android:layout_marginEnd="@dimen/margin_20dp"
-                android:layout_marginTop="@dimen/padding_5"
-                android:layout_marginBottom="@dimen/padding_5"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="@dimen/text_12sp"
-                android:fontFamily="@font/poppin_medium"
-                android:textColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Submit"/>
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_20dp"
+                android:layout_marginTop="@dimen/padding_5"
+                android:layout_marginEnd="@dimen/margin_20dp"
+                android:layout_marginBottom="@dimen/padding_5"
+                android:fontFamily="@font/poppin_medium"
+                android:gravity="center"
+                android:text="Submit"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_12sp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0.6dp"
-            android:background="@color/txt_color"
             android:layout_marginTop="@dimen/margin_15"
-            android:layout_marginBottom="@dimen/margin_15"/>
+            android:layout_marginBottom="@dimen/margin_15"
+            android:background="@color/txt_color" />
+
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/post_recycler"
             android:layout_width="match_parent"
-            android:layout_marginBottom="63dp"
             android:layout_height="wrap_content"
-            android:id="@+id/post_recycler"/>
+            android:layout_marginBottom="63dp" />
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
