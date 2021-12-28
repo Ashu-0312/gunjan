@@ -22,6 +22,7 @@ class OtherPostsAdapter(
     data: ArrayList<String>
 ) : RecyclerView.Adapter<OtherPostsAdapter.ViewHolder>() {
     private var data: ArrayList<String> = data
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val listItem: View = layoutInflater.inflate(R.layout.otherpost_item, parent, false)
