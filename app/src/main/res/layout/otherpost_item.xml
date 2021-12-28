@@ -1,210 +1,285 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/padding_5"
     android:layout_marginBottom="@dimen/margin_10dp"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-<LinearLayout
-    android:layout_marginStart="@dimen/margin_10dp"
-    android:layout_marginEnd="@dimen/margin_10dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/user_profile"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:civ_border_color="@color/pink"
-        app:civ_border_width="1dp"
-        android:src="@drawable/user_avatar"/>
+
     <LinearLayout
-        android:layout_weight="1"
-        android:layout_marginStart="@dimen/margin_10dp"
-        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sameer Kumar"
-            android:fontFamily="@font/poppin_regular"
-            android:textColor="@color/black3"
-            android:textSize="@dimen/text_13sp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="30m"
-            android:fontFamily="@font/poppins_light"
-            android:textColor="@color/black3"
-            android:textSize="@dimen/text_12sp"/>
-    </LinearLayout>
-    <ImageView
-        android:id="@+id/menu"
-        android:layout_width="@dimen/margin_20dp"
-        android:layout_height="@dimen/margin_20dp"
-        android:src="@drawable/dots"/>
-</LinearLayout>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/description"
-            android:maxLines="4"
-            android:text="@string/dummy"
+        android:layout_marginStart="@dimen/margin_10dp"
+        android:layout_marginEnd="@dimen/margin_10dp"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_profile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/user_avatar"
+            app:civ_border_color="@color/pink"
+            app:civ_border_width="1dp" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_light"
-            android:textSize="@dimen/text_13sp"
-            android:layout_marginStart="@dimen/margin_20dp"
-            android:layout_marginEnd="@dimen/margin_10dp"
-            android:layout_marginTop="@dimen/margin_10dp"/>
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/margin_10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppin_regular"
+                android:text="Sameer Kumar"
+                android:textColor="@color/black3"
+                android:textSize="@dimen/text_13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_light"
+                android:text="30m"
+                android:textColor="@color/black3"
+                android:textSize="@dimen/text_12sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/menu"
+            android:layout_width="@dimen/margin_20dp"
+            android:layout_height="@dimen/margin_20dp"
+            android:src="@drawable/dots" />
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:layout_marginBottom="@dimen/margin_10dp"
+        android:id="@+id/txt_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_20dp"
+            android:layout_marginTop="@dimen/margin_10dp"
             android:layout_marginEnd="@dimen/margin_10dp"
+            android:fontFamily="@font/poppins_light"
+            android:maxLines="4"
+            android:text="@string/dummy"
+            android:textSize="@dimen/text_13sp" />
+
+        <TextView
             android:id="@+id/show_more"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_20dp"
+            android:layout_marginEnd="@dimen/margin_10dp"
+            android:fontFamily="@font/poppin_medium"
             android:text="Showmore..."
             android:textAllCaps="false"
             android:textColor="@color/blue"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_13sp"
-            android:fontFamily="@font/poppin_medium"/>
+            android:textSize="@dimen/text_13sp" />
     </LinearLayout>
-    <LinearLayout
+
+    <ImageView
+        android:visibility="gone"
         android:layout_marginTop="@dimen/margin_10dp"
+        android:id="@+id/pic_layout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/dummy"/>
+    <FrameLayout
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:visibility="gone"
+        android:id="@+id/video_layout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <VideoView
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:id="@+id/media_video"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:id="@+id/pause"
+            android:layout_width="@dimen/margin_40dp"
+            android:layout_height="@dimen/margin_40dp"
+            android:src="@drawable/pause"/>
+        <ImageView
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:id="@+id/play"
+            android:layout_width="@dimen/margin_40dp"
+            android:layout_height="@dimen/margin_40dp"
+            android:src="@drawable/play_24"/>
+
+        <ProgressBar
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progress_bar"/>
+
+    </FrameLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0.6dp"
-        android:background="@color/txt_color"/>
+
+        android:background="@color/txt_color" />
+
     <TextView
-        android:layout_marginTop="@dimen/margin_10dp"
-        android:layout_marginStart="@dimen/margin_20dp"
-        android:layout_marginEnd="@dimen/margin_10dp"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_20dp"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:layout_marginEnd="@dimen/margin_10dp"
+        android:fontFamily="@font/poppin_medium"
         android:text="105 Comments"
         android:textAllCaps="false"
         android:textColor="@color/pink"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_13sp"
-        android:fontFamily="@font/poppin_medium"/>
+        android:textSize="@dimen/text_13sp" />
+
     <LinearLayout
-        android:layout_marginStart="@dimen/margin_15"
-        android:layout_marginEnd="@dimen/margin_15"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_15"
+        android:layout_marginEnd="@dimen/margin_15"
         android:orientation="horizontal">
+
         <LinearLayout
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="@dimen/margin_20dp"
                 android:layout_height="@dimen/margin_20dp"
-                android:src="@drawable/message_not_selected"/>
+                android:src="@drawable/message_not_selected" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_12sp"
-                android:textColor="@color/txt_color"
+                android:layout_marginStart="@dimen/padding_3"
+                android:fontFamily="@font/poppin_medium"
                 android:text="Comment"
-                android:fontFamily="@font/poppin_medium"
-                android:layout_marginStart="@dimen/padding_3"/>
+                android:textColor="@color/txt_color"
+                android:textSize="@dimen/text_12sp" />
         </LinearLayout>
+
         <LinearLayout
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="horizontal">
+
             <TextView
-                android:layout_marginTop="2dp"
-                android:layout_gravity="center"
-                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_12sp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/padding_3"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/poppin_medium"
+                android:gravity="center"
+                android:text="124"
                 android:textColor="@color/pink"
-                android:text="124"
-                android:fontFamily="@font/poppin_medium"
-                android:layout_marginStart="@dimen/padding_3"/>
+                android:textSize="@dimen/text_12sp" />
+
             <ImageView
-                android:layout_marginStart="@dimen/padding_3"
                 android:layout_width="@dimen/margin_20dp"
                 android:layout_height="@dimen/margin_20dp"
-                android:src="@drawable/like"/>
+                android:layout_marginStart="@dimen/padding_3"
+                android:src="@drawable/like" />
+
             <TextView
-                android:layout_marginTop="2dp"
-                android:layout_gravity="center"
-                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_12sp"
-                android:textColor="@color/txt_color"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/padding_3"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/poppin_medium"
+                android:gravity="center"
                 android:text="Vote"
-                android:fontFamily="@font/poppin_medium"
-                android:layout_marginStart="@dimen/padding_3"/>
+                android:textColor="@color/txt_color"
+                android:textSize="@dimen/text_12sp" />
+
             <ImageView
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/padding_3"
                 android:layout_width="@dimen/margin_20dp"
                 android:layout_height="@dimen/margin_20dp"
-                android:src="@drawable/dislike"/>
-            <TextView
-                android:layout_marginTop="2dp"
                 android:layout_gravity="center"
-                android:gravity="center"
+                android:layout_marginStart="@dimen/padding_3"
+                android:src="@drawable/dislike" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_12sp"
-                android:textColor="@color/blue"
-                android:text="124"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/padding_3"
+                android:layout_marginTop="2dp"
                 android:fontFamily="@font/poppin_medium"
-                android:layout_marginStart="@dimen/padding_3"/>
+                android:gravity="center"
+                android:text="124"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/text_12sp" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="@dimen/margin_20dp"
                 android:layout_height="@dimen/margin_20dp"
-                android:src="@drawable/share"/>
+                android:src="@drawable/share" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_12sp"
-                android:textColor="@color/txt_color"
-                android:text="Share"
+                android:layout_marginStart="@dimen/padding_3"
                 android:fontFamily="@font/poppin_medium"
-                android:layout_marginStart="@dimen/padding_3"/>
+                android:text="Share"
+                android:textColor="@color/txt_color"
+                android:textSize="@dimen/text_12sp" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
-        android:layout_marginTop="@dimen/margin_15"
-        android:layout_marginStart="@dimen/margin_10dp"
-        android:layout_marginEnd="@dimen/margin_10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_10dp"
+        android:layout_marginTop="@dimen/margin_15"
+        android:layout_marginEnd="@dimen/margin_10dp"
         android:orientation="horizontal">
+
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_gravity="center"
             android:layout_width="@dimen/margin_40dp"
             android:layout_height="@dimen/margin_40dp"
+            android:layout_gravity="center"
+            android:src="@drawable/user_avatar"
             app:civ_border_color="@color/txt_color"
-            app:civ_border_width="1dp"
-            android:src="@drawable/user_avatar"/>
+            app:civ_border_width="1dp" />
+
         <LinearLayout
-            android:layout_marginEnd="@dimen/padding_2"
-            android:layout_marginTop="@dimen/padding_2"
-            android:layout_marginBottom="@dimen/padding_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="@dimen/margin_10dp"
+            android:layout_marginTop="@dimen/padding_2"
+            android:layout_marginEnd="@dimen/padding_2"
+            android:layout_marginBottom="@dimen/padding_3"
             android:background="@drawable/edittext_bg"
             android:elevation="1dp"
             android:orientation="horizontal"
@@ -233,9 +308,10 @@
                 android:textSize="@dimen/text_13sp" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
-        android:layout_marginTop="@dimen/margin_20dp"
         android:layout_width="match_parent"
         android:layout_height="0.6dp"
-        android:background="@color/txt_color"/>
+        android:layout_marginTop="@dimen/margin_20dp"
+        android:background="@color/txt_color" />
 </LinearLayout>

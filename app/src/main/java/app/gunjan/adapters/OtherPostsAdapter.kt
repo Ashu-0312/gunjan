@@ -2,13 +2,13 @@ package app.gunjan.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.view.WindowManager
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +30,28 @@ class OtherPostsAdapter(
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        if (position==0){
+            holder.picLayout!!.visibility=View.VISIBLE
+            holder.txtLayout!!.visibility=View.GONE
+            holder.videoLayout!!.visibility=View.GONE
+            holder.videoView!!.visibility=View.GONE
+        }else if (position==3){
+            holder.picLayout!!.visibility=View.GONE
+            holder.txtLayout!!.visibility=View.GONE
+            holder.videoLayout!!.visibility=View.VISIBLE
+            holder.videoView!!.visibility=View.VISIBLE
+            val wm = context!!.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            val display = wm.defaultDisplay
+            val width = display.width
+            val height = display.height
+            holder.videoView!!.layoutParams = FrameLayout.LayoutParams(width, height)
+            holder.videoView!!.setVideoPath("http://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4")
+        }else{
+            holder.picLayout!!.visibility=View.GONE
+            holder.txtLayout!!.visibility=View.VISIBLE
+            holder.videoLayout!!.visibility=View.GONE
+            holder.videoView!!.visibility=View.GONE
+        }
         holder.showMore!!.setOnClickListener(View.OnClickListener {
             if (holder.showMore!!.getText().toString().equals("Showmore...")) {
                 holder.description!!.setMaxLines(Int.MAX_VALUE) //your TextView
@@ -52,6 +74,29 @@ class OtherPostsAdapter(
         holder.menu!!.setOnClickListener {
             (context as OthersProfileActivity).postreportDialog()
         }
+
+        holder.play!!.setOnClickListener {
+            holder.play!!.visibility = View.GONE
+            holder.pause!!.visibility = View.VISIBLE
+            holder.videoView!!.start()
+        }
+
+        holder.pause!!.setOnClickListener {
+            holder.play!!.visibility = View.VISIBLE
+            holder.pause!!.visibility = View.GONE
+            holder.videoView!!.pause()
+        }
+
+        holder.videoView!!.setOnCompletionListener(MediaPlayer.OnCompletionListener {
+            holder.play!!.visibility = View.VISIBLE
+            holder.pause!!.visibility = View.GONE
+        })
+
+        holder.videoView!!.setOnPreparedListener(MediaPlayer.OnPreparedListener {
+            holder.progressBar!!.visibility = View.GONE
+            holder.play!!.visibility = View.VISIBLE
+            holder.pause!!.visibility = View.GONE
+        })
     }
 
     override fun getItemCount(): Int {
@@ -63,11 +108,25 @@ class OtherPostsAdapter(
         var showMore: TextView? =null
         var share: LinearLayout? =null
         var menu: ImageView? =null
+        var txtLayout: LinearLayout? =null
+        var picLayout: ImageView? =null
+        var videoLayout: FrameLayout? =null
+        var videoView: VideoView? =null
+        var play: ImageView? =null
+        var pause: ImageView? =null
+        var progressBar: ProgressBar? =null
         init {
             description=itemView.findViewById(R.id.description)
             showMore=itemView.findViewById(R.id.show_more)
             share=itemView.findViewById(R.id.share)
             menu=itemView.findViewById(R.id.menu)
+            txtLayout=itemView.findViewById(R.id.txt_layout)
+            picLayout=itemView.findViewById(R.id.pic_layout)
+            videoLayout=itemView.findViewById(R.id.video_layout)
+            videoView=itemView.findViewById(R.id.media_video)
+            play=itemView.findViewById(R.id.play)
+            pause=itemView.findViewById(R.id.pause)
+            progressBar=itemView.findViewById(R.id.progress_bar)
         }
     }
 
