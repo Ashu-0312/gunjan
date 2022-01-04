@@ -22,7 +22,7 @@ import retrofit2.Response
 
 class AddCommunityActivity : AppCompatActivity() {
     private var nameList: ArrayList<String> = ArrayList<String>()
-    private val idList:ArrayList<String> = ArrayList<String>()
+    private val idList: ArrayList<String> = ArrayList<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_community)
@@ -34,7 +34,8 @@ class AddCommunityActivity : AppCompatActivity() {
         back.setOnClickListener { finish() }
         getCategoryList()
     }
-    fun getCategoryList(){
+
+    fun getCategoryList() {
         val myDialog = ProjectUtill.showProgressDialog(this@AddCommunityActivity)
         WebServiceRequest.getInstance().categoryList(
             this,
@@ -54,28 +55,31 @@ class AddCommunityActivity : AppCompatActivity() {
                                     idList.add(i.id.toString())
                                     nameList.add(i.name)
                                 }
-                                val arrayAdapter1: ArrayAdapter<String> = object : ArrayAdapter<String>(
-                                    this@AddCommunityActivity,
-                                    R.layout.spinner_layout, nameList) {
-                                    override fun isEnabled(position: Int): Boolean {
-                                        return position != 0
-                                    }
-
-                                    override fun getDropDownView(
-                                        position: Int, convertView: View?,
-                                        parent: ViewGroup,
-                                    ): View {
-                                        val view = super.getDropDownView(position, convertView, parent)
-                                        val tv = view as TextView
-                                        if (position == 0) { // Set the hint text color gray
-                                            tv.setTextColor(Color.BLACK)
-                                        } else {
-                                            tv.setTextColor(resources.getColor(R.color.txt_color))
+                                val arrayAdapter1: ArrayAdapter<String> =
+                                    object : ArrayAdapter<String>(
+                                        this@AddCommunityActivity,
+                                        R.layout.spinner_layout, nameList
+                                    ) {
+                                        override fun isEnabled(position: Int): Boolean {
+                                            return position != 0
                                         }
-                                        return view
-                                    }
 
-                                }
+                                        override fun getDropDownView(
+                                            position: Int, convertView: View?,
+                                            parent: ViewGroup,
+                                        ): View {
+                                            val view =
+                                                super.getDropDownView(position, convertView, parent)
+                                            val tv = view as TextView
+                                            if (position == 0) { // Set the hint text color gray
+                                                tv.setTextColor(Color.BLACK)
+                                            } else {
+                                                tv.setTextColor(resources.getColor(R.color.txt_color))
+                                            }
+                                            return view
+                                        }
+
+                                    }
                                 categorySpinner!!.adapter = arrayAdapter1
                                 categorySpinner!!.onItemSelectedListener = object :
                                     AdapterView.OnItemSelectedListener {

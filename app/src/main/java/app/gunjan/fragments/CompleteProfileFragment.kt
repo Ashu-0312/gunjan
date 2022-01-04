@@ -209,7 +209,11 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
     }
 
     private fun checkPicturePermission(): Boolean {
-        return if (PermissionUtil.verifyPermissions(context, PermissionUtil.getCameraPermissions())) {
+        return if (PermissionUtil.verifyPermissions(
+                context,
+                PermissionUtil.getCameraPermissions()
+            )
+        ) {
             true
         } else {
             PermissionUtil.requestPermission(

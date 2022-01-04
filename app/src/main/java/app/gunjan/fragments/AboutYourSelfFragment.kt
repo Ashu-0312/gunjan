@@ -37,32 +37,26 @@ class AboutYourSelfFragment : Fragment() {
     private fun initData() {
         Continue!!.setOnClickListener {
             if (about!!.text.toString().trim() == "") {
-                Toast.makeText(context,getString(R.string.about), Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.about), Toast.LENGTH_LONG).show()
             } else {
-                    val myDialog = ProjectUtill.showProgressDialog(context)
-                    context?.let { it1 ->
-                        WebServiceRequest.getInstance().addAboutYourself(
-                            it1, about!!.text.toString().trim(),
-                            object : Callback<AddAboutResponse> {
-                                override fun onResponse(
-                                    call: Call<AddAboutResponse>,
-                                    response: Response<AddAboutResponse>
-                                ) {
-                                    myDialog.dismiss()
-                                    if (response != null) {
-                                        if (response.isSuccessful) {
-                                            if (response.body()!!.code == 1) {
-                                                (activity as SetProfileActivity).loadCommunityActivity()
-                                            } else {
-                                                ProjectUtill.printMessage(
-                                                    (context as Activity).window.decorView,
-                                                    response.body()?.message
-                                                )
-                                            }
+                val myDialog = ProjectUtill.showProgressDialog(context)
+                context?.let { it1 ->
+                    WebServiceRequest.getInstance().addAboutYourself(
+                        it1, about!!.text.toString().trim(),
+                        object : Callback<AddAboutResponse> {
+                            override fun onResponse(
+                                call: Call<AddAboutResponse>,
+                                response: Response<AddAboutResponse>
+                            ) {
+                                myDialog.dismiss()
+                                if (response != null) {
+                                    if (response.isSuccessful) {
+                                        if (response.body()!!.code == 1) {
+                                            (activity as SetProfileActivity).loadCommunityActivity()
                                         } else {
-                                            ProjectUtill.printErrorMessage(
+                                            ProjectUtill.printMessage(
                                                 (context as Activity).window.decorView,
-                                                ""
+                                                response.body()?.message
                                             )
                                         }
                                     } else {
@@ -71,20 +65,26 @@ class AboutYourSelfFragment : Fragment() {
                                             ""
                                         )
                                     }
-                                }
-
-                                override fun onFailure(
-                                    call: Call<AddAboutResponse>,
-                                    t: Throwable
-                                ) {
-                                    myDialog.dismiss()
+                                } else {
                                     ProjectUtill.printErrorMessage(
                                         (context as Activity).window.decorView,
                                         ""
                                     )
                                 }
-                            })
-                    }
+                            }
+
+                            override fun onFailure(
+                                call: Call<AddAboutResponse>,
+                                t: Throwable
+                            ) {
+                                myDialog.dismiss()
+                                ProjectUtill.printErrorMessage(
+                                    (context as Activity).window.decorView,
+                                    ""
+                                )
+                            }
+                        })
+                }
             }
         }
     }

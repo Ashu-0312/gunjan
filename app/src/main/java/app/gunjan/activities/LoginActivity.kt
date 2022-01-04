@@ -46,7 +46,10 @@ class LoginActivity : AppCompatActivity() {
             if (validate()) {
                 val myDialog = ProjectUtill.showProgressDialog(this@LoginActivity)
                 WebServiceRequest.getInstance().login(
-                    "en",edtMobile.text.toString().trim(),ccp.selectedCountryCodeWithPlus,"android",
+                    "en",
+                    edtMobile.text.toString().trim(),
+                    ccp.selectedCountryCodeWithPlus,
+                    "android",
                     object : Callback<LoginResponse> {
                         override fun onResponse(
                             call: Call<LoginResponse>,
@@ -114,6 +117,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, MobileRegisterActivity::class.java))
         }
     }
+
     private fun validate(): Boolean {
         if (edtMobile.text.toString().trim().equals("", ignoreCase = true)) {
             edtMobile.requestFocus()

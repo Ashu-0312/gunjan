@@ -46,26 +46,26 @@ import retrofit2.Response
 import java.io.*
 import java.util.*
 
-class IdentificationFragment : Fragment(),UploadFileListener {
+class IdentificationFragment : Fragment(), UploadFileListener {
     private var pathPic = ""
     private var awsPicUrl = ""
     var progressdialog: ProgressDialog? = null
-    private var Continue:LinearLayout?=null
-    private var choosePic:CardView?=null
-    private var layout:CardView?=null
-    private var layout2:LinearLayout?=null
-    private var idPic:ImageView?=null
+    private var Continue: LinearLayout? = null
+    private var choosePic: CardView? = null
+    private var layout: CardView? = null
+    private var layout2: LinearLayout? = null
+    private var idPic: ImageView? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_identification, container, false)
-        Continue=view.findViewById(R.id.AddPhoto)
-        idPic=view.findViewById(R.id.identityPic)
-        layout=view.findViewById(R.id.layout)
-        layout2=view.findViewById(R.id.layout2)
-        choosePic=view.findViewById(R.id.choosePic)
+        Continue = view.findViewById(R.id.AddPhoto)
+        idPic = view.findViewById(R.id.identityPic)
+        layout = view.findViewById(R.id.layout)
+        layout2 = view.findViewById(R.id.layout2)
+        choosePic = view.findViewById(R.id.choosePic)
         initData()
         return view
     }
@@ -74,12 +74,12 @@ class IdentificationFragment : Fragment(),UploadFileListener {
         progressdialog = ProgressDialog(context, R.style.MyAlertDialogStyle)
         Continue!!.setOnClickListener {
             if (awsPicUrl.toString().trim() == "") {
-                Toast.makeText(context,getString(R.string.choose_pic), Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.choose_pic), Toast.LENGTH_LONG).show()
             } else {
                 val myDialog = ProjectUtill.showProgressDialog(context)
                 context?.let { it1 ->
                     WebServiceRequest.getInstance().addIdenificationFile(
-                        it1,awsPicUrl,
+                        it1, awsPicUrl,
                         object : Callback<AddIdentityResponse> {
                             override fun onResponse(
                                 call: Call<AddIdentityResponse>,
@@ -202,7 +202,11 @@ class IdentificationFragment : Fragment(),UploadFileListener {
     }
 
     private fun checkPicturePermission(): Boolean {
-        return if (PermissionUtil.verifyPermissions(context, PermissionUtil.getCameraPermissions())) {
+        return if (PermissionUtil.verifyPermissions(
+                context,
+                PermissionUtil.getCameraPermissions()
+            )
+        ) {
             true
         } else {
             PermissionUtil.requestPermission(
@@ -270,8 +274,8 @@ class IdentificationFragment : Fragment(),UploadFileListener {
 
     override fun onSuccess(localUrl: String?, awsUrl: String?) {
         if (awsUrl != null) {
-            layout2!!.visibility=View.GONE
-            layout!!.visibility=View.VISIBLE
+            layout2!!.visibility = View.GONE
+            layout!!.visibility = View.VISIBLE
             context?.let {
                 Glide.with(it).load(awsUrl).placeholder(R.drawable.user_avatar)
                     .into(idPic!!)
