@@ -13,7 +13,6 @@ import app.gunjan.R
 import app.gunjan.adapters.ActiveMembersAdapter
 import app.gunjan.adapters.CommunityListAdapter
 import kotlinx.android.synthetic.main.activity_add_community.*
-import kotlinx.android.synthetic.main.activity_community_list.*
 
 class ActiveMembersFragment : Fragment() {
     private var listRecycler: RecyclerView? = null

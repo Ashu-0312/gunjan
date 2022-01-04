@@ -10,10 +10,19 @@ import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import app.gunjan.R
+import app.gunjan.entity.ResendOtpResponse
+import app.gunjan.entity.VerifyOtpResponse
+import app.gunjan.utill.FCSharedPreferances
+import app.gunjan.utill.ProjectUtill
+import app.gunjan.webservices.WebServiceRequest
 import kotlinx.android.synthetic.main.activity_otp.*
 import kotlinx.android.synthetic.main.activity_otp.privacy
 import kotlinx.android.synthetic.main.activity_otp.tc
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class OtpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +32,7 @@ class OtpActivity : AppCompatActivity() {
     }
 
     private fun initData() {
+        mobileTxt.text=intent.getStringExtra("code")+" "+intent.getStringExtra("mobile")
         val txtTimer = object : CountDownTimer(61000, 1000) {
             override fun onTick(l: Long) {
                 if (l >= 61000) {
@@ -52,13 +62,132 @@ class OtpActivity : AppCompatActivity() {
 
 
         Verify.setOnClickListener {
-            startActivity(Intent(this, SetProfileActivity::class.java))
+            if ((otp1.text.toString().trim() + otp2.text.toString()
+                    .trim() + otp3.text.toString()
+                    .trim() + otp4.text.toString().trim()).length != 4
+            ) {
+                Toast.makeText(this@OtpActivity, getString(R.string.enter_otp), Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                val myDialog = ProjectUtill.showProgressDialog(this@OtpActivity)
+                WebServiceRequest.getInstance().verifyOtp(
+                   "en",intent.getStringExtra("mobile").toString(),intent.getStringExtra("code").toString(),"android",
+                    otp1.text.toString().trim() + otp2.text.toString()
+                        .trim() + otp3.text.toString()
+                        .trim() + otp4.text.toString().trim(),
+                    object : Callback<VerifyOtpResponse> {
+                        override fun onResponse(
+                            call: Call<VerifyOtpResponse>,
+                            response: Response<VerifyOtpResponse>
+                        ) {
+                            myDialog.dismiss()
+                            if (response != null) {
+                                if (response.isSuccessful) {
+                                    if (response.body()!!.code == 1) {
+                                        FCSharedPreferances.getSharedPreferance(this@OtpActivity).token =
+                                            response.body()!!.data.token
+                                            if (response.body()!!.data.user.profile_stage.equals("5")){
+                                                var intent = Intent(this@OtpActivity, HomeActivity::class.java)
+                                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                startActivity(intent)
+                                            }else {
+                                                FCSharedPreferances.getSharedPreferance(this@OtpActivity).profilE_STAGE=response.body()!!.data.user.profile_stage
+                                                var intent = Intent(
+                                                    this@OtpActivity,
+                                                    SetProfileActivity::class.java
+                                                )
+                                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                startActivity(intent)
+                                            }
+                                    } else {
+                                        ProjectUtill.printMessage(
+                                            this@OtpActivity.window.decorView,
+                                            response.body()?.message
+                                        )
+                                    }
+                                } else {
+                                    ProjectUtill.printErrorMessage(
+                                        this@OtpActivity.window.decorView,
+                                        ""
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    this@OtpActivity.window.decorView,
+                                    ""
+                                )
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<VerifyOtpResponse>,
+                            t: Throwable
+                        ) {
+                            myDialog.dismiss()
+                            ProjectUtill.printErrorMessage(
+                                this@OtpActivity.window.decorView,
+                                ""
+                            )
+                        }
+                    })
+            }
         }
 
         resend.setOnClickListener {
-            txtTimer.start()
-            timer.isEnabled = false
-            resend.visibility = View.GONE
+            val myDialog = ProjectUtill.showProgressDialog(this@OtpActivity)
+            WebServiceRequest.getInstance().resendOtp(
+                "en",
+                intent.getStringExtra("mobile").toString(),
+                intent.getStringExtra("code").toString(), "android",
+                object : Callback<ResendOtpResponse> {
+                    override fun onResponse(
+                        call: Call<ResendOtpResponse>,
+                        response: Response<ResendOtpResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    Toast.makeText(
+                                        this@OtpActivity,
+                                        "" + response.body()!!.message,
+                                        Toast.LENGTH_LONG
+                                    ).show()
+
+                                    txtTimer.start()
+                                    timer.isEnabled = false
+                                    resend.visibility = View.GONE
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        this@OtpActivity.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    this@OtpActivity.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                this@OtpActivity.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<ResendOtpResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            this@OtpActivity.window.decorView,
+                            ""
+                        )
+                    }
+                })
         }
 
         resend.visibility = View.GONE

@@ -82,18 +82,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
-            android:name=".activities.CommunityListActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
-        <activity
-            android:name=".activities.AddAboutActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
-        <activity
-            android:name=".activities.ProfileIdentificationActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
-        <activity
             android:name=".activities.SetProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />

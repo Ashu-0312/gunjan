@@ -8,7 +8,6 @@ import app.gunjan.adapters.CommunityListAdapter
 import app.gunjan.adapters.MediaLinkAdapter
 import kotlinx.android.synthetic.main.activity_add_media.*
 import kotlinx.android.synthetic.main.activity_add_media.back
-import kotlinx.android.synthetic.main.activity_community_list.*
 
 class AddMediaActivity : AppCompatActivity() {
     private var list:ArrayList<String> = ArrayList<String>()

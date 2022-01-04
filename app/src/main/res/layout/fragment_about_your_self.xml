@@ -5,37 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@color/white"
-    tools:context=".activities.AddAboutActivity">
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <RelativeLayout
-            android:background="@color/light_white"
-            android:paddingBottom="@dimen/margin_20dp"
-            android:paddingTop="@dimen/margin_10dp"
-            android:id="@+id/header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_marginTop="@dimen/margin_15"
-                android:id="@+id/back"
-                android:layout_marginStart="@dimen/margin_15"
-                android:layout_width="@dimen/margin_20dp"
-                android:layout_height="@dimen/margin_20dp"
-                android:src="@drawable/back"
-                tools:ignore="RtlCompat" />
-            <TextView
-                android:textSize="@dimen/text_17sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/about_yourself"
-                android:textColor="@color/pink"
-                android:gravity="center"
-                android:layout_marginTop="@dimen/margin_10dp"
-                android:fontFamily="@font/popinbold"/>
-        </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -73,7 +48,7 @@
                 android:orientation="horizontal">
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card"
-                   android:layout_margin="1dp"
+                    android:layout_margin="1dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:cardCornerRadius="@dimen/margin_15"
@@ -81,7 +56,7 @@
                     <EditText
                         android:layout_gravity="top"
                         android:gravity="top"
-                        android:id="@+id/query"
+                        android:id="@+id/about"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"

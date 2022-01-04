@@ -93,5 +93,14 @@
     <string name="announcement">Announcement</string>
     <string name="trending">Trending</string>
     <string name="events">Events</string>
+    <string name="valid_mobile">Please Enter Valid Mobile Number</string>
+    <string name="enter_mobile">Please Enter Mobile Number</string>
+    <string name="enter_otp">Please enter otp</string>
+    <string name="enter_profilename">Please Enter Profile Name</string>
+    <string name="enter_firstname">Please Enter First Name</string>
+    <string name="enter_lastname">Please Enter Last Name</string>
+    <string name="pincode">Please Enter PinCode</string>
+    <string name="choose_pic">Please choose profile pic</string>
+    <string name="about">Please enter about yourself</string>
 
 </resources>

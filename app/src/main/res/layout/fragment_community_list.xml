@@ -4,37 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-
-    tools:context=".activities.CommunityListActivity">
-
-    <RelativeLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/light_white"
-        android:paddingTop="@dimen/margin_10dp"
-        android:paddingBottom="@dimen/margin_20dp">
-
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="@dimen/margin_20dp"
-            android:layout_height="@dimen/margin_20dp"
-            android:layout_marginStart="@dimen/margin_15"
-            android:layout_marginTop="@dimen/margin_15"
-            android:src="@drawable/back"
-            tools:ignore="RtlCompat" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_10dp"
-            android:fontFamily="@font/popinbold"
-            android:gravity="center"
-            android:text="@string/select_your_community"
-            android:textColor="@color/pink"
-            android:textSize="@dimen/text_17sp" />
-    </RelativeLayout>
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -87,14 +57,14 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/communityRecycler"
+            android:id="@+id/community_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none" />
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/addCommunity"
+        android:id="@+id/add_community"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentEnd="true"

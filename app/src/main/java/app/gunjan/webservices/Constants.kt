@@ -1,0 +1,36 @@
+package app.gunjan.webservices
+
+class Constants {
+    object Partial {
+        const val BASE_URL = "http://3.143.37.165:3030/api/"
+        const val signup = "auth/signup"
+        const val privacyAndPolicy = "auth/privacyAndPolicy"
+        const val termAndConditions = "auth/termAndConditions"
+        const val verifyOtp = "auth/verifyOtp"
+        const val resendOtp = "auth/resendOtp"
+        const val login = "auth/login"
+        const val completeProfile = "auth/completeProfile"
+        const val addAboutYourself = "auth/addAboutYourself"
+        const val addIdenificationFile = "auth/addIdenificationFile"
+        const val getAllCategoryList = "user/getAllCategoryList"
+        const val addCommunity = "user/addCommunity"
+    }
+
+    object Keys {
+        const val language = "language"
+        const val mobile = "mobile"
+        const val countryCode = "countryCode"
+        const val device_type = "device_type"
+        const val code = "code"
+        const val profile_name = "profile_name"
+        const val first_name = "first_name"
+        const val last_name = "last_name"
+        const val pincode = "pincode"
+        const val image = "image"
+        const val token = "token"
+        const val about = "about"
+        const val identification_file = "identification_file"
+        const val title = "title"
+        const val category = "category"
+    }
+}
