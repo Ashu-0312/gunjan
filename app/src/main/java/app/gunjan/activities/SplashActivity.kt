@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import app.gunjan.R
+import app.gunjan.utill.FCSharedPreferances
 
 class SplashActivity : AppCompatActivity() {
     private var handler: Handler? = null
@@ -21,9 +22,16 @@ class SplashActivity : AppCompatActivity() {
     private fun initHandler() {
         handler = Handler()
         handler!!.postDelayed(Runnable {
-            val intent = Intent(this@SplashActivity, LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
+            if (FCSharedPreferances.getSharedPreferance(this@SplashActivity).statuS_LOGIN.equals("true")) {
+                val intent = Intent(this@SplashActivity, HomeActivity::class.java)
+                intent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            } else {
+                val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            }
         }, 3000)
     }
 

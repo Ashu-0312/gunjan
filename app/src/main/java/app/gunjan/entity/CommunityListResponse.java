@@ -3,12 +3,12 @@ package app.gunjan.entity;
 import java.io.Serializable;
 import java.util.List;
 
-public class AddCommunityResponse implements Serializable {
+public class CommunityListResponse implements Serializable {
 
     /**
      * code : 1
-     * message : Community added!
-     * data : {"community":{"id":6,"category":1,"title":"test community","about":"testing about","image":"url","members":[{"id":5,"userId":8,"community":6,"isAdmin":true,"userDetails":{"id":8,"first_name":"Ddddf","last_name":"Ddffff","pincode":"5555","mobile":"2222222222","countryCode":"+91","gender":null,"dob":null,"image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg","profile_stage":"5","active":true,"about":"ffggg"}}]}}
+     * message : Community list
+     * data : {"community_list":[{"id":2,"category":1,"title":"testing 2","about":"testing 2","image":"url","members":[{"id":1,"userId":2,"community":2,"isAdmin":true,"userDetails":{"id":2,"first_name":"first name","last_name":"last name","pincode":"121212","mobile":"11111111","countryCode":"91","gender":null,"dob":null,"image":"url","profile_stage":"5","active":true,"about":"About"}}]},{"id":3,"category":1,"title":"testing 2","about":"testing 2","image":"url","members":[{"id":2,"userId":2,"community":3,"isAdmin":true,"userDetails":{"id":2,"first_name":"first name","last_name":"last name","pincode":"121212","mobile":"11111111","countryCode":"91","gender":null,"dob":null,"image":"url","profile_stage":"5","active":true,"about":"About"}}]},{"id":1,"category":1,"title":"testing","about":"testing","image":null,"members":[]}]}
      */
 
     private int code;
@@ -41,21 +41,17 @@ public class AddCommunityResponse implements Serializable {
     private DataBean data;
 
     public static class DataBean implements Serializable {
-        public CommunityBean getCommunity() {
-            return community;
+        public List<CommunityListBean> getCommunity_list() {
+            return community_list;
         }
 
-        public void setCommunity(CommunityBean community) {
-            this.community = community;
+        public void setCommunity_list(List<CommunityListBean> community_list) {
+            this.community_list = community_list;
         }
 
-        /**
-         * community : {"id":6,"category":1,"title":"test community","about":"testing about","image":"url","members":[{"id":5,"userId":8,"community":6,"isAdmin":true,"userDetails":{"id":8,"first_name":"Ddddf","last_name":"Ddffff","pincode":"5555","mobile":"2222222222","countryCode":"+91","gender":null,"dob":null,"image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg","profile_stage":"5","active":true,"about":"ffggg"}}]}
-         */
+        private List<CommunityListBean> community_list;
 
-        private CommunityBean community;
-
-        public static class CommunityBean implements Serializable {
+        public static class CommunityListBean implements Serializable {
             public int getId() {
                 return id;
             }
@@ -105,12 +101,12 @@ public class AddCommunityResponse implements Serializable {
             }
 
             /**
-             * id : 6
+             * id : 2
              * category : 1
-             * title : test community
-             * about : testing about
+             * title : testing 2
+             * about : testing 2
              * image : url
-             * members : [{"id":5,"userId":8,"community":6,"isAdmin":true,"userDetails":{"id":8,"first_name":"Ddddf","last_name":"Ddffff","pincode":"5555","mobile":"2222222222","countryCode":"+91","gender":null,"dob":null,"image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg","profile_stage":"5","active":true,"about":"ffggg"}}]
+             * members : [{"id":1,"userId":2,"community":2,"isAdmin":true,"userDetails":{"id":2,"first_name":"first name","last_name":"last name","pincode":"121212","mobile":"11111111","countryCode":"91","gender":null,"dob":null,"image":"url","profile_stage":"5","active":true,"about":"About"}}]
              */
 
             private int id;
@@ -118,6 +114,16 @@ public class AddCommunityResponse implements Serializable {
             private String title;
             private String about;
             private String image;
+
+            public Boolean getRequested() {
+                return isRequested;
+            }
+
+            public void setRequested(Boolean requested) {
+                isRequested = requested;
+            }
+
+            private Boolean isRequested;
             private List<MembersBean> members;
 
             public static class MembersBean implements Serializable {
@@ -162,11 +168,11 @@ public class AddCommunityResponse implements Serializable {
                 }
 
                 /**
-                 * id : 5
-                 * userId : 8
-                 * community : 6
+                 * id : 1
+                 * userId : 2
+                 * community : 2
                  * isAdmin : true
-                 * userDetails : {"id":8,"first_name":"Ddddf","last_name":"Ddffff","pincode":"5555","mobile":"2222222222","countryCode":"+91","gender":null,"dob":null,"image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg","profile_stage":"5","active":true,"about":"ffggg"}
+                 * userDetails : {"id":2,"first_name":"first name","last_name":"last name","pincode":"121212","mobile":"11111111","countryCode":"91","gender":null,"dob":null,"image":"url","profile_stage":"5","active":true,"about":"About"}
                  */
 
                 private int id;
@@ -273,18 +279,18 @@ public class AddCommunityResponse implements Serializable {
                     }
 
                     /**
-                     * id : 8
-                     * first_name : Ddddf
-                     * last_name : Ddffff
-                     * pincode : 5555
-                     * mobile : 2222222222
-                     * countryCode : +91
+                     * id : 2
+                     * first_name : first name
+                     * last_name : last name
+                     * pincode : 121212
+                     * mobile : 11111111
+                     * countryCode : 91
                      * gender : null
                      * dob : null
-                     * image : https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg
+                     * image : url
                      * profile_stage : 5
                      * active : true
-                     * about : ffggg
+                     * about : About
                      */
 
                     private int id;

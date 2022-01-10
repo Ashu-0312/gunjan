@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat
 import app.gunjan.R
 import app.gunjan.activities.SetProfileActivity
 import app.gunjan.entity.CompleteProfileResponse
+import app.gunjan.entity.UserDetailsResponse
 import app.gunjan.utill.PermissionUtil
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.utill.UploadFileListener
@@ -41,6 +42,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.*
+import java.net.UnknownServiceException
 import java.util.*
 
 class CompleteProfileFragment : Fragment(), UploadFileListener {
@@ -73,6 +75,7 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
 
     private fun initData() {
         progressdialog = ProgressDialog(context, R.style.MyAlertDialogStyle)
+        userDetails()
         Continue!!.setOnClickListener {
             if (awsPicUrl.toString().trim() == "") {
                 Toast.makeText(context, getString(R.string.choose_pic), Toast.LENGTH_LONG).show()
@@ -321,5 +324,74 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
             return false
         }
         return true
+    }
+
+    private fun userDetails(){
+        val myDialog = ProjectUtill.showProgressDialog(context)
+        context?.let { it1 ->
+            WebServiceRequest.getInstance().userDetails(
+                it1,
+                object : Callback<UserDetailsResponse> {
+                    override fun onResponse(
+                        call: Call<UserDetailsResponse>,
+                        response: Response<UserDetailsResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    try {
+                                        if (response.body()!!.data.user.image != null) {
+                                            awsPicUrl = response.body()!!.data.user.image
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.user.image)
+                                                .placeholder(R.drawable.user_avatar)
+                                                .into(profilePic!!)
+                                        }
+                                        if (response.body()!!.data.user.profile_name != null || response.body()!!.data.user.profile_name != "") {
+                                            profileName!!.setText(response.body()!!.data.user.profile_name)
+                                        }
+                                        if (response.body()!!.data.user.first_name != null || response.body()!!.data.user.first_name != "") {
+                                            firstName!!.setText(response.body()!!.data.user.first_name)
+                                        }
+                                        if (response.body()!!.data.user.last_name != null || response.body()!!.data.user.last_name != "") {
+                                            lastName!!.setText(response.body()!!.data.user.last_name)
+                                        }
+                                        if (response.body()!!.data.user.pincode != null || response.body()!!.data.user.pincode != "") {
+                                            pinCode!!.setText(response.body()!!.data.user.pincode)
+                                        }
+                                    }catch (e:Exception){}
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        (context as Activity).window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    (context as Activity).window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                (context as Activity).window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<UserDetailsResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            (context as Activity).window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
     }
 }

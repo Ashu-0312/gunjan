@@ -58,7 +58,6 @@ class SetProfileActivity : AppCompatActivity() {
     private var pathPic = ""
     private var awsPicUrl = ""
     private var fragment:Fragment?=null
-    var progressdialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,6 +102,10 @@ class SetProfileActivity : AppCompatActivity() {
                 loadCommunityActivity()
             }
             FCSharedPreferances.getSharedPreferance(this).profilE_STAGE.equals("1") -> {
+                fragment = CompleteProfileFragment()
+                loadFragment(fragment!!)
+            }
+            else -> {
                 fragment = CompleteProfileFragment()
                 loadFragment(fragment!!)
             }

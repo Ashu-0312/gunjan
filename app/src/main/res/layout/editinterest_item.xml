@@ -16,7 +16,6 @@
         android:layout_gravity="center"
         android:fontFamily="@font/poppin_medium"
         android:gravity="center"
-        android:text="Software"
         android:textColor="@color/txt_color"
         android:textSize="@dimen/margin_15">
 

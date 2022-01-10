@@ -24,6 +24,7 @@ import app.gunjan.R
 import app.gunjan.activities.SetProfileActivity
 import app.gunjan.entity.AddAboutResponse
 import app.gunjan.entity.AddIdentityResponse
+import app.gunjan.entity.UserDetailsResponse
 import app.gunjan.utill.PermissionUtil
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.utill.UploadFileListener
@@ -72,6 +73,7 @@ class IdentificationFragment : Fragment(), UploadFileListener {
 
     private fun initData() {
         progressdialog = ProgressDialog(context, R.style.MyAlertDialogStyle)
+        userDetails()
         Continue!!.setOnClickListener {
             if (awsPicUrl.toString().trim() == "") {
                 Toast.makeText(context, getString(R.string.choose_pic), Toast.LENGTH_LONG).show()
@@ -295,5 +297,61 @@ class IdentificationFragment : Fragment(), UploadFileListener {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 30, bos)
         val bitmapdata = bos.toByteArray()
         return ByteArrayInputStream(bitmapdata)
+    }
+
+    private fun userDetails(){
+        val myDialog = ProjectUtill.showProgressDialog(context)
+        context?.let { it1 ->
+            WebServiceRequest.getInstance().userDetails(
+                it1,
+                object : Callback<UserDetailsResponse> {
+                    override fun onResponse(
+                        call: Call<UserDetailsResponse>,
+                        response: Response<UserDetailsResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    try {
+                                        if (response.body()!!.data.user.identification_file!= null){
+                                            layout2!!.visibility = View.GONE
+                                            layout!!.visibility = View.VISIBLE
+                                            awsPicUrl= response.body()!!.data.user.identification_file
+                                            Glide.with(context!!).load(response.body()!!.data.user.identification_file).placeholder(R.drawable.user_avatar).into(idPic!!)
+                                        }
+                                    }catch (e:Exception){}
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        (context as Activity).window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    (context as Activity).window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                (context as Activity).window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<UserDetailsResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            (context as Activity).window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
     }
 }

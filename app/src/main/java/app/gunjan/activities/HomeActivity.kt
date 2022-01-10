@@ -1,15 +1,21 @@
 package app.gunjan.activities
 
+import android.content.ContentValues
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import app.gunjan.R
 import app.gunjan.fragments.HomeFragment
 import app.gunjan.fragments.MembersFragment
 import app.gunjan.fragments.MessagesFragment
 import app.gunjan.fragments.ProfileFragment
+import app.gunjan.utill.FCSharedPreferances
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlin.system.exitProcess
 
@@ -22,10 +28,83 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        home_txt.setTextColor(resources.getColor(R.color.pink))
-        home_icon.setImageDrawable(resources.getDrawable(R.drawable.home_selected))
-        fragment = HomeFragment()
-        loadFragment(fragment!!)
+
+          FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(ContentValues.TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+           /* val myDialog = ProjectUtill.showProgressDialog(this)
+            WebServiceRequest.getInstance().updateDeviceToken(
+                this, task.result!!, "android",
+                object : Callback<NotificationOnOffResponse> {
+                    override fun onResponse(
+                        call: Call<NotificationOnOffResponse>,
+                        response: Response<NotificationOnOffResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        this@HomeActivity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    this@HomeActivity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                this@HomeActivity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<NotificationOnOffResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            this@HomeActivity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })*/
+        })
+
+        if (FCSharedPreferances.getSharedPreferance(this).status.equals("edit")){
+            FCSharedPreferances.getSharedPreferance(this).status=""
+            home_txt.setTextColor(resources.getColor(R.color.txt_color))
+            member_txt.setTextColor(resources.getColor(R.color.txt_color))
+            message_txt.setTextColor(resources.getColor(R.color.txt_color))
+            account_txt.setTextColor(resources.getColor(R.color.pink))
+            home_icon.setImageDrawable(resources.getDrawable(R.drawable.home_not_selected))
+            member_icon.setImageDrawable(resources.getDrawable(R.drawable.member_not_selected))
+            message_icon.setImageDrawable(resources.getDrawable(R.drawable.message_not_selected))
+            account_icon.setImageDrawable(resources.getDrawable(R.drawable.profile_selected))
+            fragment = ProfileFragment()
+            loadFragment(fragment!!)
+        }else {
+            home_txt.setTextColor(resources.getColor(R.color.pink))
+            member_txt.setTextColor(resources.getColor(R.color.txt_color))
+            message_txt.setTextColor(resources.getColor(R.color.txt_color))
+            account_txt.setTextColor(resources.getColor(R.color.txt_color))
+            home_icon.setImageDrawable(resources.getDrawable(R.drawable.home_selected))
+            member_icon.setImageDrawable(resources.getDrawable(R.drawable.member_not_selected))
+            message_icon.setImageDrawable(resources.getDrawable(R.drawable.message_not_selected))
+            account_icon.setImageDrawable(resources.getDrawable(R.drawable.profile_not_selected))
+            fragment = HomeFragment()
+            loadFragment(fragment!!)
+        }
+
         addCommunity.setOnClickListener {
             startActivity(Intent(this, AddCommunityActivity::class.java))
         }

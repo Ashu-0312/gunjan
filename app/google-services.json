@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "508577274854",
+    "project_id": "gunjan-app-454c3",
+    "storage_bucket": "gunjan-app-454c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508577274854:android:d8a3c7250fa32994131427",
+        "android_client_info": {
+          "package_name": "app.gunjan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "508577274854-d96k3cu752p5b2o56nuanfh9hr3r6du1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.gunjan",
+            "certificate_hash": "0b7170d6179c39e4abca00daed5cb226ae0b86eb"
+          }
+        },
+        {
+          "client_id": "508577274854-hjamj5q9j32h18dts6gh2oqepa34kett.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyRYVNTcnek08rgQfkXShvXle-BK-g5Nk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "508577274854-hjamj5q9j32h18dts6gh2oqepa34kett.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

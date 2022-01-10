@@ -87,6 +87,7 @@ class OtpActivity : AppCompatActivity() {
                                         FCSharedPreferances.getSharedPreferance(this@OtpActivity).token =
                                             response.body()!!.data.token
                                             if (response.body()!!.data.user.profile_stage.equals("5")){
+                                                FCSharedPreferances.getSharedPreferance(this@OtpActivity).statuS_LOGIN="true"
                                                 var intent = Intent(this@OtpActivity, HomeActivity::class.java)
                                                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                                 startActivity(intent)

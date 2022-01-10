@@ -27,7 +27,8 @@
                 android:elevation="@dimen/padding_2"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:src="@drawable/user_avatar"/>
+                android:src="@drawable/user_avatar"
+                android:id="@+id/pic"/>
         </LinearLayout>
         <LinearLayout
             android:layout_marginTop="@dimen/padding_5"
@@ -42,7 +43,7 @@
                 android:fontFamily="@font/popinbold"
                 android:textSize="@dimen/text_16sp"
                 android:textColor="#2C2A2A"
-                android:text="Bharat Yuva Shakti"/>
+                android:id="@+id/title"/>
             <LinearLayout
                 android:layout_marginStart="@dimen/padding_3"
                 android:layout_width="wrap_content"
@@ -58,7 +59,7 @@
                     android:fontFamily="@font/poppin_medium"
                     android:textSize="@dimen/text_12sp"
                     android:textColor="#4B4B4B"
-                    android:text="Bharat yuva shakti is non political youth union and in this community"/>
+                    android:id="@+id/about"/>
 
             </LinearLayout>
 

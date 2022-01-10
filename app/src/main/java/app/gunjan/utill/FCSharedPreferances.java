@@ -9,6 +9,8 @@ public class FCSharedPreferances {
     private static FCSharedPreferances fcSharedPreferances;
     private final String TOKEN="token";
     private final String PROFILE_STAGE="profilestage";
+    private final String STATUS_LOGIN="statuslogin";
+    private final String STATUS="status";
 
     private FCSharedPreferances(Context context){
         if(sharedPreferences==null){
@@ -36,6 +38,17 @@ public class FCSharedPreferances {
         return sharedPreferences.getString(TOKEN,"");
     }
 
+    public void setSTATUS(String status){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(STATUS,status);
+        editor.commit();
+        editor.apply();
+    }
+
+    public String getSTATUS(){
+        return sharedPreferences.getString(STATUS,"");
+    }
+
     public void setPROFILE_STAGE(String profile_stage){
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(PROFILE_STAGE,profile_stage);
@@ -45,5 +58,16 @@ public class FCSharedPreferances {
 
     public String getPROFILE_STAGE(){
         return sharedPreferences.getString(PROFILE_STAGE,"");
+    }
+
+    public void setSTATUS_LOGIN(String status_login){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(STATUS_LOGIN,status_login);
+        editor.commit();
+        editor.apply();
+    }
+
+    public String getSTATUS_LOGIN(){
+        return sharedPreferences.getString(STATUS_LOGIN,"");
     }
 }

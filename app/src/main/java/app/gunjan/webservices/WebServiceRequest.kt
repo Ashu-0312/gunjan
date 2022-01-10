@@ -147,6 +147,46 @@ class WebServiceRequest private constructor() {
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
+    fun editProfile(
+        context: Context,
+        profile_name: String,
+        first_name: String,
+        last_name: String,
+        device_type: String,
+        language: String,
+        image: String,
+        pincode: String,
+        email: String,
+        dob: String,
+        interests: String,
+        mobile: String,
+        countryCode: String,
+        gender: String,
+        about: String,
+        registrationResponseCallback: Callback<EditProfileResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.profile_name] = profile_name
+        params[Constants.Keys.first_name] = first_name
+        params[Constants.Keys.last_name] = last_name
+        params[Constants.Keys.device_type] = device_type
+        params[Constants.Keys.language] = language
+        params[Constants.Keys.image] = image
+        params[Constants.Keys.pincode] = pincode
+        params[Constants.Keys.email] = email
+        params[Constants.Keys.dob] = dob
+        params[Constants.Keys.interests] = interests
+        params[Constants.Keys.mobile] = mobile
+        params[Constants.Keys.countryCode] = countryCode
+        params[Constants.Keys.gender] = gender
+        params[Constants.Keys.about] = about
+        val registrationResponseCall: Call<EditProfileResponse> =
+            apiInterface.editProfile(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
     fun addCommunity(
         context: Context,
         title: String,
@@ -164,6 +204,21 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.image] = image
         val registrationResponseCall: Call<AddCommunityResponse> =
             apiInterface.addCommunity(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+
+    fun sendCommunityRequest(
+        context: Context,
+        communityId: String,
+        registrationResponseCallback: Callback<SendCommunityRequestResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.communityId] = communityId
+        val registrationResponseCall: Call<SendCommunityRequestResponse> =
+            apiInterface.sendCommunityRequest(params,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
@@ -203,6 +258,51 @@ class WebServiceRequest private constructor() {
         headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
         val registrationResponseCall: Call<CategoryListResponse> =
             apiInterface.getAllCategoryList(headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun userDetails(
+        context: Context,
+        registrationResponseCallback: Callback<UserDetailsResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val registrationResponseCall: Call<UserDetailsResponse> =
+            apiInterface.getUserDetails(headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun getAllCommunityList(
+        context: Context,
+        page: String,
+        limit: String,
+        search: String,
+        registrationResponseCallback: Callback<CommunityListResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        var params = HashMap<String,String>()
+        params[Constants.Keys.page] = page
+        params[Constants.Keys.limit] = limit
+        params[Constants.Keys.search] = search
+        val registrationResponseCall: Call<CommunityListResponse> =
+            apiInterface.getAllCommunityList(page,limit,search,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun getAllInterest(
+        context: Context,
+        page: String,
+        limit: String,
+        registrationResponseCallback: Callback<InterestListResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        var params = HashMap<String,String>()
+        params[Constants.Keys.page] = page
+        params[Constants.Keys.limit] = limit
+        val registrationResponseCall: Call<InterestListResponse> =
+            apiInterface.getAllInterest(page,limit,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 }

@@ -2,21 +2,43 @@ package app.gunjan.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.gunjan.R
 import app.gunjan.activities.AddCommunityActivity
 import app.gunjan.adapters.CommunityListAdapter
+import app.gunjan.entity.CommunityListResponse
+import app.gunjan.utill.ProjectUtill
+import app.gunjan.webservices.WebServiceRequest
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class CommunityListFragment : Fragment() {
-    private var list: ArrayList<String> = ArrayList<String>()
     private var communityRecycler:RecyclerView?=null
     private var addCommunity:ImageView?=null
+    private var page: Int? = 1
+    var isLoading = false
+    var isLastPage = false
+    private var layoutManager: LinearLayoutManager? = null
+    private var blankData: ImageView? = null
+    private var searchEdt: EditText? = null
+    private var progressBar: ProgressBar? = null
+    private var swipeRefresh: SwipeRefreshLayout? = null
+    private var communityList: ArrayList<CommunityListResponse.DataBean.CommunityListBean> =
+        ArrayList<CommunityListResponse.DataBean.CommunityListBean>()
+    private var communityListAdapter: CommunityListAdapter? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -25,6 +47,10 @@ class CommunityListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_community_list, container, false)
         communityRecycler=view.findViewById(R.id.community_recycler)
         addCommunity=view.findViewById(R.id.add_community)
+        blankData=view.findViewById(R.id.blank_data)
+        progressBar=view.findViewById(R.id.progress_bar)
+        swipeRefresh=view.findViewById(R.id.swipe_refresh)
+        searchEdt=view.findViewById(R.id.search_edt)
         initData()
         return view
     }
@@ -33,16 +59,348 @@ class CommunityListFragment : Fragment() {
         addCommunity!!.setOnClickListener {
             startActivity(Intent(context, AddCommunityActivity::class.java))
         }
-        list.add("")
-        list.add("")
-        list.add("")
+        initializeAdapter()
+        communityListApi("1")
 
-        var communityAdapter = CommunityListAdapter(
-            context, list
-        )
-        var layoutManager: LinearLayoutManager? = LinearLayoutManager(context)
-        communityRecycler!!.layoutManager = layoutManager
-        communityRecycler!!.adapter = communityAdapter
+        swipeRefresh!!.setColorSchemeResources(R.color.pink)
+        swipeRefresh!!.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            isLastPage = false
+            isLoading = false
+            page = 1
+            communityList.clear()
+            communityListAdapter!!.notifyDataSetChanged()
+            communityListSwipeApi("1")
+            swipeRefresh!!.isRefreshing = false
+        })
+
+        searchEdt!!.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+                if (charSequence.length > 1) {
+                    Handler().postDelayed({
+                        communityListSearchApi(page.toString(), searchEdt!!.text.toString().trim())
+                    }, 3000)
+                } else {
+                    Handler().postDelayed({
+                        communityListSearchApi( page.toString(), searchEdt!!.text.toString().trim())
+                    }, 2000)
+                }
+            }
+
+            override fun afterTextChanged(editable: Editable) {
+            }
+        })
     }
 
+    private fun communityListSearchApi(page: String, value: String) {
+        initializeAdapter()
+        val myDialog = ProjectUtill.showProgressDialog(context)
+        context?.let {
+            WebServiceRequest.getInstance().getAllCommunityList(
+                it, page, "10", value,
+                object : Callback<CommunityListResponse> {
+                    override fun onResponse(
+                        call: Call<CommunityListResponse>,
+                        response: Response<CommunityListResponse>,
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    communityList.clear()
+                                    communityList.addAll(response.body()!!.data.community_list)
+                                    val prevSize: Int = response.body()!!.data.community_list.size
+                                    if (communityList.size == 0) {
+                                        blankData!!.visibility = View.VISIBLE
+                                        communityRecycler!!.visibility = View.GONE
+                                    } else {
+                                        blankData!!.visibility = View.GONE
+                                        communityRecycler!!.visibility = View.VISIBLE
+                                        if (response.body()!!.data.community_list.size < 10) {
+                                            isLastPage = true
+                                        }
+                                        if (communityList.size == 10) {
+                                            communityListAdapter!!.notifyDataSetChanged()
+                                        } else {
+                                            communityListAdapter!!.notifyItemRangeChanged(
+                                                prevSize,
+                                                communityList.size
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        activity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<CommunityListResponse>,
+                        t: Throwable,
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            activity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
+    }
+
+    private fun communityListApi(page: String) {
+        isLoading = true
+        val myDialog = ProjectUtill.showProgressDialog(context)
+        context?.let {
+            WebServiceRequest.getInstance().getAllCommunityList(
+                it, page, "10", "",
+                object : Callback<CommunityListResponse> {
+                    override fun onResponse(
+                        call: Call<CommunityListResponse>,
+                        response: Response<CommunityListResponse>,
+                    ) {
+                        isLoading = false
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    communityList.clear()
+                                    communityList.addAll(response.body()!!.data.community_list)
+                                    val prevSize: Int = response.body()!!.data.community_list.size
+                                    if (communityList.size == 0) {
+                                        blankData!!.visibility = View.VISIBLE
+                                        communityRecycler!!.visibility = View.GONE
+                                    } else {
+                                        blankData!!.visibility = View.GONE
+                                        communityRecycler!!.visibility = View.VISIBLE
+                                        if (response.body()!!.data.community_list.size < 10) {
+                                            isLastPage = true
+                                        }
+                                        if (communityList.size == 10) {
+                                            communityListAdapter!!.notifyDataSetChanged()
+                                        } else {
+                                            communityListAdapter!!.notifyItemRangeChanged(
+                                                prevSize,
+                                                communityList.size
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        activity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<CommunityListResponse>,
+                        t: Throwable,
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            activity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
+    }
+
+    private fun communityListSwipeApi(page: String) {
+        isLoading = true
+        context?.let {
+            WebServiceRequest.getInstance().getAllCommunityList(
+                it, page, "10", "",
+                object : Callback<CommunityListResponse> {
+                    override fun onResponse(
+                        call: Call<CommunityListResponse>,
+                        response: Response<CommunityListResponse>,
+                    ) {
+                        isLoading = false
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    communityList.clear()
+                                    communityList.addAll(response.body()!!.data.community_list)
+                                    val prevSize: Int = response.body()!!.data.community_list.size
+                                    if (communityList.size == 0) {
+                                        blankData!!.visibility = View.VISIBLE
+                                        communityRecycler!!.visibility = View.GONE
+                                    } else {
+                                        blankData!!.visibility = View.GONE
+                                        communityRecycler!!.visibility = View.VISIBLE
+                                        if (response.body()!!.data.community_list.size < 10) {
+                                            isLastPage = true
+                                        }
+                                        if (communityList.size == 10) {
+                                            communityListAdapter!!.notifyDataSetChanged()
+                                        } else {
+                                            communityListAdapter!!.notifyItemRangeChanged(
+                                                prevSize,
+                                                communityList.size
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        activity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<CommunityListResponse>,
+                        t: Throwable,
+                    ) {
+                        ProjectUtill.printErrorMessage(
+                            activity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
+    }
+
+    private fun communityListPaginationApi(page: String) {
+        isLoading = true
+        progressBar!!.visibility = View.VISIBLE
+        context?.let {
+            WebServiceRequest.getInstance().getAllCommunityList(
+                it, page, "10", "",
+                object : Callback<CommunityListResponse> {
+                    override fun onResponse(
+                        call: Call<CommunityListResponse>,
+                        response: Response<CommunityListResponse>,
+                    ) {
+                        isLoading = false
+                        progressBar!!.visibility = View.GONE
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    communityList.addAll(response.body()!!.data.community_list)
+                                    val prevSize: Int = response.body()!!.data.community_list.size
+                                    if (communityList.size == 0) {
+                                        blankData!!.visibility = View.VISIBLE
+                                        communityRecycler!!.visibility = View.GONE
+                                    } else {
+                                        blankData!!.visibility = View.GONE
+                                        communityRecycler!!.visibility = View.VISIBLE
+                                        if (response.body()!!.data.community_list.size < 10) {
+                                            isLastPage = true
+                                        }
+                                        if (communityList.size == 10) {
+                                            communityListAdapter!!.notifyDataSetChanged()
+                                        } else {
+                                            communityListAdapter!!.notifyItemRangeChanged(
+                                                prevSize,
+                                                communityList.size
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        activity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<CommunityListResponse>,
+                        t: Throwable,
+                    ) {
+                        progressBar!!.visibility = View.GONE
+                        ProjectUtill.printErrorMessage(
+                            activity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
+    }
+
+    private fun initializeAdapter() {
+        communityList.clear()
+        page = 1
+        isLastPage = false
+        isLoading = false
+        communityListAdapter = CommunityListAdapter(context, communityList)
+        layoutManager = LinearLayoutManager(context)
+        communityRecycler!!.layoutManager = layoutManager
+        communityRecycler!!.adapter = communityListAdapter
+        communityRecycler!!.addOnScrollListener(recyclerViewOnScrollListener)
+    }
+
+    private val recyclerViewOnScrollListener: RecyclerView.OnScrollListener =
+        object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val visibleItemCount: Int = layoutManager!!.childCount
+                val totalItemCount: Int = layoutManager!!.itemCount
+                val firstVisibleItemPosition: Int = layoutManager!!.findFirstVisibleItemPosition()
+                if (!isLoading && !isLastPage) {
+                    if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 && totalItemCount >= communityList.size) {
+                        isLoading = true
+                        page = page!! + 1
+                        communityListPaginationApi(page.toString())
+                    }
+                }
+            }
+        }
 }

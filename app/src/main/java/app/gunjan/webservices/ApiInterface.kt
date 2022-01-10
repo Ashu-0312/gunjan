@@ -15,11 +15,23 @@ interface ApiInterface {
         @HeaderMap headers:Map<String,String>
     ): Call<CompleteProfileResponse>
 
+    @POST(Constants.Partial.editProfile)
+    fun editProfile(
+        @Body params:HashMap<String,String>,
+        @HeaderMap headers:Map<String,String>
+    ): Call<EditProfileResponse>
+
     @POST(Constants.Partial.addCommunity)
     fun addCommunity(
         @Body params:HashMap<String,String>,
         @HeaderMap headers:Map<String,String>
     ): Call<AddCommunityResponse>
+
+    @POST(Constants.Partial.sendCommunityRequest)
+    fun sendCommunityRequest(
+        @Body params:HashMap<String,String>,
+        @HeaderMap headers:Map<String,String>
+    ): Call<SendCommunityRequestResponse>
 
     @PUT(Constants.Partial.addAboutYourself)
     fun addAboutYourself(
@@ -80,4 +92,24 @@ interface ApiInterface {
     fun getAllCategoryList(
         @HeaderMap headers: Map<String, String>,
     ): Call<CategoryListResponse>
+
+    @GET(Constants.Partial.getUserDetails)
+    fun getUserDetails(
+        @HeaderMap headers: Map<String, String>,
+    ): Call<UserDetailsResponse>
+
+    @GET(Constants.Partial.getAllCommunityList)
+    fun getAllCommunityList(
+        @Query(Constants.Keys.page) page: String?,
+        @Query(Constants.Keys.limit) limit: String?,
+        @Query(Constants.Keys.search) search: String?,
+        @HeaderMap headers: Map<String, String>,
+    ): Call<CommunityListResponse>
+
+    @GET(Constants.Partial.getAllInterest)
+    fun getAllInterest(
+        @Query(Constants.Keys.page) page: String?,
+        @Query(Constants.Keys.limit) limit: String?,
+        @HeaderMap headers: Map<String, String>,
+    ): Call<InterestListResponse>
 }

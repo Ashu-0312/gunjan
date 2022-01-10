@@ -248,7 +248,7 @@
                     app:ccp_textSize="@dimen/text_13sp" />
 
                 <EditText
-                    android:id="@+id/edtMail"
+                    android:id="@+id/edtMobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -335,7 +335,7 @@
                     tools:ignore="RtlCompat" />
 
                 <EditText
-                    android:id="@+id/email"
+                    android:id="@+id/edtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -417,7 +417,7 @@
                     app:cardCornerRadius="@dimen/margin_15">
 
                     <EditText
-                        android:id="@+id/query"
+                        android:id="@+id/about"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="top"

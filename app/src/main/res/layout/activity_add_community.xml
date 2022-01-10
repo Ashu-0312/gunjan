@@ -64,6 +64,7 @@
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:layout_width="80dp"
                         android:layout_height="80dp"
+                        android:id="@+id/pic"
                         android:src="@drawable/user_avatar"
                         app:civ_border_color="@color/pink"
                         app:civ_border_width="@dimen/padding_2" />
@@ -133,7 +134,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/query"
+                    android:id="@+id/about"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="top"

@@ -45,6 +45,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="filter">Filter</string>
     <string name="reset">Reset</string>
+    <string name="enter_mail">Please Enter Email Address</string>
+    <string name="valid_mail">Please Enter Valid Email Address</string>
     <string name="select_or_capture_files">Select or Capture Files</string>
     <string name="record_video">Record Video</string>
     <string name="capture_pic">Capture Pic</string>
@@ -102,5 +104,8 @@
     <string name="pincode">Please Enter PinCode</string>
     <string name="choose_pic">Please choose profile pic</string>
     <string name="about">Please enter about yourself</string>
+    <string name="enter_dob">Please enter date of birth</string>
+    <string name="select_gender">Please select gender</string>
+    <string name="select_interest">Please select interest</string>
 
 </resources>

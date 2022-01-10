@@ -1,5 +1,6 @@
 package app.gunjan.fragments
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
@@ -8,8 +9,18 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import android.widget.TextView
 import app.gunjan.R
 import app.gunjan.activities.*
+import app.gunjan.entity.UserDetailsResponse
+import app.gunjan.utill.FCSharedPreferances
+import app.gunjan.utill.ProjectUtill
+import app.gunjan.webservices.WebServiceRequest
+import com.bumptech.glide.Glide
+import de.hdodenhof.circleimageview.CircleImageView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ProfileFragment : Fragment() {
     private var leaveCommunity: LinearLayout? = null
@@ -23,6 +34,9 @@ class ProfileFragment : Fragment() {
     private var switchCommunity: LinearLayout? = null
     private var theme: LinearLayout? = null
     private var blockList: LinearLayout? = null
+    private var logout: LinearLayout? = null
+    private var userPic: CircleImageView? = null
+    private var profileName: TextView? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,11 +54,21 @@ class ProfileFragment : Fragment() {
         switchCommunity = view.findViewById(R.id.switch_community)
         theme = view.findViewById(R.id.theme)
         blockList = view.findViewById(R.id.block_list)
+        logout = view.findViewById(R.id.logout)
+        userPic = view.findViewById(R.id.user_pic)
+        profileName = view.findViewById(R.id.user_name)
         initData()
         return view
     }
 
     private fun initData() {
+         userDetails()
+        logout!!.setOnClickListener {
+            FCSharedPreferances.getSharedPreferance(context).statuS_LOGIN="false"
+            var intent = Intent(context,LoginActivity::class.java)
+            intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
 
         theme!!.setOnClickListener {
         }
@@ -117,5 +141,62 @@ class ProfileFragment : Fragment() {
             dialog.cancel()
         }
         dialog.show()
+    }
+
+    private fun userDetails(){
+        val myDialog = ProjectUtill.showProgressDialog(context)
+        context?.let { it1 ->
+            WebServiceRequest.getInstance().userDetails(
+                it1,
+                object : Callback<UserDetailsResponse> {
+                    override fun onResponse(
+                        call: Call<UserDetailsResponse>,
+                        response: Response<UserDetailsResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    try {
+                                        if (response.body()!!.data.user.image != null) {
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.user.image)
+                                                .placeholder(R.drawable.user_avatar)
+                                                .into(userPic!!)
+                                        }
+                                        profileName!!.text = response.body()!!.data.user.profile_name
+                                    }catch (e:Exception){}
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        (context as Activity).window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    (context as Activity).window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                (context as Activity).window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<UserDetailsResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            (context as Activity).window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
     }
 }

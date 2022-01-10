@@ -76,7 +76,6 @@
                             android:layout_marginEnd="@dimen/padding_5"
                             android:fontFamily="@font/poppins_semibold"
                             android:textColor="@color/black"
-                            android:text="Johnv Ive"
                             android:textSize="@dimen/text_16sp" />
                     </LinearLayout>
                 </LinearLayout>

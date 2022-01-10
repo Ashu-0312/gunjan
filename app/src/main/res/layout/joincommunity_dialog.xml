@@ -57,7 +57,8 @@
                 android:layout_height="80dp"
                 app:civ_border_color="@color/pink"
                 app:civ_border_width="@dimen/padding_2"
-                android:src="@drawable/user_avatar"/>
+                android:src="@drawable/user_avatar"
+                android:id="@+id/pic"/>
             <TextView
                 android:gravity="center"
                 android:layout_below="@id/header"
@@ -69,7 +70,7 @@
                 android:layout_marginTop="@dimen/text_30sp"
                 android:layout_marginStart="@dimen/text_30sp"
                 android:layout_marginEnd="@dimen/text_30sp"
-                android:text="Bharat Yuva Shakti"/>
+                android:id="@+id/title"/>
             <TextView
                 android:id="@+id/txt"
                 android:gravity="center"

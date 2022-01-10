@@ -13,8 +13,10 @@ import app.gunjan.R
 import app.gunjan.activities.SetProfileActivity
 import app.gunjan.entity.AddAboutResponse
 import app.gunjan.entity.CompleteProfileResponse
+import app.gunjan.entity.UserDetailsResponse
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
+import com.bumptech.glide.Glide
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,6 +37,7 @@ class AboutYourSelfFragment : Fragment() {
     }
 
     private fun initData() {
+        userDetails()
         Continue!!.setOnClickListener {
             if (about!!.text.toString().trim() == "") {
                 Toast.makeText(context, getString(R.string.about), Toast.LENGTH_LONG).show()
@@ -86,6 +89,61 @@ class AboutYourSelfFragment : Fragment() {
                         })
                 }
             }
+        }
+    }
+
+    private fun userDetails(){
+        val myDialog = ProjectUtill.showProgressDialog(context)
+        context?.let { it1 ->
+            WebServiceRequest.getInstance().userDetails(
+                it1,
+                object : Callback<UserDetailsResponse> {
+                    override fun onResponse(
+                        call: Call<UserDetailsResponse>,
+                        response: Response<UserDetailsResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    try {
+                                        try {
+                                            if (response.body()!!.data.user.about != null || response.body()!!.data.user.about != "") {
+                                                about!!.setText(response.body()!!.data.user.about)
+                                            }
+                                        }catch (e:Exception){}
+                                    }catch (e:Exception){}
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        (context as Activity).window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    (context as Activity).window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                (context as Activity).window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<UserDetailsResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            (context as Activity).window.decorView,
+                            ""
+                        )
+                    }
+                })
         }
     }
 }

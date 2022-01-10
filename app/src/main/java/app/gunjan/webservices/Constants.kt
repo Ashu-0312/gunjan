@@ -12,8 +12,13 @@ class Constants {
         const val completeProfile = "auth/completeProfile"
         const val addAboutYourself = "auth/addAboutYourself"
         const val addIdenificationFile = "auth/addIdenificationFile"
-        const val getAllCategoryList = "user/getAllCategoryList"
-        const val addCommunity = "user/addCommunity"
+        const val getAllCategoryList = "community/getAllCategoryList"
+        const val getAllCommunityList = "community/getAllCommunityList"
+        const val addCommunity = "community/addCommunity"
+        const val sendCommunityRequest = "auth/sendCommunityRequest"
+        const val getUserDetails = "user/getUserDetails"
+        const val getAllInterest = "user/getAllInterest"
+        const val editProfile = "user/editProfile"
     }
 
     object Keys {
@@ -32,5 +37,13 @@ class Constants {
         const val identification_file = "identification_file"
         const val title = "title"
         const val category = "category"
+        const val page = "page"
+        const val limit = "limit"
+        const val search = "search"
+        const val communityId = "communityId"
+        const val email = "email"
+        const val dob = "dob"
+        const val interests = "interests"
+        const val gender = "gender"
     }
 }
