@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -32,7 +33,7 @@ class CommunityListFragment : Fragment() {
     var isLoading = false
     var isLastPage = false
     private var layoutManager: LinearLayoutManager? = null
-    private var blankData: ImageView? = null
+    private var blankData: TextView? = null
     private var searchEdt: EditText? = null
     private var progressBar: ProgressBar? = null
     private var swipeRefresh: SwipeRefreshLayout? = null
@@ -97,7 +98,7 @@ class CommunityListFragment : Fragment() {
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let {
             WebServiceRequest.getInstance().getAllCommunityList(
-                it, page, "10", value,
+                it, page, "10", value,"0",
                 object : Callback<CommunityListResponse> {
                     override fun onResponse(
                         call: Call<CommunityListResponse>,
@@ -167,7 +168,7 @@ class CommunityListFragment : Fragment() {
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let {
             WebServiceRequest.getInstance().getAllCommunityList(
-                it, page, "10", "",
+                it, page, "10", "","0",
                 object : Callback<CommunityListResponse> {
                     override fun onResponse(
                         call: Call<CommunityListResponse>,
@@ -237,7 +238,7 @@ class CommunityListFragment : Fragment() {
         isLoading = true
         context?.let {
             WebServiceRequest.getInstance().getAllCommunityList(
-                it, page, "10", "",
+                it, page, "10", "","0",
                 object : Callback<CommunityListResponse> {
                     override fun onResponse(
                         call: Call<CommunityListResponse>,
@@ -306,7 +307,7 @@ class CommunityListFragment : Fragment() {
         progressBar!!.visibility = View.VISIBLE
         context?.let {
             WebServiceRequest.getInstance().getAllCommunityList(
-                it, page, "10", "",
+                it, page, "10", "","0",
                 object : Callback<CommunityListResponse> {
                     override fun onResponse(
                         call: Call<CommunityListResponse>,

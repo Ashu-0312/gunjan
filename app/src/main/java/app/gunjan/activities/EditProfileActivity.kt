@@ -52,6 +52,7 @@ import kotlinx.android.synthetic.main.activity_edit_profile.ccp
 import kotlinx.android.synthetic.main.activity_edit_profile.edtMobile
 import kotlinx.android.synthetic.main.activity_edit_profile.iv_flag
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_mobile_register.*
 import kotlinx.android.synthetic.main.activity_privacy_policy.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -168,13 +169,33 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                                         if (response.body()!!.code == 1) {
                                             FCSharedPreferances.getSharedPreferance(this@EditProfileActivity).status =
                                                 "edit"
-                                            var intent = Intent(
-                                                this@EditProfileActivity,
-                                                HomeActivity::class.java
-                                            )
-                                            intent.flags =
-                                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                            startActivity(intent)
+                                            if (response.body()!!.message.equals("OTP sent on given number")) {
+                                                var intent = Intent(
+                                                    this@EditProfileActivity,
+                                                    OtpActivity::class.java
+                                                )
+                                                intent.putExtra(
+                                                    "mobile",
+                                                    edtMobile.text.toString().trim()
+                                                )
+                                                intent.putExtra(
+                                                    "code",
+                                                    ccp.selectedCountryCodeWithPlus.toString()
+                                                )
+                                                intent.putExtra(
+                                                    "type",
+                                                    "edit"
+                                                )
+                                                startActivity(intent)
+                                            } else {
+                                                var intent = Intent(
+                                                    this@EditProfileActivity,
+                                                    HomeActivity::class.java
+                                                )
+                                                intent.flags =
+                                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                startActivity(intent)
+                                            }
                                         } else {
                                             ProjectUtill.printMessage(
                                                 this@EditProfileActivity.window.decorView,

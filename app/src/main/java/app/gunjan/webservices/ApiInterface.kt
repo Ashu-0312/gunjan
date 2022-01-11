@@ -68,6 +68,8 @@ interface ApiInterface {
         @Query(Constants.Keys.countryCode) countryCode: String?,
         @Query(Constants.Keys.device_type) device_type: String?,
         @Query(Constants.Keys.code) code: String?,
+        @Query(Constants.Keys.otp_for) otp_for: String?,
+        @HeaderMap headers: Map<String, String>,
     ): Call<VerifyOtpResponse>
 
     @GET(Constants.Partial.resendOtp)
@@ -103,6 +105,7 @@ interface ApiInterface {
         @Query(Constants.Keys.page) page: String?,
         @Query(Constants.Keys.limit) limit: String?,
         @Query(Constants.Keys.search) search: String?,
+        @Query(Constants.Keys.type) type: String?,
         @HeaderMap headers: Map<String, String>,
     ): Call<CommunityListResponse>
 
@@ -112,4 +115,31 @@ interface ApiInterface {
         @Query(Constants.Keys.limit) limit: String?,
         @HeaderMap headers: Map<String, String>,
     ): Call<InterestListResponse>
+
+    @GET(Constants.Partial.getCommunityDetails)
+    fun getCommunityDetails(
+        @Query(Constants.Keys.communityId) communityId: String?,
+        @HeaderMap headers: Map<String, String>,
+    ): Call<CommunityDetailsResponse>
+
+    @GET(Constants.Partial.getAllCommunityRequest)
+    fun getAllCommunityRequest(
+        @Query(Constants.Keys.communityId) communityId: String?,
+        @Query(Constants.Keys.page) page: String?,
+        @Query(Constants.Keys.limit) limit: String?,
+        @HeaderMap headers: Map<String, String>,
+    ): Call<RequestListResponse>
+
+    @GET(Constants.Partial.getNotificationList)
+    fun getNotificationList(
+        @Query(Constants.Keys.page) page: String?,
+        @Query(Constants.Keys.limit) limit: String?,
+        @HeaderMap headers: Map<String, String>,
+    ): Call<NotificationListResponse>
+
+    @PATCH(Constants.Partial.acceptRejectRequest)
+    fun acceptRejectRequest(
+        @Body params: java.util.HashMap<String, String>,
+        @HeaderMap headers: Map<String, String>
+    ): Call<AcceptRejectRequestResponse>
 }

@@ -18,7 +18,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lorem ipsum dolor sit amet,Lorem ipsum dolor sit amet"
+        android:id="@+id/title"
         android:textColor="#444444"
         android:fontFamily="@font/poppin_regular"
         android:textSize="@dimen/text_12sp"/>
@@ -35,7 +35,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="3:30pm"
+            android:id="@+id/time"
             android:textColor="@color/light_grey2"
             android:fontFamily="@font/poppin_regular"
             android:textSize="@dimen/text_12sp"/>

@@ -3,15 +3,7 @@ package app.gunjan.entity;
 import java.io.Serializable;
 import java.util.List;
 
-public class CommunityListResponse implements Serializable {
-
-    /**
-     * code : 1
-     * message : Community list
-     * data : {"community_list":[{"id":2,"category":1,"title":"testing 2","about":"testing 2","image":"url","members":[{"id":1,"userId":2,"community":2,"isAdmin":true,"userDetails":{"id":2,"first_name":"first name","last_name":"last name","pincode":"121212","mobile":"11111111","countryCode":"91","gender":null,"dob":null,"image":"url","profile_stage":"5","active":true,"about":"About"}}]},{"id":3,"category":1,"title":"testing 2","about":"testing 2","image":"url","members":[{"id":2,"userId":2,"community":3,"isAdmin":true,"userDetails":{"id":2,"first_name":"first name","last_name":"last name","pincode":"121212","mobile":"11111111","countryCode":"91","gender":null,"dob":null,"image":"url","profile_stage":"5","active":true,"about":"About"}}]},{"id":1,"category":1,"title":"testing","about":"testing","image":null,"members":[]}]}
-     */
-
-    private int code;
+public class CommunityDetailsResponse implements Serializable {
 
     public int getCode() {
         return code;
@@ -19,14 +11,6 @@ public class CommunityListResponse implements Serializable {
 
     public void setCode(int code) {
         this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public DataBean getData() {
@@ -37,27 +21,54 @@ public class CommunityListResponse implements Serializable {
         this.data = data;
     }
 
+    /**
+     * code : 1
+     * data : {"community_details":{"id":2,"userId":2,"category":1,"title":"testing 2","about":"testing 2","image":"url","members":[{"id":1,"userId":2,"community":2,"isAdmin":true,"userDetails":{"id":2,"first_name":"first name","last_name":"last name","pincode":"121212","mobile":"11111111","countryCode":"91","gender":"Male","dob":"2020-03-02","image":"url","email":"test@test.com","profile_stage":"5","active":true,"about":"About"}}]}}
+     */
+
+    private int code;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     private String message;
     private DataBean data;
 
     public static class DataBean implements Serializable {
-        public List<CommunityListBean> getCommunity_list() {
-            return community_list;
+        public CommunityDetailsBean getCommunity_details() {
+            return community_details;
         }
 
-        public void setCommunity_list(List<CommunityListBean> community_list) {
-            this.community_list = community_list;
+        public void setCommunity_details(CommunityDetailsBean community_details) {
+            this.community_details = community_details;
         }
 
-        private List<CommunityListBean> community_list;
+        /**
+         * community_details : {"id":2,"userId":2,"category":1,"title":"testing 2","about":"testing 2","image":"url","members":[{"id":1,"userId":2,"community":2,"isAdmin":true,"userDetails":{"id":2,"first_name":"first name","last_name":"last name","pincode":"121212","mobile":"11111111","countryCode":"91","gender":"Male","dob":"2020-03-02","image":"url","email":"test@test.com","profile_stage":"5","active":true,"about":"About"}}]}
+         */
 
-        public static class CommunityListBean implements Serializable {
+        private CommunityDetailsBean community_details;
+
+        public static class CommunityDetailsBean implements Serializable {
             public int getId() {
                 return id;
             }
 
             public void setId(int id) {
                 this.id = id;
+            }
+
+            public int getUserId() {
+                return userId;
+            }
+
+            public void setUserId(int userId) {
+                this.userId = userId;
             }
 
             public int getCategory() {
@@ -102,38 +113,20 @@ public class CommunityListResponse implements Serializable {
 
             /**
              * id : 2
+             * userId : 2
              * category : 1
              * title : testing 2
              * about : testing 2
              * image : url
-             * members : [{"id":1,"userId":2,"community":2,"isAdmin":true,"userDetails":{"id":2,"first_name":"first name","last_name":"last name","pincode":"121212","mobile":"11111111","countryCode":"91","gender":null,"dob":null,"image":"url","profile_stage":"5","active":true,"about":"About"}}]
+             * members : [{"id":1,"userId":2,"community":2,"isAdmin":true,"userDetails":{"id":2,"first_name":"first name","last_name":"last name","pincode":"121212","mobile":"11111111","countryCode":"91","gender":"Male","dob":"2020-03-02","image":"url","email":"test@test.com","profile_stage":"5","active":true,"about":"About"}}]
              */
 
             private int id;
+            private int userId;
             private int category;
             private String title;
             private String about;
-
-            public String getTotal_request() {
-                return total_request;
-            }
-
-            public void setTotal_request(String total_request) {
-                this.total_request = total_request;
-            }
-
-            private String total_request;
             private String image;
-
-            public Boolean getRequested() {
-                return isRequested;
-            }
-
-            public void setRequested(Boolean requested) {
-                isRequested = requested;
-            }
-
-            private Boolean isRequested;
             private List<MembersBean> members;
 
             public static class MembersBean implements Serializable {
@@ -182,7 +175,7 @@ public class CommunityListResponse implements Serializable {
                  * userId : 2
                  * community : 2
                  * isAdmin : true
-                 * userDetails : {"id":2,"first_name":"first name","last_name":"last name","pincode":"121212","mobile":"11111111","countryCode":"91","gender":null,"dob":null,"image":"url","profile_stage":"5","active":true,"about":"About"}
+                 * userDetails : {"id":2,"first_name":"first name","last_name":"last name","pincode":"121212","mobile":"11111111","countryCode":"91","gender":"Male","dob":"2020-03-02","image":"url","email":"test@test.com","profile_stage":"5","active":true,"about":"About"}
                  */
 
                 private int id;
@@ -192,6 +185,24 @@ public class CommunityListResponse implements Serializable {
                 private UserDetailsBean userDetails;
 
                 public static class UserDetailsBean implements Serializable {
+                    /**
+                     * id : 2
+                     * first_name : first name
+                     * last_name : last name
+                     * pincode : 121212
+                     * mobile : 11111111
+                     * countryCode : 91
+                     * gender : Male
+                     * dob : 2020-03-02
+                     * image : url
+                     * email : test@test.com
+                     * profile_stage : 5
+                     * active : true
+                     * about : About
+                     */
+
+                    private int id;
+
                     public int getId() {
                         return id;
                     }
@@ -240,19 +251,19 @@ public class CommunityListResponse implements Serializable {
                         this.countryCode = countryCode;
                     }
 
-                    public Object getGender() {
+                    public String getGender() {
                         return gender;
                     }
 
-                    public void setGender(Object gender) {
+                    public void setGender(String gender) {
                         this.gender = gender;
                     }
 
-                    public Object getDob() {
+                    public String getDob() {
                         return dob;
                     }
 
-                    public void setDob(Object dob) {
+                    public void setDob(String dob) {
                         this.dob = dob;
                     }
 
@@ -262,6 +273,14 @@ public class CommunityListResponse implements Serializable {
 
                     public void setImage(String image) {
                         this.image = image;
+                    }
+
+                    public String getEmail() {
+                        return email;
+                    }
+
+                    public void setEmail(String email) {
+                        this.email = email;
                     }
 
                     public String getProfile_stage() {
@@ -288,30 +307,15 @@ public class CommunityListResponse implements Serializable {
                         this.about = about;
                     }
 
-                    /**
-                     * id : 2
-                     * first_name : first name
-                     * last_name : last name
-                     * pincode : 121212
-                     * mobile : 11111111
-                     * countryCode : 91
-                     * gender : null
-                     * dob : null
-                     * image : url
-                     * profile_stage : 5
-                     * active : true
-                     * about : About
-                     */
-
-                    private int id;
                     private String first_name;
                     private String last_name;
                     private String pincode;
                     private String mobile;
                     private String countryCode;
-                    private Object gender;
-                    private Object dob;
+                    private String gender;
+                    private String dob;
                     private String image;
+                    private String email;
                     private String profile_stage;
                     private boolean active;
                     private String about;

@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import app.gunjan.R
 import app.gunjan.utill.FCSharedPreferances
 
@@ -20,8 +21,10 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun initHandler() {
-        handler = Handler()
+        handler = Handler(Looper.getMainLooper())
         handler!!.postDelayed(Runnable {
+            FCSharedPreferances.getSharedPreferance(this@SplashActivity).status =
+                ""
             if (FCSharedPreferances.getSharedPreferance(this@SplashActivity).statuS_LOGIN.equals("true")) {
                 val intent = Intent(this@SplashActivity, HomeActivity::class.java)
                 intent.flags =

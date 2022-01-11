@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-
-    tools:context=".activities.NotificationActivity">
+    tools:context=".activities.MyCommunitesActivity">
 
     <RelativeLayout
         android:id="@+id/header"
@@ -31,7 +30,7 @@
             android:layout_marginTop="@dimen/margin_10dp"
             android:fontFamily="@font/popinbold"
             android:gravity="center"
-            android:text="@string/notifications"
+            android:text="@string/joined_communities"
             android:textColor="@color/pink"
             android:textSize="@dimen/text_17sp" />
     </RelativeLayout>
@@ -43,7 +42,7 @@
         android:id="@+id/swipe_refresh">
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="@dimen/margin_10dp"
-            android:id="@+id/notificationRecycler"
+            android:id="@+id/communityRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none" />

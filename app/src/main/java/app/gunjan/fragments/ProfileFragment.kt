@@ -35,6 +35,7 @@ class ProfileFragment : Fragment() {
     private var theme: LinearLayout? = null
     private var blockList: LinearLayout? = null
     private var logout: LinearLayout? = null
+    private var myCommunities: LinearLayout? = null
     private var userPic: CircleImageView? = null
     private var profileName: TextView? = null
     override fun onCreateView(
@@ -57,6 +58,7 @@ class ProfileFragment : Fragment() {
         logout = view.findViewById(R.id.logout)
         userPic = view.findViewById(R.id.user_pic)
         profileName = view.findViewById(R.id.user_name)
+        myCommunities = view.findViewById(R.id.my_community)
         initData()
         return view
     }
@@ -74,7 +76,11 @@ class ProfileFragment : Fragment() {
         }
 
         leaveCommunity!!.setOnClickListener {
-            startActivity(Intent(context, LeaveCommunityActivity::class.java))
+            startActivity(Intent(context, JoinedCommunitesActivity::class.java))
+        }
+
+        myCommunities!!.setOnClickListener {
+            startActivity(Intent(context, MyCommunitesActivity::class.java))
         }
 
         blockList!!.setOnClickListener {

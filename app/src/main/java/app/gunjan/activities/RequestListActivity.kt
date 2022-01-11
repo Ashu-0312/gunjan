@@ -3,248 +3,253 @@ package app.gunjan.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.gunjan.R
-import app.gunjan.adapters.NotificationListAdapter
-import app.gunjan.entity.NotificationListResponse
+import app.gunjan.adapters.RequestListAdapter
+import app.gunjan.entity.InterestListResponse
+import app.gunjan.entity.RequestListResponse
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
-import kotlinx.android.synthetic.main.activity_notification.*
-import kotlinx.android.synthetic.main.activity_notification.back
+import kotlinx.android.synthetic.main.activity_request_list.*
+import kotlinx.android.synthetic.main.activity_request_list.back
+import kotlinx.android.synthetic.main.activity_request_list.blank_data
+import kotlinx.android.synthetic.main.activity_request_list.progress_bar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class NotificationActivity : AppCompatActivity() {
+class RequestListActivity : AppCompatActivity() {
     private var page: Int? = 1
     var isLoading = false
     var isLastPage = false
     private var layoutManager: LinearLayoutManager? = null
-    var notificationAdapter: NotificationListAdapter?=null
-    private var notificationList: ArrayList<NotificationListResponse.DataBean.NotificationBean> = ArrayList<NotificationListResponse.DataBean.NotificationBean>()
+    var requestListAdapter:RequestListAdapter?=null
+    private var requestList: ArrayList<RequestListResponse.DataBean.RequestListBean> = ArrayList<RequestListResponse.DataBean.RequestListBean>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_notification)
+        setContentView(R.layout.activity_request_list)
         initData()
     }
 
     private fun initData() {
 
         back.setOnClickListener { finish() }
+
         initializeAdapter()
-        notificationListApi("1")
+        requestListApi("1")
 
         swipe_refresh!!.setColorSchemeResources(R.color.pink)
         swipe_refresh!!.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
             isLastPage = false
             isLoading = false
             page = 1
-            notificationList.clear()
-            notificationAdapter!!.notifyDataSetChanged()
-            notificationListSwipeApi("1")
+            requestList.clear()
+            requestListAdapter!!.notifyDataSetChanged()
+            requestListSwipeApi("1")
             swipe_refresh!!.isRefreshing = false
         })
     }
 
-    private fun notificationListApi(page: String) {
+    private fun requestListApi(page: String) {
         isLoading = true
         val myDialog = ProjectUtill.showProgressDialog(this)
-        WebServiceRequest.getInstance().getNotificationList(
-            this,page, "10",
-            object : Callback<NotificationListResponse> {
+        WebServiceRequest.getInstance().getAllCommunityRequest(
+            this,intent.getStringExtra("community_id").toString(),page, "10",
+            object : Callback<RequestListResponse> {
                 override fun onResponse(
-                    call: Call<NotificationListResponse>,
-                    response: Response<NotificationListResponse>,
+                    call: Call<RequestListResponse>,
+                    response: Response<RequestListResponse>,
                 ) {
                     isLoading = false
                     myDialog.dismiss()
                     if (response != null) {
                         if (response.isSuccessful) {
                             if (response.body()!!.code == 1) {
-                                notificationList.clear()
-                                notificationList.addAll(response.body()!!.data.notification)
-                                val prevSize: Int = response.body()!!.data.notification.size
-                                if (notificationList.size == 0) {
+                                requestList.clear()
+                                requestList.addAll(response.body()!!.data.request_list)
+                                val prevSize: Int = response.body()!!.data.request_list.size
+                                if (requestList.size == 0) {
                                     blank_data!!.visibility = View.VISIBLE
-                                    notificationRecycler!!.visibility = View.GONE
+                                    requestRecycler!!.visibility = View.GONE
                                 } else {
                                     blank_data!!.visibility = View.GONE
-                                    notificationRecycler!!.visibility = View.VISIBLE
-                                    if (response.body()!!.data.notification.size < 10) {
+                                    requestRecycler!!.visibility = View.VISIBLE
+                                    if (response.body()!!.data.request_list.size < 10) {
                                         isLastPage = true
                                     }
-                                    if (notificationList.size == 10) {
-                                        notificationAdapter!!.notifyDataSetChanged()
+                                    if (requestList.size == 10) {
+                                        requestListAdapter!!.notifyDataSetChanged()
                                     } else {
-                                        notificationAdapter!!.notifyItemRangeChanged(
+                                        requestListAdapter!!.notifyItemRangeChanged(
                                             prevSize,
-                                            notificationList.size
+                                            requestList.size
                                         )
                                     }
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@NotificationActivity!!.window.decorView,
+                                    this@RequestListActivity!!.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@NotificationActivity!!.window.decorView,
+                                this@RequestListActivity!!.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@NotificationActivity!!.window.decorView,
+                            this@RequestListActivity!!.window.decorView,
                             ""
                         )
                     }
                 }
 
                 override fun onFailure(
-                    call: Call<NotificationListResponse>,
+                    call: Call<RequestListResponse>,
                     t: Throwable,
                 ) {
                     myDialog.dismiss()
                     ProjectUtill.printErrorMessage(
-                        this@NotificationActivity!!.window.decorView,
+                        this@RequestListActivity!!.window.decorView,
                         ""
                     )
                 }
             })
     }
 
-    private fun notificationListSwipeApi(page: String) {
+    private fun requestListSwipeApi(page: String) {
         isLoading = true
-        WebServiceRequest.getInstance().getNotificationList(
-            this,page, "10",
-            object : Callback<NotificationListResponse> {
+        WebServiceRequest.getInstance().getAllCommunityRequest(
+            this,intent.getStringExtra("community_id").toString(),page, "10",
+            object : Callback<RequestListResponse> {
                 override fun onResponse(
-                    call: Call<NotificationListResponse>,
-                    response: Response<NotificationListResponse>,
+                    call: Call<RequestListResponse>,
+                    response: Response<RequestListResponse>,
                 ) {
                     isLoading = false
                     if (response != null) {
                         if (response.isSuccessful) {
                             if (response.body()!!.code == 1) {
-                                notificationList.clear()
-                                notificationList.addAll(response.body()!!.data.notification)
-                                val prevSize: Int = response.body()!!.data.notification.size
-                                if (notificationList.size == 0) {
+                                requestList.clear()
+                                requestList.addAll(response.body()!!.data.request_list)
+                                val prevSize: Int = response.body()!!.data.request_list.size
+                                if (requestList.size == 0) {
                                     blank_data!!.visibility = View.VISIBLE
-                                    notificationRecycler!!.visibility = View.GONE
+                                    requestRecycler!!.visibility = View.GONE
                                 } else {
                                     blank_data!!.visibility = View.GONE
-                                    notificationRecycler!!.visibility = View.VISIBLE
-                                    if (response.body()!!.data.notification.size < 10) {
+                                    requestRecycler!!.visibility = View.VISIBLE
+                                    if (response.body()!!.data.request_list.size < 10) {
                                         isLastPage = true
                                     }
-                                    if (notificationList.size == 10) {
-                                        notificationAdapter!!.notifyDataSetChanged()
+                                    if (requestList.size == 10) {
+                                        requestListAdapter!!.notifyDataSetChanged()
                                     } else {
-                                        notificationAdapter!!.notifyItemRangeChanged(
+                                        requestListAdapter!!.notifyItemRangeChanged(
                                             prevSize,
-                                            notificationList.size
+                                            requestList.size
                                         )
                                     }
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@NotificationActivity!!.window.decorView,
+                                    this@RequestListActivity!!.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@NotificationActivity!!.window.decorView,
+                                this@RequestListActivity!!.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@NotificationActivity!!.window.decorView,
+                            this@RequestListActivity!!.window.decorView,
                             ""
                         )
                     }
                 }
 
                 override fun onFailure(
-                    call: Call<NotificationListResponse>,
+                    call: Call<RequestListResponse>,
                     t: Throwable,
                 ) {
                     ProjectUtill.printErrorMessage(
-                        this@NotificationActivity!!.window.decorView,
+                        this@RequestListActivity!!.window.decorView,
                         ""
                     )
                 }
             })
     }
 
-    private fun notificationListPaginationApi(page: String) {
+    private fun requestListPaginationApi(page: String) {
         isLoading = true
         progress_bar!!.visibility = View.VISIBLE
-        WebServiceRequest.getInstance().getNotificationList(
-            this,page, "10",
-            object : Callback<NotificationListResponse> {
+        WebServiceRequest.getInstance().getAllCommunityRequest(
+            this,intent.getStringExtra("community_id").toString(),page, "10",
+            object : Callback<RequestListResponse> {
                 override fun onResponse(
-                    call: Call<NotificationListResponse>,
-                    response: Response<NotificationListResponse>,
+                    call: Call<RequestListResponse>,
+                    response: Response<RequestListResponse>,
                 ) {
                     isLoading = false
                     progress_bar!!.visibility = View.GONE
                     if (response != null) {
                         if (response.isSuccessful) {
                             if (response.body()!!.code == 1) {
-                                notificationList.addAll(response.body()!!.data.notification)
-                                val prevSize: Int = response.body()!!.data.notification.size
-                                if (notificationList.size == 0) {
+                                requestList.addAll(response.body()!!.data.request_list)
+                                val prevSize: Int = response.body()!!.data.request_list.size
+                                if (requestList.size == 0) {
                                     blank_data!!.visibility = View.VISIBLE
-                                    notificationRecycler!!.visibility = View.GONE
+                                    requestRecycler!!.visibility = View.GONE
                                 } else {
                                     blank_data!!.visibility = View.GONE
-                                    notificationRecycler!!.visibility = View.VISIBLE
-                                    if (response.body()!!.data.notification.size < 10) {
+                                    requestRecycler!!.visibility = View.VISIBLE
+                                    if (response.body()!!.data.request_list.size < 10) {
                                         isLastPage = true
                                     }
-                                    if (notificationList.size == 10) {
-                                        notificationAdapter!!.notifyDataSetChanged()
+                                    if (requestList.size == 10) {
+                                        requestListAdapter!!.notifyDataSetChanged()
                                     } else {
-                                        notificationAdapter!!.notifyItemRangeChanged(
+                                        requestListAdapter!!.notifyItemRangeChanged(
                                             prevSize,
-                                            notificationList.size
+                                            requestList.size
                                         )
                                     }
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@NotificationActivity!!.window.decorView,
+                                    this@RequestListActivity!!.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@NotificationActivity!!.window.decorView,
+                                this@RequestListActivity!!.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@NotificationActivity!!.window.decorView,
+                            this@RequestListActivity!!.window.decorView,
                             ""
                         )
                     }
                 }
 
                 override fun onFailure(
-                    call: Call<NotificationListResponse>,
+                    call: Call<RequestListResponse>,
                     t: Throwable,
                 ) {
                     progress_bar!!.visibility = View.GONE
                     ProjectUtill.printErrorMessage(
-                        this@NotificationActivity!!.window.decorView,
+                        this@RequestListActivity!!.window.decorView,
                         ""
                     )
                 }
@@ -252,15 +257,15 @@ class NotificationActivity : AppCompatActivity() {
     }
 
     private fun initializeAdapter() {
-        notificationList.clear()
+        requestList.clear()
         page = 1
         isLastPage = false
         isLoading = false
-        notificationAdapter = NotificationListAdapter(this, notificationList)
+        requestListAdapter = RequestListAdapter(this, requestList)
         layoutManager = LinearLayoutManager(this)
-        notificationRecycler!!.layoutManager = layoutManager
-        notificationRecycler!!.adapter = notificationAdapter
-        notificationRecycler!!.addOnScrollListener(recyclerViewOnScrollListener)
+        requestRecycler!!.layoutManager = layoutManager
+        requestRecycler!!.adapter = requestListAdapter
+        requestRecycler!!.addOnScrollListener(recyclerViewOnScrollListener)
     }
 
     private val recyclerViewOnScrollListener: RecyclerView.OnScrollListener =
@@ -275,12 +280,21 @@ class NotificationActivity : AppCompatActivity() {
                 val totalItemCount: Int = layoutManager!!.itemCount
                 val firstVisibleItemPosition: Int = layoutManager!!.findFirstVisibleItemPosition()
                 if (!isLoading && !isLastPage) {
-                    if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 && totalItemCount >= notificationList.size) {
+                    if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 && totalItemCount >= requestList.size) {
                         isLoading = true
                         page = page!! + 1
-                        notificationListPaginationApi(page.toString())
+                        requestListPaginationApi(page.toString())
                     }
                 }
             }
         }
+
+    fun resetAdapter(){
+        isLastPage = false
+        isLoading = false
+        page = 1
+        requestList.clear()
+        requestListAdapter!!.notifyDataSetChanged()
+        requestListSwipeApi("1")
+    }
 }

@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-
-    tools:context=".activities.NotificationActivity">
+    tools:context=".activities.MyCommunitesActivity">
 
     <RelativeLayout
         android:id="@+id/header"
@@ -31,7 +30,7 @@
             android:layout_marginTop="@dimen/margin_10dp"
             android:fontFamily="@font/popinbold"
             android:gravity="center"
-            android:text="@string/notifications"
+            android:text="@string/my_communities"
             android:textColor="@color/pink"
             android:textSize="@dimen/text_17sp" />
     </RelativeLayout>
@@ -43,28 +42,28 @@
         android:id="@+id/swipe_refresh">
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="@dimen/margin_10dp"
-            android:id="@+id/notificationRecycler"
+            android:id="@+id/communityRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-    <TextView
-        android:visibility="gone"
-        android:text="@string/no_community"
-        android:textColor="@color/pink"
-        android:textSize="@dimen/margin_25"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:scaleType="fitXY"
-        android:fontFamily="@font/popinbold"
-        android:id="@+id/blank_data"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher_background"/>
-    <ProgressBar
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/progress_bar"
-        android:layout_alignParentBottom="true"
-        android:indeterminateTint="@color/pink"/>
+<TextView
+android:visibility="gone"
+android:text="@string/no_community"
+android:textColor="@color/pink"
+android:textSize="@dimen/margin_25"
+android:layout_centerInParent="true"
+android:layout_width="wrap_content"
+android:scaleType="fitXY"
+android:fontFamily="@font/popinbold"
+android:id="@+id/blank_data"
+android:layout_height="wrap_content"
+android:src="@drawable/ic_launcher_background"/>
+<ProgressBar
+android:visibility="gone"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:id="@+id/progress_bar"
+android:layout_alignParentBottom="true"
+android:indeterminateTint="@color/pink"/>
 </RelativeLayout>

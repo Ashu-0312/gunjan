@@ -19,6 +19,10 @@ class Constants {
         const val getUserDetails = "user/getUserDetails"
         const val getAllInterest = "user/getAllInterest"
         const val editProfile = "user/editProfile"
+        const val getAllCommunityRequest = "community/getAllCommunityRequest"
+        const val acceptRejectRequest = "community/acceptRejectRequest"
+        const val getCommunityDetails = "community/getCommunityDetails"
+        const val getNotificationList = "notification/get"
     }
 
     object Keys {
@@ -45,5 +49,9 @@ class Constants {
         const val dob = "dob"
         const val interests = "interests"
         const val gender = "gender"
+        const val type = "type"
+        const val request_id = "request_id"
+        const val status = "status"
+        const val otp_for = "otp_for"
     }
 }

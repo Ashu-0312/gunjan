@@ -68,6 +68,10 @@ class MobileRegisterActivity : AppCompatActivity() {
                                             "code",
                                             ccp.selectedCountryCodeWithPlus.toString()
                                         )
+                                        intent.putExtra(
+                                            "type",
+                                            "other"
+                                        )
                                         startActivity(intent)
                                     } else {
                                         ProjectUtill.printMessage(

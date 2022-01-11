@@ -107,5 +107,14 @@
     <string name="enter_dob">Please enter date of birth</string>
     <string name="select_gender">Please select gender</string>
     <string name="select_interest">Please select interest</string>
+    <string name="my_communities">My Communities</string>
+    <string name="request_list">Request List</string>
+    <string name="no_requests">No Requests</string>
+    <string name="no_community">No Community</string>
+    <string name="cancel_caps">CANCEL</string>
+    <string name="accept_caps">ACCEPT</string>
+    <string name="joined_communities">Joined Communities</string>
+    <string name="view_details">View Details</string>
+    <string name="community_details">Community Details</string>
 
 </resources>

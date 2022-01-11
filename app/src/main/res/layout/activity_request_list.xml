@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-
-    tools:context=".activities.NotificationActivity">
+    tools:context=".activities.RequestListActivity">
 
     <RelativeLayout
         android:id="@+id/header"
@@ -31,7 +30,7 @@
             android:layout_marginTop="@dimen/margin_10dp"
             android:fontFamily="@font/popinbold"
             android:gravity="center"
-            android:text="@string/notifications"
+            android:text="@string/request_list"
             android:textColor="@color/pink"
             android:textSize="@dimen/text_17sp" />
     </RelativeLayout>
@@ -43,14 +42,14 @@
         android:id="@+id/swipe_refresh">
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="@dimen/margin_10dp"
-            android:id="@+id/notificationRecycler"
+            android:id="@+id/requestRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <TextView
         android:visibility="gone"
-        android:text="@string/no_community"
+        android:text="@string/no_requests"
         android:textColor="@color/pink"
         android:textSize="@dimen/margin_25"
         android:layout_centerInParent="true"

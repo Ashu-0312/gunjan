@@ -7,6 +7,7 @@ import android.widget.Toast
 import app.gunjan.R
 import app.gunjan.entity.LoginResponse
 import app.gunjan.entity.SignupResponse
+import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import kotlinx.android.synthetic.main.activity_login.*
@@ -59,6 +60,7 @@ class LoginActivity : AppCompatActivity() {
                             if (response != null) {
                                 if (response.isSuccessful) {
                                     if (response.body()!!.code == 1) {
+                                        FCSharedPreferances.getSharedPreferance(this@LoginActivity).token=""
                                         Toast.makeText(
                                             this@LoginActivity,
                                             "" + response.body()!!.message,
@@ -77,6 +79,10 @@ class LoginActivity : AppCompatActivity() {
                                         intent.putExtra(
                                             "code",
                                             ccp.selectedCountryCodeWithPlus.toString()
+                                        )
+                                        intent.putExtra(
+                                            "type",
+                                            "other"
                                         )
                                         startActivity(intent)
                                     } else {

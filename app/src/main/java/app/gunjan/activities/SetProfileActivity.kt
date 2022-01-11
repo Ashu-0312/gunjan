@@ -55,8 +55,6 @@ import java.io.*
 import java.util.*
 
 class SetProfileActivity : AppCompatActivity() {
-    private var pathPic = ""
-    private var awsPicUrl = ""
     private var fragment:Fragment?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {

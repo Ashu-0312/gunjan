@@ -69,68 +69,11 @@ class OtpActivity : AppCompatActivity() {
                 Toast.makeText(this@OtpActivity, getString(R.string.enter_otp), Toast.LENGTH_SHORT)
                     .show()
             } else {
-                val myDialog = ProjectUtill.showProgressDialog(this@OtpActivity)
-                WebServiceRequest.getInstance().verifyOtp(
-                   "en",intent.getStringExtra("mobile").toString(),intent.getStringExtra("code").toString(),"android",
-                    otp1.text.toString().trim() + otp2.text.toString()
-                        .trim() + otp3.text.toString()
-                        .trim() + otp4.text.toString().trim(),
-                    object : Callback<VerifyOtpResponse> {
-                        override fun onResponse(
-                            call: Call<VerifyOtpResponse>,
-                            response: Response<VerifyOtpResponse>
-                        ) {
-                            myDialog.dismiss()
-                            if (response != null) {
-                                if (response.isSuccessful) {
-                                    if (response.body()!!.code == 1) {
-                                        FCSharedPreferances.getSharedPreferance(this@OtpActivity).token =
-                                            response.body()!!.data.token
-                                            if (response.body()!!.data.user.profile_stage.equals("5")){
-                                                FCSharedPreferances.getSharedPreferance(this@OtpActivity).statuS_LOGIN="true"
-                                                var intent = Intent(this@OtpActivity, HomeActivity::class.java)
-                                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                                startActivity(intent)
-                                            }else {
-                                                FCSharedPreferances.getSharedPreferance(this@OtpActivity).profilE_STAGE=response.body()!!.data.user.profile_stage
-                                                var intent = Intent(
-                                                    this@OtpActivity,
-                                                    SetProfileActivity::class.java
-                                                )
-                                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                                startActivity(intent)
-                                            }
-                                    } else {
-                                        ProjectUtill.printMessage(
-                                            this@OtpActivity.window.decorView,
-                                            response.body()?.message
-                                        )
-                                    }
-                                } else {
-                                    ProjectUtill.printErrorMessage(
-                                        this@OtpActivity.window.decorView,
-                                        ""
-                                    )
-                                }
-                            } else {
-                                ProjectUtill.printErrorMessage(
-                                    this@OtpActivity.window.decorView,
-                                    ""
-                                )
-                            }
-                        }
-
-                        override fun onFailure(
-                            call: Call<VerifyOtpResponse>,
-                            t: Throwable
-                        ) {
-                            myDialog.dismiss()
-                            ProjectUtill.printErrorMessage(
-                                this@OtpActivity.window.decorView,
-                                ""
-                            )
-                        }
-                    })
+                if (intent.getStringExtra("type").equals("other")){
+                    verifyOtpApi("other")
+                }else if (intent.getStringExtra("type").equals("edit")){
+                    verifyOtpApi("edit_mobile")
+                }
             }
         }
 
@@ -256,5 +199,84 @@ class OtpActivity : AppCompatActivity() {
                 ) keyboard.hideSoftInputFromWindow(otp4.windowToken, 0)
             }
         })
+    }
+
+    private fun verifyOtpApi(type:String) {
+        val myDialog = ProjectUtill.showProgressDialog(this@OtpActivity)
+        WebServiceRequest.getInstance().verifyOtp(
+            this,
+            "en",intent.getStringExtra("mobile").toString(),intent.getStringExtra("code").toString(),"android",
+            otp1.text.toString().trim() + otp2.text.toString()
+                .trim() + otp3.text.toString()
+                .trim() + otp4.text.toString().trim(),
+            type,
+            object : Callback<VerifyOtpResponse> {
+                override fun onResponse(
+                    call: Call<VerifyOtpResponse>,
+                    response: Response<VerifyOtpResponse>
+                ) {
+                    myDialog.dismiss()
+                    if (response != null) {
+                        if (response.isSuccessful) {
+                            if (response.body()!!.code == 1) {
+                                if (type == "other") {
+                                    FCSharedPreferances.getSharedPreferance(this@OtpActivity).token =
+                                        response.body()!!.data.token
+                                    if (response.body()!!.data.user.profile_stage.equals("5")) {
+                                        FCSharedPreferances.getSharedPreferance(this@OtpActivity).statuS_LOGIN =
+                                            "true"
+                                        var intent =
+                                            Intent(this@OtpActivity, HomeActivity::class.java)
+                                        intent.flags =
+                                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        startActivity(intent)
+                                    } else {
+                                        FCSharedPreferances.getSharedPreferance(this@OtpActivity).profilE_STAGE =
+                                            response.body()!!.data.user.profile_stage
+                                        var intent = Intent(
+                                            this@OtpActivity,
+                                            SetProfileActivity::class.java
+                                        )
+                                        intent.flags =
+                                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        startActivity(intent)
+                                    }
+                                } else if (type == "edit_mobile"){
+                                    var intent = Intent(this@OtpActivity, HomeActivity::class.java)
+                                    intent.flags =
+                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    startActivity(intent)
+                                }
+                            } else {
+                                ProjectUtill.printMessage(
+                                    this@OtpActivity.window.decorView,
+                                    response.body()?.message
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                this@OtpActivity.window.decorView,
+                                ""
+                            )
+                        }
+                    } else {
+                        ProjectUtill.printErrorMessage(
+                            this@OtpActivity.window.decorView,
+                            ""
+                        )
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<VerifyOtpResponse>,
+                    t: Throwable
+                ) {
+                    myDialog.dismiss()
+                    ProjectUtill.printErrorMessage(
+                        this@OtpActivity.window.decorView,
+                        ""
+                    )
+                }
+            })
     }
 }
