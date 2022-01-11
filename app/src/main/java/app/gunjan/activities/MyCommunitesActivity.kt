@@ -27,8 +27,10 @@ class MyCommunitesActivity : AppCompatActivity() {
     var isLoading = false
     var isLastPage = false
     private var layoutManager: LinearLayoutManager? = null
-    var communitiesAdapter: MyCommunitiesAdapter?=null
-    private var communityList: ArrayList<CommunityListResponse.DataBean.CommunityListBean> = ArrayList<CommunityListResponse.DataBean.CommunityListBean>()
+    var communitiesAdapter: MyCommunitiesAdapter? = null
+    private var communityList: ArrayList<CommunityListResponse.DataBean.CommunityListBean> =
+        ArrayList<CommunityListResponse.DataBean.CommunityListBean>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_communites)
@@ -57,7 +59,7 @@ class MyCommunitesActivity : AppCompatActivity() {
         isLoading = true
         val myDialog = ProjectUtill.showProgressDialog(this)
         WebServiceRequest.getInstance().getAllCommunityList(
-            this,page, "10","","1",
+            this, page, "10", "", "1",
             object : Callback<CommunityListResponse> {
                 override fun onResponse(
                     call: Call<CommunityListResponse>,
@@ -125,7 +127,7 @@ class MyCommunitesActivity : AppCompatActivity() {
     private fun communityListSwipeApi(page: String) {
         isLoading = true
         WebServiceRequest.getInstance().getAllCommunityList(
-            this,page, "10","","1",
+            this, page, "10", "", "1",
             object : Callback<CommunityListResponse> {
                 override fun onResponse(
                     call: Call<CommunityListResponse>,
@@ -192,7 +194,7 @@ class MyCommunitesActivity : AppCompatActivity() {
         isLoading = true
         progress_bar!!.visibility = View.VISIBLE
         WebServiceRequest.getInstance().getAllCommunityList(
-            this,page, "10","","1",
+            this, page, "10", "", "1",
             object : Callback<CommunityListResponse> {
                 override fun onResponse(
                     call: Call<CommunityListResponse>,

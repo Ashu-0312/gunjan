@@ -50,6 +50,7 @@ public class RequestListResponse implements Serializable {
         }
 
         private List<RequestListBean> request_list;
+
         public static class RequestListBean implements Serializable {
             public int getId() {
                 return id;

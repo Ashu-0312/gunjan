@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 public class CommunityListResponse implements Serializable {
-
     /**
      * code : 1
      * message : Community list
