@@ -15,6 +15,12 @@ interface ApiInterface {
         @HeaderMap headers:Map<String,String>
     ): Call<CompleteProfileResponse>
 
+    @POST(Constants.Partial.addQuery)
+    fun addQuery(
+        @Body params:HashMap<String,String>,
+        @HeaderMap headers:Map<String,String>
+    ): Call<AddQueryResponse>
+
     @POST(Constants.Partial.editProfile)
     fun editProfile(
         @Body params:HashMap<String,String>,
@@ -44,6 +50,12 @@ interface ApiInterface {
         @Body params:HashMap<String,String>,
         @HeaderMap headers:Map<String,String>
     ): Call<AddIdentityResponse>
+
+    @PUT(Constants.Partial.updateDeviceToken)
+    fun updateDeviceToken(
+        @Body params:HashMap<String,String>,
+        @HeaderMap headers:Map<String,String>
+    ): Call<UpdateDeviceTokenResponse>
 
     @GET(Constants.Partial.login)
     fun login(
@@ -95,6 +107,16 @@ interface ApiInterface {
         @HeaderMap headers: Map<String, String>,
     ): Call<CategoryListResponse>
 
+    @GET(Constants.Partial.getHelplineDetails)
+    fun getHelplineDetails(
+        @HeaderMap headers: Map<String, String>,
+    ): Call<GetHelplineNumberResponse>
+
+    @GET(Constants.Partial.logout)
+    fun logout(
+        @HeaderMap headers: Map<String, String>,
+    ): Call<LogoutResponse>
+
     @GET(Constants.Partial.getUserDetails)
     fun getUserDetails(
         @HeaderMap headers: Map<String, String>,
@@ -142,4 +164,15 @@ interface ApiInterface {
         @Body params: java.util.HashMap<String, String>,
         @HeaderMap headers: Map<String, String>
     ): Call<AcceptRejectRequestResponse>
+
+    @PATCH(Constants.Partial.deleteAccount)
+    fun deleteAccount(
+        @HeaderMap headers: Map<String, String>
+    ): Call<DeleteAccountResponse>
+
+    @PATCH(Constants.Partial.leaveCommunity)
+    fun leaveCommunity(
+        @Body params: java.util.HashMap<String, String>,
+        @HeaderMap headers: Map<String, String>
+    ): Call<LeaveCommunityResponse>
 }

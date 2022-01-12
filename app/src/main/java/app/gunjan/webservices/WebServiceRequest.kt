@@ -152,6 +152,22 @@ class WebServiceRequest private constructor() {
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
+    fun addQuery(
+        context: Context,
+        subject: String,
+        query: String,
+        registrationResponseCallback: Callback<AddQueryResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.subject] = subject
+        params[Constants.Keys.query] = query
+        val registrationResponseCall: Call<AddQueryResponse> =
+            apiInterface.addQuery(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
     fun editProfile(
         context: Context,
         profile_name: String,
@@ -255,6 +271,24 @@ class WebServiceRequest private constructor() {
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
+    fun updateDeviceToken(
+        context: Context,
+        device_token: String,
+        device_type: String,
+        language: String,
+        registrationResponseCallback: Callback<UpdateDeviceTokenResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.device_token] = device_token
+        params[Constants.Keys.device_type] = device_type
+        params[Constants.Keys.language] = language
+        val registrationResponseCall: Call<UpdateDeviceTokenResponse> =
+            apiInterface.updateDeviceToken(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
     fun acceptRejectRequest(
         context: Context,
         request_id: String,
@@ -271,6 +305,31 @@ class WebServiceRequest private constructor() {
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
+    fun deleteAccount(
+        context: Context,
+        registrationResponseCallback: Callback<DeleteAccountResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val registrationResponseCall: Call<DeleteAccountResponse> =
+            apiInterface.deleteAccount(headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun leaveCommunity(
+        context: Context,
+        communityId: String,
+        registrationResponseCallback: Callback<LeaveCommunityResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.communityId] = communityId
+        val registrationResponseCall: Call<LeaveCommunityResponse> =
+            apiInterface.leaveCommunity(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
     fun categoryList(
         context: Context,
         registrationResponseCallback: Callback<CategoryListResponse>
@@ -279,6 +338,28 @@ class WebServiceRequest private constructor() {
         headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
         val registrationResponseCall: Call<CategoryListResponse> =
             apiInterface.getAllCategoryList(headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun getHelplineDetails(
+        context: Context,
+        registrationResponseCallback: Callback<GetHelplineNumberResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val registrationResponseCall: Call<GetHelplineNumberResponse> =
+            apiInterface.getHelplineDetails(headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun logout(
+        context: Context,
+        registrationResponseCallback: Callback<LogoutResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val registrationResponseCall: Call<LogoutResponse> =
+            apiInterface.logout(headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 

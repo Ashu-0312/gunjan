@@ -116,5 +116,6 @@
     <string name="joined_communities">Joined Communities</string>
     <string name="view_details">View Details</string>
     <string name="community_details">Community Details</string>
+    <string name="confirm_leave">Please select radio button to confirm for leave community</string>
 
 </resources>

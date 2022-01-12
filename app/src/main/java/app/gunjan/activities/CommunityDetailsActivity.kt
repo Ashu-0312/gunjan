@@ -17,6 +17,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class CommunityDetailsActivity : AppCompatActivity() {
+    private var communityId:String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_community_details)
@@ -24,12 +25,13 @@ class CommunityDetailsActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-
+        communityId=intent.getStringExtra("id").toString()
         getDetails()
         back.setOnClickListener { finish() }
 
         Leave.setOnClickListener {
             var intent=Intent(this,LeaveCommunityActivity::class.java)
+            intent.putExtra("community_id",communityId)
             startActivity(intent)
         }
     }
@@ -37,7 +39,7 @@ class CommunityDetailsActivity : AppCompatActivity() {
     private fun getDetails() {
         val myDialog = ProjectUtill.showProgressDialog(this@CommunityDetailsActivity)
         WebServiceRequest.getInstance().getCommunityDetails(
-            this,intent.getStringExtra("id").toString(),
+            this,communityId!!,
             object : Callback<CommunityDetailsResponse> {
                 override fun onResponse(
                     call: Call<CommunityDetailsResponse>,

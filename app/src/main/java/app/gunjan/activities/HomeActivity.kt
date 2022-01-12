@@ -9,14 +9,20 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import app.gunjan.R
+import app.gunjan.entity.UpdateDeviceTokenResponse
 import app.gunjan.fragments.HomeFragment
 import app.gunjan.fragments.MembersFragment
 import app.gunjan.fragments.MessagesFragment
 import app.gunjan.fragments.ProfileFragment
 import app.gunjan.utill.FCSharedPreferances
+import app.gunjan.utill.ProjectUtill
+import app.gunjan.webservices.WebServiceRequest
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_home.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import kotlin.system.exitProcess
 
 class HomeActivity : AppCompatActivity() {
@@ -34,13 +40,13 @@ class HomeActivity : AppCompatActivity() {
                 Log.w(ContentValues.TAG, "Fetching FCM registration token failed", task.exception)
                 return@OnCompleteListener
             }
-           /* val myDialog = ProjectUtill.showProgressDialog(this)
+            val myDialog = ProjectUtill.showProgressDialog(this)
             WebServiceRequest.getInstance().updateDeviceToken(
-                this, task.result!!, "android",
-                object : Callback<NotificationOnOffResponse> {
+                this, task.result!!, "android","en",
+                object : Callback<UpdateDeviceTokenResponse> {
                     override fun onResponse(
-                        call: Call<NotificationOnOffResponse>,
-                        response: Response<NotificationOnOffResponse>
+                        call: Call<UpdateDeviceTokenResponse>,
+                        response: Response<UpdateDeviceTokenResponse>
                     ) {
                         myDialog.dismiss()
                         if (response != null) {
@@ -68,7 +74,7 @@ class HomeActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(
-                        call: Call<NotificationOnOffResponse>,
+                        call: Call<UpdateDeviceTokenResponse>,
                         t: Throwable
                     ) {
                         myDialog.dismiss()
@@ -77,7 +83,7 @@ class HomeActivity : AppCompatActivity() {
                             ""
                         )
                     }
-                })*/
+                })
         })
 
         if (FCSharedPreferances.getSharedPreferance(this).status.equals("edit")){

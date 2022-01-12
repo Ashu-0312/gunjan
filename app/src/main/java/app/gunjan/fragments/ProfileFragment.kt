@@ -5,19 +5,20 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.ImageView
+import android.widget.*
 import androidx.fragment.app.Fragment
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
 import app.gunjan.R
 import app.gunjan.activities.*
+import app.gunjan.entity.DeleteAccountResponse
+import app.gunjan.entity.LogoutResponse
+import app.gunjan.entity.PrivacyPolicyResponse
 import app.gunjan.entity.UserDetailsResponse
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.activity_privacy_policy.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -66,10 +67,55 @@ class ProfileFragment : Fragment() {
     private fun initData() {
          userDetails()
         logout!!.setOnClickListener {
-            FCSharedPreferances.getSharedPreferance(context).statuS_LOGIN="false"
-            var intent = Intent(context,LoginActivity::class.java)
-            intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
+            val myDialog = ProjectUtill.showProgressDialog(context)
+            context?.let { it1 ->
+                WebServiceRequest.getInstance().logout(
+                    it1,
+                    object : Callback<LogoutResponse> {
+                        override fun onResponse(
+                            call: Call<LogoutResponse>,
+                            response: Response<LogoutResponse>
+                        ) {
+                            myDialog.dismiss()
+                            if (response != null) {
+                                if (response.isSuccessful) {
+                                    if (response.body()!!.code == 1) {
+                                        FCSharedPreferances.getSharedPreferance(context).statuS_LOGIN="false"
+                                        var intent = Intent(context,LoginActivity::class.java)
+                                        intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        startActivity(intent)
+                                    } else {
+                                        ProjectUtill.printMessage(
+                                            activity!!.window.decorView,
+                                            response.body()?.message
+                                        )
+                                    }
+                                } else {
+                                    ProjectUtill.printErrorMessage(
+                                        activity!!.window.decorView,
+                                        ""
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<LogoutResponse>,
+                            t: Throwable
+                        ) {
+                            myDialog.dismiss()
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    })
+            }
         }
 
         theme!!.setOnClickListener {
@@ -137,7 +183,10 @@ class ProfileFragment : Fragment() {
         yes = dialog.findViewById(R.id.yes)
         no = dialog.findViewById(R.id.no)
         close = dialog.findViewById(R.id.close)
-        yes.setOnClickListener { dialog.cancel() }
+        yes.setOnClickListener {
+            dialog.cancel()
+            deleteAccount()
+        }
 
         no.setOnClickListener {
             dialog.cancel()
@@ -145,6 +194,7 @@ class ProfileFragment : Fragment() {
 
         close.setOnClickListener {
             dialog.cancel()
+
         }
         dialog.show()
     }
@@ -194,6 +244,59 @@ class ProfileFragment : Fragment() {
 
                     override fun onFailure(
                         call: Call<UserDetailsResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            (context as Activity).window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
+    }
+
+    private fun deleteAccount() {
+        val myDialog = ProjectUtill.showProgressDialog(context)
+        context?.let { it1 ->
+            WebServiceRequest.getInstance().deleteAccount(
+                it1,
+                object : Callback<DeleteAccountResponse> {
+                    override fun onResponse(
+                        call: Call<DeleteAccountResponse>,
+                        response: Response<DeleteAccountResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    Toast.makeText(context,""+response.body()!!.message,Toast.LENGTH_LONG).show()
+                                    FCSharedPreferances.getSharedPreferance(context).statuS_LOGIN="false"
+                                    var intent = Intent(context,LoginActivity::class.java)
+                                    intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    startActivity(intent)
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        (context as Activity).window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    (context as Activity).window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                (context as Activity).window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<DeleteAccountResponse>,
                         t: Throwable
                     ) {
                         myDialog.dismiss()

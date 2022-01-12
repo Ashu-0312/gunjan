@@ -23,6 +23,12 @@ class Constants {
         const val acceptRejectRequest = "community/acceptRejectRequest"
         const val getCommunityDetails = "community/getCommunityDetails"
         const val getNotificationList = "notification/get"
+        const val leaveCommunity = "community/leaveCommunity"
+        const val getHelplineDetails = "auth/getHelplineDetails"
+        const val updateDeviceToken = "user/updateDeviceToken"
+        const val logout = "auth/logout"
+        const val addQuery = "user/addQuery"
+        const val deleteAccount = "auth/deleteAccount"
     }
 
     object Keys {
@@ -53,5 +59,8 @@ class Constants {
         const val request_id = "request_id"
         const val status = "status"
         const val otp_for = "otp_for"
+        const val device_token = "device_token"
+        const val subject = "subject"
+        const val query = "query"
     }
 }
