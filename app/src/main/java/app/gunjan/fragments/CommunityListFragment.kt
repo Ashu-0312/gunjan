@@ -58,7 +58,8 @@ class CommunityListFragment : Fragment() {
 
     private fun initData() {
         addCommunity!!.setOnClickListener {
-            startActivity(Intent(context, AddCommunityActivity::class.java))
+            var intent=Intent(context, AddCommunityActivity::class.java)
+            startActivity(intent)
         }
         initializeAdapter()
         communityListApi("1")

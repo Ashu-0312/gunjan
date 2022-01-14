@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppin_regular"
-                android:text="Sameer Kumar"
+                android:id="@+id/name"
                 android:textColor="@color/black3"
                 android:textSize="@dimen/text_13sp" />
 
@@ -139,13 +139,14 @@
         android:background="@color/txt_color" />
 
     <TextView
+        android:id="@+id/total_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_20dp"
         android:layout_marginTop="@dimen/margin_10dp"
         android:layout_marginEnd="@dimen/margin_10dp"
         android:fontFamily="@font/poppin_medium"
-        android:text="105 Comments"
+        android:text="0 Comments"
         android:textAllCaps="false"
         android:textColor="@color/pink"
         android:textSize="@dimen/text_13sp" />
@@ -158,6 +159,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/comment_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -192,11 +194,13 @@
                 android:layout_marginTop="2dp"
                 android:fontFamily="@font/poppin_medium"
                 android:gravity="center"
-                android:text="124"
+                android:text="0"
+                android:id="@+id/total_like"
                 android:textColor="@color/pink"
                 android:textSize="@dimen/text_12sp" />
 
             <ImageView
+                android:id="@+id/like"
                 android:layout_width="@dimen/margin_20dp"
                 android:layout_height="@dimen/margin_20dp"
                 android:layout_marginStart="@dimen/padding_3"
@@ -215,6 +219,7 @@
                 android:textSize="@dimen/text_12sp" />
 
             <ImageView
+                android:id="@+id/dislike"
                 android:layout_width="@dimen/margin_20dp"
                 android:layout_height="@dimen/margin_20dp"
                 android:layout_gravity="center"
@@ -229,7 +234,8 @@
                 android:layout_marginTop="2dp"
                 android:fontFamily="@font/poppin_medium"
                 android:gravity="center"
-                android:text="124"
+                android:text="0"
+                android:id="@+id/total_dislike"
                 android:textColor="@color/blue"
                 android:textSize="@dimen/text_12sp" />
         </LinearLayout>
@@ -257,6 +263,8 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/comment_layout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_10dp"
@@ -286,8 +294,7 @@
             android:padding="@dimen/padding_5">
 
 
-            <EditText
-                android:id="@+id/profileName"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -297,9 +304,6 @@
                 android:background="@null"
                 android:fontFamily="@font/poppins_light"
                 android:hint="Write a comment..."
-                android:inputType="text"
-                android:maxLength="100"
-                android:maxLines="1"
                 android:paddingTop="@dimen/padding_5"
                 android:paddingRight="@dimen/margin_10dp"
                 android:paddingBottom="@dimen/padding_5"

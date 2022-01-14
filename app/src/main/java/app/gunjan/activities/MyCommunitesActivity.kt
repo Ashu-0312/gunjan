@@ -1,5 +1,6 @@
 package app.gunjan.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -12,7 +13,9 @@ import app.gunjan.entity.CommunityListResponse
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import kotlinx.android.synthetic.main.activity_add_interest.*
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_my_communites.*
+import kotlinx.android.synthetic.main.activity_my_communites.addCommunity
 import kotlinx.android.synthetic.main.activity_my_communites.back
 import kotlinx.android.synthetic.main.activity_my_communites.blank_data
 import kotlinx.android.synthetic.main.activity_my_communites.progress_bar
@@ -38,6 +41,10 @@ class MyCommunitesActivity : AppCompatActivity() {
     }
 
     private fun initData() {
+
+        addCommunity.setOnClickListener {
+            startActivity(Intent(this, AddCommunityActivity::class.java))
+        }
 
         back.setOnClickListener { finish() }
         initializeAdapter()

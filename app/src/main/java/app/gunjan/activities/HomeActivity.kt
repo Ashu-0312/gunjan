@@ -112,7 +112,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         addCommunity.setOnClickListener {
-            startActivity(Intent(this, AddCommunityActivity::class.java))
+            startActivity(Intent(this, AddPostActivity::class.java))
         }
 
         notification.setOnClickListener {

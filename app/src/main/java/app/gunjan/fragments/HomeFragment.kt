@@ -1,73 +1,109 @@
 package app.gunjan.fragments
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.*
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.gunjan.R
+import app.gunjan.activities.PostListResponse
+import app.gunjan.adapters.AllCommentsAdapter
 import app.gunjan.adapters.HomePostsAdapter
 import app.gunjan.adapters.ReasonList2Adapter
+import app.gunjan.entity.AddCommentResponse
+import app.gunjan.entity.CommentListResponse
+import app.gunjan.entity.DeleteCommentResponse
+import app.gunjan.utill.ProjectUtill
+import app.gunjan.webservices.WebServiceRequest
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.activity_notification.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeFragment : Fragment() {
+    private var page: Int? = 1
+    private var postId: String? = ""
+    var isLoading = false
+    var isLastPage = false
+    private var layoutManager: LinearLayoutManager? = null
+    var commentRecycler: RecyclerView? = null
+    var postsAdapter: HomePostsAdapter? = null
+    var swipeRefresh: SwipeRefreshLayout? = null
+    var progressBar: ProgressBar? = null
+    var blankData: TextView? = null
+    var blankData2: TextView? = null
+    var nestedScroll: NestedScrollView? = null
+    private var postList: ArrayList<PostListResponse.DataBean.PostBean> =
+        ArrayList<PostListResponse.DataBean.PostBean>()
     private var animShow: Animation? = null
-    private var list:ArrayList<String> = ArrayList<String>()
-    private var reasonList:ArrayList<String> = ArrayList<String>()
-    private var postRecycler:RecyclerView?=null
-    private var reasonLayout:LinearLayout?=null
-    private var showDescription:CircleImageView?=null
-    private var share:ImageView?=null
-    private var invite:LinearLayout?=null
-    private var discuss:LinearLayout?=null
-    private var trending:LinearLayout?=null
-    private var announce:LinearLayout?=null
-    private var event:LinearLayout?=null
+    private var list: ArrayList<String> = ArrayList<String>()
+    private var reasonList: ArrayList<String> = ArrayList<String>()
+    private var postRecycler: RecyclerView? = null
+    private var reasonLayout: LinearLayout? = null
+    private var showDescription: CircleImageView? = null
+    private var share: ImageView? = null
+    private var invite: LinearLayout? = null
+    private var discuss: LinearLayout? = null
+    private var trending: LinearLayout? = null
+    private var announce: LinearLayout? = null
+    private var event: LinearLayout? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        postRecycler=view.findViewById(R.id.post_recycler)
-        showDescription=view.findViewById(R.id.show_description)
-        share=view.findViewById(R.id.whatsapp)
-        invite=view.findViewById(R.id.invite)
-        discuss=view.findViewById(R.id.discussion)
-        trending=view.findViewById(R.id.trending)
-        announce=view.findViewById(R.id.announce)
-        event=view.findViewById(R.id.event)
+        postRecycler = view.findViewById(R.id.post_recycler)
+        showDescription = view.findViewById(R.id.show_description)
+        share = view.findViewById(R.id.whatsapp)
+        invite = view.findViewById(R.id.invite)
+        discuss = view.findViewById(R.id.discussion)
+        trending = view.findViewById(R.id.trending)
+        announce = view.findViewById(R.id.announce)
+        event = view.findViewById(R.id.event)
+        swipeRefresh = view.findViewById(R.id.swipe_refresh)
+        blankData = view.findViewById(R.id.blank_data)
+        progressBar = view.findViewById(R.id.progress_bar)
+        nestedScroll = view.findViewById(R.id.nested_scroll)
         initData()
         return view
     }
 
     private fun initData() {
         animShow = AnimationUtils.loadAnimation(context, R.anim.move_right_in_activity)
+
+        initializeAdapter()
+        postListApi("1")
+
         reasonList.add("Spam")
         reasonList.add("Abusive Language")
         reasonList.add("Fake Post")
         reasonList.add("Hate Speech")
         reasonList.add("Obscene Post")
         reasonList.add("Other")
-        list.add("")
-        list.add("")
-        list.add("")
-        list.add("")
-        var postAdapter = HomePostsAdapter(
-            context, list,this@HomeFragment
-        )
-        var layoutManager: LinearLayoutManager? = LinearLayoutManager(context)
-        postRecycler!!.layoutManager = layoutManager
-        postRecycler!!.adapter = postAdapter
 
         showDescription!!.setOnClickListener { communityDescriptionDialog() }
+
+        swipeRefresh!!.setColorSchemeResources(R.color.pink)
+        swipeRefresh!!.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            isLastPage = false
+            isLoading = false
+            page = 1
+            postList.clear()
+            postsAdapter!!.notifyDataSetChanged()
+            postListSwipeApi("1")
+            swipeRefresh!!.isRefreshing = false
+        })
 
         share!!.setOnClickListener {
             val sharingIntent = Intent(Intent.ACTION_SEND)
@@ -88,33 +124,272 @@ class HomeFragment : Fragment() {
         }
 
         discuss!!.setOnClickListener {
-            discuss!!.background=resources.getDrawable(R.drawable.pink_border2)
-            trending!!.background=resources.getDrawable(R.drawable.edittext_bg)
-            announce!!.background=resources.getDrawable(R.drawable.edittext_bg)
-            event!!.background=resources.getDrawable(R.drawable.edittext_bg)
+            discuss!!.background = resources.getDrawable(R.drawable.pink_border2)
+            trending!!.background = resources.getDrawable(R.drawable.edittext_bg)
+            announce!!.background = resources.getDrawable(R.drawable.edittext_bg)
+            event!!.background = resources.getDrawable(R.drawable.edittext_bg)
         }
 
         trending!!.setOnClickListener {
-            trending!!.background=resources.getDrawable(R.drawable.pink_border2)
-            discuss!!.background=resources.getDrawable(R.drawable.edittext_bg)
-            announce!!.background=resources.getDrawable(R.drawable.edittext_bg)
-            event!!.background=resources.getDrawable(R.drawable.edittext_bg)
+            trending!!.background = resources.getDrawable(R.drawable.pink_border2)
+            discuss!!.background = resources.getDrawable(R.drawable.edittext_bg)
+            announce!!.background = resources.getDrawable(R.drawable.edittext_bg)
+            event!!.background = resources.getDrawable(R.drawable.edittext_bg)
         }
 
         announce!!.setOnClickListener {
-            announce!!.background=resources.getDrawable(R.drawable.pink_border2)
-            discuss!!.background=resources.getDrawable(R.drawable.edittext_bg)
-            trending!!.background=resources.getDrawable(R.drawable.edittext_bg)
-            event!!.background=resources.getDrawable(R.drawable.edittext_bg)
+            announce!!.background = resources.getDrawable(R.drawable.pink_border2)
+            discuss!!.background = resources.getDrawable(R.drawable.edittext_bg)
+            trending!!.background = resources.getDrawable(R.drawable.edittext_bg)
+            event!!.background = resources.getDrawable(R.drawable.edittext_bg)
         }
 
         event!!.setOnClickListener {
-            event!!.background=resources.getDrawable(R.drawable.pink_border2)
-            trending!!.background=resources.getDrawable(R.drawable.edittext_bg)
-            announce!!.background=resources.getDrawable(R.drawable.edittext_bg)
-            discuss!!.background=resources.getDrawable(R.drawable.edittext_bg)
+            event!!.background = resources.getDrawable(R.drawable.pink_border2)
+            trending!!.background = resources.getDrawable(R.drawable.edittext_bg)
+            announce!!.background = resources.getDrawable(R.drawable.edittext_bg)
+            discuss!!.background = resources.getDrawable(R.drawable.edittext_bg)
+        }
+
+        nestedScroll!!.viewTreeObserver.addOnScrollChangedListener(ViewTreeObserver.OnScrollChangedListener {
+            val view = nestedScroll!!.getChildAt(nestedScroll!!.childCount - 1) as View
+            val diff: Int = view.bottom - (nestedScroll!!.height + nestedScroll!!
+                .scrollY)
+            if (diff == 0) {
+                val visibleItemCount: Int = layoutManager!!.childCount
+                val totalItemCount: Int = layoutManager!!.itemCount
+                val firstVisibleItemPosition: Int = layoutManager!!.findFirstVisibleItemPosition()
+                if (!isLoading && !isLastPage) {
+                    if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 && totalItemCount >= postList.size) {
+                        isLoading = true
+                        page = page!! + 1
+                        postListPaginationApi(page.toString())
+                    }
+                }
+            }
+        })
+    }
+
+    private fun postListApi(page: String) {
+        isLoading = true
+        val myDialog = ProjectUtill.showProgressDialog(context)
+        context?.let {
+            WebServiceRequest.getInstance().postList(
+                it, page, "10",
+                object : Callback<PostListResponse> {
+                    override fun onResponse(
+                        call: Call<PostListResponse>,
+                        response: Response<PostListResponse>,
+                    ) {
+                        isLoading = false
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    postList.clear()
+                                    postList.addAll(response.body()!!.data.post)
+                                    val prevSize: Int = response.body()!!.data.post.size
+                                    if (postList.size == 0) {
+                                        blankData!!.visibility = View.VISIBLE
+                                        postRecycler!!.visibility = View.GONE
+                                    } else {
+                                        blankData!!.visibility = View.GONE
+                                        postRecycler!!.visibility = View.VISIBLE
+                                        if (response.body()!!.data.post.size < 10) {
+                                            isLastPage = true
+                                        }
+                                        if (postList.size == 10) {
+                                            postsAdapter!!.notifyDataSetChanged()
+                                        } else {
+                                            postsAdapter!!.notifyItemRangeChanged(
+                                                prevSize,
+                                                postList.size
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        activity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<PostListResponse>,
+                        t: Throwable,
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            activity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
         }
     }
+
+    private fun postListSwipeApi(page: String) {
+        isLoading = true
+        context?.let {
+            WebServiceRequest.getInstance().postList(
+                it, page, "10",
+                object : Callback<PostListResponse> {
+                    override fun onResponse(
+                        call: Call<PostListResponse>,
+                        response: Response<PostListResponse>,
+                    ) {
+                        isLoading = false
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    postList.clear()
+                                    postList.addAll(response.body()!!.data.post)
+                                    val prevSize: Int = response.body()!!.data.post.size
+                                    if (postList.size == 0) {
+                                        blankData!!.visibility = View.VISIBLE
+                                        postRecycler!!.visibility = View.GONE
+                                    } else {
+                                        blankData!!.visibility = View.GONE
+                                        postRecycler!!.visibility = View.VISIBLE
+                                        if (response.body()!!.data.post.size < 10) {
+                                            isLastPage = true
+                                        }
+                                        if (postList.size == 10) {
+                                            postsAdapter!!.notifyDataSetChanged()
+                                        } else {
+                                            postsAdapter!!.notifyItemRangeChanged(
+                                                prevSize,
+                                                postList.size
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        activity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<PostListResponse>,
+                        t: Throwable,
+                    ) {
+                        ProjectUtill.printErrorMessage(
+                            activity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
+    }
+
+    private fun postListPaginationApi(page: String) {
+        isLoading = true
+        progress_bar!!.visibility = View.VISIBLE
+        context?.let {
+            WebServiceRequest.getInstance().postList(
+                it, page, "10",
+                object : Callback<PostListResponse> {
+                    override fun onResponse(
+                        call: Call<PostListResponse>,
+                        response: Response<PostListResponse>,
+                    ) {
+                        isLoading = false
+                        progressBar!!.visibility = View.GONE
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    postList.addAll(response.body()!!.data.post)
+                                    val prevSize: Int = response.body()!!.data.post.size
+                                    if (postList.size == 0) {
+                                        blankData!!.visibility = View.VISIBLE
+                                        postRecycler!!.visibility = View.GONE
+                                    } else {
+                                        blankData!!.visibility = View.GONE
+                                        postRecycler!!.visibility = View.VISIBLE
+                                        if (response.body()!!.data.post.size < 10) {
+                                            isLastPage = true
+                                        }
+                                        if (postList.size == 10) {
+                                            postsAdapter!!.notifyDataSetChanged()
+                                        } else {
+                                            postsAdapter!!.notifyItemRangeChanged(
+                                                prevSize,
+                                                postList.size
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        activity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<PostListResponse>,
+                        t: Throwable,
+                    ) {
+                        progressBar!!.visibility = View.GONE
+                        ProjectUtill.printErrorMessage(
+                            activity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
+    }
+
+    private fun initializeAdapter() {
+        postList.clear()
+        page = 1
+        isLastPage = false
+        isLoading = false
+        postsAdapter = HomePostsAdapter(context, postList, this@HomeFragment)
+        layoutManager = LinearLayoutManager(context)
+        postRecycler!!.layoutManager = layoutManager
+        postRecycler!!.adapter = postsAdapter
+    }
+
     fun blockDialog() {
         var yes: LinearLayout? = null
         var no: LinearLayout? = null
@@ -171,7 +446,7 @@ class HomeFragment : Fragment() {
         close = dialog.findViewById(R.id.close)
         reasonLayout = dialog.findViewById(R.id.reasonLayout)
         var reasonAdapter = ReasonList2Adapter(
-            context, reasonList,this@HomeFragment
+            context, reasonList, this@HomeFragment
         )
         var layoutManager: LinearLayoutManager? = LinearLayoutManager(context)
         reasonRecycler!!.layoutManager = layoutManager
@@ -223,11 +498,11 @@ class HomeFragment : Fragment() {
         dialog.show()
     }
 
-    fun showReasonLayout(status:String){
+    fun showReasonLayout(status: String) {
         if (status.equals("1")) {
             reasonLayout!!.visibility = View.VISIBLE
             reasonLayout!!.startAnimation(animShow)
-        }else{
+        } else {
             reasonLayout!!.visibility = View.GONE
         }
     }
@@ -253,6 +528,222 @@ class HomeFragment : Fragment() {
             dialog.cancel()
         }
 
+        dialog.show()
+    }
+
+    fun commentsDialog(id: String) {
+        var close: ImageView? = null
+        var addComment: ImageView? = null
+        var edtComment: EditText? = null
+        val dialog = context?.let { Dialog(it) }
+        // Include dialog.xml file
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog!!.setContentView(R.layout.comment_dialog)
+        dialog!!.setCancelable(true)
+        val window = dialog.window
+        window!!.setGravity(Gravity.CENTER)
+        window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        close = dialog.findViewById(R.id.close)
+        addComment = dialog.findViewById(R.id.add)
+        edtComment = dialog.findViewById(R.id.edt_comment)
+        blankData2 = dialog.findViewById(R.id.blank_data)
+        commentRecycler = dialog.findViewById(R.id.comment_recycler)
+         postId=id
+        getCommentList(postId!!)
+        addComment!!.setOnClickListener {
+            if (edtComment.text.toString().trim() != "") {
+                val myDialog = ProjectUtill.showProgressDialog(context)
+                context?.let { it1 ->
+                    WebServiceRequest.getInstance().addComment(
+                        it1, postId!!, "text", edtComment.text.toString().trim(),
+                        object : Callback<AddCommentResponse> {
+                            override fun onResponse(
+                                call: Call<AddCommentResponse>,
+                                response: Response<AddCommentResponse>
+                            ) {
+                                myDialog.dismiss()
+                                if (response != null) {
+                                    if (response.isSuccessful) {
+                                        if (response.body()!!.code == 1) {
+                                            edtComment.text.clear()
+                                          getCommentList(postId!!)
+                                        } else {
+                                            ProjectUtill.printMessage(
+                                                (context as Activity).window.decorView,
+                                                response.body()?.message
+                                            )
+                                        }
+                                    } else {
+                                        ProjectUtill.printErrorMessage(
+                                            (context as Activity).window.decorView,
+                                            ""
+                                        )
+                                    }
+                                } else {
+                                    ProjectUtill.printErrorMessage(
+                                        (context as Activity).window.decorView,
+                                        ""
+                                    )
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<AddCommentResponse>,
+                                t: Throwable
+                            ) {
+                                myDialog.dismiss()
+                                ProjectUtill.printErrorMessage(
+                                    (context as Activity).window.decorView,
+                                    ""
+                                )
+                            }
+                        })
+                }
+            }
+        }
+
+            close.setOnClickListener {
+                dialog.cancel()
+            }
+
+            dialog.show()
+    }
+
+    private fun getCommentList(postId: String) {
+        context?.let { it1 ->
+            WebServiceRequest.getInstance().commentList(
+                it1, postId!!,
+                object : Callback<CommentListResponse> {
+                    override fun onResponse(
+                        call: Call<CommentListResponse>,
+                        response: Response<CommentListResponse>
+                    ) {
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    if(response.body()!!.data.comments.size==0){
+                                        commentRecycler!!.visibility=View.GONE
+                                        blankData2!!.visibility=View.VISIBLE
+                                    }else {
+                                        commentRecycler!!.visibility = View.VISIBLE
+                                        blankData2!!.visibility = View.GONE
+                                        var commentsAdapter = AllCommentsAdapter(
+                                            context,
+                                            response.body()!!.data.comments,this@HomeFragment
+                                        )
+                                        var layoutManager = LinearLayoutManager(
+                                            context,
+                                            LinearLayoutManager.VERTICAL,
+                                            true
+                                        )
+                                        commentRecycler!!.layoutManager = layoutManager
+                                        commentRecycler!!.adapter = commentsAdapter
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        (context as Activity).window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    (context as Activity).window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                (context as Activity).window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<CommentListResponse>,
+                        t: Throwable
+                    ) {
+                        ProjectUtill.printErrorMessage(
+                            (context as Activity).window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
+    }
+
+    fun deleteCommentDialog(commentId: String) {
+        var close: ImageView? = null
+        var delete: RelativeLayout? = null
+        val dialog = context?.let { Dialog(it) }
+        // Include dialog.xml file
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog!!.setContentView(R.layout.deletecomment_dialog)
+        dialog!!.setCancelable(true)
+        val window = dialog.window
+        window!!.setGravity(Gravity.CENTER)
+        window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        delete = dialog.findViewById(R.id.delete_comment)
+
+        delete!!.setOnClickListener {
+            dialog.cancel()
+            context?.let { it1 ->
+                val myDialog = ProjectUtill.showProgressDialog(context)
+                WebServiceRequest.getInstance().deleteComment(
+                    it1, commentId!!,
+                    object : Callback<DeleteCommentResponse> {
+                        override fun onResponse(
+                            call: Call<DeleteCommentResponse>,
+                            response: Response<DeleteCommentResponse>
+                        ) {
+                            myDialog.dismiss()
+                            if (response != null) {
+                                if (response.isSuccessful) {
+                                    if (response.body()!!.code == 1) {
+                                        getCommentList(postId!!)
+                                    } else {
+                                        ProjectUtill.printMessage(
+                                            (context as Activity).window.decorView,
+                                            response.body()?.message
+                                        )
+                                    }
+                                } else {
+                                    ProjectUtill.printErrorMessage(
+                                        (context as Activity).window.decorView,
+                                        ""
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    (context as Activity).window.decorView,
+                                    ""
+                                )
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<DeleteCommentResponse>,
+                            t: Throwable
+                        ) {
+                            myDialog.dismiss()
+                            ProjectUtill.printErrorMessage(
+                                (context as Activity).window.decorView,
+                                ""
+                            )
+                        }
+                    })
+            }
+        }
         dialog.show()
     }
 }

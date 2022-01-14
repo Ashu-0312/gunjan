@@ -14,6 +14,7 @@
     <string name="otp_mobile">OTP sent to your mobile number</string>
     <string name="verify">Verify</string>
     <string name="reset_password">Reset Password</string>
+    <string name="bigger_video">Video should not be bigger then 20 seconds</string>
     <string name="please_reset_your_password">Please reset your password</string>
     <string name="enter_new_password">Enter New Password</string>
     <string name="enter_confirm_password">Enter Confirm Password</string>
@@ -117,5 +118,14 @@
     <string name="view_details">View Details</string>
     <string name="community_details">Community Details</string>
     <string name="confirm_leave">Please select radio button to confirm for leave community</string>
+    <string name="upload_your_post">Upload Your Post</string>
+    <string name="text_post">Text Post</string>
+    <string name="media_post">Media Post</string>
+    <string name="write_your_post">Write your post..</string>
+    <string name="post">Post</string>
+    <string name="no_posts_yet">No Posts Yet.</string>
+    <string name="comments">Comments</string>
+    <string name="no_comments_yet">No Comments Yet.</string>
+    <string name="delete_comment">Delete Comment</string>
 
 </resources>

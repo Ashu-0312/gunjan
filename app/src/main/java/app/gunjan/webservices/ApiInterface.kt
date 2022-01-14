@@ -1,5 +1,6 @@
 package app.gunjan.webservices
 
+import app.gunjan.activities.PostListResponse
 import app.gunjan.entity.*
 import retrofit2.Call
 import retrofit2.http.*
@@ -38,6 +39,37 @@ interface ApiInterface {
         @Body params:HashMap<String,String>,
         @HeaderMap headers:Map<String,String>
     ): Call<SendCommunityRequestResponse>
+
+    @POST(Constants.Partial.likePost)
+    fun likePost(
+        @Body params:HashMap<String,String>,
+        @HeaderMap headers:Map<String,String>
+    ): Call<LikeDislikePostResponse>
+
+    @POST(Constants.Partial.likeUnlikeComments)
+    fun likeUnlikeComments(
+        @Body params:HashMap<String,String>,
+        @HeaderMap headers:Map<String,String>
+    ): Call<LikeDislikeCommentResponse>
+
+
+    @POST(Constants.Partial.addPost)
+    fun addPost(
+        @Body params:HashMap<String,String>,
+        @HeaderMap headers:Map<String,String>
+    ): Call<AddPostResponse>
+
+    @POST(Constants.Partial.addCommentOnPost)
+    fun addCommentOnPost(
+        @Body params:HashMap<String,String>,
+        @HeaderMap headers:Map<String,String>
+    ): Call<AddCommentResponse>
+
+    @POST(Constants.Partial.deletePostComments)
+    fun deletePostComments(
+        @Body params:HashMap<String,String>,
+        @HeaderMap headers:Map<String,String>
+    ): Call<DeleteCommentResponse>
 
     @PUT(Constants.Partial.addAboutYourself)
     fun addAboutYourself(
@@ -138,6 +170,12 @@ interface ApiInterface {
         @HeaderMap headers: Map<String, String>,
     ): Call<InterestListResponse>
 
+    @GET(Constants.Partial.postCommentList)
+    fun postCommentList(
+        @Query(Constants.Keys.postId) postId: String?,
+        @HeaderMap headers: Map<String, String>,
+    ): Call<CommentListResponse>
+
     @GET(Constants.Partial.getCommunityDetails)
     fun getCommunityDetails(
         @Query(Constants.Keys.communityId) communityId: String?,
@@ -151,6 +189,13 @@ interface ApiInterface {
         @Query(Constants.Keys.limit) limit: String?,
         @HeaderMap headers: Map<String, String>,
     ): Call<RequestListResponse>
+
+    @GET(Constants.Partial.postList)
+    fun postList(
+        @Query(Constants.Keys.page) page: String?,
+        @Query(Constants.Keys.limit) limit: String?,
+        @HeaderMap headers: Map<String, String>,
+    ): Call<PostListResponse>
 
     @GET(Constants.Partial.getNotificationList)
     fun getNotificationList(

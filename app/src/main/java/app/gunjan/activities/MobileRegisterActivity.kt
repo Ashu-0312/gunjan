@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import app.gunjan.R
 import app.gunjan.entity.SignupResponse
+import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import kotlinx.android.synthetic.main.activity_forgot_password.*
@@ -50,6 +51,7 @@ class MobileRegisterActivity : AppCompatActivity() {
                             if (response != null) {
                                 if (response.isSuccessful) {
                                     if (response.body()!!.code == 1) {
+                                        FCSharedPreferances.getSharedPreferance(this@MobileRegisterActivity).token=""
                                         Toast.makeText(
                                             this@MobileRegisterActivity,
                                             "" + response.body()!!.message,

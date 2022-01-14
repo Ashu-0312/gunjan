@@ -29,6 +29,13 @@ class Constants {
         const val logout = "auth/logout"
         const val addQuery = "user/addQuery"
         const val deleteAccount = "auth/deleteAccount"
+        const val addPost = "post/addPost"
+        const val postList = "post/postList"
+        const val likePost = "post/likePost"
+        const val likeUnlikeComments = "post/likeUnlikeComments"
+        const val postCommentList = "post/postCommentList"
+        const val addCommentOnPost = "post/addCommentOnPost"
+        const val deletePostComments = "post/deletePostComments"
     }
 
     object Keys {
@@ -62,5 +69,14 @@ class Constants {
         const val device_token = "device_token"
         const val subject = "subject"
         const val query = "query"
+        const val description = "description"
+        const val file = "file"
+        const val content_type = "content_type"
+        const val postId = "postId"
+        const val like_type = "like_type"
+        const val isLiked = "isLiked"
+        const val commentType = "commentType"
+        const val message = "message"
+        const val commentId = "commentId"
     }
 }

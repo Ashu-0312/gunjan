@@ -1,6 +1,7 @@
 package app.gunjan.webservices
 
 import android.content.Context
+import app.gunjan.activities.PostListResponse
 import app.gunjan.entity.*
 import app.gunjan.utill.FCSharedPreferances
 import okhttp3.MultipartBody
@@ -228,6 +229,55 @@ class WebServiceRequest private constructor() {
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
+    fun addPost(
+        context: Context,
+        description: String,
+        file: String,
+        content_type: String,
+        registrationResponseCallback: Callback<AddPostResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.description] = description
+        params[Constants.Keys.file] = file
+        params[Constants.Keys.content_type] = content_type
+        val registrationResponseCall: Call<AddPostResponse> =
+            apiInterface.addPost(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun addComment(
+        context: Context,
+        postId: String,
+        commentType: String,
+        message: String,
+        registrationResponseCallback: Callback<AddCommentResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.postId] = postId
+        params[Constants.Keys.commentType] = commentType
+        params[Constants.Keys.message] = message
+        val registrationResponseCall: Call<AddCommentResponse> =
+            apiInterface.addCommentOnPost(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun deleteComment(
+        context: Context,
+        commentId: String,
+        registrationResponseCallback: Callback<DeleteCommentResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.commentId] = commentId
+        val registrationResponseCall: Call<DeleteCommentResponse> =
+            apiInterface.deletePostComments(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
 
     fun sendCommunityRequest(
         context: Context,
@@ -240,6 +290,42 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.communityId] = communityId
         val registrationResponseCall: Call<SendCommunityRequestResponse> =
             apiInterface.sendCommunityRequest(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun likeDislikePost(
+        context: Context,
+        postId: String,
+        like_type: String,
+        isLiked: String,
+        registrationResponseCallback: Callback<LikeDislikePostResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.postId] = postId
+        params[Constants.Keys.like_type] = like_type
+        params[Constants.Keys.isLiked] = isLiked
+        val registrationResponseCall: Call<LikeDislikePostResponse> =
+            apiInterface.likePost(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun likeDislikeComments(
+        context: Context,
+        commentId: String,
+        like_type: String,
+        isLiked: String,
+        registrationResponseCallback: Callback<LikeDislikeCommentResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.commentId] = commentId
+        params[Constants.Keys.like_type] = like_type
+        params[Constants.Keys.isLiked] = isLiked
+        val registrationResponseCall: Call<LikeDislikeCommentResponse> =
+            apiInterface.likeUnlikeComments(params,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
@@ -410,6 +496,20 @@ class WebServiceRequest private constructor() {
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
+    fun commentList(
+        context: Context,
+        postId: String,
+        registrationResponseCallback: Callback<CommentListResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        var params = HashMap<String,String>()
+        params[Constants.Keys.postId] = postId
+        val registrationResponseCall: Call<CommentListResponse> =
+            apiInterface.postCommentList(postId,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
     fun getCommunityDetails(
         context: Context,
         communityId: String,
@@ -455,6 +555,22 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.limit] = limit
         val registrationResponseCall: Call<NotificationListResponse> =
             apiInterface.getNotificationList(page,limit,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun postList(
+        context: Context,
+        page: String,
+        limit: String,
+        registrationResponseCallback: Callback<PostListResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        var params = HashMap<String,String>()
+        params[Constants.Keys.page] = page
+        params[Constants.Keys.limit] = limit
+        val registrationResponseCall: Call<PostListResponse> =
+            apiInterface.postList(page,limit,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 }

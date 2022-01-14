@@ -66,4 +66,15 @@ android:layout_height="wrap_content"
 android:id="@+id/progress_bar"
 android:layout_alignParentBottom="true"
 android:indeterminateTint="@color/pink"/>
+    <ImageView
+        android:elevation="1dp"
+        android:id="@+id/addCommunity"
+        android:layout_marginBottom="@dimen/margin_20dp"
+        android:layout_marginStart="@dimen/margin_15"
+        android:layout_marginEnd="@dimen/margin_15"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/add_community"/>
 </RelativeLayout>

@@ -90,10 +90,7 @@ class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
                                 if (response != null) {
                                     if (response.isSuccessful) {
                                         if (response.body()!!.code == 1) {
-                                            FCSharedPreferances.getSharedPreferance(this@AddCommunityActivity).statuS_LOGIN="true"
-                                            var intent = Intent(this@AddCommunityActivity,HomeActivity::class.java)
-                                            intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                            startActivity(intent)
+                                            finish()
                                         } else {
                                             ProjectUtill.printMessage(
                                                 this@AddCommunityActivity.window.decorView,
