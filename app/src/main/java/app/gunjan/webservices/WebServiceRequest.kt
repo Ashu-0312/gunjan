@@ -279,6 +279,24 @@ class WebServiceRequest private constructor() {
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
+    fun reportUser(
+        context: Context,
+        reportedUserId: String,
+        reasonId: String,
+        other_reason: String,
+        registrationResponseCallback: Callback<ReportReasonResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.reportedUserId] = reportedUserId
+        params[Constants.Keys.reasonId] = reasonId
+        params[Constants.Keys.other_reason] = other_reason
+        val registrationResponseCall: Call<ReportReasonResponse> =
+            apiInterface.reportUser(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
     fun sendCommunityRequest(
         context: Context,
         communityId: String,
@@ -416,6 +434,36 @@ class WebServiceRequest private constructor() {
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
+    fun switchCommunity(
+        context: Context,
+        communityId: String,
+        registrationResponseCallback: Callback<SwitchCommunityResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.communityId] = communityId
+        val registrationResponseCall: Call<SwitchCommunityResponse> =
+            apiInterface.switchCommunity(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun blockUnblockUser(
+        context: Context,
+        member_id: String,
+        status: String,
+        registrationResponseCallback: Callback<BlockUnblockUserResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.member_id] = member_id
+        params[Constants.Keys.status] = status
+        val registrationResponseCall: Call<BlockUnblockUserResponse> =
+            apiInterface.blockUnblockUser(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
     fun categoryList(
         context: Context,
         registrationResponseCallback: Callback<CategoryListResponse>
@@ -446,6 +494,17 @@ class WebServiceRequest private constructor() {
         headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
         val registrationResponseCall: Call<LogoutResponse> =
             apiInterface.logout(headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun reasonList(
+        context: Context,
+        registrationResponseCallback: Callback<ReasonListResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val registrationResponseCall: Call<ReasonListResponse> =
+            apiInterface.getAllReportReason(headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
@@ -493,6 +552,31 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.limit] = limit
         val registrationResponseCall: Call<InterestListResponse> =
             apiInterface.getAllInterest(page,limit,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun otherUserProfile(
+        context: Context,
+        user_id: String,
+        registrationResponseCallback: Callback<OtherUserDetailsResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        var params = HashMap<String,String>()
+        params[Constants.Keys.user_id] = user_id
+        val registrationResponseCall: Call<OtherUserDetailsResponse> =
+            apiInterface.otherUserProfile(user_id,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun getUnreadNotificationCount(
+        context: Context,
+        registrationResponseCallback: Callback<NotificationCountResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val registrationResponseCall: Call<NotificationCountResponse> =
+            apiInterface.getUnreadNotificationCount(headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
@@ -555,6 +639,24 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.limit] = limit
         val registrationResponseCall: Call<NotificationListResponse> =
             apiInterface.getNotificationList(page,limit,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun getAllBlockedMemberList(
+        context: Context,
+        page: String,
+        limit: String,
+        communityId: String,
+        registrationResponseCallback: Callback<BlockedUserListResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        var params = HashMap<String,String>()
+        params[Constants.Keys.page] = page
+        params[Constants.Keys.limit] = limit
+        params[Constants.Keys.communityId] = communityId
+        val registrationResponseCall: Call<BlockedUserListResponse> =
+            apiInterface.getAllBlockedMemberList(page,limit,communityId,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 

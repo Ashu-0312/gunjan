@@ -32,7 +32,7 @@ public class UserDetailsResponse implements Serializable {
     /**
      * code : 1
      * message : User details
-     * data : {"user":{"id":8,"profile_name":"profile name","first_name":"first name","last_name":"last name","pincode":"121212","mobile":"2222222222","countryCode":"+91","gender":"Male","dob":"1995-03-02","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg","email":"testt@test.com","device_type":"android","device_token":"","profile_stage":"5","active":true,"notification_permission":"allow","about":"About","identification_file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6556.jpg","interest_list":[{"id":3,"interestId":1,"interestDetails":{"id":1,"name":"testing interests","image":"url","createdAt":"2022-01-10T09:56:50.000Z"}},{"id":4,"interestId":2,"interestDetails":{"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}}]}}
+     * data : {"user":{"id":8,"profile_name":"TestUser","first_name":"Test","last_name":"Test","pincode":"121212","mobile":"2222222222","countryCode":"+91","gender":"Male","dob":"1995-03-02","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg","email":"testt@test.com","device_type":"android","device_token":"d8ogsLmgT1GOKisQfScpZK:APA91bFHjD7ScWNHTPgIxGnA0n_8m4zMxZJibpzjHxm3CaJ2_yKZktNgOCtGV2lgOIbIb2CcWlNtD-VMxzDLipeZ045iKy76MmrCWeM3SQgvSUlZlMO7HcpoZTgDjOp4vnLUTtanVs-r","profile_stage":"5","active":true,"notification_permission":"allow","about":"dghhtff","identification_file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6556.jpg","active_community":16,"interest_list":[{"id":3,"interestId":1,"interestDetails":{"id":1,"name":"testing interests","image":"url","createdAt":"2022-01-10T09:56:50.000Z"}},{"id":4,"interestId":2,"interestDetails":{"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}},{"id":14,"interestId":3,"interestDetails":{"id":3,"name":"interests3","image":"url","createdAt":"2022-01-10T12:16:50.000Z"}}]}}
      */
 
     private int code;
@@ -49,7 +49,7 @@ public class UserDetailsResponse implements Serializable {
         }
 
         /**
-         * user : {"id":8,"profile_name":"profile name","first_name":"first name","last_name":"last name","pincode":"121212","mobile":"2222222222","countryCode":"+91","gender":"Male","dob":"1995-03-02","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg","email":"testt@test.com","device_type":"android","device_token":"","profile_stage":"5","active":true,"notification_permission":"allow","about":"About","identification_file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6556.jpg","interest_list":[{"id":3,"interestId":1,"interestDetails":{"id":1,"name":"testing interests","image":"url","createdAt":"2022-01-10T09:56:50.000Z"}},{"id":4,"interestId":2,"interestDetails":{"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}}]}
+         * user : {"id":8,"profile_name":"TestUser","first_name":"Test","last_name":"Test","pincode":"121212","mobile":"2222222222","countryCode":"+91","gender":"Male","dob":"1995-03-02","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg","email":"testt@test.com","device_type":"android","device_token":"d8ogsLmgT1GOKisQfScpZK:APA91bFHjD7ScWNHTPgIxGnA0n_8m4zMxZJibpzjHxm3CaJ2_yKZktNgOCtGV2lgOIbIb2CcWlNtD-VMxzDLipeZ045iKy76MmrCWeM3SQgvSUlZlMO7HcpoZTgDjOp4vnLUTtanVs-r","profile_stage":"5","active":true,"notification_permission":"allow","about":"dghhtff","identification_file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6556.jpg","active_community":16,"interest_list":[{"id":3,"interestId":1,"interestDetails":{"id":1,"name":"testing interests","image":"url","createdAt":"2022-01-10T09:56:50.000Z"}},{"id":4,"interestId":2,"interestDetails":{"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}},{"id":14,"interestId":3,"interestDetails":{"id":3,"name":"interests3","image":"url","createdAt":"2022-01-10T12:16:50.000Z"}}]}
          */
 
         private UserBean user;
@@ -199,6 +199,14 @@ public class UserDetailsResponse implements Serializable {
                 this.identification_file = identification_file;
             }
 
+            public int getActive_community() {
+                return active_community;
+            }
+
+            public void setActive_community(int active_community) {
+                this.active_community = active_community;
+            }
+
             public List<InterestListBean> getInterest_list() {
                 return interest_list;
             }
@@ -209,9 +217,9 @@ public class UserDetailsResponse implements Serializable {
 
             /**
              * id : 8
-             * profile_name : profile name
-             * first_name : first name
-             * last_name : last name
+             * profile_name : TestUser
+             * first_name : Test
+             * last_name : Test
              * pincode : 121212
              * mobile : 2222222222
              * countryCode : +91
@@ -220,13 +228,14 @@ public class UserDetailsResponse implements Serializable {
              * image : https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg
              * email : testt@test.com
              * device_type : android
-             * device_token :
+             * device_token : d8ogsLmgT1GOKisQfScpZK:APA91bFHjD7ScWNHTPgIxGnA0n_8m4zMxZJibpzjHxm3CaJ2_yKZktNgOCtGV2lgOIbIb2CcWlNtD-VMxzDLipeZ045iKy76MmrCWeM3SQgvSUlZlMO7HcpoZTgDjOp4vnLUTtanVs-r
              * profile_stage : 5
              * active : true
              * notification_permission : allow
-             * about : About
+             * about : dghhtff
              * identification_file : https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6556.jpg
-             * interest_list : [{"id":3,"interestId":1,"interestDetails":{"id":1,"name":"testing interests","image":"url","createdAt":"2022-01-10T09:56:50.000Z"}},{"id":4,"interestId":2,"interestDetails":{"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}}]
+             * active_community : 16
+             * interest_list : [{"id":3,"interestId":1,"interestDetails":{"id":1,"name":"testing interests","image":"url","createdAt":"2022-01-10T09:56:50.000Z"}},{"id":4,"interestId":2,"interestDetails":{"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}},{"id":14,"interestId":3,"interestDetails":{"id":3,"name":"interests3","image":"url","createdAt":"2022-01-10T12:16:50.000Z"}}]
              */
 
             private int id;
@@ -247,6 +256,7 @@ public class UserDetailsResponse implements Serializable {
             private String notification_permission;
             private String about;
             private String identification_file;
+            private int active_community;
             private List<InterestListBean> interest_list;
 
             public static class InterestListBean implements Serializable {

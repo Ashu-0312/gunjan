@@ -77,7 +77,7 @@ class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
                     val myDialog = ProjectUtill.showProgressDialog(this@AddCommunityActivity)
                     WebServiceRequest.getInstance().addCommunity(
                         this,
-                        community.text.toString().trim(),
+                         community.text.toString().trim(),
                         about.text.toString().trim(),
                         categoryId,
                         awsPicUrl,

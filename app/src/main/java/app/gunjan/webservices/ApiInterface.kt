@@ -71,6 +71,12 @@ interface ApiInterface {
         @HeaderMap headers:Map<String,String>
     ): Call<DeleteCommentResponse>
 
+    @POST(Constants.Partial.reportUser)
+    fun reportUser(
+        @Body params:HashMap<String,String>,
+        @HeaderMap headers:Map<String,String>
+    ): Call<ReportReasonResponse>
+
     @PUT(Constants.Partial.addAboutYourself)
     fun addAboutYourself(
         @Body params:HashMap<String,String>,
@@ -149,6 +155,11 @@ interface ApiInterface {
         @HeaderMap headers: Map<String, String>,
     ): Call<LogoutResponse>
 
+    @GET(Constants.Partial.getAllReportReason)
+    fun getAllReportReason(
+        @HeaderMap headers: Map<String, String>,
+    ): Call<ReasonListResponse>
+
     @GET(Constants.Partial.getUserDetails)
     fun getUserDetails(
         @HeaderMap headers: Map<String, String>,
@@ -169,6 +180,17 @@ interface ApiInterface {
         @Query(Constants.Keys.limit) limit: String?,
         @HeaderMap headers: Map<String, String>,
     ): Call<InterestListResponse>
+
+    @GET(Constants.Partial.getOtherUserDetails)
+    fun otherUserProfile(
+        @Query(Constants.Keys.user_id) user_id: String?,
+        @HeaderMap headers: Map<String, String>,
+    ): Call<OtherUserDetailsResponse>
+
+    @GET(Constants.Partial.getUnreadNotificationCount)
+    fun getUnreadNotificationCount(
+        @HeaderMap headers: Map<String, String>,
+    ): Call<NotificationCountResponse>
 
     @GET(Constants.Partial.postCommentList)
     fun postCommentList(
@@ -204,6 +226,14 @@ interface ApiInterface {
         @HeaderMap headers: Map<String, String>,
     ): Call<NotificationListResponse>
 
+    @GET(Constants.Partial.getAllBlockedMemberList)
+    fun getAllBlockedMemberList(
+        @Query(Constants.Keys.page) page: String?,
+        @Query(Constants.Keys.limit) limit: String?,
+        @Query(Constants.Keys.communityId) communityId: String?,
+        @HeaderMap headers: Map<String, String>,
+    ): Call<BlockedUserListResponse>
+
     @PATCH(Constants.Partial.acceptRejectRequest)
     fun acceptRejectRequest(
         @Body params: java.util.HashMap<String, String>,
@@ -220,4 +250,16 @@ interface ApiInterface {
         @Body params: java.util.HashMap<String, String>,
         @HeaderMap headers: Map<String, String>
     ): Call<LeaveCommunityResponse>
+
+    @PATCH(Constants.Partial.switchCommunity)
+    fun switchCommunity(
+        @Body params: java.util.HashMap<String, String>,
+        @HeaderMap headers: Map<String, String>
+    ): Call<SwitchCommunityResponse>
+
+    @PATCH(Constants.Partial.blockUnblockUser)
+    fun blockUnblockUser(
+        @Body params: java.util.HashMap<String, String>,
+        @HeaderMap headers: Map<String, String>
+    ): Call<BlockUnblockUserResponse>
 }

@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import app.gunjan.R
+import app.gunjan.entity.NotificationCountResponse
 import app.gunjan.entity.UpdateDeviceTokenResponse
 import app.gunjan.fragments.HomeFragment
 import app.gunjan.fragments.MembersFragment
@@ -178,6 +179,7 @@ class HomeActivity : AppCompatActivity() {
         transaction.replace(R.id.frame_container, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
+        getNotificationCount()
     }
 
     override fun onBackPressed() {
@@ -202,6 +204,51 @@ class HomeActivity : AppCompatActivity() {
                 super.onBackPressed()
             }
         }
+    }
+
+    private fun getNotificationCount() {
+        WebServiceRequest.getInstance().getUnreadNotificationCount(
+            this,
+            object : Callback<NotificationCountResponse> {
+                override fun onResponse(
+                    call: Call<NotificationCountResponse>,
+                    response: Response<NotificationCountResponse>
+                ) {
+
+                    if (response != null) {
+                        if (response.isSuccessful) {
+                            if (response.body()!!.code == 1) {
+                                cartBadge.text = response.body()!!.data.notification.toString()
+                            } else {
+                                ProjectUtill.printMessage(
+                                    this@HomeActivity.window.decorView,
+                                    response.body()?.message
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                this@HomeActivity.window.decorView,
+                                ""
+                            )
+                        }
+                    } else {
+                        ProjectUtill.printErrorMessage(
+                            this@HomeActivity.window.decorView,
+                            ""
+                        )
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<NotificationCountResponse>,
+                    t: Throwable
+                ) {
+                    ProjectUtill.printErrorMessage(
+                        this@HomeActivity.window.decorView,
+                        ""
+                    )
+                }
+            })
     }
 
 }

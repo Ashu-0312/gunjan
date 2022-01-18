@@ -10,16 +10,17 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
-import app.gunjan.activities.OthersProfileActivity
+import app.gunjan.entity.ReasonListResponse
 import app.gunjan.fragments.HomeFragment
+import app.gunjan.utill.FCSharedPreferances
 import java.util.*
 
 class ReasonList2Adapter(
     var context: Context?,
-    data: ArrayList<String>,
+    data: MutableList<ReasonListResponse.DataBean.ReasonListBean>,
     homeFragment: HomeFragment
 ) : RecyclerView.Adapter<ReasonList2Adapter.ViewHolder>() {
-    private var data: ArrayList<String> = data
+    private var data: MutableList<ReasonListResponse.DataBean.ReasonListBean> = data
     private var homeFragment: HomeFragment=homeFragment
     var selectedPosition = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,15 +31,17 @@ class ReasonList2Adapter(
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.reason!!.text=data[position].toString()
+        holder.reason!!.text=data[position].reason
         if (selectedPosition === position) {
             holder.radio!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.radio_selected))
+            FCSharedPreferances.getSharedPreferance(context).reasoN_ID=data[position].id.toString()
         } else {
             holder.radio!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.radio_unselected))
         }
 
         holder.itemView!!.setOnClickListener {
-            if (data[position].equals("Other")){
+            FCSharedPreferances.getSharedPreferance(context).reasoN_ID=data[position].id.toString()
+            if (data[position].reason.equals("Other")){
                 selectedPosition = position
                 notifyDataSetChanged()
                 homeFragment.showReasonLayout("1")

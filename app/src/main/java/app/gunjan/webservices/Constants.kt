@@ -36,6 +36,13 @@ class Constants {
         const val postCommentList = "post/postCommentList"
         const val addCommentOnPost = "post/addCommentOnPost"
         const val deletePostComments = "post/deletePostComments"
+        const val switchCommunity = "community/switchCommunity"
+        const val blockUnblockUser = "community/activateDeactivateMember"
+        const val getAllBlockedMemberList = "community/getAllBlockedMemberList"
+        const val getAllReportReason = "user/getAllReportReason"
+        const val reportUser = "user/reportUser"
+        const val getOtherUserDetails = "user/getOtherUserDetails"
+        const val getUnreadNotificationCount = "notification/getUnreadNotificationCount"
     }
 
     object Keys {
@@ -78,5 +85,10 @@ class Constants {
         const val commentType = "commentType"
         const val message = "message"
         const val commentId = "commentId"
+        const val member_id = "member_id"
+        const val reportedUserId = "reportedUserId"
+        const val reasonId = "reasonId"
+        const val user_id = "user_id"
+        const val other_reason = "other_reason"
     }
 }

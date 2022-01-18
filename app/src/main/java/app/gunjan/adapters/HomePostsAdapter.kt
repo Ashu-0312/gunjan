@@ -17,6 +17,7 @@ import app.gunjan.activities.OthersProfileActivity
 import app.gunjan.activities.PostListResponse
 import app.gunjan.entity.LikeDislikePostResponse
 import app.gunjan.fragments.HomeFragment
+import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import com.bumptech.glide.Glide
@@ -36,7 +37,7 @@ class HomePostsAdapter(
     private var  homeFragment: HomeFragment=homeFragment
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val listItem: View = layoutInflater.inflate(R.layout.otherpost_item, parent, false)
+        val listItem: View = layoutInflater.inflate(R.layout.homepost_item, parent, false)
         return ViewHolder(listItem)
     }
 
@@ -99,11 +100,14 @@ class HomePostsAdapter(
         }
 
         holder.menu!!.setOnClickListener {
-            homeFragment.postreportDialog()
+            homeFragment.postreportDialog(data[position].created_by.id.toString())
         }
 
         holder.profile!!.setOnClickListener {
-            context!!.startActivity(Intent(context, OthersProfileActivity::class.java))
+            if(data[position].created_by.id.toString()!=FCSharedPreferances.getSharedPreferance(context).useR_ID) {
+                FCSharedPreferances.getSharedPreferance(context).otheR_ID=data[position].created_by.id.toString()
+                context!!.startActivity(Intent(context, OthersProfileActivity::class.java))
+            }
         }
 
         holder.play!!.setOnClickListener {

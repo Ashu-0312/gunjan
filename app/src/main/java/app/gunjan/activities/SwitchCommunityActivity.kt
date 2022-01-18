@@ -7,30 +7,26 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.gunjan.R
-import app.gunjan.adapters.BlockedListAdapter
-import app.gunjan.entity.BlockedUserListResponse
-import app.gunjan.utill.FCSharedPreferances
+import app.gunjan.adapters.CommunitiesAdapter
+import app.gunjan.adapters.JoinedCommunitiesAdapter
+import app.gunjan.entity.CommunityListResponse
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
-import kotlinx.android.synthetic.main.activity_block_list.*
-import kotlinx.android.synthetic.main.activity_block_list.back
-import kotlinx.android.synthetic.main.activity_block_list.blank_data
-import kotlinx.android.synthetic.main.activity_block_list.progress_bar
-import kotlinx.android.synthetic.main.activity_block_list.swipe_refresh
+import kotlinx.android.synthetic.main.activity_switch_community.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class BlockListActivity : AppCompatActivity() {
+class SwitchCommunityActivity : AppCompatActivity() {
     private var page: Int? = 1
     var isLoading = false
     var isLastPage = false
     private var layoutManager: LinearLayoutManager? = null
-    var blockedListAdapter: BlockedListAdapter?=null
-    private var blockList: ArrayList<BlockedUserListResponse.DataBean.MemberListBean> = ArrayList<BlockedUserListResponse.DataBean.MemberListBean>()
+    var communitiesAdapter: CommunitiesAdapter?=null
+    private var communityList: ArrayList<CommunityListResponse.DataBean.CommunityListBean> = ArrayList<CommunityListResponse.DataBean.CommunityListBean>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_block_list)
+        setContentView(R.layout.activity_switch_community)
         initData()
     }
 
@@ -38,217 +34,217 @@ class BlockListActivity : AppCompatActivity() {
 
         back.setOnClickListener { finish() }
         initializeAdapter()
-        blockedListApi("1")
+        communityListApi("1")
 
         swipe_refresh!!.setColorSchemeResources(R.color.pink)
         swipe_refresh!!.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
             isLastPage = false
             isLoading = false
             page = 1
-            blockList.clear()
-            blockedListAdapter!!.notifyDataSetChanged()
-            blockedListSwipeApi("1")
+            communityList.clear()
+            communitiesAdapter!!.notifyDataSetChanged()
+            communityListSwipeApi("1")
             swipe_refresh!!.isRefreshing = false
         })
     }
 
-    private fun blockedListApi(page: String) {
+    private fun communityListApi(page: String) {
         isLoading = true
         val myDialog = ProjectUtill.showProgressDialog(this)
-        WebServiceRequest.getInstance().getAllBlockedMemberList(
-            this,page, "10",FCSharedPreferances.getSharedPreferance(this).activE_COMMUNITY,
-            object : Callback<BlockedUserListResponse> {
+        WebServiceRequest.getInstance().getAllCommunityList(
+            this,page, "10","","3",
+            object : Callback<CommunityListResponse> {
                 override fun onResponse(
-                    call: Call<BlockedUserListResponse>,
-                    response: Response<BlockedUserListResponse>,
+                    call: Call<CommunityListResponse>,
+                    response: Response<CommunityListResponse>,
                 ) {
                     isLoading = false
                     myDialog.dismiss()
                     if (response != null) {
                         if (response.isSuccessful) {
                             if (response.body()!!.code == 1) {
-                                blockList.clear()
-                                blockList.addAll(response.body()!!.data.member_list)
-                                val prevSize: Int = response.body()!!.data.member_list.size
-                                if (blockList.size == 0) {
+                                communityList.clear()
+                                communityList.addAll(response.body()!!.data.community_list)
+                                val prevSize: Int = response.body()!!.data.community_list.size
+                                if (communityList.size == 0) {
                                     blank_data!!.visibility = View.VISIBLE
-                                    blockRecycler!!.visibility = View.GONE
+                                    communityRecycler!!.visibility = View.GONE
                                 } else {
                                     blank_data!!.visibility = View.GONE
-                                    blockRecycler!!.visibility = View.VISIBLE
-                                    if (response.body()!!.data.member_list.size < 10) {
+                                    communityRecycler!!.visibility = View.VISIBLE
+                                    if (response.body()!!.data.community_list.size < 10) {
                                         isLastPage = true
                                     }
-                                    if (blockList.size == 10) {
-                                        blockedListAdapter!!.notifyDataSetChanged()
+                                    if (communityList.size == 10) {
+                                        communitiesAdapter!!.notifyDataSetChanged()
                                     } else {
-                                        blockedListAdapter!!.notifyItemRangeChanged(
+                                        communitiesAdapter!!.notifyItemRangeChanged(
                                             prevSize,
-                                            blockList.size
+                                            communityList.size
                                         )
                                     }
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@BlockListActivity!!.window.decorView,
+                                    this@SwitchCommunityActivity!!.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@BlockListActivity!!.window.decorView,
+                                this@SwitchCommunityActivity!!.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@BlockListActivity!!.window.decorView,
+                            this@SwitchCommunityActivity!!.window.decorView,
                             ""
                         )
                     }
                 }
 
                 override fun onFailure(
-                    call: Call<BlockedUserListResponse>,
+                    call: Call<CommunityListResponse>,
                     t: Throwable,
                 ) {
                     myDialog.dismiss()
                     ProjectUtill.printErrorMessage(
-                        this@BlockListActivity!!.window.decorView,
+                        this@SwitchCommunityActivity!!.window.decorView,
                         ""
                     )
                 }
             })
     }
 
-    private fun blockedListSwipeApi(page: String) {
+    private fun communityListSwipeApi(page: String) {
         isLoading = true
-        WebServiceRequest.getInstance().getAllBlockedMemberList(
-            this,page, "10",FCSharedPreferances.getSharedPreferance(this).activE_COMMUNITY,
-            object : Callback<BlockedUserListResponse> {
+        WebServiceRequest.getInstance().getAllCommunityList(
+            this,page, "10","","3",
+            object : Callback<CommunityListResponse> {
                 override fun onResponse(
-                    call: Call<BlockedUserListResponse>,
-                    response: Response<BlockedUserListResponse>,
+                    call: Call<CommunityListResponse>,
+                    response: Response<CommunityListResponse>,
                 ) {
                     isLoading = false
                     if (response != null) {
                         if (response.isSuccessful) {
                             if (response.body()!!.code == 1) {
-                                blockList.clear()
-                                blockList.addAll(response.body()!!.data.member_list)
-                                val prevSize: Int = response.body()!!.data.member_list.size
-                                if (blockList.size == 0) {
+                                communityList.clear()
+                                communityList.addAll(response.body()!!.data.community_list)
+                                val prevSize: Int = response.body()!!.data.community_list.size
+                                if (communityList.size == 0) {
                                     blank_data!!.visibility = View.VISIBLE
-                                    blockRecycler!!.visibility = View.GONE
+                                    communityRecycler!!.visibility = View.GONE
                                 } else {
                                     blank_data!!.visibility = View.GONE
-                                    blockRecycler!!.visibility = View.VISIBLE
-                                    if (response.body()!!.data.member_list.size < 10) {
+                                    communityRecycler!!.visibility = View.VISIBLE
+                                    if (response.body()!!.data.community_list.size < 10) {
                                         isLastPage = true
                                     }
-                                    if (blockList.size == 10) {
-                                        blockedListAdapter!!.notifyDataSetChanged()
+                                    if (communityList.size == 10) {
+                                        communitiesAdapter!!.notifyDataSetChanged()
                                     } else {
-                                        blockedListAdapter!!.notifyItemRangeChanged(
+                                        communitiesAdapter!!.notifyItemRangeChanged(
                                             prevSize,
-                                            blockList.size
+                                            communityList.size
                                         )
                                     }
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@BlockListActivity!!.window.decorView,
+                                    this@SwitchCommunityActivity!!.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@BlockListActivity!!.window.decorView,
+                                this@SwitchCommunityActivity!!.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@BlockListActivity!!.window.decorView,
+                            this@SwitchCommunityActivity!!.window.decorView,
                             ""
                         )
                     }
                 }
 
                 override fun onFailure(
-                    call: Call<BlockedUserListResponse>,
+                    call: Call<CommunityListResponse>,
                     t: Throwable,
                 ) {
                     ProjectUtill.printErrorMessage(
-                        this@BlockListActivity!!.window.decorView,
+                        this@SwitchCommunityActivity!!.window.decorView,
                         ""
                     )
                 }
             })
     }
 
-    private fun blockedListPaginationApi(page: String) {
+    private fun communityListPaginationApi(page: String) {
         isLoading = true
         progress_bar!!.visibility = View.VISIBLE
-        WebServiceRequest.getInstance().getAllBlockedMemberList(
-            this,page, "10",FCSharedPreferances.getSharedPreferance(this).activE_COMMUNITY,
-            object : Callback<BlockedUserListResponse> {
+        WebServiceRequest.getInstance().getAllCommunityList(
+            this,page, "10","","3",
+            object : Callback<CommunityListResponse> {
                 override fun onResponse(
-                    call: Call<BlockedUserListResponse>,
-                    response: Response<BlockedUserListResponse>,
+                    call: Call<CommunityListResponse>,
+                    response: Response<CommunityListResponse>,
                 ) {
                     isLoading = false
                     progress_bar!!.visibility = View.GONE
                     if (response != null) {
                         if (response.isSuccessful) {
                             if (response.body()!!.code == 1) {
-                                blockList.addAll(response.body()!!.data.member_list)
-                                val prevSize: Int = response.body()!!.data.member_list.size
-                                if (blockList.size == 0) {
+                                communityList.addAll(response.body()!!.data.community_list)
+                                val prevSize: Int = response.body()!!.data.community_list.size
+                                if (communityList.size == 0) {
                                     blank_data!!.visibility = View.VISIBLE
-                                    blockRecycler!!.visibility = View.GONE
+                                    communityRecycler!!.visibility = View.GONE
                                 } else {
                                     blank_data!!.visibility = View.GONE
-                                    blockRecycler!!.visibility = View.VISIBLE
-                                    if (response.body()!!.data.member_list.size < 10) {
+                                    communityRecycler!!.visibility = View.VISIBLE
+                                    if (response.body()!!.data.community_list.size < 10) {
                                         isLastPage = true
                                     }
-                                    if (blockList.size == 10) {
-                                        blockedListAdapter!!.notifyDataSetChanged()
+                                    if (communityList.size == 10) {
+                                        communitiesAdapter!!.notifyDataSetChanged()
                                     } else {
-                                        blockedListAdapter!!.notifyItemRangeChanged(
+                                        communitiesAdapter!!.notifyItemRangeChanged(
                                             prevSize,
-                                            blockList.size
+                                            communityList.size
                                         )
                                     }
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@BlockListActivity!!.window.decorView,
+                                    this@SwitchCommunityActivity!!.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@BlockListActivity!!.window.decorView,
+                                this@SwitchCommunityActivity!!.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@BlockListActivity!!.window.decorView,
+                            this@SwitchCommunityActivity!!.window.decorView,
                             ""
                         )
                     }
                 }
 
                 override fun onFailure(
-                    call: Call<BlockedUserListResponse>,
+                    call: Call<CommunityListResponse>,
                     t: Throwable,
                 ) {
-                    progress_bar.visibility=View.GONE
+                    progress_bar!!.visibility = View.GONE
                     ProjectUtill.printErrorMessage(
-                        this@BlockListActivity!!.window.decorView,
+                        this@SwitchCommunityActivity!!.window.decorView,
                         ""
                     )
                 }
@@ -256,15 +252,15 @@ class BlockListActivity : AppCompatActivity() {
     }
 
     private fun initializeAdapter() {
-        blockList.clear()
+        communityList.clear()
         page = 1
         isLastPage = false
         isLoading = false
-        blockedListAdapter = BlockedListAdapter(this, blockList)
+        communitiesAdapter = CommunitiesAdapter(this, communityList)
         layoutManager = LinearLayoutManager(this)
-        blockRecycler!!.layoutManager = layoutManager
-        blockRecycler!!.adapter = blockedListAdapter
-        blockRecycler!!.addOnScrollListener(recyclerViewOnScrollListener)
+        communityRecycler!!.layoutManager = layoutManager
+        communityRecycler!!.adapter = communitiesAdapter
+        communityRecycler!!.addOnScrollListener(recyclerViewOnScrollListener)
     }
 
     private val recyclerViewOnScrollListener: RecyclerView.OnScrollListener =
@@ -279,10 +275,10 @@ class BlockListActivity : AppCompatActivity() {
                 val totalItemCount: Int = layoutManager!!.itemCount
                 val firstVisibleItemPosition: Int = layoutManager!!.findFirstVisibleItemPosition()
                 if (!isLoading && !isLastPage) {
-                    if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 && totalItemCount >= blockList.size) {
+                    if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 && totalItemCount >= communityList.size) {
                         isLoading = true
                         page = page!! + 1
-                        blockedListPaginationApi(page.toString())
+                        communityListPaginationApi(page.toString())
                     }
                 }
             }
@@ -292,8 +288,8 @@ class BlockListActivity : AppCompatActivity() {
         isLastPage = false
         isLoading = false
         page = 1
-        blockList.clear()
-        blockedListAdapter!!.notifyDataSetChanged()
-        blockedListSwipeApi("1")
+        communityList.clear()
+        communitiesAdapter!!.notifyDataSetChanged()
+        communityListSwipeApi("1")
     }
 }

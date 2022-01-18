@@ -127,5 +127,8 @@
     <string name="comments">Comments</string>
     <string name="no_comments_yet">No Comments Yet.</string>
     <string name="delete_comment">Delete Comment</string>
+    <string name="joined_created_communities">Joined/Created Communities</string>
+    <string name="no_users">No Users</string>
+    <string name="no_notifications">No Notifications</string>
 
 </resources>

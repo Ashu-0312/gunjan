@@ -13,6 +13,21 @@
         android:elevation="1dp"
         android:layout_centerHorizontal="true"
         android:id="@+id/logo"/>
+    <TextView
+        android:layout_marginEnd="@dimen/text_17sp"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/cartBadge"
+        android:layout_width="@dimen/margin_15"
+        android:layout_height="@dimen/margin_15"
+        android:layout_gravity="right|end|top"
+        android:gravity="center"
+        android:background="@drawable/badge_bg"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:text="0"
+        android:fontFamily="@font/poppin_regular"
+        android:textSize="@dimen/margin_10dp"/>
     <ImageView
         android:layout_marginTop="@dimen/margin_25"
         android:layout_alignParentEnd="true"

@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
-import app.gunjan.activities.Model
 import app.gunjan.entity.InterestListResponse
 import app.gunjan.entity.ShowInterestModel
 import kotlin.collections.ArrayList

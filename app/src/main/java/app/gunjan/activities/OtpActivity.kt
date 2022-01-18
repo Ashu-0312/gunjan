@@ -222,6 +222,8 @@ class OtpActivity : AppCompatActivity() {
                                 if (type == "other") {
                                     FCSharedPreferances.getSharedPreferance(this@OtpActivity).token =
                                         response.body()!!.data.token
+                                    FCSharedPreferances.getSharedPreferance(this@OtpActivity).useR_ID =
+                                        response.body()!!.data.user.id.toString()
                                     if (response.body()!!.data.user.profile_stage.equals("5")) {
                                         FCSharedPreferances.getSharedPreferance(this@OtpActivity).statuS_LOGIN =
                                             "true"

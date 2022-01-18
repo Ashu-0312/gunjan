@@ -133,6 +133,16 @@ public class CommunityListResponse implements Serializable {
             }
 
             private Boolean isRequested;
+
+            public Boolean getActiveCommunity() {
+                return isActiveCommunity;
+            }
+
+            public void setActiveCommunity(Boolean activeCommunity) {
+                isActiveCommunity = activeCommunity;
+            }
+
+            private Boolean isActiveCommunity;
             private List<MembersBean> members;
 
             public static class MembersBean implements Serializable {

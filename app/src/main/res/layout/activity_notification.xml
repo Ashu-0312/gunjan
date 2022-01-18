@@ -50,7 +50,7 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <TextView
         android:visibility="gone"
-        android:text="@string/no_community"
+        android:text="@string/no_notifications"
         android:textColor="@color/pink"
         android:textSize="@dimen/margin_25"
         android:layout_centerInParent="true"

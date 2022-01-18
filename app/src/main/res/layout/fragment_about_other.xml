@@ -18,7 +18,7 @@
         <TextView
             android:layout_gravity="top"
             android:gravity="top"
-            android:id="@+id/query"
+            android:id="@+id/about"
             android:minHeight="200dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,8 +27,7 @@
             android:fontFamily="@font/poppin_regular"
             android:textColor="@color/txt_color"
             android:textColorHint="@color/txt_color"
-            android:textSize="@dimen/text_12sp"
-            android:text="@string/dummy"/>
+            android:textSize="@dimen/text_12sp"/>
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>

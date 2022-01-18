@@ -11,6 +11,10 @@ public class FCSharedPreferances {
     private final String PROFILE_STAGE="profilestage";
     private final String STATUS_LOGIN="statuslogin";
     private final String STATUS="status";
+    private final String USER_ID="userid";
+    private final String ACTIVE_COMMUNITY="active_community";
+    private final String REASON_ID="reasonid";
+    private final String OTHER_ID="otherid";
 
     private FCSharedPreferances(Context context){
         if(sharedPreferences==null){
@@ -34,8 +38,53 @@ public class FCSharedPreferances {
         editor.apply();
     }
 
+    public String getREASON_ID(){
+        return sharedPreferences.getString(REASON_ID,"");
+    }
+
+    public void setREASON_ID(String reason_id){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(REASON_ID,reason_id);
+        editor.commit();
+        editor.apply();
+    }
+
+    public String getOTHER_ID(){
+        return sharedPreferences.getString(OTHER_ID,"");
+    }
+
+    public void setOTHER_ID(String other_id){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(OTHER_ID,other_id);
+        editor.commit();
+        editor.apply();
+    }
+
     public String getTOKEN(){
         return sharedPreferences.getString(TOKEN,"");
+    }
+
+    public void setACTIVE_COMMUNITY(String active_community){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(ACTIVE_COMMUNITY,active_community);
+        editor.commit();
+        editor.apply();
+    }
+
+    public String getACTIVE_COMMUNITY(){
+        return sharedPreferences.getString(ACTIVE_COMMUNITY,"");
+    }
+
+
+    public void setUSER_ID(String user_id){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(USER_ID,user_id);
+        editor.commit();
+        editor.apply();
+    }
+
+    public String getUSER_ID(){
+        return sharedPreferences.getString(USER_ID,"");
     }
 
     public void setSTATUS(String status){

@@ -59,7 +59,7 @@
                 android:padding="@dimen/text_13sp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/user_pic"
+                    android:id="@+id/userPic"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
@@ -68,14 +68,13 @@
                     app:civ_border_width="@dimen/padding_2" />
 
                 <TextView
-                    android:id="@+id/user_name"
+                    android:id="@+id/userName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/padding_5"
                     android:layout_marginEnd="@dimen/padding_5"
                     android:fontFamily="@font/poppins_semibold"
-                    android:text="Johny Ive"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_16sp" />
 
@@ -86,7 +85,7 @@
                     android:layout_marginStart="@dimen/padding_5"
                     android:layout_marginEnd="@dimen/padding_5"
                     android:fontFamily="@font/poppin_regular"
-                    android:text="Musician"
+                    android:id="@+id/About"
                     android:textColor="@color/txt_color"
                     android:textSize="@dimen/text_16sp" />
 

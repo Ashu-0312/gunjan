@@ -33,7 +33,6 @@ class ProfileFragment : Fragment() {
     private var communityHelp: LinearLayout? = null
     private var addMedia: LinearLayout? = null
     private var switchCommunity: LinearLayout? = null
-    private var theme: LinearLayout? = null
     private var blockList: LinearLayout? = null
     private var logout: LinearLayout? = null
     private var myCommunities: LinearLayout? = null
@@ -54,7 +53,6 @@ class ProfileFragment : Fragment() {
         communityHelp = view.findViewById(R.id.community_help)
         addMedia = view.findViewById(R.id.addMedia)
         switchCommunity = view.findViewById(R.id.switch_community)
-        theme = view.findViewById(R.id.theme)
         blockList = view.findViewById(R.id.block_list)
         logout = view.findViewById(R.id.logout)
         userPic = view.findViewById(R.id.user_pic)
@@ -118,9 +116,6 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        theme!!.setOnClickListener {
-        }
-
         leaveCommunity!!.setOnClickListener {
             startActivity(Intent(context, JoinedCommunitesActivity::class.java))
         }
@@ -146,6 +141,8 @@ class ProfileFragment : Fragment() {
         }
 
         switchCommunity!!.setOnClickListener {
+            startActivity(Intent(context, SwitchCommunityActivity::class.java))
+
         }
 
         communityHelp!!.setOnClickListener {
@@ -221,6 +218,7 @@ class ProfileFragment : Fragment() {
                                                 .into(userPic!!)
                                         }
                                         profileName!!.text = response.body()!!.data.user.profile_name
+                                        FCSharedPreferances.getSharedPreferance(context).activE_COMMUNITY=response.body()!!.data.user.active_community.toString()
                                     }catch (e:Exception){}
                                 } else {
                                     ProjectUtill.printMessage(
