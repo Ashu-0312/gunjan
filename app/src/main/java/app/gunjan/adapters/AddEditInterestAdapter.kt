@@ -27,7 +27,7 @@ class AddEditInterestAdapter(
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.name!!.text=data[position].name
+        holder.name!!.text = data[position].name
         if (data[position].added) {
             holder.layout!!.background = context!!.getDrawable(R.drawable.button_bg)
             holder.name!!.setTextColor(context!!.resources.getColor(R.color.white))
@@ -57,7 +57,7 @@ class AddEditInterestAdapter(
         try {
             for (i in data.indices) {
                 if (data[i].added) {
-                    jsonArray.add(ShowInterestModel(data[i].name.toString(),data[i].id.toString()))
+                    jsonArray.add(ShowInterestModel(data[i].name.toString(), data[i].id.toString()))
                 }
             }
         } catch (e: Exception) {

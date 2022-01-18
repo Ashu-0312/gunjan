@@ -22,8 +22,10 @@ class NotificationActivity : AppCompatActivity() {
     var isLoading = false
     var isLastPage = false
     private var layoutManager: LinearLayoutManager? = null
-    var notificationAdapter: NotificationListAdapter?=null
-    private var notificationList: ArrayList<NotificationListResponse.DataBean.NotificationBean> = ArrayList<NotificationListResponse.DataBean.NotificationBean>()
+    var notificationAdapter: NotificationListAdapter? = null
+    private var notificationList: ArrayList<NotificationListResponse.DataBean.NotificationBean> =
+        ArrayList<NotificationListResponse.DataBean.NotificationBean>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification)
@@ -52,7 +54,7 @@ class NotificationActivity : AppCompatActivity() {
         isLoading = true
         val myDialog = ProjectUtill.showProgressDialog(this)
         WebServiceRequest.getInstance().getNotificationList(
-            this,page, "10",
+            this, page, "10",
             object : Callback<NotificationListResponse> {
                 override fun onResponse(
                     call: Call<NotificationListResponse>,
@@ -120,7 +122,7 @@ class NotificationActivity : AppCompatActivity() {
     private fun notificationListSwipeApi(page: String) {
         isLoading = true
         WebServiceRequest.getInstance().getNotificationList(
-            this,page, "10",
+            this, page, "10",
             object : Callback<NotificationListResponse> {
                 override fun onResponse(
                     call: Call<NotificationListResponse>,
@@ -187,7 +189,7 @@ class NotificationActivity : AppCompatActivity() {
         isLoading = true
         progress_bar!!.visibility = View.VISIBLE
         WebServiceRequest.getInstance().getNotificationList(
-            this,page, "10",
+            this, page, "10",
             object : Callback<NotificationListResponse> {
                 override fun onResponse(
                     call: Call<NotificationListResponse>,
