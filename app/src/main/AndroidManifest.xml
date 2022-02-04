@@ -114,15 +114,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
-            android:name=".activities.ResetPasswordActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
-        <activity
             android:name=".activities.OtpActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
-        <activity
-            android:name=".activities.ForgotPasswordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
