@@ -89,7 +89,7 @@ class HomeFragment : Fragment() {
 
     private fun initData() {
         animShow = AnimationUtils.loadAnimation(context, R.anim.move_right_in_activity)
-         userDetails()
+        userDetails()
         initializeAdapter()
         postListApi("1")
 
@@ -571,7 +571,10 @@ class HomeFragment : Fragment() {
                     val myDialog = ProjectUtill.showProgressDialog(context)
                     context?.let { it1 ->
                         WebServiceRequest.getInstance().reportUser(
-                            it1, userId, FCSharedPreferances.getSharedPreferance(context).reasoN_ID,edtReason.text.toString().toString(),
+                            it1,
+                            userId,
+                            FCSharedPreferances.getSharedPreferance(context).reasoN_ID,
+                            edtReason.text.toString().toString(),
                             object : Callback<ReportReasonResponse> {
                                 override fun onResponse(
                                     call: Call<ReportReasonResponse>,
@@ -586,7 +589,7 @@ class HomeFragment : Fragment() {
                                                     "" + response.body()!!.message,
                                                     Toast.LENGTH_LONG
                                                 ).show()
-                                                Status="2"
+                                                Status = "2"
                                             } else {
                                                 ProjectUtill.printMessage(
                                                     activity!!.window.decorView,
@@ -625,7 +628,7 @@ class HomeFragment : Fragment() {
                 val myDialog = ProjectUtill.showProgressDialog(context)
                 context?.let { it1 ->
                     WebServiceRequest.getInstance().reportUser(
-                        it1, userId, FCSharedPreferances.getSharedPreferance(context).reasoN_ID,"",
+                        it1, userId, FCSharedPreferances.getSharedPreferance(context).reasoN_ID, "",
                         object : Callback<ReportReasonResponse> {
                             override fun onResponse(
                                 call: Call<ReportReasonResponse>,
@@ -640,7 +643,7 @@ class HomeFragment : Fragment() {
                                                 "" + response.body()!!.message,
                                                 Toast.LENGTH_LONG
                                             ).show()
-                                            Status="2"
+                                            Status = "2"
                                         } else {
                                             ProjectUtill.printMessage(
                                                 activity!!.window.decorView,
@@ -1144,7 +1147,7 @@ class HomeFragment : Fragment() {
         dialog.show()
     }
 
-    private fun userDetails(){
+    private fun userDetails() {
         context?.let { it1 ->
             WebServiceRequest.getInstance().userDetails(
                 it1,
@@ -1161,11 +1164,14 @@ class HomeFragment : Fragment() {
                                             .load(response.body()!!.data.active_community_details.image)
                                             .placeholder(R.drawable.user_avatar)
                                             .into(communityPic!!)
-                                        communityName!!.text = response.body()!!.data.active_community_details.title
-                                        pic=response.body()!!.data.active_community_details.image
-                                        name=response.body()!!.data.active_community_details.title
-                                        description=response.body()!!.data.active_community_details.about
-                                    }catch (e:Exception){}
+                                        communityName!!.text =
+                                            response.body()!!.data.active_community_details.title
+                                        pic = response.body()!!.data.active_community_details.image
+                                        name = response.body()!!.data.active_community_details.title
+                                        description =
+                                            response.body()!!.data.active_community_details.about
+                                    } catch (e: Exception) {
+                                    }
                                 } else {
                                     ProjectUtill.printMessage(
                                         (context as Activity).window.decorView,
