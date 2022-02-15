@@ -14,13 +14,16 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
 import app.gunjan.adapters.FollowerFollowingTabAdapter
 import app.gunjan.adapters.OthersTabAdapter
 import app.gunjan.adapters.ReasonListAdapter
+import app.gunjan.entity.FollowUserResponse
 import app.gunjan.entity.OtherUserDetailsResponse
+import app.gunjan.entity.UnfollowUserResponse
 import app.gunjan.entity.UserDetailsResponse
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
@@ -84,6 +87,14 @@ class OthersProfileActivity : AppCompatActivity() {
         SocialProfile.setOnClickListener {
             startActivity(Intent(this, SocialProfileActivity::class.java))
         }
+
+        toggleButton.setOnCheckedChangeListener { _, b ->
+            if (b) {
+                followUserApi()
+            } else {
+                unfollowUserApi()
+            }
+        }
     }
 
     private fun userDetails() {
@@ -108,6 +119,11 @@ class OthersProfileActivity : AppCompatActivity() {
                                     }
                                     userName!!.text = response.body()!!.data.user.first_name+" "+response.body()!!.data.user.last_name
                                     About.text=response.body()!!.data.user.about
+                                    followerCount.text = response.body()!!.data.follower_count.toString()
+                                    followingCount.text = response.body()!!.data.following_count.toString()
+
+                                    toggleButton.isChecked =
+                                        response.body()!!.data.following_this_user
                                 }catch (e:Exception){}
                             } else {
                                 ProjectUtill.printMessage(
@@ -142,6 +158,101 @@ class OthersProfileActivity : AppCompatActivity() {
             })
     }
 
+    private fun followUserApi() {
+        val myDialog = ProjectUtill.showProgressDialog(this)
+        WebServiceRequest.getInstance().followUser(
+            this,FCSharedPreferances.getSharedPreferance(this).otheR_ID,
+            object : Callback<FollowUserResponse> {
+                override fun onResponse(
+                    call: Call<FollowUserResponse>,
+                    response: Response<FollowUserResponse>
+                ) {
+                    myDialog.dismiss()
+                    if (response != null) {
+                        if (response.isSuccessful) {
+                            if (response.body()!!.code == 1) {
+                                followerCount.text = response.body()!!.data.follower_count.toString()
+                                followingCount.text = response.body()!!.data.following_count.toString()
+                            } else {
+                                ProjectUtill.printMessage(
+                                    this@OthersProfileActivity.window.decorView,
+                                    response.body()?.message
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                this@OthersProfileActivity.window.decorView,
+                                ""
+                            )
+                        }
+                    } else {
+                        ProjectUtill.printErrorMessage(
+                            this@OthersProfileActivity.window.decorView,
+                            ""
+                        )
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<FollowUserResponse>,
+                    t: Throwable
+                ) {
+                    myDialog.dismiss()
+                    ProjectUtill.printErrorMessage(
+                        this@OthersProfileActivity.window.decorView,
+                        ""
+                    )
+                }
+            })
+    }
+
+    private fun unfollowUserApi() {
+        val myDialog = ProjectUtill.showProgressDialog(this)
+        WebServiceRequest.getInstance().unFollowUser(
+            this,FCSharedPreferances.getSharedPreferance(this).otheR_ID,
+            object : Callback<UnfollowUserResponse> {
+                override fun onResponse(
+                    call: Call<UnfollowUserResponse>,
+                    response: Response<UnfollowUserResponse>
+                ) {
+                    myDialog.dismiss()
+                    if (response != null) {
+                        if (response.isSuccessful) {
+                            if (response.body()!!.code == 1) {
+                                followerCount.text = response.body()!!.data.follower_count.toString()
+                                followingCount.text = response.body()!!.data.following_count.toString()
+                            } else {
+                                ProjectUtill.printMessage(
+                                    this@OthersProfileActivity.window.decorView,
+                                    response.body()?.message
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                this@OthersProfileActivity.window.decorView,
+                                ""
+                            )
+                        }
+                    } else {
+                        ProjectUtill.printErrorMessage(
+                            this@OthersProfileActivity.window.decorView,
+                            ""
+                        )
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<UnfollowUserResponse>,
+                    t: Throwable
+                ) {
+                    myDialog.dismiss()
+                    ProjectUtill.printErrorMessage(
+                        this@OthersProfileActivity.window.decorView,
+                        ""
+                    )
+                }
+            })
+    }
 
     fun blockDialog() {
         var yes: LinearLayout? = null
@@ -252,7 +363,7 @@ class OthersProfileActivity : AppCompatActivity() {
     }
 
     fun showReasonLayout(status: String) {
-        if (status.equals("1")) {
+        if (status == "1") {
             reasonLayout!!.visibility = View.VISIBLE
             reasonLayout!!.startAnimation(animShow)
         } else {

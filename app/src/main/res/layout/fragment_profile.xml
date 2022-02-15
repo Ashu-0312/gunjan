@@ -3,72 +3,62 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:fillViewport="true"
-    android:background="@color/white"
+    android:layout_height="match_parent"
     android:layout_marginBottom="65dp"
-    android:layout_height="match_parent">
+    android:background="@color/white"
+    android:fillViewport="true">
+
     <RelativeLayout
-        android:layout_marginBottom="75dp"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <RelativeLayout
             android:id="@+id/layout"
-            android:background="@color/white"
-            android:layout_below="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/header"
+            android:background="@color/white">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <LinearLayout
-                    android:padding="@dimen/text_13sp"
-                    android:layout_marginStart="@dimen/margin_10dp"
-                    android:layout_marginEnd="@dimen/margin_10dp"
-                    android:layout_marginTop="@dimen/margin_20dp"
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:elevation="@dimen/padding_3"
-                    android:background="@drawable/circle_white">
+                    android:layout_height="wrap_content">
+                      <ImageView
+                          android:layout_width="@dimen/margin_40dp"
+                          android:layout_height="@dimen/margin_40dp"
+                          android:src="@drawable/settings"
+                          android:layout_alignParentEnd="true"
+                          android:layout_margin="@dimen/margin_25"
+                          android:id="@+id/settings"
+                          android:elevation="4dp"/>
                     <LinearLayout
-                        android:gravity="center"
-                        android:layout_gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <RelativeLayout
-                            android:id="@+id/editProfile"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="@dimen/margin_15"
-                            android:layout_marginBottom="@dimen/margin_10dp"
-                            android:layout_below="@id/back"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                app:civ_border_width="@dimen/padding_2"
-                                android:layout_width="100dp"
-                                app:civ_border_color="@color/pink"
-                                android:layout_height="100dp"
-                                android:id="@+id/user_pic"
-                                android:src="@drawable/user_avatar"/>
-                            <ImageView
-                                android:layout_width="@dimen/text_30sp"
-                                android:layout_height="@dimen/text_30sp"
-                                android:src="@drawable/edit"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="80dp"/>
-                        </RelativeLayout>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_marginStart="@dimen/margin_10dp"
+                        android:layout_marginTop="@dimen/margin_15"
+                        android:layout_marginEnd="@dimen/margin_10dp"
+                        android:layout_marginBottom="@dimen/padding_5"
+                        android:background="@drawable/circle_white"
+                        android:elevation="@dimen/padding_3"
+                        android:orientation="vertical"
+                        android:padding="@dimen/text_13sp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/userPic"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/user_avatar"
+                            app:civ_border_color="@color/pink"
+                            app:civ_border_width="@dimen/padding_2" />
 
                         <TextView
-                            android:id="@+id/user_name"
+                            android:id="@+id/userName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -77,328 +67,112 @@
                             android:fontFamily="@font/poppins_semibold"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_16sp" />
+
+                        <TextView
+                            android:id="@+id/About"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/padding_5"
+                            android:layout_marginEnd="@dimen/padding_5"
+                            android:fontFamily="@font/poppin_regular"
+                            android:textColor="@color/txt_color"
+                            android:textSize="@dimen/text_16sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_10dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:id="@+id/follower"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="@dimen/padding_5"
+                                    android:layout_marginEnd="@dimen/padding_5"
+                                    android:fontFamily="@font/poppin_regular"
+                                    android:text="Followers"
+                                    android:textColor="@color/pink"
+                                    android:textSize="@dimen/text_16sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="@dimen/padding_5"
+                                    android:layout_marginEnd="@dimen/padding_5"
+                                    android:fontFamily="@font/poppins_light"
+                                    android:id="@+id/follower_count"
+                                    android:textColor="@color/pink"
+                                    android:textSize="@dimen/text_16sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/following"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="@dimen/padding_5"
+                                    android:layout_marginEnd="@dimen/padding_5"
+                                    android:fontFamily="@font/poppin_regular"
+                                    android:text="Following"
+                                    android:textColor="@color/pink"
+                                    android:textSize="@dimen/text_16sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginStart="@dimen/padding_5"
+                                    android:layout_marginEnd="@dimen/padding_5"
+                                    android:fontFamily="@font/poppins_light"
+                                    android:id="@+id/following_count"
+                                    android:textColor="@color/pink"
+                                    android:textSize="@dimen/text_16sp" />
+                            </LinearLayout>
+                        </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:paddingTop="@dimen/margin_20dp"
-                    android:paddingBottom="@dimen/margin_20dp"
-                    android:paddingLeft="@dimen/margin_20dp"
-                    android:paddingRight="@dimen/margin_20dp"
-                    android:layout_marginStart="@dimen/margin_10dp"
-                    android:layout_marginEnd="@dimen/margin_10dp"
-                    android:layout_marginTop="@dimen/margin_15"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/community_help"
-                    android:orientation="horizontal"
-                    android:elevation="@dimen/padding_3"
-                    android:background="@drawable/circle_white2">
-                    <ImageView
-                        android:layout_width="@dimen/margin_20dp"
-                        android:layout_height="@dimen/margin_20dp"
-                        android:src="@drawable/contact_us"/>
-                    <TextView
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:layout_marginStart="@dimen/margin_15"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/margin_15"
-                        android:fontFamily="@font/poppin_regular"
-                        android:textColor="#080808"
-                        android:text="@string/community_help"/>
-                </LinearLayout>
+                </RelativeLayout>
 
                 <LinearLayout
-                    android:paddingTop="@dimen/margin_20dp"
-                    android:paddingBottom="@dimen/margin_20dp"
-                    android:paddingLeft="@dimen/margin_20dp"
-                    android:paddingRight="@dimen/margin_20dp"
-                    android:layout_marginStart="@dimen/margin_10dp"
-                    android:layout_marginEnd="@dimen/margin_10dp"
-                    android:layout_marginTop="@dimen/margin_15"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/switch_community"
-                    android:orientation="horizontal"
-                    android:elevation="@dimen/padding_3"
-                    android:background="@drawable/circle_white2">
-                    <ImageView
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/header"
+                    android:orientation="vertical">
 
-                        android:layout_width="@dimen/margin_20dp"
-                        android:layout_height="@dimen/margin_20dp"
-                        android:src="@drawable/swipe"/>
-                    <TextView
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:layout_marginStart="@dimen/margin_15"
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tab_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/margin_15"
-                        android:fontFamily="@font/poppin_regular"
-                        android:textColor="#080808"
-                        android:text="@string/switch_community"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:paddingTop="@dimen/margin_20dp"
-                    android:paddingBottom="@dimen/margin_20dp"
-                    android:paddingLeft="@dimen/margin_20dp"
-                    android:paddingRight="@dimen/margin_20dp"
-                    android:layout_marginStart="@dimen/margin_10dp"
-                    android:layout_marginEnd="@dimen/margin_10dp"
-                    android:layout_marginTop="@dimen/margin_15"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/leave_community"
-                    android:orientation="horizontal"
-                    android:elevation="@dimen/padding_3"
-                    android:background="@drawable/circle_white2">
-                    <ImageView
+                        android:background="@color/white"
+                        android:minHeight="?attr/actionBarSize"
+                        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                        app:tabIndicatorColor="@color/blue"
+                        app:tabIndicatorFullWidth="true"
+                        app:tabIndicatorHeight="3dp"
+                        app:tabSelectedTextColor="@color/pink"
+                        app:tabTextAppearance="@style/tab_text"
+                        app:tabTextColor="#6E6E6E" />
 
-                        android:layout_width="@dimen/margin_20dp"
-                        android:layout_height="@dimen/margin_20dp"
-                        android:src="@drawable/swipe"/>
-                    <TextView
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:layout_marginStart="@dimen/margin_15"
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/view_pager"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/margin_15"
-                        android:fontFamily="@font/poppin_regular"
-                        android:textColor="#080808"
-                        android:text="@string/leave_community"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:paddingTop="@dimen/margin_20dp"
-                    android:paddingBottom="@dimen/margin_20dp"
-                    android:paddingLeft="@dimen/margin_20dp"
-                    android:paddingRight="@dimen/margin_20dp"
-                    android:layout_marginStart="@dimen/margin_10dp"
-                    android:layout_marginEnd="@dimen/margin_10dp"
-                    android:layout_marginTop="@dimen/margin_15"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tc"
-                    android:orientation="horizontal"
-                    android:elevation="@dimen/padding_3"
-                    android:background="@drawable/circle_white2">
-                    <ImageView
-
-                        android:layout_width="@dimen/margin_20dp"
-                        android:layout_height="@dimen/margin_20dp"
-                        android:src="@drawable/tc"/>
-                    <TextView
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:layout_marginStart="@dimen/margin_15"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/margin_15"
-                        android:fontFamily="@font/poppin_regular"
-                        android:textColor="#080808"
-                        android:text="@string/terms_amp_conditions"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:paddingTop="@dimen/margin_20dp"
-                    android:paddingBottom="@dimen/margin_20dp"
-                    android:paddingLeft="@dimen/margin_20dp"
-                    android:paddingRight="@dimen/margin_20dp"
-                    android:layout_marginStart="@dimen/margin_10dp"
-                    android:layout_marginEnd="@dimen/margin_10dp"
-                    android:layout_marginTop="@dimen/margin_15"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/privacy"
-                    android:orientation="horizontal"
-                    android:elevation="@dimen/padding_3"
-                    android:background="@drawable/circle_white2">
-                    <ImageView
-
-                        android:layout_width="@dimen/margin_20dp"
-                        android:layout_height="@dimen/margin_20dp"
-                        android:src="@drawable/privacy"/>
-                    <TextView
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:layout_marginStart="@dimen/margin_15"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/margin_15"
-                        android:fontFamily="@font/poppin_regular"
-                        android:textColor="#080808"
-                        android:text="@string/privacy_policy"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:paddingTop="@dimen/margin_20dp"
-                    android:paddingBottom="@dimen/margin_20dp"
-                    android:paddingLeft="@dimen/margin_20dp"
-                    android:paddingRight="@dimen/margin_20dp"
-                    android:layout_marginStart="@dimen/margin_10dp"
-                    android:layout_marginEnd="@dimen/margin_10dp"
-                    android:layout_marginTop="@dimen/margin_15"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:elevation="@dimen/padding_3"
-                    android:id="@+id/block_list"
-                    android:background="@drawable/circle_white2">
-                    <ImageView
-
-                        android:layout_width="@dimen/margin_20dp"
-                        android:layout_height="@dimen/margin_20dp"
-                        android:src="@drawable/setting"/>
-                    <TextView
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:layout_marginStart="@dimen/margin_15"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/margin_15"
-                        android:fontFamily="@font/poppin_regular"
-                        android:textColor="#080808"
-                        android:text="@string/blocked_user_list"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:paddingTop="@dimen/margin_20dp"
-                    android:paddingBottom="@dimen/margin_20dp"
-                    android:paddingLeft="@dimen/margin_20dp"
-                    android:paddingRight="@dimen/margin_20dp"
-                    android:layout_marginStart="@dimen/margin_10dp"
-                    android:layout_marginEnd="@dimen/margin_10dp"
-                    android:layout_marginTop="@dimen/margin_15"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/delete_account"
-                    android:orientation="horizontal"
-                    android:elevation="@dimen/padding_3"
-                    android:background="@drawable/circle_white2">
-                    <ImageView
-
-                        android:layout_width="@dimen/margin_20dp"
-                        android:layout_height="@dimen/margin_20dp"
-                        android:src="@drawable/delete_account"/>
-                    <TextView
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:layout_marginStart="@dimen/margin_15"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/margin_15"
-                        android:fontFamily="@font/poppin_regular"
-                        android:textColor="#080808"
-                        android:text="@string/delete_account"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:paddingTop="@dimen/margin_20dp"
-                    android:paddingBottom="@dimen/margin_20dp"
-                    android:paddingLeft="@dimen/margin_20dp"
-                    android:paddingRight="@dimen/margin_20dp"
-                    android:layout_marginStart="@dimen/margin_10dp"
-                    android:layout_marginEnd="@dimen/margin_10dp"
-                    android:layout_marginTop="@dimen/margin_15"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/contact_us"
-                    android:orientation="horizontal"
-                    android:elevation="@dimen/padding_3"
-                    android:background="@drawable/circle_white2">
-                    <ImageView
-
-                        android:layout_width="@dimen/margin_20dp"
-                        android:layout_height="@dimen/margin_20dp"
-                        android:src="@drawable/contact_us"/>
-                    <TextView
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:layout_marginStart="@dimen/margin_15"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/margin_15"
-                        android:fontFamily="@font/poppin_regular"
-                        android:textColor="#080808"
-                        android:text="@string/contact_us"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:paddingTop="@dimen/margin_20dp"
-                    android:paddingBottom="@dimen/margin_20dp"
-                    android:paddingLeft="@dimen/margin_20dp"
-                    android:paddingRight="@dimen/margin_20dp"
-                    android:layout_marginStart="@dimen/margin_10dp"
-                    android:layout_marginEnd="@dimen/margin_10dp"
-                    android:layout_marginTop="@dimen/margin_15"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/addMedia"
-                    android:orientation="horizontal"
-                    android:elevation="@dimen/padding_3"
-                    android:background="@drawable/circle_white2">
-                    <ImageView
-
-                        android:layout_width="@dimen/margin_20dp"
-                        android:layout_height="@dimen/margin_20dp"
-                        android:src="@drawable/contact_us"/>
-                    <TextView
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:layout_marginStart="@dimen/margin_15"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/margin_15"
-                        android:fontFamily="@font/poppin_regular"
-                        android:textColor="#080808"
-                        android:text="@string/add_social_media_link"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:paddingTop="@dimen/margin_20dp"
-                    android:paddingBottom="@dimen/margin_20dp"
-                    android:paddingLeft="@dimen/margin_20dp"
-                    android:paddingRight="@dimen/margin_20dp"
-                    android:layout_marginStart="@dimen/margin_10dp"
-                    android:layout_marginEnd="@dimen/margin_10dp"
-                    android:layout_marginTop="@dimen/margin_15"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/my_community"
-                    android:orientation="horizontal"
-                    android:elevation="@dimen/padding_3"
-                    android:background="@drawable/circle_white2">
-                    <ImageView
-
-                        android:layout_width="@dimen/margin_20dp"
-                        android:layout_height="@dimen/margin_20dp"
-                        android:src="@drawable/contact_us"/>
-                    <TextView
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:layout_marginStart="@dimen/margin_15"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/margin_15"
-                        android:fontFamily="@font/poppin_regular"
-                        android:textColor="#080808"
-                        android:text="@string/my_communities"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/logout"
-                    android:layout_marginTop="@dimen/margin_20dp"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/margin_15"
-                        android:fontFamily="@font/poppin_regular"
-                        android:textColor="@color/red"
-                        android:text="@string/logout"/>
-                    <ImageView
-                        android:layout_width="@dimen/text_size_large_23"
-                        android:layout_height="@dimen/text_size_large_23"
-                        android:src="@drawable/logout"
-                        android:layout_marginStart="@dimen/margin_7"/>
+                        android:layout_height="fill_parent"
+                        android:layout_below="@id/tab_layout" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>

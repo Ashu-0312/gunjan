@@ -42,6 +42,7 @@
             android:orientation="vertical"
             android:layout_below="@+id/header">
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/community_pic"
                 android:layout_gravity="center"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
@@ -50,6 +51,7 @@
                 android:src="@drawable/user_avatar"/>
             <TextView
                 android:gravity="center"
+                android:id="@+id/community_name"
                 android:layout_below="@id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,10 +60,9 @@
                 android:textSize="@dimen/text_17sp"
                 android:layout_marginTop="@dimen/text_30sp"
                 android:layout_marginStart="@dimen/text_30sp"
-                android:layout_marginEnd="@dimen/text_30sp"
-                android:text="Bharat Yuva Shakti"/>
+                android:layout_marginEnd="@dimen/text_30sp"/>
             <TextView
-                android:id="@+id/txt"
+                android:id="@+id/description"
                 android:gravity="center"
                 android:layout_below="@id/header"
                 android:layout_width="match_parent"
@@ -71,8 +72,7 @@
                 android:textSize="@dimen/text_13sp"
                 android:layout_marginTop="@dimen/margin_20dp"
                 android:layout_marginStart="@dimen/text_30sp"
-                android:layout_marginEnd="@dimen/text_30sp"
-                android:text="Bharat Yuva Shakti is not political youth union. and in this community members connected from all the region,religion,cred and beliefs.Through this community we are helping youth to raise their voice for good to great."/>
+                android:layout_marginEnd="@dimen/text_30sp"/>
     </LinearLayout>
     </LinearLayout>
     </RelativeLayout>

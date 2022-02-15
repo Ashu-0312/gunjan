@@ -7,8 +7,10 @@ import android.os.Bundle
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import app.gunjan.R
 import app.gunjan.activities.*
+import app.gunjan.adapters.OthersTabAdapter
 import app.gunjan.entity.DeleteAccountResponse
 import app.gunjan.entity.LogoutResponse
 import app.gunjan.entity.PrivacyPolicyResponse
@@ -17,183 +19,60 @@ import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import com.bumptech.glide.Glide
+import com.google.android.material.tabs.TabLayout
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.activity_others_profile.*
 import kotlinx.android.synthetic.main.activity_privacy_policy.*
+import kotlinx.android.synthetic.main.activity_privacy_policy.back
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class ProfileFragment : Fragment() {
-    private var leaveCommunity: LinearLayout? = null
-    private var tc: LinearLayout? = null
-    private var privacy: LinearLayout? = null
-    private var editProfile: RelativeLayout? = null
-    private var deleteAccount: LinearLayout? = null
-    private var contactUs: LinearLayout? = null
-    private var communityHelp: LinearLayout? = null
-    private var addMedia: LinearLayout? = null
-    private var switchCommunity: LinearLayout? = null
-    private var blockList: LinearLayout? = null
-    private var logout: LinearLayout? = null
-    private var myCommunities: LinearLayout? = null
-    private var userPic: CircleImageView? = null
-    private var profileName: TextView? = null
+    private var userPic:CircleImageView?=null
+    private var settings:ImageView?=null
+    private var tab_layout:TabLayout?=null
+    private var view_pager:ViewPager?=null
+    private var followers:LinearLayout?=null
+    private var followings:LinearLayout?=null
+    private var userName:TextView?=null
+    private var About:TextView?=null
+    private var followerCount:TextView?=null
+    private var followingCount:TextView?=null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
-        leaveCommunity = view.findViewById(R.id.leave_community)
-        tc = view.findViewById(R.id.tc)
-        privacy = view.findViewById(R.id.privacy)
-        editProfile = view.findViewById(R.id.editProfile)
-        deleteAccount = view.findViewById(R.id.delete_account)
-        contactUs = view.findViewById(R.id.contact_us)
-        communityHelp = view.findViewById(R.id.community_help)
-        addMedia = view.findViewById(R.id.addMedia)
-        switchCommunity = view.findViewById(R.id.switch_community)
-        blockList = view.findViewById(R.id.block_list)
-        logout = view.findViewById(R.id.logout)
-        userPic = view.findViewById(R.id.user_pic)
-        profileName = view.findViewById(R.id.user_name)
-        myCommunities = view.findViewById(R.id.my_community)
+        userPic = view.findViewById(R.id.userPic)
+        tab_layout = view.findViewById(R.id.tab_layout)
+        view_pager = view.findViewById(R.id.view_pager)
+        followers = view.findViewById(R.id.follower)
+        followings = view.findViewById(R.id.following)
+        userName = view.findViewById(R.id.userName)
+        About = view.findViewById(R.id.About)
+        settings = view.findViewById(R.id.settings)
+        followerCount = view.findViewById(R.id.follower_count)
+        followingCount = view.findViewById(R.id.following_count)
         initData()
         return view
     }
 
     private fun initData() {
-         userDetails()
-        logout!!.setOnClickListener {
-            val myDialog = ProjectUtill.showProgressDialog(context)
-            context?.let { it1 ->
-                WebServiceRequest.getInstance().logout(
-                    it1,
-                    object : Callback<LogoutResponse> {
-                        override fun onResponse(
-                            call: Call<LogoutResponse>,
-                            response: Response<LogoutResponse>
-                        ) {
-                            myDialog.dismiss()
-                            if (response != null) {
-                                if (response.isSuccessful) {
-                                    if (response.body()!!.code == 1) {
-                                        FCSharedPreferances.getSharedPreferance(context).statuS_LOGIN="false"
-                                        var intent = Intent(context,LoginActivity::class.java)
-                                        intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                        startActivity(intent)
-                                    } else {
-                                        ProjectUtill.printMessage(
-                                            activity!!.window.decorView,
-                                            response.body()?.message
-                                        )
-                                    }
-                                } else {
-                                    ProjectUtill.printErrorMessage(
-                                        activity!!.window.decorView,
-                                        ""
-                                    )
-                                }
-                            } else {
-                                ProjectUtill.printErrorMessage(
-                                    activity!!.window.decorView,
-                                    ""
-                                )
-                            }
-                        }
+        userDetails()
 
-                        override fun onFailure(
-                            call: Call<LogoutResponse>,
-                            t: Throwable
-                        ) {
-                            myDialog.dismiss()
-                            ProjectUtill.printErrorMessage(
-                                activity!!.window.decorView,
-                                ""
-                            )
-                        }
-                    })
-            }
+        followers!!.setOnClickListener {
+            startActivity(Intent(context, FollowFollowerActivity::class.java))
         }
 
-        leaveCommunity!!.setOnClickListener {
-            startActivity(Intent(context, JoinedCommunitesActivity::class.java))
+        followings!!.setOnClickListener {
+            startActivity(Intent(context, FollowFollowerActivity::class.java))
         }
 
-        myCommunities!!.setOnClickListener {
-            startActivity(Intent(context, MyCommunitesActivity::class.java))
+        settings!!.setOnClickListener {
+            startActivity(Intent(context, SettingsActivity::class.java))
         }
-
-        blockList!!.setOnClickListener {
-            startActivity(Intent(context, BlockListActivity::class.java))
-        }
-
-        tc!!.setOnClickListener {
-            startActivity(Intent(context, TcActivity::class.java))
-        }
-
-        addMedia!!.setOnClickListener {
-            startActivity(Intent(context, AddMediaActivity::class.java))
-        }
-
-        contactUs!!.setOnClickListener {
-            startActivity(Intent(context, ContactUsActivity::class.java))
-        }
-
-        switchCommunity!!.setOnClickListener {
-            startActivity(Intent(context, SwitchCommunityActivity::class.java))
-
-        }
-
-        communityHelp!!.setOnClickListener {
-            startActivity(Intent(context, CommunityHelpActivity::class.java))
-        }
-
-        privacy!!.setOnClickListener {
-            startActivity(Intent(context, PrivacyPolicyActivity::class.java))
-        }
-
-        editProfile!!.setOnClickListener {
-            startActivity(Intent(context, EditProfileActivity::class.java))
-        }
-
-        deleteAccount!!.setOnClickListener { deleteAccountDialog() }
-    }
-
-    fun deleteAccountDialog() {
-        var yes: LinearLayout? = null
-        var no: LinearLayout? = null
-        var close: ImageView? = null
-        val dialog = context?.let { Dialog(it) }
-        // Include dialog.xml file
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.delete_dialog)
-        dialog!!.setCancelable(true)
-        val window = dialog.window
-        window!!.setGravity(Gravity.CENTER)
-        window.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT
-        )
-        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
-        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-        yes = dialog.findViewById(R.id.yes)
-        no = dialog.findViewById(R.id.no)
-        close = dialog.findViewById(R.id.close)
-        yes.setOnClickListener {
-            dialog.cancel()
-            deleteAccount()
-        }
-
-        no.setOnClickListener {
-            dialog.cancel()
-        }
-
-        close.setOnClickListener {
-            dialog.cancel()
-
-        }
-        dialog.show()
     }
 
     private fun userDetails(){
@@ -211,14 +90,25 @@ class ProfileFragment : Fragment() {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
                                     try {
-                                        if (response.body()!!.data.user.image != null) {
-                                            Glide.with(context!!)
-                                                .load(response.body()!!.data.user.image)
-                                                .placeholder(R.drawable.user_avatar)
-                                                .into(userPic!!)
-                                        }
-                                        profileName!!.text = response.body()!!.data.user.profile_name
-                                        FCSharedPreferances.getSharedPreferance(context).activE_COMMUNITY=response.body()!!.data.user.active_community.toString()
+                                        FCSharedPreferances.getSharedPreferance(context).otheR_ID=response.body()!!.data.user.id.toString()
+                                        Glide.with(context!!)
+                                            .load(response.body()!!.data.user.image)
+                                            .placeholder(R.drawable.user_avatar)
+                                            .into(userPic!!)
+                                    userName!!.text = response.body()!!.data.user.profile_name
+                                    About!!.text=response.body()!!.data.user.about
+                                        tab_layout!!.addTab(tab_layout!!.newTab().setText("About"))
+                                        tab_layout!!.addTab(tab_layout!!.newTab().setText("Post"))
+                                        val tabsAdapter =
+                                            OthersTabAdapter(
+                                                childFragmentManager,
+                                                tab_layout!!.tabCount
+                                            )
+                                        view_pager!!.adapter = tabsAdapter
+                                        view_pager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tab_layout))
+
+                                        followerCount!!.text = response.body()!!.data.follower_count.toString()
+                                        followingCount!!.text = response.body()!!.data.following_count.toString()
                                     }catch (e:Exception){}
                                 } else {
                                     ProjectUtill.printMessage(
@@ -254,56 +144,4 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun deleteAccount() {
-        val myDialog = ProjectUtill.showProgressDialog(context)
-        context?.let { it1 ->
-            WebServiceRequest.getInstance().deleteAccount(
-                it1,
-                object : Callback<DeleteAccountResponse> {
-                    override fun onResponse(
-                        call: Call<DeleteAccountResponse>,
-                        response: Response<DeleteAccountResponse>
-                    ) {
-                        myDialog.dismiss()
-                        if (response != null) {
-                            if (response.isSuccessful) {
-                                if (response.body()!!.code == 1) {
-                                    Toast.makeText(context,""+response.body()!!.message,Toast.LENGTH_LONG).show()
-                                    FCSharedPreferances.getSharedPreferance(context).statuS_LOGIN="false"
-                                    var intent = Intent(context,LoginActivity::class.java)
-                                    intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                    startActivity(intent)
-                                } else {
-                                    ProjectUtill.printMessage(
-                                        (context as Activity).window.decorView,
-                                        response.body()?.message
-                                    )
-                                }
-                            } else {
-                                ProjectUtill.printErrorMessage(
-                                    (context as Activity).window.decorView,
-                                    ""
-                                )
-                            }
-                        } else {
-                            ProjectUtill.printErrorMessage(
-                                (context as Activity).window.decorView,
-                                ""
-                            )
-                        }
-                    }
-
-                    override fun onFailure(
-                        call: Call<DeleteAccountResponse>,
-                        t: Throwable
-                    ) {
-                        myDialog.dismiss()
-                        ProjectUtill.printErrorMessage(
-                            (context as Activity).window.decorView,
-                            ""
-                        )
-                    }
-                })
-        }
-    }
 }

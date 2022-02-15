@@ -33,8 +33,11 @@ class Constants {
         const val postList = "post/postList"
         const val likePost = "post/likePost"
         const val likeUnlikeComments = "post/likeUnlikeComments"
+        const val likeUnlikeCommentReply = "post/likeUnlikeCommentReply"
         const val postCommentList = "post/postCommentList"
+        const val replyCommentList = "post/replyList"
         const val addCommentOnPost = "post/addCommentOnPost"
+        const val addCommentOnReply = "post/addCommentReply"
         const val deletePostComments = "post/deletePostComments"
         const val switchCommunity = "community/switchCommunity"
         const val blockUnblockUser = "community/activateDeactivateMember"
@@ -43,6 +46,12 @@ class Constants {
         const val reportUser = "user/reportUser"
         const val getOtherUserDetails = "user/getOtherUserDetails"
         const val getUnreadNotificationCount = "notification/getUnreadNotificationCount"
+        const val followUser = "user/followUser"
+        const val unFollowUser = "user/unFollowUser"
+        const val followingUserList = "user/getAllFollowingUserList"
+        const val followerUserList = "user/getAllFollowerUserList"
+        const val stateList = "user/getAllStateList"
+        const val cityList = "user/getAllCityList"
     }
 
     object Keys {
@@ -82,6 +91,7 @@ class Constants {
         const val postId = "postId"
         const val like_type = "like_type"
         const val isLiked = "isLiked"
+        const val replyId = "replyId"
         const val commentType = "commentType"
         const val message = "message"
         const val commentId = "commentId"
@@ -90,5 +100,8 @@ class Constants {
         const val reasonId = "reasonId"
         const val user_id = "user_id"
         const val other_reason = "other_reason"
+        const val partnerId = "partnerId"
+        const val state_code = "state_code"
+        const val userId = "userId"
     }
 }

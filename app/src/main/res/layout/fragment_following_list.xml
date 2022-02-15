@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:layout_below="@+id/header"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/swipe_refresh"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,5 +13,24 @@
             android:layout_height="match_parent"
             android:scrollbars="none"
             android:id="@+id/following_recycler"/>
+        <TextView
+            android:visibility="gone"
+            android:text="@string/no_users"
+            android:textColor="@color/pink"
+            android:textSize="@dimen/margin_25"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:scaleType="fitXY"
+            android:fontFamily="@font/popinbold"
+            android:id="@+id/blank_data"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher_background"/>
+        <ProgressBar
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/progress_bar"
+            android:layout_alignParentBottom="true"
+            android:indeterminateTint="@color/pink"/>
     </RelativeLayout>
-</RelativeLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

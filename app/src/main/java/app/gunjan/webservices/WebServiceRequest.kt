@@ -265,6 +265,24 @@ class WebServiceRequest private constructor() {
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
+    fun addCommentOnReply(
+        context: Context,
+        commentId: String,
+        commentType: String,
+        message: String,
+        registrationResponseCallback: Callback<AddReplyResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.commentId] = commentId
+        params[Constants.Keys.commentType] = commentType
+        params[Constants.Keys.message] = message
+        val registrationResponseCall: Call<AddReplyResponse> =
+            apiInterface.addCommentOnReply(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
     fun deleteComment(
         context: Context,
         commentId: String,
@@ -294,6 +312,34 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.other_reason] = other_reason
         val registrationResponseCall: Call<ReportReasonResponse> =
             apiInterface.reportUser(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun followUser(
+        context: Context,
+        partnerId: String,
+        registrationResponseCallback: Callback<FollowUserResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.partnerId] = partnerId
+        val registrationResponseCall: Call<FollowUserResponse> =
+            apiInterface.followUser(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun unFollowUser(
+        context: Context,
+        partnerId: String,
+        registrationResponseCallback: Callback<UnfollowUserResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.partnerId] = partnerId
+        val registrationResponseCall: Call<UnfollowUserResponse> =
+            apiInterface.unFollowUser(params,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
@@ -344,6 +390,24 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.isLiked] = isLiked
         val registrationResponseCall: Call<LikeDislikeCommentResponse> =
             apiInterface.likeUnlikeComments(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun likeUnlikeCommentReply(
+        context: Context,
+        commentId: String,
+        like_type: String,
+        isLiked: String,
+        registrationResponseCallback: Callback<LikeUnlikeReplyResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.replyId] = commentId
+        params[Constants.Keys.like_type] = like_type
+        params[Constants.Keys.isLiked] = isLiked
+        val registrationResponseCall: Call<LikeUnlikeReplyResponse> =
+            apiInterface.likeUnlikeCommentReply(params,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
@@ -555,6 +619,67 @@ class WebServiceRequest private constructor() {
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
+    fun followingUserList(
+        context: Context,
+        page: String,
+        limit: String,
+        userId: String,
+        registrationResponseCallback: Callback<FollowingListResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        var params = HashMap<String,String>()
+        params[Constants.Keys.page] = page
+        params[Constants.Keys.limit] = limit
+        params[Constants.Keys.userId] = userId
+        val registrationResponseCall: Call<FollowingListResponse> =
+            apiInterface.followingUserList(page,limit,userId,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun followerUserList(
+        context: Context,
+        page: String,
+        limit: String,
+        userId: String,
+        registrationResponseCallback: Callback<FollowerListResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        var params = HashMap<String,String>()
+        params[Constants.Keys.page] = page
+        params[Constants.Keys.limit] = limit
+        params[Constants.Keys.userId] = userId
+        val registrationResponseCall: Call<FollowerListResponse> =
+            apiInterface.followerUserList(page,limit,userId,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun getStateList(
+        context: Context,
+        registrationResponseCallback: Callback<StateListResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val registrationResponseCall: Call<StateListResponse> =
+            apiInterface.getStateList(headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun getCityList(
+        context: Context,
+        state_code:String,
+        registrationResponseCallback: Callback<CityListResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        var params = HashMap<String,String>()
+        params[Constants.Keys.state_code] = state_code
+        val registrationResponseCall: Call<CityListResponse> =
+            apiInterface.getCityList(state_code,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
     fun otherUserProfile(
         context: Context,
         user_id: String,
@@ -591,6 +716,20 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.postId] = postId
         val registrationResponseCall: Call<CommentListResponse> =
             apiInterface.postCommentList(postId,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun replyCommentList(
+        context: Context,
+        commentId: String,
+        registrationResponseCallback: Callback<ReplyListResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        var params = HashMap<String,String>()
+        params[Constants.Keys.commentId] = commentId
+        val registrationResponseCall: Call<ReplyListResponse> =
+            apiInterface.replyCommentList(commentId,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 

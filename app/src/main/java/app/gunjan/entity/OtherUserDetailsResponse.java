@@ -63,6 +63,35 @@ public class OtherUserDetailsResponse implements Serializable {
 
         private UserBean user;
         private List<PostListBean> post_list;
+        private String follower_count;
+        private String following_count;
+
+        public Boolean getFollowing_this_user() {
+            return following_this_user;
+        }
+
+        public void setFollowing_this_user(Boolean following_this_user) {
+            this.following_this_user = following_this_user;
+        }
+
+        private Boolean following_this_user;
+
+        public String getFollower_count() {
+            return follower_count;
+        }
+
+        public void setFollower_count(String follower_count) {
+            this.follower_count = follower_count;
+        }
+
+        public String getFollowing_count() {
+            return following_count;
+        }
+
+        public void setFollowing_count(String following_count) {
+            this.following_count = following_count;
+        }
+
 
         public static class UserBean implements Serializable {
             public int getId() {

@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
 import app.gunjan.entity.CommentListResponse
 import app.gunjan.entity.LikeDislikeCommentResponse
+import app.gunjan.entity.LikeUnlikeReplyResponse
+import app.gunjan.entity.ReplyListResponse
 import app.gunjan.fragments.HomeFragment
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
@@ -21,23 +23,23 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AllCommentsAdapter(
+class AllCommentsReplysAdapter(
     var context: Context?,
-    data: MutableList<CommentListResponse.DataBean.CommentsBean>,
+    data: MutableList<ReplyListResponse.DataBean.ReplyListBean>,
     homeFragment: HomeFragment
-) :RecyclerView.Adapter<AllCommentsAdapter.ViewHolder>() {
-    private var data: MutableList<CommentListResponse.DataBean.CommentsBean> = data
+) :RecyclerView.Adapter<AllCommentsReplysAdapter.ViewHolder>() {
+    private var data: MutableList<ReplyListResponse.DataBean.ReplyListBean> = data
     private var homeFragment: HomeFragment?=homeFragment
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val listItem: View = layoutInflater.inflate(R.layout.comment_item, parent, false)
+        val listItem: View = layoutInflater.inflate(R.layout.commentreply_item, parent, false)
         return ViewHolder(listItem)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         try {
-            context?.let { Glide.with(it).load(data[position].commented_by.image).placeholder(R.drawable.user_avatar).into(holder.pic!!) }
-            holder.name!!.text=data[position].commented_by.first_name+" "+data[position].commented_by.last_name
+            context?.let { Glide.with(it).load(data[position].replied_by.image).placeholder(R.drawable.user_avatar).into(holder.pic!!) }
+            holder.name!!.text=data[position].replied_by.first_name+" "+data[position].replied_by.last_name
             holder.comment!!.text=data[position].message
             holder.totalLike!!.text=data[position].total_like.toString()
             holder.totaldisLike!!.text=data[position].total_unlike.toString()
@@ -46,12 +48,12 @@ class AllCommentsAdapter(
         holder.like!!.setOnClickListener {
             val myDialog = ProjectUtill.showProgressDialog(context)
             context?.let { it1 ->
-                WebServiceRequest.getInstance().likeDislikeComments(
+                WebServiceRequest.getInstance().likeUnlikeCommentReply(
                     it1,data[position].id.toString(),"love","1",
-                    object : Callback<LikeDislikeCommentResponse> {
+                    object : Callback<LikeUnlikeReplyResponse> {
                         override fun onResponse(
-                            call: Call<LikeDislikeCommentResponse>,
-                            response: Response<LikeDislikeCommentResponse>
+                            call: Call<LikeUnlikeReplyResponse>,
+                            response: Response<LikeUnlikeReplyResponse>
                         ) {
                             myDialog.dismiss()
                             if (response != null) {
@@ -80,7 +82,7 @@ class AllCommentsAdapter(
                         }
 
                         override fun onFailure(
-                            call: Call<LikeDislikeCommentResponse>,
+                            call: Call<LikeUnlikeReplyResponse>,
                             t: Throwable
                         ) {
                             myDialog.dismiss()
@@ -96,12 +98,12 @@ class AllCommentsAdapter(
         holder.dislike!!.setOnClickListener {
             val myDialog = ProjectUtill.showProgressDialog(context)
             context?.let { it1 ->
-                WebServiceRequest.getInstance().likeDislikeComments(
+                WebServiceRequest.getInstance().likeUnlikeCommentReply(
                     it1,data[position].id.toString(),"love","0",
-                    object : Callback<LikeDislikeCommentResponse> {
+                    object : Callback<LikeUnlikeReplyResponse> {
                         override fun onResponse(
-                            call: Call<LikeDislikeCommentResponse>,
-                            response: Response<LikeDislikeCommentResponse>
+                            call: Call<LikeUnlikeReplyResponse>,
+                            response: Response<LikeUnlikeReplyResponse>
                         ) {
                             myDialog.dismiss()
                             if (response != null) {
@@ -130,7 +132,7 @@ class AllCommentsAdapter(
                         }
 
                         override fun onFailure(
-                            call: Call<LikeDislikeCommentResponse>,
+                            call: Call<LikeUnlikeReplyResponse>,
                             t: Throwable
                         ) {
                             myDialog.dismiss()
@@ -143,14 +145,6 @@ class AllCommentsAdapter(
             }
         }
 
-        holder.deleteComment!!.setOnLongClickListener {
-            homeFragment!!.deleteCommentDialog(data[position].id.toString())
-             true
-        }
-
-        holder.reply!!.setOnClickListener {
-            homeFragment!!.commentsReplyDialog(data[position].id.toString())
-        }
     }
 
     override fun getItemCount(): Int {
@@ -160,7 +154,6 @@ class AllCommentsAdapter(
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var pic:CircleImageView?=null
         var name:TextView?=null
-        var reply:TextView?=null
         var comment:TextView?=null
         var totalLike: TextView? =null
         var totaldisLike: TextView? =null
@@ -176,7 +169,6 @@ class AllCommentsAdapter(
             like=itemView.findViewById(R.id.like)
             dislike=itemView.findViewById(R.id.dislike)
             deleteComment=itemView.findViewById(R.id.delete_comment)
-            reply=itemView.findViewById(R.id.reply)
         }
     }
 

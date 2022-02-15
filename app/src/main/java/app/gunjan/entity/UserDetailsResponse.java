@@ -5,6 +5,14 @@ import java.util.List;
 
 public class UserDetailsResponse implements Serializable {
 
+    /**
+     * code : 1
+     * message : User details
+     * data : {"user":{"id":22,"profile_name":"User1","first_name":"User1","last_name":"Demo","pincode":"2585","mobile":"1111111111","countryCode":"+91","gender":"Male","dob":"2000-02-15","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-5787.jpg","email":"user1@gmail.com","device_type":"android","device_token":"eDcfGzrKReWa-QRKVr39E8:APA91bHXmzpjsqd99yYkzsZPK-4FPXY-xUUdztKGhYx9S8oL6PDKfM4NaJXYj7rq16XdO4lBVFc3rTjx3uY-FS3ZbiVEbvAiQyd7JD95nPsA203yXS14rkjF9iA-ZKalfmvU41JNlw5F","profile_stage":"5","active":true,"notification_permission":"allow","about":"dcfffkfndmdndndk","identification_file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6187.jpg","active_community":18,"interest_list":[{"id":17,"interestId":2,"interestDetails":{"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}},{"id":18,"interestId":3,"interestDetails":{"id":3,"name":"interests3","image":"url","createdAt":"2022-01-10T12:16:50.000Z"}}]},"following_count":2,"follower_count":2,"active_community_details":{"id":18,"userId":22,"category":2,"title":"community1","about":"fjfjvjffjfjfkfj","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-9142.jpg"}}
+     */
+
+    private int code;
+
     public int getCode() {
         return code;
     }
@@ -29,13 +37,6 @@ public class UserDetailsResponse implements Serializable {
         this.data = data;
     }
 
-    /**
-     * code : 1
-     * message : User details
-     * data : {"user":{"id":8,"profile_name":"TestUser","first_name":"Test","last_name":"Test","pincode":"121212","mobile":"2222222222","countryCode":"+91","gender":"Male","dob":"1995-03-02","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg","email":"testt@test.com","device_type":"android","device_token":"d8ogsLmgT1GOKisQfScpZK:APA91bFHjD7ScWNHTPgIxGnA0n_8m4zMxZJibpzjHxm3CaJ2_yKZktNgOCtGV2lgOIbIb2CcWlNtD-VMxzDLipeZ045iKy76MmrCWeM3SQgvSUlZlMO7HcpoZTgDjOp4vnLUTtanVs-r","profile_stage":"5","active":true,"notification_permission":"allow","about":"dghhtff","identification_file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6556.jpg","active_community":16,"interest_list":[{"id":3,"interestId":1,"interestDetails":{"id":1,"name":"testing interests","image":"url","createdAt":"2022-01-10T09:56:50.000Z"}},{"id":4,"interestId":2,"interestDetails":{"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}},{"id":14,"interestId":3,"interestDetails":{"id":3,"name":"interests3","image":"url","createdAt":"2022-01-10T12:16:50.000Z"}}]}}
-     */
-
-    private int code;
     private String message;
     private DataBean data;
 
@@ -48,11 +49,41 @@ public class UserDetailsResponse implements Serializable {
             this.user = user;
         }
 
+        public int getFollowing_count() {
+            return following_count;
+        }
+
+        public void setFollowing_count(int following_count) {
+            this.following_count = following_count;
+        }
+
+        public int getFollower_count() {
+            return follower_count;
+        }
+
+        public void setFollower_count(int follower_count) {
+            this.follower_count = follower_count;
+        }
+
+        public ActiveCommunityDetailsBean getActive_community_details() {
+            return active_community_details;
+        }
+
+        public void setActive_community_details(ActiveCommunityDetailsBean active_community_details) {
+            this.active_community_details = active_community_details;
+        }
+
         /**
-         * user : {"id":8,"profile_name":"TestUser","first_name":"Test","last_name":"Test","pincode":"121212","mobile":"2222222222","countryCode":"+91","gender":"Male","dob":"1995-03-02","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg","email":"testt@test.com","device_type":"android","device_token":"d8ogsLmgT1GOKisQfScpZK:APA91bFHjD7ScWNHTPgIxGnA0n_8m4zMxZJibpzjHxm3CaJ2_yKZktNgOCtGV2lgOIbIb2CcWlNtD-VMxzDLipeZ045iKy76MmrCWeM3SQgvSUlZlMO7HcpoZTgDjOp4vnLUTtanVs-r","profile_stage":"5","active":true,"notification_permission":"allow","about":"dghhtff","identification_file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6556.jpg","active_community":16,"interest_list":[{"id":3,"interestId":1,"interestDetails":{"id":1,"name":"testing interests","image":"url","createdAt":"2022-01-10T09:56:50.000Z"}},{"id":4,"interestId":2,"interestDetails":{"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}},{"id":14,"interestId":3,"interestDetails":{"id":3,"name":"interests3","image":"url","createdAt":"2022-01-10T12:16:50.000Z"}}]}
+         * user : {"id":22,"profile_name":"User1","first_name":"User1","last_name":"Demo","pincode":"2585","mobile":"1111111111","countryCode":"+91","gender":"Male","dob":"2000-02-15","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-5787.jpg","email":"user1@gmail.com","device_type":"android","device_token":"eDcfGzrKReWa-QRKVr39E8:APA91bHXmzpjsqd99yYkzsZPK-4FPXY-xUUdztKGhYx9S8oL6PDKfM4NaJXYj7rq16XdO4lBVFc3rTjx3uY-FS3ZbiVEbvAiQyd7JD95nPsA203yXS14rkjF9iA-ZKalfmvU41JNlw5F","profile_stage":"5","active":true,"notification_permission":"allow","about":"dcfffkfndmdndndk","identification_file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6187.jpg","active_community":18,"interest_list":[{"id":17,"interestId":2,"interestDetails":{"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}},{"id":18,"interestId":3,"interestDetails":{"id":3,"name":"interests3","image":"url","createdAt":"2022-01-10T12:16:50.000Z"}}]}
+         * following_count : 2
+         * follower_count : 2
+         * active_community_details : {"id":18,"userId":22,"category":2,"title":"community1","about":"fjfjvjffjfjfkfj","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-9142.jpg"}
          */
 
         private UserBean user;
+        private int following_count;
+        private int follower_count;
+        private ActiveCommunityDetailsBean active_community_details;
 
         public static class UserBean implements Serializable {
             public int getId() {
@@ -216,26 +247,26 @@ public class UserDetailsResponse implements Serializable {
             }
 
             /**
-             * id : 8
-             * profile_name : TestUser
-             * first_name : Test
-             * last_name : Test
-             * pincode : 121212
-             * mobile : 2222222222
+             * id : 22
+             * profile_name : User1
+             * first_name : User1
+             * last_name : Demo
+             * pincode : 2585
+             * mobile : 1111111111
              * countryCode : +91
              * gender : Male
-             * dob : 1995-03-02
-             * image : https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg
-             * email : testt@test.com
+             * dob : 2000-02-15
+             * image : https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-5787.jpg
+             * email : user1@gmail.com
              * device_type : android
-             * device_token : d8ogsLmgT1GOKisQfScpZK:APA91bFHjD7ScWNHTPgIxGnA0n_8m4zMxZJibpzjHxm3CaJ2_yKZktNgOCtGV2lgOIbIb2CcWlNtD-VMxzDLipeZ045iKy76MmrCWeM3SQgvSUlZlMO7HcpoZTgDjOp4vnLUTtanVs-r
+             * device_token : eDcfGzrKReWa-QRKVr39E8:APA91bHXmzpjsqd99yYkzsZPK-4FPXY-xUUdztKGhYx9S8oL6PDKfM4NaJXYj7rq16XdO4lBVFc3rTjx3uY-FS3ZbiVEbvAiQyd7JD95nPsA203yXS14rkjF9iA-ZKalfmvU41JNlw5F
              * profile_stage : 5
              * active : true
              * notification_permission : allow
-             * about : dghhtff
-             * identification_file : https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6556.jpg
-             * active_community : 16
-             * interest_list : [{"id":3,"interestId":1,"interestDetails":{"id":1,"name":"testing interests","image":"url","createdAt":"2022-01-10T09:56:50.000Z"}},{"id":4,"interestId":2,"interestDetails":{"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}},{"id":14,"interestId":3,"interestDetails":{"id":3,"name":"interests3","image":"url","createdAt":"2022-01-10T12:16:50.000Z"}}]
+             * about : dcfffkfndmdndndk
+             * identification_file : https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6187.jpg
+             * active_community : 18
+             * interest_list : [{"id":17,"interestId":2,"interestDetails":{"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}},{"id":18,"interestId":3,"interestDetails":{"id":3,"name":"interests3","image":"url","createdAt":"2022-01-10T12:16:50.000Z"}}]
              */
 
             private int id;
@@ -285,9 +316,9 @@ public class UserDetailsResponse implements Serializable {
                 }
 
                 /**
-                 * id : 3
-                 * interestId : 1
-                 * interestDetails : {"id":1,"name":"testing interests","image":"url","createdAt":"2022-01-10T09:56:50.000Z"}
+                 * id : 17
+                 * interestId : 2
+                 * interestDetails : {"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}
                  */
 
                 private int id;
@@ -328,10 +359,10 @@ public class UserDetailsResponse implements Serializable {
                     }
 
                     /**
-                     * id : 1
-                     * name : testing interests
+                     * id : 2
+                     * name : testing interests 2
                      * image : url
-                     * createdAt : 2022-01-10T09:56:50.000Z
+                     * createdAt : 2022-01-10T10:05:49.000Z
                      */
 
                     private int id;
@@ -340,6 +371,72 @@ public class UserDetailsResponse implements Serializable {
                     private String createdAt;
                 }
             }
+        }
+
+        public static class ActiveCommunityDetailsBean implements Serializable {
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public int getUserId() {
+                return userId;
+            }
+
+            public void setUserId(int userId) {
+                this.userId = userId;
+            }
+
+            public int getCategory() {
+                return category;
+            }
+
+            public void setCategory(int category) {
+                this.category = category;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public String getAbout() {
+                return about;
+            }
+
+            public void setAbout(String about) {
+                this.about = about;
+            }
+
+            public String getImage() {
+                return image;
+            }
+
+            public void setImage(String image) {
+                this.image = image;
+            }
+
+            /**
+             * id : 18
+             * userId : 22
+             * category : 2
+             * title : community1
+             * about : fjfjvjffjfjfkfj
+             * image : https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-9142.jpg
+             */
+
+            private int id;
+            private int userId;
+            private int category;
+            private String title;
+            private String about;
+            private String image;
         }
     }
 }

@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
+import app.gunjan.activities.HomeActivity
 import app.gunjan.activities.OthersProfileActivity
 import app.gunjan.activities.PostListResponse
 import app.gunjan.entity.LikeDislikePostResponse
@@ -107,6 +108,17 @@ class HomePostsAdapter(
             if(data[position].created_by.id.toString()!=FCSharedPreferances.getSharedPreferance(context).useR_ID) {
                 FCSharedPreferances.getSharedPreferance(context).otheR_ID=data[position].created_by.id.toString()
                 context!!.startActivity(Intent(context, OthersProfileActivity::class.java))
+            }else{
+                FCSharedPreferances.getSharedPreferance(context).status =
+                    "edit"
+                FCSharedPreferances.getSharedPreferance(context).otheR_ID=data[position].created_by.id.toString()
+                var intent = Intent(
+                    context,
+                    HomeActivity::class.java
+                )
+                intent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                context!!.startActivity(intent)
             }
         }
 

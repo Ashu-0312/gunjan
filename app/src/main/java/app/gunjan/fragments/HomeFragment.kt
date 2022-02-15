@@ -15,16 +15,17 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.gunjan.R
 import app.gunjan.activities.PostListResponse
-import app.gunjan.adapters.AllCommentsAdapter
-import app.gunjan.adapters.HomePostsAdapter
-import app.gunjan.adapters.ReasonList2Adapter
+import app.gunjan.adapters.*
 import app.gunjan.entity.*
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
+import com.bumptech.glide.Glide
+import com.google.android.material.tabs.TabLayout
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_notification.*
 import kotlinx.android.synthetic.main.activity_privacy_policy.*
+import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,16 +33,22 @@ import retrofit2.Response
 class HomeFragment : Fragment() {
     private var page: Int? = 1
     private var postId: String? = ""
+    private var commentId: String? = ""
     private var Status: String? = "2"
+    private var pic: String? = ""
+    private var name: String? = ""
+    private var description: String? = ""
     var isLoading = false
     var isLastPage = false
     private var layoutManager: LinearLayoutManager? = null
     var commentRecycler: RecyclerView? = null
+    var replyRecycler: RecyclerView? = null
     var postsAdapter: HomePostsAdapter? = null
     var swipeRefresh: SwipeRefreshLayout? = null
     var progressBar: ProgressBar? = null
     var blankData: TextView? = null
     var blankData2: TextView? = null
+    var blankData3: TextView? = null
     var nestedScroll: NestedScrollView? = null
     private var postList: ArrayList<PostListResponse.DataBean.PostBean> =
         ArrayList<PostListResponse.DataBean.PostBean>()
@@ -49,7 +56,8 @@ class HomeFragment : Fragment() {
     private var list: ArrayList<String> = ArrayList<String>()
     private var postRecycler: RecyclerView? = null
     private var reasonLayout: LinearLayout? = null
-    private var showDescription: CircleImageView? = null
+    private var communityPic: CircleImageView? = null
+    private var communityName: TextView? = null
     private var share: ImageView? = null
     private var invite: LinearLayout? = null
     private var discuss: LinearLayout? = null
@@ -63,7 +71,8 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         postRecycler = view.findViewById(R.id.post_recycler)
-        showDescription = view.findViewById(R.id.show_description)
+        communityPic = view.findViewById(R.id.community_pic)
+        communityName = view.findViewById(R.id.community_name)
         share = view.findViewById(R.id.whatsapp)
         invite = view.findViewById(R.id.invite)
         discuss = view.findViewById(R.id.discussion)
@@ -80,11 +89,11 @@ class HomeFragment : Fragment() {
 
     private fun initData() {
         animShow = AnimationUtils.loadAnimation(context, R.anim.move_right_in_activity)
-
+         userDetails()
         initializeAdapter()
         postListApi("1")
 
-        showDescription!!.setOnClickListener { communityDescriptionDialog() }
+        communityPic!!.setOnClickListener { communityDescriptionDialog() }
 
         swipeRefresh!!.setColorSchemeResources(R.color.pink)
         swipeRefresh!!.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
@@ -736,6 +745,9 @@ class HomeFragment : Fragment() {
 
     fun communityDescriptionDialog() {
         var close: ImageView? = null
+        var cPic: CircleImageView? = null
+        var cName: TextView? = null
+        var cDescription: TextView? = null
         val dialog = context?.let { Dialog(it) }
         // Include dialog.xml file
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -750,6 +762,18 @@ class HomeFragment : Fragment() {
         dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
         dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
         close = dialog.findViewById(R.id.close)
+        cPic = dialog.findViewById(R.id.community_pic)
+        cName = dialog.findViewById(R.id.community_name)
+        cDescription = dialog.findViewById(R.id.description)
+
+        context?.let {
+            Glide.with(it)
+                .load(pic)
+                .placeholder(R.drawable.user_avatar)
+                .into(cPic)
+        }
+        cName!!.text = name
+        cDescription!!.text = description
 
         close.setOnClickListener {
             dialog.cancel()
@@ -841,6 +865,89 @@ class HomeFragment : Fragment() {
         dialog.show()
     }
 
+    fun commentsReplyDialog(id: String) {
+        var close: ImageView? = null
+        var addComment: ImageView? = null
+        var edtComment: EditText? = null
+        val dialog = context?.let { Dialog(it) }
+        // Include dialog.xml file
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog!!.setContentView(R.layout.commentreply_dialog)
+        dialog!!.setCancelable(true)
+        val window = dialog.window
+        window!!.setGravity(Gravity.CENTER)
+        window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        close = dialog.findViewById(R.id.close)
+        addComment = dialog.findViewById(R.id.add)
+        edtComment = dialog.findViewById(R.id.edt_comment)
+        blankData3 = dialog.findViewById(R.id.blank_data2)
+        replyRecycler = dialog.findViewById(R.id.reply_recycler)
+        commentId = id
+        getReplyCommentList(commentId!!)
+        addComment!!.setOnClickListener {
+            if (edtComment.text.toString().trim() != "") {
+                val myDialog = ProjectUtill.showProgressDialog(context)
+                context?.let { it1 ->
+                    WebServiceRequest.getInstance().addCommentOnReply(
+                        it1, commentId!!, "text", edtComment.text.toString().trim(),
+                        object : Callback<AddReplyResponse> {
+                            override fun onResponse(
+                                call: Call<AddReplyResponse>,
+                                response: Response<AddReplyResponse>
+                            ) {
+                                myDialog.dismiss()
+                                if (response != null) {
+                                    if (response.isSuccessful) {
+                                        if (response.body()!!.code == 1) {
+                                            edtComment.text.clear()
+                                            getReplyCommentList(commentId!!)
+                                        } else {
+                                            ProjectUtill.printMessage(
+                                                (context as Activity).window.decorView,
+                                                response.body()?.message
+                                            )
+                                        }
+                                    } else {
+                                        ProjectUtill.printErrorMessage(
+                                            (context as Activity).window.decorView,
+                                            ""
+                                        )
+                                    }
+                                } else {
+                                    ProjectUtill.printErrorMessage(
+                                        (context as Activity).window.decorView,
+                                        ""
+                                    )
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<AddReplyResponse>,
+                                t: Throwable
+                            ) {
+                                myDialog.dismiss()
+                                ProjectUtill.printErrorMessage(
+                                    (context as Activity).window.decorView,
+                                    ""
+                                )
+                            }
+                        })
+                }
+            }
+        }
+
+        close.setOnClickListener {
+            dialog.cancel()
+        }
+
+        dialog.show()
+    }
+
     private fun getCommentList(postId: String) {
         context?.let { it1 ->
             WebServiceRequest.getInstance().commentList(
@@ -893,6 +1000,69 @@ class HomeFragment : Fragment() {
 
                     override fun onFailure(
                         call: Call<CommentListResponse>,
+                        t: Throwable
+                    ) {
+                        ProjectUtill.printErrorMessage(
+                            (context as Activity).window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
+    }
+
+    private fun getReplyCommentList(commentId: String) {
+        context?.let { it1 ->
+            WebServiceRequest.getInstance().replyCommentList(
+                it1, commentId!!,
+                object : Callback<ReplyListResponse> {
+                    override fun onResponse(
+                        call: Call<ReplyListResponse>,
+                        response: Response<ReplyListResponse>
+                    ) {
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    if (response.body()!!.data.reply_list.size == 0) {
+                                        replyRecycler!!.visibility = View.GONE
+                                        blankData3!!.visibility = View.VISIBLE
+                                    } else {
+                                        replyRecycler!!.visibility = View.VISIBLE
+                                        blankData3!!.visibility = View.GONE
+                                        var replyAdapter = AllCommentsReplysAdapter(
+                                            context,
+                                            response.body()!!.data.reply_list, this@HomeFragment
+                                        )
+                                        var layoutManager = LinearLayoutManager(
+                                            context,
+                                            LinearLayoutManager.VERTICAL,
+                                            true
+                                        )
+                                        replyRecycler!!.layoutManager = layoutManager
+                                        replyRecycler!!.adapter = replyAdapter
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        (context as Activity).window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    (context as Activity).window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                (context as Activity).window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<ReplyListResponse>,
                         t: Throwable
                     ) {
                         ProjectUtill.printErrorMessage(
@@ -972,5 +1142,60 @@ class HomeFragment : Fragment() {
             }
         }
         dialog.show()
+    }
+
+    private fun userDetails(){
+        context?.let { it1 ->
+            WebServiceRequest.getInstance().userDetails(
+                it1,
+                object : Callback<UserDetailsResponse> {
+                    override fun onResponse(
+                        call: Call<UserDetailsResponse>,
+                        response: Response<UserDetailsResponse>
+                    ) {
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    try {
+                                        Glide.with(context!!)
+                                            .load(response.body()!!.data.active_community_details.image)
+                                            .placeholder(R.drawable.user_avatar)
+                                            .into(communityPic!!)
+                                        communityName!!.text = response.body()!!.data.active_community_details.title
+                                        pic=response.body()!!.data.active_community_details.image
+                                        name=response.body()!!.data.active_community_details.title
+                                        description=response.body()!!.data.active_community_details.about
+                                    }catch (e:Exception){}
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        (context as Activity).window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    (context as Activity).window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                (context as Activity).window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<UserDetailsResponse>,
+                        t: Throwable
+                    ) {
+                        ProjectUtill.printErrorMessage(
+                            (context as Activity).window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
     }
 }

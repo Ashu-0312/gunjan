@@ -22,7 +22,11 @@
         android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity"
         tools:replace="allowBackup">
-        <activity android:name=".activities.SwitchCommunityActivity"
+        <activity android:name=".activities.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LoginTheme" />
+        <activity
+            android:name=".activities.SwitchCommunityActivity"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity

@@ -52,6 +52,11 @@ interface ApiInterface {
         @HeaderMap headers:Map<String,String>
     ): Call<LikeDislikeCommentResponse>
 
+    @POST(Constants.Partial.likeUnlikeCommentReply)
+    fun likeUnlikeCommentReply(
+        @Body params:HashMap<String,String>,
+        @HeaderMap headers:Map<String,String>
+    ): Call<LikeUnlikeReplyResponse>
 
     @POST(Constants.Partial.addPost)
     fun addPost(
@@ -65,6 +70,12 @@ interface ApiInterface {
         @HeaderMap headers:Map<String,String>
     ): Call<AddCommentResponse>
 
+    @POST(Constants.Partial.addCommentOnReply)
+    fun addCommentOnReply(
+        @Body params:HashMap<String,String>,
+        @HeaderMap headers:Map<String,String>
+    ): Call<AddReplyResponse>
+
     @POST(Constants.Partial.deletePostComments)
     fun deletePostComments(
         @Body params:HashMap<String,String>,
@@ -76,6 +87,18 @@ interface ApiInterface {
         @Body params:HashMap<String,String>,
         @HeaderMap headers:Map<String,String>
     ): Call<ReportReasonResponse>
+
+    @POST(Constants.Partial.followUser)
+    fun followUser(
+        @Body params:HashMap<String,String>,
+        @HeaderMap headers:Map<String,String>
+    ): Call<FollowUserResponse>
+
+    @POST(Constants.Partial.unFollowUser)
+    fun unFollowUser(
+        @Body params:HashMap<String,String>,
+        @HeaderMap headers:Map<String,String>
+    ): Call<UnfollowUserResponse>
 
     @PUT(Constants.Partial.addAboutYourself)
     fun addAboutYourself(
@@ -181,6 +204,33 @@ interface ApiInterface {
         @HeaderMap headers: Map<String, String>,
     ): Call<InterestListResponse>
 
+    @GET(Constants.Partial.followingUserList)
+    fun followingUserList(
+        @Query(Constants.Keys.page) page: String?,
+        @Query(Constants.Keys.limit) limit: String?,
+        @Query(Constants.Keys.userId) userId: String?,
+        @HeaderMap headers: Map<String, String>,
+    ): Call<FollowingListResponse>
+
+    @GET(Constants.Partial.followerUserList)
+    fun followerUserList(
+        @Query(Constants.Keys.page) page: String?,
+        @Query(Constants.Keys.limit) limit: String?,
+        @Query(Constants.Keys.userId) userId: String?,
+        @HeaderMap headers: Map<String, String>,
+    ): Call<FollowerListResponse>
+
+    @GET(Constants.Partial.stateList)
+    fun getStateList(
+        @HeaderMap headers: Map<String, String>,
+    ): Call<StateListResponse>
+
+    @GET(Constants.Partial.cityList)
+    fun getCityList(
+        @Query(Constants.Keys.state_code) state_code: String?,
+        @HeaderMap headers: Map<String, String>,
+    ): Call<CityListResponse>
+
     @GET(Constants.Partial.getOtherUserDetails)
     fun otherUserProfile(
         @Query(Constants.Keys.user_id) user_id: String?,
@@ -197,6 +247,12 @@ interface ApiInterface {
         @Query(Constants.Keys.postId) postId: String?,
         @HeaderMap headers: Map<String, String>,
     ): Call<CommentListResponse>
+
+    @GET(Constants.Partial.replyCommentList)
+    fun replyCommentList(
+        @Query(Constants.Keys.commentId) commentId: String?,
+        @HeaderMap headers: Map<String, String>,
+    ): Call<ReplyListResponse>
 
     @GET(Constants.Partial.getCommunityDetails)
     fun getCommunityDetails(
