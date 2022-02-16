@@ -1,6 +1,7 @@
 package app.gunjan.fragments
 
 import android.content.Intent
+import android.media.Image
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
@@ -9,10 +10,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.view.inputmethod.EditorInfo
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -35,6 +34,7 @@ class CommunityListFragment : Fragment() {
     private var layoutManager: LinearLayoutManager? = null
     private var blankData: TextView? = null
     private var searchEdt: EditText? = null
+    private var search: ImageView? = null
     private var progressBar: ProgressBar? = null
     private var swipeRefresh: SwipeRefreshLayout? = null
     private var communityList: ArrayList<CommunityListResponse.DataBean.CommunityListBean> =
@@ -52,6 +52,7 @@ class CommunityListFragment : Fragment() {
         progressBar=view.findViewById(R.id.progress_bar)
         swipeRefresh=view.findViewById(R.id.swipe_refresh)
         searchEdt=view.findViewById(R.id.search_edt)
+        search=view.findViewById(R.id.search)
         initData()
         return view
     }
@@ -78,20 +79,32 @@ class CommunityListFragment : Fragment() {
         searchEdt!!.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                if (charSequence.length > 1) {
-                    Handler().postDelayed({
-                        communityListSearchApi(page.toString(), searchEdt!!.text.toString().trim())
-                    }, 3000)
-                } else {
-                    Handler().postDelayed({
-                        communityListSearchApi( page.toString(), searchEdt!!.text.toString().trim())
-                    }, 2000)
-                }
             }
 
             override fun afterTextChanged(editable: Editable) {
+                if (searchEdt!!.text.toString().trim().isEmpty()) {
+                    communityListSearchApi( page.toString(), searchEdt!!.text.toString().trim())
+                }
             }
         })
+
+        searchEdt!!.onDone {
+            communityListSearchApi( page.toString(), searchEdt!!.text.toString().trim())
+        }
+
+        search!!.setOnClickListener {
+            communityListSearchApi(page.toString(), searchEdt!!.text.toString().trim())
+        }
+    }
+
+    fun EditText.onDone(callback: () -> Unit) {
+        setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                callback.invoke()
+                true
+            }
+            false
+        }
     }
 
     private fun communityListSearchApi(page: String, value: String) {
@@ -172,7 +185,7 @@ class CommunityListFragment : Fragment() {
                 it, page, "10", "","0",
                 object : Callback<CommunityListResponse> {
                     override fun onResponse(
-                        call: Call<CommunityListResponse>,
+                        capll: Call<CommunityListResponse>,
                         response: Response<CommunityListResponse>,
                     ) {
                         isLoading = false

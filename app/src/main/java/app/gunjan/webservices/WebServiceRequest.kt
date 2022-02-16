@@ -803,6 +803,7 @@ class WebServiceRequest private constructor() {
         context: Context,
         page: String,
         limit: String,
+        badge_type: String,
         registrationResponseCallback: Callback<PostListResponse>
     ) {
         val headers= HashMap<String,String>()
@@ -810,8 +811,9 @@ class WebServiceRequest private constructor() {
         var params = HashMap<String,String>()
         params[Constants.Keys.page] = page
         params[Constants.Keys.limit] = limit
+        params[Constants.Keys.badge_type] = badge_type
         val registrationResponseCall: Call<PostListResponse> =
-            apiInterface.postList(page,limit,headers)
+            apiInterface.postList(page,limit,badge_type,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 }

@@ -71,7 +71,6 @@
             android:layout_marginEnd="@dimen/margin_10dp"
             android:fontFamily="@font/poppins_light"
             android:maxLines="4"
-            android:text="@string/dummy"
             android:textSize="@dimen/text_13sp" />
 
         <TextView

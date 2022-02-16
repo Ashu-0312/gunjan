@@ -103,5 +103,6 @@ class Constants {
         const val partnerId = "partnerId"
         const val state_code = "state_code"
         const val userId = "userId"
+        const val badge_type = "badge_type"
     }
 }

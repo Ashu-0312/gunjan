@@ -10,6 +10,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -134,6 +136,19 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
             }
         }
 
+         profileName!!.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+            }
+
+            override fun afterTextChanged(editable: Editable) {
+                var result:String = editable.toString().replace(" ", "");
+                if (!editable.toString().equals(result)) {
+                    profileName!!.setText(result)
+                    profileName!!.setSelection(result.length)
+                }
+            }
+        })
         choosePic!!.setOnClickListener {
             if (checkPicturePermission()) {
                 val builder2 = AlertDialog.Builder(context)

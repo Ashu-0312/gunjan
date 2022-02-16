@@ -272,6 +272,7 @@ interface ApiInterface {
     fun postList(
         @Query(Constants.Keys.page) page: String?,
         @Query(Constants.Keys.limit) limit: String?,
+        @Query(Constants.Keys.badge_type) badge_type: String?,
         @HeaderMap headers: Map<String, String>,
     ): Call<PostListResponse>
 

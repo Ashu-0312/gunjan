@@ -50,11 +50,6 @@
                 android:textColor="#2C2A2A"
                 android:textSize="@dimen/text_16sp" />
 
-            <ImageView
-                android:id="@+id/whatsapp"
-                android:layout_width="@dimen/text_30sp"
-                android:layout_height="@dimen/text_30sp"
-                android:src="@drawable/whatsapp" />
         </LinearLayout>
 
         <LinearLayout

@@ -21,11 +21,9 @@ import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import com.bumptech.glide.Glide
-import com.google.android.material.tabs.TabLayout
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_notification.*
 import kotlinx.android.synthetic.main.activity_privacy_policy.*
-import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,6 +36,7 @@ class HomeFragment : Fragment() {
     private var pic: String? = ""
     private var name: String? = ""
     private var description: String? = ""
+    private var type: String? = "discussion"
     var isLoading = false
     var isLastPage = false
     private var layoutManager: LinearLayoutManager? = null
@@ -58,7 +57,6 @@ class HomeFragment : Fragment() {
     private var reasonLayout: LinearLayout? = null
     private var communityPic: CircleImageView? = null
     private var communityName: TextView? = null
-    private var share: ImageView? = null
     private var invite: LinearLayout? = null
     private var discuss: LinearLayout? = null
     private var trending: LinearLayout? = null
@@ -73,7 +71,6 @@ class HomeFragment : Fragment() {
         postRecycler = view.findViewById(R.id.post_recycler)
         communityPic = view.findViewById(R.id.community_pic)
         communityName = view.findViewById(R.id.community_name)
-        share = view.findViewById(R.id.whatsapp)
         invite = view.findViewById(R.id.invite)
         discuss = view.findViewById(R.id.discussion)
         trending = view.findViewById(R.id.trending)
@@ -91,7 +88,7 @@ class HomeFragment : Fragment() {
         animShow = AnimationUtils.loadAnimation(context, R.anim.move_right_in_activity)
         userDetails()
         initializeAdapter()
-        postListApi("1")
+        postListApi("1",type!!)
 
         communityPic!!.setOnClickListener { communityDescriptionDialog() }
 
@@ -105,15 +102,6 @@ class HomeFragment : Fragment() {
             postListSwipeApi("1")
             swipeRefresh!!.isRefreshing = false
         })
-
-        share!!.setOnClickListener {
-            val sharingIntent = Intent(Intent.ACTION_SEND)
-            sharingIntent.type = "text/plain"
-            val shareBodyText = "Gunjan App"
-            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here")
-            sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText)
-            startActivity(sharingIntent)
-        }
 
         invite!!.setOnClickListener {
             val sharingIntent = Intent(Intent.ACTION_SEND)
@@ -129,6 +117,9 @@ class HomeFragment : Fragment() {
             trending!!.background = resources.getDrawable(R.drawable.edittext_bg)
             announce!!.background = resources.getDrawable(R.drawable.edittext_bg)
             event!!.background = resources.getDrawable(R.drawable.edittext_bg)
+            type="discussion"
+            initializeAdapter()
+            postListApi("1",type!!)
         }
 
         trending!!.setOnClickListener {
@@ -136,6 +127,9 @@ class HomeFragment : Fragment() {
             discuss!!.background = resources.getDrawable(R.drawable.edittext_bg)
             announce!!.background = resources.getDrawable(R.drawable.edittext_bg)
             event!!.background = resources.getDrawable(R.drawable.edittext_bg)
+            type="trending"
+            initializeAdapter()
+            postListApi("1",type!!)
         }
 
         announce!!.setOnClickListener {
@@ -143,6 +137,9 @@ class HomeFragment : Fragment() {
             discuss!!.background = resources.getDrawable(R.drawable.edittext_bg)
             trending!!.background = resources.getDrawable(R.drawable.edittext_bg)
             event!!.background = resources.getDrawable(R.drawable.edittext_bg)
+            type="announcement"
+            initializeAdapter()
+            postListApi("1",type!!)
         }
 
         event!!.setOnClickListener {
@@ -171,12 +168,12 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun postListApi(page: String) {
+    private fun postListApi(page: String, type: String) {
         isLoading = true
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let {
             WebServiceRequest.getInstance().postList(
-                it, page, "10",
+                it, page, "10",type,
                 object : Callback<PostListResponse> {
                     override fun onResponse(
                         call: Call<PostListResponse>,
@@ -246,7 +243,7 @@ class HomeFragment : Fragment() {
         isLoading = true
         context?.let {
             WebServiceRequest.getInstance().postList(
-                it, page, "10",
+                it, page, "10","discussion",
                 object : Callback<PostListResponse> {
                     override fun onResponse(
                         call: Call<PostListResponse>,
@@ -315,7 +312,7 @@ class HomeFragment : Fragment() {
         progress_bar!!.visibility = View.VISIBLE
         context?.let {
             WebServiceRequest.getInstance().postList(
-                it, page, "10",
+                it, page, "10","discussion",
                 object : Callback<PostListResponse> {
                     override fun onResponse(
                         call: Call<PostListResponse>,
