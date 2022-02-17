@@ -1,8 +1,6 @@
 package app.gunjan.activities
 
-import android.app.Activity
-import android.app.Dialog
-import android.app.ProgressDialog
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -16,15 +14,11 @@ import android.util.Log
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
 import app.gunjan.R
 import app.gunjan.entity.AddPostResponse
-import app.gunjan.entity.PrivacyPolicyResponse
 import app.gunjan.utill.PermissionUtil
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.utill.ProjectUtill.getPath
@@ -43,21 +37,36 @@ import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.model.CannedAccessControlList
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_add_post.*
-import kotlinx.android.synthetic.main.activity_add_post.back
-import kotlinx.android.synthetic.main.activity_privacy_policy.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.*
+import java.text.SimpleDateFormat
 import java.util.*
 
-class AddPostActivity : AppCompatActivity(),UploadFileListener {
+class AddPostActivity : AppCompatActivity(), UploadFileListener {
+    private var dob = ""
+    private  var status:String? = null
+    private var mYear = 0
+    private  var mMonth:Int = 0
+    private  var mDay:Int = 0
+    var fromDateValue = ""
+    var yourDate:String? = null
+    var toDateValue:String? = ""
     private var pathPic = ""
     var path: String? = null
-    var progressdialog: ProgressDialog?=null
+    private var mHour = 0
+    private  var mMinute:Int = 0
+    private  var mSecond:Int = 0
+    var selectedStartTime: String? = null
+    var format:String? = ""
+    var timeValue:String? = ""
+    var progressdialog: ProgressDialog? = null
     private var awsPicUrl = ""
+    private var awsPicUrl2 = ""
     private var animShow: Animation? = null
-    private var type:String="text"
+    private var type: String = "text"
+    private var feedType: String = "disccusion"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_post)
@@ -70,21 +79,53 @@ class AddPostActivity : AppCompatActivity(),UploadFileListener {
         animShow = AnimationUtils.loadAnimation(this, R.anim.move_right_in_activity)
         back.setOnClickListener { finish() }
 
+        startDate.setOnClickListener {
+            status="f"
+            get_date()
+        }
+
+        endDate.setOnClickListener {
+            status="t"
+            get_date()
+        }
+
+        startTime.setOnClickListener {
+            getTime()
+        }
+
+        discussType.setOnClickListener {
+            feedType = "disccusion"
+            discussLayout.visibility = View.VISIBLE
+            layout.visibility = View.VISIBLE
+            eventLayout.visibility = View.GONE
+            discussType.isChecked = true
+            eventType.isChecked = false
+        }
+
+        eventType.setOnClickListener {
+            feedType = "event"
+            eventLayout.visibility = View.VISIBLE
+            discussLayout.visibility = View.GONE
+            layout.visibility = View.GONE
+            discussType.isChecked = false
+            eventType.isChecked = true
+        }
+
         textPost.setOnClickListener {
-            awsPicUrl=""
-            type="text"
-            textPost.background=resources.getDrawable(R.drawable.button_bg)
-            mediaPost.background=resources.getDrawable(R.drawable.unselected_bg)
+            awsPicUrl = ""
+            type = "text"
+            textPost.background = resources.getDrawable(R.drawable.button_bg)
+            mediaPost.background = resources.getDrawable(R.drawable.unselected_bg)
             mediaLayout.visibility = View.GONE
             txtLayout.visibility = View.VISIBLE
             txtLayout!!.startAnimation(animShow)
         }
 
         mediaPost.setOnClickListener {
-            type="image"
-            mediaPost.background=resources.getDrawable(R.drawable.button_bg)
-            textPost.background=resources.getDrawable(R.drawable.unselected_bg)
-            txtLayout.visibility = View.GONE
+            type = "image"
+            mediaPost.background = resources.getDrawable(R.drawable.button_bg)
+            textPost.background = resources.getDrawable(R.drawable.unselected_bg)
+            txtLayout.visibility = View.VISIBLE
             addMedia.visibility = View.VISIBLE
             postPic.visibility = View.GONE
             videoFrame.visibility = View.GONE
@@ -96,6 +137,10 @@ class AddPostActivity : AppCompatActivity(),UploadFileListener {
         }
 
         mediaLayout.setOnClickListener {
+            chooseMediaDialog()
+        }
+
+        emediaLayout.setOnClickListener {
             chooseMediaDialog()
         }
 
@@ -122,30 +167,46 @@ class AddPostActivity : AppCompatActivity(),UploadFileListener {
         }
 
         Post.setOnClickListener {
-            if (type=="text"){
-                if (edtPost.text.toString().trim() == ""){
-                    Toast.makeText(this,"Please write about your post",Toast.LENGTH_LONG).show()
-                }else{
-                    val myDialog = ProjectUtill.showProgressDialog(this@AddPostActivity)
-                    WebServiceRequest.getInstance().addPost(
-                        this,edtPost.text.toString().trim(),"",type,
-                        object : Callback<AddPostResponse> {
-                            override fun onResponse(
-                                call: Call<AddPostResponse>,
-                                response: Response<AddPostResponse>
-                            ) {
-                                myDialog.dismiss()
-                                if (response != null) {
-                                    if (response.isSuccessful) {
-                                        if (response.body()!!.code == 1) {
-                                            Toast.makeText(this@AddPostActivity,""+response.body()!!.message,Toast.LENGTH_LONG).show()
-                                            var intent = Intent(this@AddPostActivity,HomeActivity::class.java)
-                                            intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                            startActivity(intent)
+            if (feedType == "disccusion") {
+                if (type == "text") {
+                    if (edtPost.text.toString().trim() == "") {
+                        Toast.makeText(this, "Please write about your post", Toast.LENGTH_LONG)
+                            .show()
+                    } else {
+                        val myDialog = ProjectUtill.showProgressDialog(this@AddPostActivity)
+                        WebServiceRequest.getInstance().addPost(
+                            this, edtPost.text.toString().trim(), "", type, feedType,"","","",
+                            object : Callback<AddPostResponse> {
+                                override fun onResponse(
+                                    call: Call<AddPostResponse>,
+                                    response: Response<AddPostResponse>
+                                ) {
+                                    myDialog.dismiss()
+                                    if (response != null) {
+                                        if (response.isSuccessful) {
+                                            if (response.body()!!.code == 1) {
+                                                Toast.makeText(
+                                                    this@AddPostActivity,
+                                                    "" + response.body()!!.message,
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                                var intent = Intent(
+                                                    this@AddPostActivity,
+                                                    HomeActivity::class.java
+                                                )
+                                                intent.flags =
+                                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                startActivity(intent)
+                                            } else {
+                                                ProjectUtill.printMessage(
+                                                    this@AddPostActivity.window.decorView,
+                                                    response.body()?.message
+                                                )
+                                            }
                                         } else {
-                                            ProjectUtill.printMessage(
+                                            ProjectUtill.printErrorMessage(
                                                 this@AddPostActivity.window.decorView,
-                                                response.body()?.message
+                                                ""
                                             )
                                         }
                                     } else {
@@ -154,33 +215,103 @@ class AddPostActivity : AppCompatActivity(),UploadFileListener {
                                             ""
                                         )
                                     }
-                                } else {
+                                }
+
+                                override fun onFailure(
+                                    call: Call<AddPostResponse>,
+                                    t: Throwable
+                                ) {
+                                    myDialog.dismiss()
                                     ProjectUtill.printErrorMessage(
                                         this@AddPostActivity.window.decorView,
                                         ""
                                     )
                                 }
-                            }
+                            })
+                    }
+                } else if (type == "image" || type == "video") {
+                    if (awsPicUrl == "") {
+                        Toast.makeText(this, "Please choose media", Toast.LENGTH_LONG).show()
+                    } else if (edtPost.text.toString().trim() == "") {
+                        Toast.makeText(this, "Please write about your post", Toast.LENGTH_LONG)
+                            .show()
+                    } else {
+                        val myDialog = ProjectUtill.showProgressDialog(this@AddPostActivity)
+                        WebServiceRequest.getInstance().addPost(
+                            this, edtPost.text.toString().trim(), awsPicUrl, type, feedType,"","","",
+                            object : Callback<AddPostResponse> {
+                                override fun onResponse(
+                                    call: Call<AddPostResponse>,
+                                    response: Response<AddPostResponse>
+                                ) {
+                                    myDialog.dismiss()
+                                    if (response != null) {
+                                        if (response.isSuccessful) {
+                                            if (response.body()!!.code == 1) {
+                                                Toast.makeText(
+                                                    this@AddPostActivity,
+                                                    "" + response.body()!!.message,
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                                var intent = Intent(
+                                                    this@AddPostActivity,
+                                                    HomeActivity::class.java
+                                                )
+                                                intent.flags =
+                                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                startActivity(intent)
+                                            } else {
+                                                ProjectUtill.printMessage(
+                                                    this@AddPostActivity.window.decorView,
+                                                    response.body()?.message
+                                                )
+                                            }
+                                        } else {
+                                            ProjectUtill.printErrorMessage(
+                                                this@AddPostActivity.window.decorView,
+                                                ""
+                                            )
+                                        }
+                                    } else {
+                                        ProjectUtill.printErrorMessage(
+                                            this@AddPostActivity.window.decorView,
+                                            ""
+                                        )
+                                    }
+                                }
 
-                            override fun onFailure(
-                                call: Call<AddPostResponse>,
-                                t: Throwable
-                            ) {
-                                myDialog.dismiss()
-                                ProjectUtill.printErrorMessage(
-                                    this@AddPostActivity.window.decorView,
-                                    ""
-                                )
-                            }
-                        })
+                                override fun onFailure(
+                                    call: Call<AddPostResponse>,
+                                    t: Throwable
+                                ) {
+                                    myDialog.dismiss()
+                                    ProjectUtill.printErrorMessage(
+                                        this@AddPostActivity.window.decorView,
+                                        ""
+                                    )
+                                }
+                            })
+                    }
                 }
-            }else   if (type=="image" || type=="video"){
-                if (awsPicUrl == ""){
-                    Toast.makeText(this,"Please choose media",Toast.LENGTH_LONG).show()
-                }else{
+            } else {
+                if (awsPicUrl2 == "") {
+                    Toast.makeText(this, "Please choose media", Toast.LENGTH_LONG).show()
+                } else if (edtEventPost.text.toString().trim() == "") {
+                    Toast.makeText(this, "Please write about your event", Toast.LENGTH_LONG)
+                        .show()
+                }else if (fromDateValue == "") {
+                    Toast.makeText(this, "Please select event start date", Toast.LENGTH_LONG)
+                        .show()
+                }else if (timeValue == "") {
+                    Toast.makeText(this, "Please select event start time", Toast.LENGTH_LONG)
+                        .show()
+                } else if (toDateValue == "") {
+                    Toast.makeText(this, "Please select event end date", Toast.LENGTH_LONG)
+                        .show()
+                } else {
                     val myDialog = ProjectUtill.showProgressDialog(this@AddPostActivity)
                     WebServiceRequest.getInstance().addPost(
-                        this,"",awsPicUrl,type,
+                        this, edtPost.text.toString().trim(), awsPicUrl, type, feedType,fromDateValue,toDateValue!!,timeValue!!,
                         object : Callback<AddPostResponse> {
                             override fun onResponse(
                                 call: Call<AddPostResponse>,
@@ -190,9 +321,17 @@ class AddPostActivity : AppCompatActivity(),UploadFileListener {
                                 if (response != null) {
                                     if (response.isSuccessful) {
                                         if (response.body()!!.code == 1) {
-                                            Toast.makeText(this@AddPostActivity,""+response.body()!!.message,Toast.LENGTH_LONG).show()
-                                            var intent = Intent(this@AddPostActivity,HomeActivity::class.java)
-                                            intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                            Toast.makeText(
+                                                this@AddPostActivity,
+                                                "" + response.body()!!.message,
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                            var intent = Intent(
+                                                this@AddPostActivity,
+                                                HomeActivity::class.java
+                                            )
+                                            intent.flags =
+                                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                             startActivity(intent)
                                         } else {
                                             ProjectUtill.printMessage(
@@ -228,6 +367,184 @@ class AddPostActivity : AppCompatActivity(),UploadFileListener {
                 }
             }
         }
+    }
+
+    fun get_date() {
+        val c = Calendar.getInstance()
+        mYear = c[Calendar.YEAR]
+        mMonth = c[Calendar.MONTH]
+        mDay = c[Calendar.DAY_OF_MONTH]
+        val datePickerDialog = DatePickerDialog(
+            this,
+            { view, year, monthOfYear, dayOfMonth ->
+                var date = dayOfMonth.toString()
+                var month = (monthOfYear + 1).toString()
+                if (date.length == 1) {
+                    date = "0$date"
+                }
+                if (month.length == 1) {
+                    month = "0$month"
+                }
+                dob = "$year-$month-$date"
+                val today = Calendar.getInstance()
+                val dob = Calendar.getInstance()
+                dob[year, monthOfYear] = dayOfMonth
+                var yourAge = today[Calendar.YEAR] - dob[Calendar.YEAR]
+                dob.add(Calendar.YEAR, yourAge)
+                if (today.before(dob)) {
+                    yourAge--
+                }
+                val age = yourAge
+                if (status.equals("f", ignoreCase = true)) {
+                    fromDateValue = "$year-$month-$date"
+                    try {
+                        var format = SimpleDateFormat("yyyy-MM-dd")
+                        val date1 = format.parse(fromDateValue)
+                        val date2 = format.format(date1)
+                        format =
+                            if (date2.endsWith("01") && !date2.endsWith("11")) SimpleDateFormat("d'st' MMM, yyyy") else if (date2.endsWith(
+                                    "02"
+                                ) && !date2.endsWith("12")
+                            ) SimpleDateFormat("d'nd' MMM, yyyy") else if (date2.endsWith("03") && !date2.endsWith(
+                                    "13"
+                                )
+                            ) SimpleDateFormat("d'rd' MMM, yyyy") else SimpleDateFormat("d'th' MMM, yyyy")
+                        yourDate = format.format(date1)
+                        startDate.text = yourDate
+                    } catch (e: java.lang.Exception) {
+                    }
+                    val isTrue: Boolean = isDateAfter(fromDateValue, toDateValue)
+                    if (isTrue) {
+                        try {
+                            var format = SimpleDateFormat("yyyy-MM-dd")
+                            val date1 = format.parse(fromDateValue)
+                            val date2 = format.format(date1)
+                            format =
+                                if (date2.endsWith("01") && !date2.endsWith("11")) SimpleDateFormat(
+                                    "d'st' MMM, yyyy"
+                                ) else if (date2.endsWith("02") && !date2.endsWith("12")) SimpleDateFormat(
+                                    "d'nd' MMM, yyyy"
+                                ) else if (date2.endsWith("03") && !date2.endsWith("13")) SimpleDateFormat(
+                                    "d'rd' MMM, yyyy"
+                                ) else SimpleDateFormat("d'th' MMM, yyyy")
+                            yourDate = format.format(date1)
+                            startDate.text = yourDate
+                        } catch (e: java.lang.Exception) {
+                        }
+                    } else {
+                        if (toDateValue.equals("", ignoreCase = true)) {
+                            try {
+                                var format = SimpleDateFormat("yyyy-MM-dd")
+                                val date1 = format.parse(fromDateValue)
+                                val date2 = format.format(date1)
+                                format =
+                                    if (date2.endsWith("01") && !date2.endsWith("11")) SimpleDateFormat(
+                                        "d'st' MMM, yyyy"
+                                    ) else if (date2.endsWith("02") && !date2.endsWith("12")) SimpleDateFormat(
+                                        "d'nd' MMM, yyyy"
+                                    ) else if (date2.endsWith("03") && !date2.endsWith("13")) SimpleDateFormat(
+                                        "d'rd' MMM, yyyy"
+                                    ) else SimpleDateFormat("d'th' MMM, yyyy")
+                                yourDate = format.format(date1)
+                                startDate.text = yourDate
+                            } catch (e: java.lang.Exception) {
+                            }
+                            startDate.text = yourDate
+                        } else {
+                            Toast.makeText(
+                                this,
+                                "Event Start Date must be smaller then End Date",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                } else {
+                    toDateValue = "$year-$month-$date"
+                    val isTrue: Boolean = isDateAfter(fromDateValue, toDateValue)
+                    if (isTrue) {
+                        if (fromDateValue.equals("", ignoreCase = true)) {
+                            Toast.makeText(
+                                this,
+                                "Please Select event start date",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            try {
+                                var format = SimpleDateFormat("yyyy-MM-dd")
+                                val date1 = format.parse(toDateValue)
+                                val date2 = format.format(date1)
+                                format =
+                                    if (date2.endsWith("01") && !date2.endsWith("11")) SimpleDateFormat(
+                                        "d'st' MMM, yyyy"
+                                    ) else if (date2.endsWith("02") && !date2.endsWith("12")) SimpleDateFormat(
+                                        "d'nd' MMM, yyyy"
+                                    ) else if (date2.endsWith("03") && !date2.endsWith("13")) SimpleDateFormat(
+                                        "d'rd' MMM, yyyy"
+                                    ) else SimpleDateFormat("d'th' MMM, yyyy")
+                                val yourDate = format.format(date1)
+                                endDate.setText(yourDate)
+                            } catch (e: java.lang.Exception) {
+                            }
+                        }
+                    } else {
+                        if (fromDateValue.equals("", ignoreCase = true)) {
+                            Toast.makeText(
+                                this,
+                                "Please Select Activity Start Date",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            Toast.makeText(
+                                this,
+                                "Event End Date must be greater then Start Date",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+            }, mYear, mMonth, mDay
+        )
+        val c2 = Calendar.getInstance()
+        c2[mYear, mMonth] = mDay
+        datePickerDialog.datePicker.minDate = System.currentTimeMillis() - 1000
+        datePickerDialog.show()
+    }
+
+    private fun getTime() {
+        val c = Calendar.getInstance()
+        mHour = c[Calendar.HOUR_OF_DAY]
+        mMinute = c[Calendar.MINUTE]
+        mSecond = c[Calendar.SECOND]
+        val timePickerDialog = TimePickerDialog(
+            this@AddPostActivity,
+            { view, hourOfDay, minute ->
+                var hourOfDay = hourOfDay
+                selectedStartTime = String.format("%02d:%02d", hourOfDay, minute)
+                if (hourOfDay == 0) {
+                    hourOfDay += 12
+                    format = "AM"
+                } else if (hourOfDay == 12) {
+                    format = "PM"
+                } else if (hourOfDay > 12) {
+                    hourOfDay -= 12
+                    format = "PM"
+                } else {
+                    format = "AM"
+                }
+                var starthour = hourOfDay.toString()
+                if (starthour.length == 1) {
+                    starthour = "0$starthour"
+                }
+                var startMinute = minute.toString()
+                if (startMinute.length == 1) {
+                    startMinute = "0$startMinute"
+                }
+                timeValue = selectedStartTime
+                Toast.makeText(this,""+timeValue,Toast.LENGTH_LONG).show()
+                startTime.text = "$starthour:$startMinute $format"
+            }, mHour, mMinute, true
+        )
+        timePickerDialog.show()
     }
 
     private fun chooseMediaDialog() {
@@ -256,7 +573,7 @@ class AddPostActivity : AppCompatActivity(),UploadFileListener {
         gallery.setOnClickListener {
             if (checkPicturePermission()) {
                 dialog.cancel()
-                type="image"
+                type = "image"
                 val pickPhoto = Intent(
                     Intent.ACTION_PICK,
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI
@@ -266,7 +583,7 @@ class AddPostActivity : AppCompatActivity(),UploadFileListener {
         }
         video.setOnClickListener {
             if (checkPicturePermission()) {
-                type="video"
+                type = "video"
                 val intent = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
                 startActivityForResult(intent, 0)
                 dialog.cancel()
@@ -274,7 +591,7 @@ class AddPostActivity : AppCompatActivity(),UploadFileListener {
         }
         captureVideo.setOnClickListener {
             if (checkPicturePermission()) {
-                type="video"
+                type = "video"
                 val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
                 intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 30)
                 intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 3)
@@ -284,7 +601,7 @@ class AddPostActivity : AppCompatActivity(),UploadFileListener {
         }
         capturePic.setOnClickListener {
             if (checkPicturePermission()) {
-                type="image"
+                type = "image"
                 dialog.cancel()
                 val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 startActivityForResult(takePicture, 4)
@@ -365,7 +682,7 @@ class AddPostActivity : AppCompatActivity(),UploadFileListener {
             Log.d("BitData", pathPic)
             progressdialog!!.setCancelable(false)
             progressdialog!!.show()
-                uploadFile(File(pathPic), this, this)
+            uploadFile(File(pathPic), this, this)
             out.flush()
             out.close()
         } catch (e: java.lang.Exception) {
@@ -432,28 +749,55 @@ class AddPostActivity : AppCompatActivity(),UploadFileListener {
     override fun onSuccess(localUrl: String?, awsUrl: String?) {
         if (awsUrl != null) {
             Log.d("BitData", awsUrl)
-            awsPicUrl=awsUrl
-            if (type=="image"){
-                addMedia.visibility=View.GONE
-                videoFrame.visibility=View.GONE
-                videoView.visibility=View.GONE
-                play.visibility=View.GONE
-                pause.visibility=View.GONE
-                postPic.visibility=View.VISIBLE
-                Glide.with(this).load(awsPicUrl).placeholder(R.drawable.user_avatar).into(postPic)
-            }else if(type=="video"){
-                addMedia.visibility=View.GONE
-                postPic.visibility=View.GONE
-                videoFrame.visibility=View.VISIBLE
-                videoView.visibility=View.VISIBLE
-                val display = getSystemService<DisplayManager>()?.getDisplay(Display.DEFAULT_DISPLAY)
-                val width = display!!.width
-                val height = display!!.height
-                videoView.layoutParams = FrameLayout.LayoutParams(width, height)
-                val video = Uri.parse(awsPicUrl)
-                videoView.setVideoURI(video)
+            if (feedType == "disccusion") {
+                awsPicUrl = awsUrl
+                if (type == "image") {
+                    addMedia.visibility = View.GONE
+                    videoFrame.visibility = View.GONE
+                    videoView.visibility = View.GONE
+                    play.visibility = View.GONE
+                    pause.visibility = View.GONE
+                    postPic.visibility = View.VISIBLE
+                    Glide.with(this).load(awsPicUrl).placeholder(R.drawable.user_avatar)
+                        .into(postPic)
+                } else if (type == "video") {
+                    addMedia.visibility = View.GONE
+                    postPic.visibility = View.GONE
+                    videoFrame.visibility = View.VISIBLE
+                    videoView.visibility = View.VISIBLE
+                    val display =
+                        getSystemService<DisplayManager>()?.getDisplay(Display.DEFAULT_DISPLAY)
+                    val width = display!!.width
+                    val height = display!!.height
+                    videoView.layoutParams = FrameLayout.LayoutParams(width, height)
+                    val video = Uri.parse(awsPicUrl)
+                    videoView.setVideoURI(video)
+                }
+            } else {
+                awsPicUrl2 = awsUrl
+                if (type == "image") {
+                    eaddMedia.visibility = View.GONE
+                    evideoFrame.visibility = View.GONE
+                    evideoView.visibility = View.GONE
+                    eplay.visibility = View.GONE
+                    epause.visibility = View.GONE
+                    epostPic.visibility = View.VISIBLE
+                    Glide.with(this).load(awsPicUrl2).placeholder(R.drawable.user_avatar)
+                        .into(epostPic)
+                } else if (type == "video") {
+                    eaddMedia.visibility = View.GONE
+                    epostPic.visibility = View.GONE
+                    evideoFrame.visibility = View.VISIBLE
+                    evideoView.visibility = View.VISIBLE
+                    val display =
+                        getSystemService<DisplayManager>()?.getDisplay(Display.DEFAULT_DISPLAY)
+                    val width = display!!.width
+                    val height = display!!.height
+                    evideoView.layoutParams = FrameLayout.LayoutParams(width, height)
+                    val video = Uri.parse(awsPicUrl2)
+                    evideoView.setVideoURI(video)
+                }
             }
-
             Log.d("BitData", "Success")
         }
         progressdialog!!.dismiss()
@@ -528,4 +872,15 @@ class AddPostActivity : AppCompatActivity(),UploadFileListener {
         }
     }.start()
 
+    fun isDateAfter(startDate: String?, endDate: String?): Boolean {
+        return try {
+            val myFormatString = "yyyy-M-dd" // for example
+            val df = SimpleDateFormat(myFormatString)
+            val date1 = df.parse(endDate)
+            val startingDate = df.parse(startDate)
+            if (date1.after(startingDate)) true else false
+        } catch (e: java.lang.Exception) {
+            false
+        }
+    }
 }

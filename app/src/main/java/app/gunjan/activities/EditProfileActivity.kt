@@ -24,10 +24,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import app.gunjan.R
 import app.gunjan.adapters.ShowInterestAdapter
-import app.gunjan.entity.EditProfileResponse
-import app.gunjan.entity.PrivacyPolicyResponse
-import app.gunjan.entity.ShowInterestModel
-import app.gunjan.entity.UserDetailsResponse
+import app.gunjan.entity.*
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.PermissionUtil
 import app.gunjan.utill.ProjectUtill
@@ -65,6 +62,8 @@ import kotlin.collections.ArrayList
 class EditProfileActivity : AppCompatActivity(), UploadFileListener {
     private var pathPic = ""
     private var awsPicUrl = ""
+    private var cityValue = ""
+    private var stateValue = ""
     private var mYear = 0
     private var mMonth: Int = 0
     private var mDay: Int = 0
@@ -77,6 +76,9 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
     private var selectedInterestList: ArrayList<String> = ArrayList<String>()
     private var interestList: ArrayList<ShowInterestModel> = ArrayList<ShowInterestModel>()
     private var interestAdapter: ShowInterestAdapter? = null
+    private var stateList: java.util.ArrayList<String> = java.util.ArrayList<String>()
+    private var stateNameList: java.util.ArrayList<String> = java.util.ArrayList<String>()
+    private var cityList: java.util.ArrayList<String> = java.util.ArrayList<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
@@ -158,6 +160,8 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                         ccp.selectedCountryCodeWithPlus.toString(),
                         genderSpinner.selectedItem.toString(),
                         about.text.toString().trim(),
+                        stateValue,
+                        cityValue,
                         object : Callback<EditProfileResponse> {
                             override fun onResponse(
                                 call: Call<EditProfileResponse>,
@@ -537,6 +541,9 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                                         interest_recycler!!.layoutManager = layoutManager
                                         interest_recycler!!.adapter = interestAdapter
                                     }
+                                     stateValue=response.body()!!.data.user.state
+                                     cityValue=response.body()!!.data.user.city
+                                    getStateList()
                                 } catch (e: Exception) {
                                 }
                             } else {
@@ -615,10 +622,218 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
         } else if (genderSpinner.selectedItem.toString().trim() == "Select Gender") {
             Toast.makeText(this, getString(R.string.select_gender), Toast.LENGTH_LONG).show()
             return false
+        }else if (stateSpinner!!.selectedItem.equals("Select State")) {
+                Toast.makeText(this, "Please select state", Toast.LENGTH_LONG).show()
+                return false
+            } else if (citySpinner!!.selectedItem.equals("Select City")) {
+                Toast.makeText(this, "Please select city", Toast.LENGTH_LONG).show()
+                return false
         } else if (selectedInterestList.size == 0) {
             Toast.makeText(this, getString(R.string.select_interest), Toast.LENGTH_LONG).show()
             return false
         }
         return true
+    }
+
+    private fun getStateList() {
+        val myDialog = ProjectUtill.showProgressDialog(this)
+            WebServiceRequest.getInstance().getStateList(
+                this,
+                object : Callback<StateListResponse> {
+                    override fun onResponse(
+                        call: Call<StateListResponse>,
+                        response: Response<StateListResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    stateList.clear()
+                                    stateNameList.clear()
+                                    stateList.add("")
+                                    stateNameList.add("Select State")
+                                    for (i in response.body()!!.data.state_list) {
+                                        stateList.add(i.isoCode)
+                                        stateNameList.add(i.name)
+                                    }
+                                    val arrayAdapter1: ArrayAdapter<String> =
+                                        object : ArrayAdapter<String>(
+                                            this@EditProfileActivity,
+                                            R.layout.spinner_layout, stateNameList
+                                        ) {
+                                            override fun isEnabled(position: Int): Boolean {
+                                                return position != 0
+                                            }
+
+                                            override fun getDropDownView(
+                                                position: Int, convertView: View?,
+                                                parent: ViewGroup,
+                                            ): View {
+                                                val view = super.getDropDownView(
+                                                    position,
+                                                    convertView,
+                                                    parent
+                                                )
+                                                val tv = view as TextView
+                                                if (position == 0) { // Set the hint text color gray
+                                                    tv.setTextColor(Color.BLACK)
+                                                } else {
+                                                    tv.setTextColor(resources.getColor(R.color.txt_color))
+                                                }
+                                                return view
+                                            }
+
+                                        }
+                                    stateSpinner!!.adapter = arrayAdapter1
+                                    if (stateValue != null || stateValue != "") {
+                                        val spinnerPosition =
+                                            arrayAdapter1.getPosition(stateValue)
+                                        stateSpinner!!.setSelection(spinnerPosition)
+                                    }
+                                    stateSpinner!!.onItemSelectedListener = object :
+                                        AdapterView.OnItemSelectedListener {
+                                        override fun onItemSelected(
+                                            adapterView: AdapterView<*>?,
+                                            view: View,
+                                            i: Int,
+                                            l: Long,
+                                        ) {
+                                            stateValue=stateNameList[i].toString()
+                                            getCityList(stateList[i].toString())
+                                        }
+
+                                        override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        this@EditProfileActivity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    this@EditProfileActivity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                this@EditProfileActivity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<StateListResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            this@EditProfileActivity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
+    }
+
+    private fun getCityList(code: String) {
+        val myDialog = ProjectUtill.showProgressDialog(this)
+            WebServiceRequest.getInstance().getCityList(
+                this, code,
+                object : Callback<CityListResponse> {
+                    override fun onResponse(
+                        call: Call<CityListResponse>,
+                        response: Response<CityListResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    cityList.clear()
+                                    cityList.add("Select City")
+                                    for (i in response.body()!!.data.city_list) {
+                                        cityList.add(i.name)
+                                    }
+                                    val arrayAdapter1: ArrayAdapter<String> =
+                                        object : ArrayAdapter<String>(
+                                            this@EditProfileActivity,
+                                            R.layout.spinner_layout, cityList
+                                        ) {
+                                            override fun isEnabled(position: Int): Boolean {
+                                                return position != 0
+                                            }
+
+                                            override fun getDropDownView(
+                                                position: Int, convertView: View?,
+                                                parent: ViewGroup,
+                                            ): View {
+                                                val view = super.getDropDownView(
+                                                    position,
+                                                    convertView,
+                                                    parent
+                                                )
+                                                val tv = view as TextView
+                                                if (position == 0) { // Set the hint text color gray
+                                                    tv.setTextColor(Color.BLACK)
+                                                } else {
+                                                    tv.setTextColor(resources.getColor(R.color.txt_color))
+                                                }
+                                                return view
+                                            }
+
+                                        }
+                                    citySpinner!!.adapter = arrayAdapter1
+                                    if (cityValue != null || cityValue != "") {
+                                        val spinnerPosition =
+                                            arrayAdapter1.getPosition(cityValue)
+                                        citySpinner!!.setSelection(spinnerPosition)
+                                    }
+                                    citySpinner!!.onItemSelectedListener = object :
+                                        AdapterView.OnItemSelectedListener {
+                                        override fun onItemSelected(
+                                            adapterView: AdapterView<*>?,
+                                            view: View,
+                                            i: Int,
+                                            l: Long,
+                                        ) {
+                                            if (i > 0) {
+                                                cityValue=cityList[i].toString()
+                                            }
+                                        }
+
+                                        override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        this@EditProfileActivity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    this@EditProfileActivity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                this@EditProfileActivity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<CityListResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            this@EditProfileActivity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
     }
 }

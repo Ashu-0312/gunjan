@@ -32,7 +32,7 @@ public class PostListResponse implements Serializable {
     /**
      * code : 1
      * message : Post list!
-     * data : {"total":3,"page":"1","limit":"10","post":[{"id":6,"title":"","feed_type":"post","description":"","file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/VID_20211026_200436_0_COMPRESSED.mp4","file_width":null,"file_height":null,"content_type":"video","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":8,"first_name":"first name","last_name":"last name","pincode":"121212","mobile":"2222222222","countryCode":"+91","gender":"Male","dob":"1995-03-02","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg","email":"testt@test.com","profile_stage":"5","active":true,"about":"dghhtff","active_community":16},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":""},{"id":5,"title":"","feed_type":"post","description":"","file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-8144.jpg","file_width":null,"file_height":null,"content_type":"image","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":8,"first_name":"first name","last_name":"last name","pincode":"121212","mobile":"2222222222","countryCode":"+91","gender":"Male","dob":"1995-03-02","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg","email":"testt@test.com","profile_stage":"5","active":true,"about":"dghhtff","active_community":16},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":""},{"id":4,"title":"","feed_type":"post","description":"post on community.post on community.post on community.post on community.post on community.","file":"","file_width":null,"file_height":null,"content_type":"text","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":8,"first_name":"first name","last_name":"last name","pincode":"121212","mobile":"2222222222","countryCode":"+91","gender":"Male","dob":"1995-03-02","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg","email":"testt@test.com","profile_stage":"5","active":true,"about":"dghhtff","active_community":16},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":""}]}
+     * data : {"total":2,"page":"","limit":"","post":[{"id":35,"title":"","feed_type":"post","description":"ccf","file":"","file_width":null,"file_height":null,"content_type":"text","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":32,"first_name":"User1","last_name":"User1","pincode":"868","mobile":"6060606060","countryCode":"+91","gender":"Male","dob":"2001-02-16","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-8254.jpg","email":"evvdvdv@gmail.com","state":"Assam","city":"Bijni","profile_stage":"5","active":true,"about":"cccc","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"00:51:40"},{"id":34,"title":"","feed_type":"post","description":"djdjd","file":"","file_width":null,"file_height":null,"content_type":"text","privacy":"community_member","total_like":1,"total_unlike":0,"total_comment":0,"created_by":{"id":36,"first_name":"User3","last_name":"User3","pincode":"8885","mobile":"9999999999","countryCode":"+91","gender":"Female","dob":"1992-02-17","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-1688.jpg","email":"e@gmail.comi","state":"Uttar Pradesh","city":"Aliganj","profile_stage":"5","active":true,"about":"cgthb","active_community":25},"like_type":["love"],"isLiked":true,"isCommented":false,"my_liked_type":"love","time":"01:45:03"}],"total_members":3}
      */
 
     private int code;
@@ -41,10 +41,11 @@ public class PostListResponse implements Serializable {
 
     public static class DataBean implements Serializable {
         /**
-         * total : 3
-         * page : 1
-         * limit : 10
-         * post : [{"id":6,"title":"","feed_type":"post","description":"","file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/VID_20211026_200436_0_COMPRESSED.mp4","file_width":null,"file_height":null,"content_type":"video","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":8,"first_name":"first name","last_name":"last name","pincode":"121212","mobile":"2222222222","countryCode":"+91","gender":"Male","dob":"1995-03-02","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg","email":"testt@test.com","profile_stage":"5","active":true,"about":"dghhtff","active_community":16},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":""},{"id":5,"title":"","feed_type":"post","description":"","file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-8144.jpg","file_width":null,"file_height":null,"content_type":"image","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":8,"first_name":"first name","last_name":"last name","pincode":"121212","mobile":"2222222222","countryCode":"+91","gender":"Male","dob":"1995-03-02","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg","email":"testt@test.com","profile_stage":"5","active":true,"about":"dghhtff","active_community":16},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":""},{"id":4,"title":"","feed_type":"post","description":"post on community.post on community.post on community.post on community.post on community.","file":"","file_width":null,"file_height":null,"content_type":"text","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":8,"first_name":"first name","last_name":"last name","pincode":"121212","mobile":"2222222222","countryCode":"+91","gender":"Male","dob":"1995-03-02","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg","email":"testt@test.com","profile_stage":"5","active":true,"about":"dghhtff","active_community":16},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":""}]
+         * total : 2
+         * page :
+         * limit :
+         * post : [{"id":35,"title":"","feed_type":"post","description":"ccf","file":"","file_width":null,"file_height":null,"content_type":"text","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":32,"first_name":"User1","last_name":"User1","pincode":"868","mobile":"6060606060","countryCode":"+91","gender":"Male","dob":"2001-02-16","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-8254.jpg","email":"evvdvdv@gmail.com","state":"Assam","city":"Bijni","profile_stage":"5","active":true,"about":"cccc","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"00:51:40"},{"id":34,"title":"","feed_type":"post","description":"djdjd","file":"","file_width":null,"file_height":null,"content_type":"text","privacy":"community_member","total_like":1,"total_unlike":0,"total_comment":0,"created_by":{"id":36,"first_name":"User3","last_name":"User3","pincode":"8885","mobile":"9999999999","countryCode":"+91","gender":"Female","dob":"1992-02-17","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-1688.jpg","email":"e@gmail.comi","state":"Uttar Pradesh","city":"Aliganj","profile_stage":"5","active":true,"about":"cgthb","active_community":25},"like_type":["love"],"isLiked":true,"isCommented":false,"my_liked_type":"love","time":"01:45:03"}]
+         * total_members : 3
          */
 
         private int total;
@@ -73,6 +74,14 @@ public class PostListResponse implements Serializable {
             this.limit = limit;
         }
 
+        public int getTotal_members() {
+            return total_members;
+        }
+
+        public void setTotal_members(int total_members) {
+            this.total_members = total_members;
+        }
+
         public List<PostBean> getPost() {
             return post;
         }
@@ -83,31 +92,32 @@ public class PostListResponse implements Serializable {
 
         private String page;
         private String limit;
+        private int total_members;
         private List<PostBean> post;
 
         public static class PostBean implements Serializable {
             /**
-             * id : 6
+             * id : 35
              * title :
              * feed_type : post
-             * description :
-             * file : https://s3.us-east-2.amazonaws.com/media-appsinvo/VID_20211026_200436_0_COMPRESSED.mp4
+             * description : ccf
+             * file :
              * file_width : null
              * file_height : null
-             * content_type : video
+             * content_type : text
              * privacy : community_member
              * total_like : 0
              * total_unlike : 0
              * total_comment : 0
-             * created_by : {"id":8,"first_name":"first name","last_name":"last name","pincode":"121212","mobile":"2222222222","countryCode":"+91","gender":"Male","dob":"1995-03-02","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg","email":"testt@test.com","profile_stage":"5","active":true,"about":"dghhtff","active_community":16}
+             * created_by : {"id":32,"first_name":"User1","last_name":"User1","pincode":"868","mobile":"6060606060","countryCode":"+91","gender":"Male","dob":"2001-02-16","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-8254.jpg","email":"evvdvdv@gmail.com","state":"Assam","city":"Bijni","profile_stage":"5","active":true,"about":"cccc","active_community":25}
              * like_type : []
              * isLiked : false
              * isCommented : false
              * my_liked_type :
+             * time : 00:51:40
              */
 
             private int id;
-            private String title;
 
             public int getId() {
                 return id;
@@ -237,6 +247,14 @@ public class PostListResponse implements Serializable {
                 this.my_liked_type = my_liked_type;
             }
 
+            public String getTime() {
+                return time;
+            }
+
+            public void setTime(String time) {
+                this.time = time;
+            }
+
             public List<?> getLike_type() {
                 return like_type;
             }
@@ -245,6 +263,7 @@ public class PostListResponse implements Serializable {
                 this.like_type = like_type;
             }
 
+            private String title;
             private String feed_type;
             private String description;
             private String file;
@@ -259,6 +278,7 @@ public class PostListResponse implements Serializable {
             private boolean isLiked;
             private boolean isCommented;
             private String my_liked_type;
+            private String time;
             private List<?> like_type;
 
             public static class CreatedByBean implements Serializable {
@@ -342,6 +362,22 @@ public class PostListResponse implements Serializable {
                     this.email = email;
                 }
 
+                public String getState() {
+                    return state;
+                }
+
+                public void setState(String state) {
+                    this.state = state;
+                }
+
+                public String getCity() {
+                    return city;
+                }
+
+                public void setCity(String city) {
+                    this.city = city;
+                }
+
                 public String getProfile_stage() {
                     return profile_stage;
                 }
@@ -375,20 +411,22 @@ public class PostListResponse implements Serializable {
                 }
 
                 /**
-                 * id : 8
-                 * first_name : first name
-                 * last_name : last name
-                 * pincode : 121212
-                 * mobile : 2222222222
+                 * id : 32
+                 * first_name : User1
+                 * last_name : User1
+                 * pincode : 868
+                 * mobile : 6060606060
                  * countryCode : +91
                  * gender : Male
-                 * dob : 1995-03-02
-                 * image : https://s3.us-east-2.amazonaws.com/media-appsinvo/IMG-20211104-WA0010.jpg
-                 * email : testt@test.com
+                 * dob : 2001-02-16
+                 * image : https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-8254.jpg
+                 * email : evvdvdv@gmail.com
+                 * state : Assam
+                 * city : Bijni
                  * profile_stage : 5
                  * active : true
-                 * about : dghhtff
-                 * active_community : 16
+                 * about : cccc
+                 * active_community : 25
                  */
 
                 private int id;
@@ -401,6 +439,8 @@ public class PostListResponse implements Serializable {
                 private String dob;
                 private String image;
                 private String email;
+                private String state;
+                private String city;
                 private String profile_stage;
                 private boolean active;
                 private String about;

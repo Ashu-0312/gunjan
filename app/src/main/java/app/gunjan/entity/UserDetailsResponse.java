@@ -280,6 +280,25 @@ public class UserDetailsResponse implements Serializable {
             private String dob;
             private String image;
             private String email;
+            private String state;
+
+            public String getState() {
+                return state;
+            }
+
+            public void setState(String state) {
+                this.state = state;
+            }
+
+            public String getCity() {
+                return city;
+            }
+
+            public void setCity(String city) {
+                this.city = city;
+            }
+
+            private String city;
             private String device_type;
             private String device_token;
             private String profile_stage;

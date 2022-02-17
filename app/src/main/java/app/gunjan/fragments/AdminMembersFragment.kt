@@ -1,7 +1,6 @@
 package app.gunjan.fragments
 
 import android.app.Dialog
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
@@ -9,17 +8,34 @@ import androidx.fragment.app.Fragment
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.gunjan.R
-import app.gunjan.adapters.ActiveMembersAdapter
 import app.gunjan.adapters.AdminMembersAdapter
-import kotlin.system.exitProcess
+import app.gunjan.entity.CityListResponse
+import app.gunjan.entity.MemberListResponse
+import app.gunjan.entity.StateListResponse
+import app.gunjan.utill.ProjectUtill
+import app.gunjan.webservices.WebServiceRequest
+import kotlinx.android.synthetic.main.activity_notification.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class AdminMembersFragment : Fragment() {
+    private var page: Int? = 1
+    var swipeRefresh: SwipeRefreshLayout? = null
+    var progressBar: ProgressBar? = null
+    var blankData: TextView? = null
+    var isLoading = false
+    var isLastPage = false
+    var citySpinner: Spinner? = null
+    private var layoutManager: LinearLayoutManager? = null
+    var memberAdapter: AdminMembersAdapter? = null
     private var listRecycler: RecyclerView? = null
-    private var list: ArrayList<String> = ArrayList<String>()
+    private var list: ArrayList<MemberListResponse.DataBean.MemberListBean> = ArrayList<MemberListResponse.DataBean.MemberListBean>()
     private var stateList: ArrayList<String> = ArrayList<String>()
+    private var stateNameList: ArrayList<String> = ArrayList<String>()
     private var cityList: ArrayList<String> = ArrayList<String>()
-    private var blockList: ArrayList<String> = ArrayList<String>()
     private var filter: ImageView? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,42 +45,288 @@ class AdminMembersFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_admin_members, container, false)
         listRecycler = view.findViewById(R.id.list_recycler)
         filter = view.findViewById(R.id.filter)
+        swipeRefresh = view.findViewById(R.id.swipe_refresh)
+        progressBar = view.findViewById(R.id.progress_bar)
+        blankData = view.findViewById(R.id.blank_data)
         initData()
         return view
     }
 
     private fun initData() {
-        list.add("")
-        list.add("")
-        list.add("")
-        list.add("")
+
+        initializeAdapter()
+        memberListApi("1","","")
+
         stateList.add("Select State")
         stateList.add("state1")
         stateList.add("state2")
         cityList.add("Select City")
         cityList.add("city1")
         cityList.add("city2")
-        blockList.add("Select Block")
-        blockList.add("block1")
-        blockList.add("block2")
 
-        var memberAdapter = AdminMembersAdapter(
-            context, list
-        )
-        var layoutManager: LinearLayoutManager? = LinearLayoutManager(context)
-        listRecycler!!.layoutManager = layoutManager
-        listRecycler!!.adapter = memberAdapter
+
 
         filter!!.setOnClickListener { filterDialog() }
+
+        swipeRefresh!!.setColorSchemeResources(R.color.pink)
+        swipeRefresh!!.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            isLastPage = false
+            isLoading = false
+            page = 1
+            list.clear()
+            memberAdapter!!.notifyDataSetChanged()
+            memberListSwipeApi("1")
+            swipe_refresh!!.isRefreshing = false
+        })
     }
+
+    private fun memberListApi(page: String,city:String,state:String) {
+        isLoading = true
+        val myDialog = ProjectUtill.showProgressDialog(context)
+        context?.let {
+            WebServiceRequest.getInstance().getAllMemberList(
+                it, page, "10",state,city,"only admin member",
+                object : Callback<MemberListResponse> {
+                    override fun onResponse(
+                        call: Call<MemberListResponse>,
+                        response: Response<MemberListResponse>,
+                    ) {
+                        isLoading = false
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    list.clear()
+                                    list.addAll(response.body()!!.data.member_list)
+                                    val prevSize: Int = response.body()!!.data.member_list.size
+                                    if (list.size == 0) {
+                                        blankData!!.visibility = View.VISIBLE
+                                        listRecycler!!.visibility = View.GONE
+                                    } else {
+                                        blankData!!.visibility = View.GONE
+                                        listRecycler!!.visibility = View.VISIBLE
+                                        if (response.body()!!.data.member_list.size < 10) {
+                                            isLastPage = true
+                                        }
+                                        if (list.size == 10) {
+                                            memberAdapter!!.notifyDataSetChanged()
+                                        } else {
+                                            memberAdapter!!.notifyItemRangeChanged(
+                                                prevSize,
+                                                list.size
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        activity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<MemberListResponse>,
+                        t: Throwable,
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            activity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
+    }
+
+    private fun memberListSwipeApi(page: String) {
+        isLoading = true
+        context?.let {
+            WebServiceRequest.getInstance().getAllMemberList(
+                it, page, "10","","","only admin member",
+                object : Callback<MemberListResponse> {
+                    override fun onResponse(
+                        call: Call<MemberListResponse>,
+                        response: Response<MemberListResponse>,
+                    ) {
+                        isLoading = false
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    list.clear()
+                                    list.addAll(response.body()!!.data.member_list)
+                                    val prevSize: Int = response.body()!!.data.member_list.size
+                                    if (list.size == 0) {
+                                        blankData!!.visibility = View.VISIBLE
+                                        listRecycler!!.visibility = View.GONE
+                                    } else {
+                                        blankData!!.visibility = View.GONE
+                                        listRecycler!!.visibility = View.VISIBLE
+                                        if (response.body()!!.data.member_list.size < 10) {
+                                            isLastPage = true
+                                        }
+                                        if (list.size == 10) {
+                                            memberAdapter!!.notifyDataSetChanged()
+                                        } else {
+                                            memberAdapter!!.notifyItemRangeChanged(
+                                                prevSize,
+                                                list.size
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        activity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<MemberListResponse>,
+                        t: Throwable,
+                    ) {
+                        ProjectUtill.printErrorMessage(
+                            activity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
+    }
+
+    private fun memberListPaginationApi(page: String) {
+        isLoading = true
+        progress_bar!!.visibility = View.VISIBLE
+        context?.let {
+            WebServiceRequest.getInstance().getAllMemberList(
+                it, page, "10","","","only admin member",
+                object : Callback<MemberListResponse> {
+                    override fun onResponse(
+                        call: Call<MemberListResponse>,
+                        response: Response<MemberListResponse>,
+                    ) {
+                        isLoading = false
+                        progress_bar!!.visibility = View.GONE
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    list.addAll(response.body()!!.data.member_list)
+                                    val prevSize: Int = response.body()!!.data.member_list.size
+                                    if (list.size == 0) {
+                                        blankData!!.visibility = View.VISIBLE
+                                        listRecycler!!.visibility = View.GONE
+                                    } else {
+                                        blankData!!.visibility = View.GONE
+                                        listRecycler!!.visibility = View.VISIBLE
+                                        if (response.body()!!.data.member_list.size < 10) {
+                                            isLastPage = true
+                                        }
+                                        if (list.size == 10) {
+                                            memberAdapter!!.notifyDataSetChanged()
+                                        } else {
+                                            memberAdapter!!.notifyItemRangeChanged(
+                                                prevSize,
+                                                list.size
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        activity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<MemberListResponse>,
+                        t: Throwable,
+                    ) {
+                        progressBar!!.visibility = View.GONE
+                        ProjectUtill.printErrorMessage(
+                            activity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
+    }
+
+    private fun initializeAdapter() {
+        list.clear()
+        page = 1
+        isLastPage = false
+        isLoading = false
+        memberAdapter = AdminMembersAdapter(context, list)
+        layoutManager = LinearLayoutManager(context)
+        listRecycler!!.layoutManager = layoutManager
+        listRecycler!!.adapter = memberAdapter
+        listRecycler!!.addOnScrollListener(recyclerViewOnScrollListener)
+    }
+
+    private val recyclerViewOnScrollListener: RecyclerView.OnScrollListener =
+        object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val visibleItemCount: Int = layoutManager!!.childCount
+                val totalItemCount: Int = layoutManager!!.itemCount
+                val firstVisibleItemPosition: Int = layoutManager!!.findFirstVisibleItemPosition()
+                if (!isLoading && !isLastPage) {
+                    if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 && totalItemCount >= list.size) {
+                        isLoading = true
+                        page = page!! + 1
+                        memberListPaginationApi(page.toString())
+                    }
+                }
+            }
+        }
 
     fun filterDialog() {
         var reset: TextView? = null
         var apply: LinearLayout? = null
         var close: ImageView? = null
         var stateSpinner: Spinner? = null
-        var citySpinner: Spinner? = null
-        var blockSpinner: Spinner? = null
         val dialog = context?.let { Dialog(it) }
         // Include dialog.xml file
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -83,131 +345,118 @@ class AdminMembersFragment : Fragment() {
         reset = dialog.findViewById(R.id.reset)
         stateSpinner = dialog.findViewById(R.id.state_spinner)
         citySpinner = dialog.findViewById(R.id.city_spinner)
-        blockSpinner = dialog.findViewById(R.id.block_spinner)
+        val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let {
-            val arrayAdapter1: ArrayAdapter<String> = object : ArrayAdapter<String>(
+            WebServiceRequest.getInstance().getStateList(
                 it,
-                R.layout.spinner_layout, stateList
-            ) {
-                override fun isEnabled(position: Int): Boolean {
-                    return position != 0
-                }
+                object : Callback<StateListResponse> {
+                    override fun onResponse(
+                        call: Call<StateListResponse>,
+                        response: Response<StateListResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    stateList.clear()
+                                    stateNameList.clear()
+                                    stateList.add("")
+                                    stateNameList.add("Select State")
+                                    for (i in response.body()!!.data.state_list) {
+                                        stateList.add(i.isoCode)
+                                        stateNameList.add(i.name)
+                                    }
+                                    val arrayAdapter1: ArrayAdapter<String> =
+                                        object : ArrayAdapter<String>(
+                                            context!!,
+                                            R.layout.spinner_layout, stateNameList
+                                        ) {
+                                            override fun isEnabled(position: Int): Boolean {
+                                                return position != 0
+                                            }
 
-                override fun getDropDownView(
-                    position: Int, convertView: View?,
-                    parent: ViewGroup,
-                ): View {
-                    val view = super.getDropDownView(position, convertView, parent)
-                    val tv = view as TextView
-                    if (position == 0) { // Set the hint text color gray
-                        tv.setTextColor(Color.BLACK)
-                    } else {
-                        tv.setTextColor(resources.getColor(R.color.grey))
+                                            override fun getDropDownView(
+                                                position: Int, convertView: View?,
+                                                parent: ViewGroup,
+                                            ): View {
+                                                val view = super.getDropDownView(
+                                                    position,
+                                                    convertView,
+                                                    parent
+                                                )
+                                                val tv = view as TextView
+                                                if (position == 0) { // Set the hint text color gray
+                                                    tv.setTextColor(Color.BLACK)
+                                                } else {
+                                                    tv.setTextColor(resources.getColor(R.color.txt_color))
+                                                }
+                                                return view
+                                            }
+
+                                        }
+                                    stateSpinner!!.adapter = arrayAdapter1
+                                    stateSpinner!!.onItemSelectedListener = object :
+                                        AdapterView.OnItemSelectedListener {
+                                        override fun onItemSelected(
+                                            adapterView: AdapterView<*>?,
+                                            view: View,
+                                            i: Int,
+                                            l: Long,
+                                        ) {
+                                            getCityList(stateList[i].toString())
+                                        }
+
+                                        override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        activity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
                     }
-                    return view
-                }
-            }
-            stateSpinner!!.adapter = arrayAdapter1
-            stateSpinner!!.onItemSelectedListener = object :
-                AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    adapterView: AdapterView<*>?,
-                    view: View,
-                    i: Int,
-                    l: Long,
-                ) {
-                    if (i > 0) {
+
+                    override fun onFailure(
+                        call: Call<StateListResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            activity!!.window.decorView,
+                            ""
+                        )
                     }
-                }
-
-                override fun onNothingSelected(adapterView: AdapterView<*>?) {}
-            }
-        }
-
-        context?.let {
-            val arrayAdapter2: ArrayAdapter<String> = object : ArrayAdapter<String>(
-                it,
-                R.layout.spinner_layout, cityList
-            ) {
-                override fun isEnabled(position: Int): Boolean {
-                    return position != 0
-                }
-
-                override fun getDropDownView(
-                    position: Int, convertView: View?,
-                    parent: ViewGroup,
-                ): View {
-                    val view = super.getDropDownView(position, convertView, parent)
-                    val tv = view as TextView
-                    if (position == 0) { // Set the hint text color gray
-                        tv.setTextColor(Color.BLACK)
-                    } else {
-                        tv.setTextColor(resources.getColor(R.color.grey))
-                    }
-                    return view
-                }
-            }
-            citySpinner!!.adapter = arrayAdapter2
-            citySpinner!!.onItemSelectedListener = object :
-                AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    adapterView: AdapterView<*>?,
-                    view: View,
-                    i: Int,
-                    l: Long,
-                ) {
-                    if (i > 0) {
-                    }
-                }
-
-                override fun onNothingSelected(adapterView: AdapterView<*>?) {}
-            }
-        }
-
-        context?.let {
-            val arrayAdapter3: ArrayAdapter<String> = object : ArrayAdapter<String>(
-                it,
-                R.layout.spinner_layout, blockList
-            ) {
-                override fun isEnabled(position: Int): Boolean {
-                    return position != 0
-                }
-
-                override fun getDropDownView(
-                    position: Int, convertView: View?,
-                    parent: ViewGroup,
-                ): View {
-                    val view = super.getDropDownView(position, convertView, parent)
-                    val tv = view as TextView
-                    if (position == 0) { // Set the hint text color gray
-                        tv.setTextColor(Color.BLACK)
-                    } else {
-                        tv.setTextColor(resources.getColor(R.color.grey))
-                    }
-                    return view
-                }
-            }
-            blockSpinner!!.adapter = arrayAdapter3
-            blockSpinner!!.onItemSelectedListener = object :
-                AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    adapterView: AdapterView<*>?,
-                    view: View,
-                    i: Int,
-                    l: Long,
-                ) {
-                    if (i > 0) {
-                    }
-                }
-
-                override fun onNothingSelected(adapterView: AdapterView<*>?) {}
-            }
+                })
         }
 
         close.setOnClickListener { dialog.cancel() }
 
         apply.setOnClickListener {
-            dialog.cancel()
+            if (stateSpinner!!.selectedItem.toString().trim() == "Select State"){
+                Toast.makeText(context,"Please select state",Toast.LENGTH_LONG).show()
+            }else  if (citySpinner!!.selectedItem.toString().trim() == "Select City"){
+                Toast.makeText(context,"Please select city",Toast.LENGTH_LONG).show()
+            }else {
+                dialog.cancel()
+                initializeAdapter()
+                memberListApi(
+                    "1",
+                    citySpinner!!.selectedItem.toString(),
+                    stateSpinner!!.selectedItem.toString()
+                )
+            }
         }
 
         reset.setOnClickListener {
@@ -216,5 +465,101 @@ class AdminMembersFragment : Fragment() {
         }
 
         dialog.show()
+    }
+
+    private fun getCityList(code: String) {
+        val myDialog = ProjectUtill.showProgressDialog(context)
+        context?.let {
+            WebServiceRequest.getInstance().getCityList(
+                it, code,
+                object : Callback<CityListResponse> {
+                    override fun onResponse(
+                        call: Call<CityListResponse>,
+                        response: Response<CityListResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    cityList.clear()
+                                    cityList.add("Select City")
+                                    for (i in response.body()!!.data.city_list) {
+                                        cityList.add(i.name)
+                                    }
+                                    val arrayAdapter1: ArrayAdapter<String> =
+                                        object : ArrayAdapter<String>(
+                                            context!!,
+                                            R.layout.spinner_layout, cityList
+                                        ) {
+                                            override fun isEnabled(position: Int): Boolean {
+                                                return position != 0
+                                            }
+
+                                            override fun getDropDownView(
+                                                position: Int, convertView: View?,
+                                                parent: ViewGroup,
+                                            ): View {
+                                                val view = super.getDropDownView(
+                                                    position,
+                                                    convertView,
+                                                    parent
+                                                )
+                                                val tv = view as TextView
+                                                if (position == 0) { // Set the hint text color gray
+                                                    tv.setTextColor(Color.BLACK)
+                                                } else {
+                                                    tv.setTextColor(resources.getColor(R.color.txt_color))
+                                                }
+                                                return view
+                                            }
+
+                                        }
+                                    citySpinner!!.adapter = arrayAdapter1
+                                    citySpinner!!.onItemSelectedListener = object :
+                                        AdapterView.OnItemSelectedListener {
+                                        override fun onItemSelected(
+                                            adapterView: AdapterView<*>?,
+                                            view: View,
+                                            i: Int,
+                                            l: Long,
+                                        ) {
+                                            if (i > 0) {
+                                            }
+                                        }
+
+                                        override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        activity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<CityListResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            activity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
     }
 }

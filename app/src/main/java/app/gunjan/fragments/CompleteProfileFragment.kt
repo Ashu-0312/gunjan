@@ -8,6 +8,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
@@ -21,7 +22,9 @@ import android.widget.*
 import androidx.core.content.ContextCompat
 import app.gunjan.R
 import app.gunjan.activities.SetProfileActivity
+import app.gunjan.entity.CityListResponse
 import app.gunjan.entity.CompleteProfileResponse
+import app.gunjan.entity.StateListResponse
 import app.gunjan.entity.UserDetailsResponse
 import app.gunjan.utill.PermissionUtil
 import app.gunjan.utill.ProjectUtill
@@ -40,6 +43,7 @@ import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.model.CannedAccessControlList
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.activity_edit_profile.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -50,6 +54,8 @@ import java.util.*
 class CompleteProfileFragment : Fragment(), UploadFileListener {
     private var pathPic = ""
     private var awsPicUrl = ""
+    private var stateValue:String? = null
+    private var cityValue:String? = null
     var progressdialog: ProgressDialog? = null
     private var choosePic: RelativeLayout? = null
     private var profilePic: CircleImageView? = null
@@ -58,6 +64,11 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
     private var lastName: EditText? = null
     private var pinCode: EditText? = null
     private var Continue: LinearLayout? = null
+    var citySpinner: Spinner? = null
+    var stateSpinner: Spinner? = null
+    private var stateList: ArrayList<String> = ArrayList<String>()
+    private var stateNameList: ArrayList<String> = ArrayList<String>()
+    private var cityList: ArrayList<String> = ArrayList<String>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -71,6 +82,8 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
         lastName = view.findViewById(R.id.lastName)
         pinCode = view.findViewById(R.id.pinCode)
         Continue = view.findViewById(R.id.Continue)
+        citySpinner = view.findViewById(R.id.city_spinner)
+        stateSpinner = view.findViewById(R.id.state_spinner)
         initData()
         return view
     }
@@ -90,6 +103,7 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
                             firstName!!.text.toString().trim(),
                             lastName!!.text.toString().trim(),
                             "android", "en", awsPicUrl, pinCode!!.text.toString().trim(),
+                            stateValue!!,cityValue!!,
                             object : Callback<CompleteProfileResponse> {
                                 override fun onResponse(
                                     call: Call<CompleteProfileResponse>,
@@ -136,13 +150,13 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
             }
         }
 
-         profileName!!.addTextChangedListener(object : TextWatcher {
+        profileName!!.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
             }
 
             override fun afterTextChanged(editable: Editable) {
-                var result:String = editable.toString().replace(" ", "");
+                var result: String = editable.toString().replace(" ", "");
                 if (!editable.toString().equals(result)) {
                     profileName!!.setText(result)
                     profileName!!.setSelection(result.length)
@@ -333,6 +347,12 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
             lastName!!.requestFocus()
             lastName!!.error = getString(R.string.enter_lastname)
             return false
+        } else if (stateSpinner!!.selectedItem.equals("Select State")) {
+            Toast.makeText(context, "Please select state", Toast.LENGTH_LONG).show()
+            return false
+        } else if (citySpinner!!.selectedItem.equals("Select City")) {
+            Toast.makeText(context, "Please select city", Toast.LENGTH_LONG).show()
+            return false
         } else if (pinCode!!.text.toString().trim().equals("", ignoreCase = true)) {
             pinCode!!.requestFocus()
             pinCode!!.error = getString(R.string.pincode)
@@ -341,7 +361,7 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
         return true
     }
 
-    private fun userDetails(){
+    private fun userDetails() {
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let { it1 ->
             WebServiceRequest.getInstance().userDetails(
@@ -375,7 +395,12 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
                                         if (response.body()!!.data.user.pincode != null || response.body()!!.data.user.pincode != "") {
                                             pinCode!!.setText(response.body()!!.data.user.pincode)
                                         }
-                                    }catch (e:Exception){}
+
+                                        stateValue=response.body()!!.data.user.state
+                                        cityValue=response.body()!!.data.user.city
+                                        getStateList()
+                                    } catch (e: Exception) {
+                                    }
                                 } else {
                                     ProjectUtill.printMessage(
                                         (context as Activity).window.decorView,
@@ -403,6 +428,212 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
                         myDialog.dismiss()
                         ProjectUtill.printErrorMessage(
                             (context as Activity).window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
+    }
+
+    private fun getStateList() {
+        val myDialog = ProjectUtill.showProgressDialog(context)
+        context?.let {
+            WebServiceRequest.getInstance().getStateList(
+                it,
+                object : Callback<StateListResponse> {
+                    override fun onResponse(
+                        call: Call<StateListResponse>,
+                        response: Response<StateListResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    stateList.clear()
+                                    stateNameList.clear()
+                                    stateList.add("")
+                                    stateNameList.add("Select State")
+                                    for (i in response.body()!!.data.state_list) {
+                                        stateList.add(i.isoCode)
+                                        stateNameList.add(i.name)
+                                    }
+                                    val arrayAdapter1: ArrayAdapter<String> =
+                                        object : ArrayAdapter<String>(
+                                            context!!,
+                                            R.layout.spinner_layout, stateNameList
+                                        ) {
+                                            override fun isEnabled(position: Int): Boolean {
+                                                return position != 0
+                                            }
+
+                                            override fun getDropDownView(
+                                                position: Int, convertView: View?,
+                                                parent: ViewGroup,
+                                            ): View {
+                                                val view = super.getDropDownView(
+                                                    position,
+                                                    convertView,
+                                                    parent
+                                                )
+                                                val tv = view as TextView
+                                                if (position == 0) { // Set the hint text color gray
+                                                    tv.setTextColor(Color.BLACK)
+                                                } else {
+                                                    tv.setTextColor(resources.getColor(R.color.txt_color))
+                                                }
+                                                return view
+                                            }
+
+                                        }
+                                    stateSpinner!!.adapter = arrayAdapter1
+                                    if (stateValue != null || stateValue != "") {
+                                        val spinnerPosition =
+                                            arrayAdapter1.getPosition(stateValue)
+                                        stateSpinner!!.setSelection(spinnerPosition)
+                                    }
+                                    stateSpinner!!.onItemSelectedListener = object :
+                                        AdapterView.OnItemSelectedListener {
+                                        override fun onItemSelected(
+                                            adapterView: AdapterView<*>?,
+                                            view: View,
+                                            i: Int,
+                                            l: Long,
+                                        ) {
+                                            stateValue=stateNameList[i].toString()
+                                            getCityList(stateList[i].toString())
+                                        }
+
+                                        override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        activity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<StateListResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            activity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
+    }
+
+    private fun getCityList(code: String) {
+        val myDialog = ProjectUtill.showProgressDialog(context)
+        context?.let {
+            WebServiceRequest.getInstance().getCityList(
+                it, code,
+                object : Callback<CityListResponse> {
+                    override fun onResponse(
+                        call: Call<CityListResponse>,
+                        response: Response<CityListResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    cityList.clear()
+                                    cityList.add("Select City")
+                                    for (i in response.body()!!.data.city_list) {
+                                        cityList.add(i.name)
+                                    }
+                                    val arrayAdapter1: ArrayAdapter<String> =
+                                        object : ArrayAdapter<String>(
+                                            context!!,
+                                            R.layout.spinner_layout, cityList
+                                        ) {
+                                            override fun isEnabled(position: Int): Boolean {
+                                                return position != 0
+                                            }
+
+                                            override fun getDropDownView(
+                                                position: Int, convertView: View?,
+                                                parent: ViewGroup,
+                                            ): View {
+                                                val view = super.getDropDownView(
+                                                    position,
+                                                    convertView,
+                                                    parent
+                                                )
+                                                val tv = view as TextView
+                                                if (position == 0) { // Set the hint text color gray
+                                                    tv.setTextColor(Color.BLACK)
+                                                } else {
+                                                    tv.setTextColor(resources.getColor(R.color.txt_color))
+                                                }
+                                                return view
+                                            }
+
+                                        }
+                                    citySpinner!!.adapter = arrayAdapter1
+                                    if (cityValue != null || cityValue != "") {
+                                        val spinnerPosition =
+                                            arrayAdapter1.getPosition(cityValue)
+                                        citySpinner!!.setSelection(spinnerPosition)
+                                    }
+                                    citySpinner!!.onItemSelectedListener = object :
+                                        AdapterView.OnItemSelectedListener {
+                                        override fun onItemSelected(
+                                            adapterView: AdapterView<*>?,
+                                            view: View,
+                                            i: Int,
+                                            l: Long,
+                                        ) {
+                                            if (i > 0) {
+                                                cityValue=cityList[i].toString()
+                                            }
+                                        }
+
+                                        override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        activity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<CityListResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            activity!!.window.decorView,
                             ""
                         )
                     }

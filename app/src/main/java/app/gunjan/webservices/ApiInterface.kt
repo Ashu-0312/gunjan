@@ -220,6 +220,16 @@ interface ApiInterface {
         @HeaderMap headers: Map<String, String>,
     ): Call<FollowerListResponse>
 
+    @GET(Constants.Partial.getAllMemberList)
+    fun getAllMemberList(
+        @Query(Constants.Keys.page) page: String?,
+        @Query(Constants.Keys.limit) limit: String?,
+        @Query(Constants.Keys.state) state: String?,
+        @Query(Constants.Keys.city) city: String?,
+        @Query(Constants.Keys.member_type) member_type: String?,
+        @HeaderMap headers: Map<String, String>,
+    ): Call<MemberListResponse>
+
     @GET(Constants.Partial.stateList)
     fun getStateList(
         @HeaderMap headers: Map<String, String>,

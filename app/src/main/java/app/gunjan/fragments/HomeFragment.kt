@@ -8,12 +8,14 @@ import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.gunjan.R
+import app.gunjan.activities.HomeActivity
 import app.gunjan.activities.PostListResponse
 import app.gunjan.adapters.*
 import app.gunjan.entity.*
@@ -22,6 +24,8 @@ import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.activity_add_post.*
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_notification.*
 import kotlinx.android.synthetic.main.activity_privacy_policy.*
 import retrofit2.Call
@@ -30,6 +34,15 @@ import retrofit2.Response
 
 class HomeFragment : Fragment() {
     private var page: Int? = 1
+    var swipeRefresh: SwipeRefreshLayout? = null
+    var progressBar: ProgressBar? = null
+    var blankData: TextView? = null
+    var totalMembers: TextView? = null
+    var totalMember: CardView? = null
+    var isLoading = false
+    var isLastPage = false
+    private var layoutManager: LinearLayoutManager? = null
+    var postsAdapter: HomePostsAdapter? = null
     private var postId: String? = ""
     private var commentId: String? = ""
     private var Status: String? = "2"
@@ -37,15 +50,8 @@ class HomeFragment : Fragment() {
     private var name: String? = ""
     private var description: String? = ""
     private var type: String? = "discussion"
-    var isLoading = false
-    var isLastPage = false
-    private var layoutManager: LinearLayoutManager? = null
     var commentRecycler: RecyclerView? = null
     var replyRecycler: RecyclerView? = null
-    var postsAdapter: HomePostsAdapter? = null
-    var swipeRefresh: SwipeRefreshLayout? = null
-    var progressBar: ProgressBar? = null
-    var blankData: TextView? = null
     var blankData2: TextView? = null
     var blankData3: TextView? = null
     var nestedScroll: NestedScrollView? = null
@@ -62,6 +68,8 @@ class HomeFragment : Fragment() {
     private var trending: LinearLayout? = null
     private var announce: LinearLayout? = null
     private var event: LinearLayout? = null
+    private var discusssValue: EditText? = null
+    private var submit: LinearLayout? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -80,17 +88,100 @@ class HomeFragment : Fragment() {
         blankData = view.findViewById(R.id.blank_data)
         progressBar = view.findViewById(R.id.progress_bar)
         nestedScroll = view.findViewById(R.id.nested_scroll)
+        discusssValue = view.findViewById(R.id.discuss_value)
+        submit = view.findViewById(R.id.submit)
+        totalMembers = view.findViewById(R.id.total_members)
+        totalMember = view.findViewById(R.id.totalMember)
         initData()
         return view
     }
 
     private fun initData() {
         animShow = AnimationUtils.loadAnimation(context, R.anim.move_right_in_activity)
+        list.add("")
+        list.add("")
         userDetails()
         initializeAdapter()
-        postListApi("1",type!!)
+        postListApi("1", type!!)
 
         communityPic!!.setOnClickListener { communityDescriptionDialog() }
+
+        totalMember!!.setOnClickListener {
+            FCSharedPreferances.getSharedPreferance(context).status =
+                "members"
+            var intent = Intent(
+                context,
+                HomeActivity::class.java
+            )
+            intent.flags =
+                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
+
+        submit!!.setOnClickListener {
+            if (discusssValue!!.text.toString().trim() == "") {
+                discusssValue!!.requestFocus()
+                discusssValue!!.error = "Please enter start discussing value"
+                //  Toast.makeText(context,"Please enter start discussing value",Toast.LENGTH_LONG).show()
+            } else {
+                val myDialog = ProjectUtill.showProgressDialog(context)
+                context?.let { it1 ->
+                    WebServiceRequest.getInstance().addPost(
+                        it1,
+                        discusssValue!!.text.toString().trim(),
+                        "",
+                        "text",
+                        "disccusion",
+                        "",
+                        "",
+                        "",
+                        object : Callback<AddPostResponse> {
+                            override fun onResponse(
+                                call: Call<AddPostResponse>,
+                                response: Response<AddPostResponse>
+                            ) {
+                                myDialog.dismiss()
+                                if (response != null) {
+                                    if (response.isSuccessful) {
+                                        if (response.body()!!.code == 1) {
+                                            var intent = Intent(context, HomeActivity::class.java)
+                                            intent.flags =
+                                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                            startActivity(intent)
+                                        } else {
+                                            ProjectUtill.printMessage(
+                                                activity!!.window.decorView,
+                                                response.body()?.message
+                                            )
+                                        }
+                                    } else {
+                                        ProjectUtill.printErrorMessage(
+                                            activity!!.window.decorView,
+                                            ""
+                                        )
+                                    }
+                                } else {
+                                    ProjectUtill.printErrorMessage(
+                                        activity!!.window.decorView,
+                                        ""
+                                    )
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<AddPostResponse>,
+                                t: Throwable
+                            ) {
+                                myDialog.dismiss()
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        })
+                }
+            }
+        }
 
         swipeRefresh!!.setColorSchemeResources(R.color.pink)
         swipeRefresh!!.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
@@ -117,9 +208,9 @@ class HomeFragment : Fragment() {
             trending!!.background = resources.getDrawable(R.drawable.edittext_bg)
             announce!!.background = resources.getDrawable(R.drawable.edittext_bg)
             event!!.background = resources.getDrawable(R.drawable.edittext_bg)
-            type="discussion"
+            type = "discussion"
             initializeAdapter()
-            postListApi("1",type!!)
+            postListApi("1", type!!)
         }
 
         trending!!.setOnClickListener {
@@ -127,9 +218,9 @@ class HomeFragment : Fragment() {
             discuss!!.background = resources.getDrawable(R.drawable.edittext_bg)
             announce!!.background = resources.getDrawable(R.drawable.edittext_bg)
             event!!.background = resources.getDrawable(R.drawable.edittext_bg)
-            type="trending"
+            type = "trending"
             initializeAdapter()
-            postListApi("1",type!!)
+            postListApi("1", type!!)
         }
 
         announce!!.setOnClickListener {
@@ -137,9 +228,9 @@ class HomeFragment : Fragment() {
             discuss!!.background = resources.getDrawable(R.drawable.edittext_bg)
             trending!!.background = resources.getDrawable(R.drawable.edittext_bg)
             event!!.background = resources.getDrawable(R.drawable.edittext_bg)
-            type="announcement"
+            type = "announcement"
             initializeAdapter()
-            postListApi("1",type!!)
+            postListApi("1", type!!)
         }
 
         event!!.setOnClickListener {
@@ -147,6 +238,10 @@ class HomeFragment : Fragment() {
             trending!!.background = resources.getDrawable(R.drawable.edittext_bg)
             announce!!.background = resources.getDrawable(R.drawable.edittext_bg)
             discuss!!.background = resources.getDrawable(R.drawable.edittext_bg)
+            var eventAdapter = EventListAdapter(context,list,this@HomeFragment)
+            var layoutManager = LinearLayoutManager(context)
+            postRecycler!!.layoutManager=layoutManager
+            postRecycler!!.adapter=eventAdapter
         }
 
         nestedScroll!!.viewTreeObserver.addOnScrollChangedListener(ViewTreeObserver.OnScrollChangedListener {
@@ -173,7 +268,7 @@ class HomeFragment : Fragment() {
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let {
             WebServiceRequest.getInstance().postList(
-                it, page, "10",type,
+                it, page, "10", type,
                 object : Callback<PostListResponse> {
                     override fun onResponse(
                         call: Call<PostListResponse>,
@@ -184,6 +279,9 @@ class HomeFragment : Fragment() {
                         if (response != null) {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
+                                    try {
+                                    totalMembers!!.text=response.body()!!.data.total_members.toString()
+                                    }catch (e:Exception){}
                                     postList.clear()
                                     postList.addAll(response.body()!!.data.post)
                                     val prevSize: Int = response.body()!!.data.post.size
@@ -243,7 +341,7 @@ class HomeFragment : Fragment() {
         isLoading = true
         context?.let {
             WebServiceRequest.getInstance().postList(
-                it, page, "10","discussion",
+                it, page, "10", "discussion",
                 object : Callback<PostListResponse> {
                     override fun onResponse(
                         call: Call<PostListResponse>,
@@ -253,6 +351,9 @@ class HomeFragment : Fragment() {
                         if (response != null) {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
+                                       try {
+                                    totalMembers!!.text=response.body()!!.data.total_members.toString()
+                                    }catch (e:Exception){}
                                     postList.clear()
                                     postList.addAll(response.body()!!.data.post)
                                     val prevSize: Int = response.body()!!.data.post.size
@@ -312,7 +413,7 @@ class HomeFragment : Fragment() {
         progress_bar!!.visibility = View.VISIBLE
         context?.let {
             WebServiceRequest.getInstance().postList(
-                it, page, "10","discussion",
+                it, page, "10", "discussion",
                 object : Callback<PostListResponse> {
                     override fun onResponse(
                         call: Call<PostListResponse>,
@@ -323,6 +424,9 @@ class HomeFragment : Fragment() {
                         if (response != null) {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
+                                    try {
+                                        totalMembers!!.text=response.body()!!.data.total_members.toString()
+                                    }catch (e:Exception){}
                                     postList.addAll(response.body()!!.data.post)
                                     val prevSize: Int = response.body()!!.data.post.size
                                     if (postList.size == 0) {

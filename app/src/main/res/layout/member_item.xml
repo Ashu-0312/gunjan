@@ -14,7 +14,7 @@
     android:layout_marginBottom="@dimen/padding_5"
     android:background="@drawable/circle_white">
     <ImageView
-        android:layout_centerInParent="true"
+
         android:layout_marginEnd="@dimen/margin_7"
         android:layout_alignParentEnd="true"
         android:layout_width="@dimen/text_30sp"
@@ -32,6 +32,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/pic"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/user_avatar"/>
@@ -43,13 +44,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
+                android:layout_marginEnd="45dp"
                 android:layout_marginStart="@dimen/padding_3"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/popinbold"
                 android:textSize="@dimen/margin_15"
                 android:textColor="#2C2A2A"
-                android:text="Bharat Yuva Shakti"/>
+                android:id="@+id/name"/>
             <LinearLayout
                 android:layout_marginStart="@dimen/padding_3"
                 android:layout_width="wrap_content"
@@ -57,20 +59,30 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:layout_marginEnd="45dp"
                     android:gravity="start"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/padding_3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppin_regular"
                     android:textSize="@dimen/text_12sp"
                     android:textColor="#4B4B4B"
-                    android:text="this will be bio of user"/>
+                    android:id="@+id/about"/>
 
             </LinearLayout>
-
-
-
+            <TextView
+                android:layout_marginEnd="@dimen/margin_7"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:layout_gravity="end"
+                android:text="Make Admin"
+                android:layout_marginStart="@dimen/padding_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/popinbold"
+                android:textSize="@dimen/margin_15"
+                android:textColor="@color/pink"
+                android:id="@+id/make_admin"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

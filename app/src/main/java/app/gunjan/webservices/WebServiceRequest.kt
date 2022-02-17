@@ -136,6 +136,8 @@ class WebServiceRequest private constructor() {
         language: String,
         image: String,
         pincode: String,
+        state: String,
+        city: String,
         registrationResponseCallback: Callback<CompleteProfileResponse>
     ) {
         val headers= HashMap<String,String>()
@@ -148,6 +150,8 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.language] = language
         params[Constants.Keys.image] = image
         params[Constants.Keys.pincode] = pincode
+        params[Constants.Keys.state] = state
+        params[Constants.Keys.city] = city
         val registrationResponseCall: Call<CompleteProfileResponse> =
             apiInterface.completeProfile(params,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
@@ -185,6 +189,8 @@ class WebServiceRequest private constructor() {
         countryCode: String,
         gender: String,
         about: String,
+        state: String,
+        city: String,
         registrationResponseCallback: Callback<EditProfileResponse>
     ) {
         val headers= HashMap<String,String>()
@@ -204,6 +210,8 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.countryCode] = countryCode
         params[Constants.Keys.gender] = gender
         params[Constants.Keys.about] = about
+        params[Constants.Keys.state] = state
+        params[Constants.Keys.city] = city
         val registrationResponseCall: Call<EditProfileResponse> =
             apiInterface.editProfile(params,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
@@ -234,6 +242,10 @@ class WebServiceRequest private constructor() {
         description: String,
         file: String,
         content_type: String,
+        feed_type: String,
+        start_date: String,
+        end_date: String,
+        start_time: String,
         registrationResponseCallback: Callback<AddPostResponse>
     ) {
         val headers= HashMap<String,String>()
@@ -242,6 +254,10 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.description] = description
         params[Constants.Keys.file] = file
         params[Constants.Keys.content_type] = content_type
+        params[Constants.Keys.feed_type] = feed_type
+        params[Constants.Keys.start_date] = start_date
+        params[Constants.Keys.end_date] = end_date
+        params[Constants.Keys.start_time] = start_time
         val registrationResponseCall: Call<AddPostResponse> =
             apiInterface.addPost(params,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
@@ -652,6 +668,28 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.userId] = userId
         val registrationResponseCall: Call<FollowerListResponse> =
             apiInterface.followerUserList(page,limit,userId,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun getAllMemberList(
+        context: Context,
+        page: String,
+        limit: String,
+        state: String,
+        city: String,
+        member_type: String,
+        registrationResponseCallback: Callback<MemberListResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        var params = HashMap<String,String>()
+        params[Constants.Keys.page] = page
+        params[Constants.Keys.limit] = limit
+        params[Constants.Keys.state] = state
+        params[Constants.Keys.city] = city
+        params[Constants.Keys.member_type] = member_type
+        val registrationResponseCall: Call<MemberListResponse> =
+            apiInterface.getAllMemberList(page,limit,state,city,member_type,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 

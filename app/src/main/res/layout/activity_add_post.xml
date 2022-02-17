@@ -42,8 +42,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <LinearLayout
+              <LinearLayout
                 android:layout_marginTop="@dimen/margin_20dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                  <RadioButton
+                      android:checked="true"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:buttonTint="@color/pink"
+                      android:text="Discussion"
+                      android:textColor="@color/pink"
+                      android:id="@+id/discussType"/>
+                  <RadioButton
+                      android:layout_marginStart="@dimen/margin_10dp"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:buttonTint="@color/pink"
+                      android:text="Event"
+                      android:textColor="@color/pink"
+                      android:id="@+id/eventType"/>
+              </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout"
+                android:layout_marginTop="@dimen/margin_10dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_width="match_parent"
@@ -94,41 +119,16 @@
                         android:text="@string/media_post"/>
                 </LinearLayout>
             </LinearLayout>
-            <androidx.cardview.widget.CardView
-                android:elevation="@dimen/padding_2"
-                android:id="@+id/txtLayout"
-                android:layout_marginTop="@dimen/margin_40dp"
-                android:layout_marginStart="@dimen/margin_15"
-                android:layout_marginEnd="@dimen/margin_15"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="@dimen/margin_10dp"
-                app:cardBackgroundColor="@color/white">
-                <EditText
-                    android:minHeight="200dp"
-                    android:layout_gravity="top"
-                    android:gravity="top"
-                    android:id="@+id/edtPost"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:hint="@string/write_your_post"
-                    android:maxLength="200"
-                    android:inputType="textMultiLine"
-                    android:layout_marginStart="7dp"
-                    android:padding="@dimen/margin_15"
-                    android:fontFamily="@font/poppin_regular"
-                    android:textColor="@color/txt_color"
-                    android:textColorHint="@color/txt_color"
-                    android:textSize="@dimen/text_13sp"
-                    tools:ignore="RtlCompat" />
-            </androidx.cardview.widget.CardView>
-
+                android:orientation="vertical"
+                android:id="@+id/discussLayout">
             <androidx.cardview.widget.CardView
                 android:visibility="gone"
                 android:elevation="@dimen/padding_2"
                 android:id="@+id/mediaLayout"
-                android:layout_marginTop="@dimen/margin_40dp"
+                android:layout_marginTop="@dimen/text_30sp"
                 android:layout_marginStart="@dimen/margin_15"
                 android:layout_marginEnd="@dimen/margin_15"
                 android:layout_width="match_parent"
@@ -185,11 +185,254 @@
                         android:src="@drawable/play_video"/>
                 </FrameLayout>
             </androidx.cardview.widget.CardView>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            <androidx.cardview.widget.CardView
+                android:layout_marginBottom="@dimen/padding_2"
+                android:elevation="@dimen/padding_2"
+                android:id="@+id/txtLayout"
+                android:layout_marginTop="@dimen/text_30sp"
+                android:layout_marginStart="@dimen/margin_15"
+                android:layout_marginEnd="@dimen/margin_15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="@dimen/margin_10dp"
+                app:cardBackgroundColor="@color/white">
+                <EditText
+                    android:minHeight="200dp"
+                    android:layout_gravity="top"
+                    android:gravity="top"
+                    android:id="@+id/edtPost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="@string/write_your_post"
+                    android:maxLength="200"
+                    android:inputType="textMultiLine"
+                    android:layout_marginStart="7dp"
+                    android:padding="@dimen/margin_15"
+                    android:fontFamily="@font/poppin_regular"
+                    android:textColor="@color/txt_color"
+                    android:textColorHint="@color/txt_color"
+                    android:textSize="@dimen/text_13sp"
+                    tools:ignore="RtlCompat" />
+            </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/eventLayout">
+                <androidx.cardview.widget.CardView
+                    android:elevation="@dimen/padding_2"
+                    android:id="@+id/emediaLayout"
+                    android:layout_marginTop="@dimen/margin_20dp"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_marginEnd="@dimen/margin_15"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    app:cardCornerRadius="@dimen/margin_10dp"
+                    app:cardBackgroundColor="@color/white">
+                    <ImageView
+                        android:id="@+id/eaddMedia"
+                        android:layout_gravity="center"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:src="@drawable/add_community"/>
+                    <ImageView
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/user_avatar"
+                        android:scaleType="fitXY"
+                        android:id="@+id/epostPic"/>
+                    <FrameLayout
+                        android:visibility="gone"
+                        android:id="@+id/evideoFrame"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/evideo_card"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:cardCornerRadius="@dimen/margin_15">
+
+                            <VideoView
+                                android:layout_gravity="center"
+                                android:id="@+id/evideoView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        </androidx.cardview.widget.CardView>
+
+                        <ImageView
+                            android:elevation="@dimen/padding_5"
+                            android:visibility="gone"
+                            android:layout_gravity="center"
+                            android:id="@+id/epause"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/pause_video"/>
+                        <ImageView
+                            android:elevation="@dimen/padding_5"
+                            android:visibility="gone"
+                            android:layout_gravity="center"
+                            android:id="@+id/eplay"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/play_video"/>
+                    </FrameLayout>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_marginBottom="@dimen/padding_2"
+                    android:elevation="@dimen/padding_2"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_marginEnd="@dimen/margin_15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="@dimen/margin_10dp"
+                    app:cardBackgroundColor="@color/white">
+                    <EditText
+                        android:minHeight="150dp"
+                        android:layout_gravity="top"
+                        android:gravity="top"
+                        android:id="@+id/edtEventPost"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:hint="Write about event"
+                        android:maxLength="150"
+                        android:inputType="textMultiLine"
+                        android:layout_marginStart="7dp"
+                        android:padding="@dimen/margin_15"
+                        android:fontFamily="@font/poppin_regular"
+                        android:textColor="@color/txt_color"
+                        android:textColorHint="@color/txt_color"
+                        android:textSize="@dimen/text_13sp"
+                        tools:ignore="RtlCompat" />
+                </androidx.cardview.widget.CardView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_marginEnd="@dimen/margin_15"
+                    android:layout_marginBottom="@dimen/padding_5"
+                    android:background="@drawable/edittext_bg2"
+                    android:elevation="3dp"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/padding_5">
+
+                    <ImageView
+                        android:layout_width="@dimen/margin_15"
+                        android:layout_height="@dimen/margin_15"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/text_16sp"
+                        android:layout_marginBottom="@dimen/padding_2"
+                        android:src="@drawable/dob" />
+
+                    <TextView
+                        android:id="@+id/startDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="7dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:fontFamily="@font/poppins_light"
+                        android:hint="Start Date"
+                        android:maxLines="1"
+                        android:paddingTop="@dimen/text_13sp"
+                        android:paddingRight="@dimen/margin_10dp"
+                        android:paddingBottom="@dimen/text_13sp"
+                        android:textColor="@color/txt_color"
+                        android:textColorHint="@color/txt_color"
+                        android:textSize="@dimen/text_13sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_marginEnd="@dimen/margin_15"
+                    android:layout_marginBottom="@dimen/padding_5"
+                    android:background="@drawable/edittext_bg2"
+                    android:elevation="3dp"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/padding_5">
+
+                    <ImageView
+                        android:layout_width="@dimen/margin_15"
+                        android:layout_height="@dimen/margin_15"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/text_16sp"
+                        android:layout_marginBottom="@dimen/padding_2"
+                        android:src="@drawable/time" />
+
+                    <TextView
+                        android:id="@+id/startTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="7dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:fontFamily="@font/poppins_light"
+                        android:hint="Start Time"
+                        android:maxLines="1"
+                        android:paddingTop="@dimen/text_13sp"
+                        android:paddingRight="@dimen/margin_10dp"
+                        android:paddingBottom="@dimen/text_13sp"
+                        android:textColor="@color/txt_color"
+                        android:textColorHint="@color/txt_color"
+                        android:textSize="@dimen/text_13sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_marginEnd="@dimen/margin_15"
+                    android:layout_marginBottom="@dimen/padding_5"
+                    android:background="@drawable/edittext_bg2"
+                    android:elevation="3dp"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/padding_5">
+
+                    <ImageView
+                        android:layout_width="@dimen/margin_15"
+                        android:layout_height="@dimen/margin_15"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/text_16sp"
+                        android:layout_marginBottom="@dimen/padding_2"
+                        android:src="@drawable/dob" />
+
+                    <TextView
+                        android:id="@+id/endDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="7dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:fontFamily="@font/poppins_light"
+                        android:hint="End Date"
+                        android:maxLines="1"
+                        android:paddingTop="@dimen/text_13sp"
+                        android:paddingRight="@dimen/margin_10dp"
+                        android:paddingBottom="@dimen/text_13sp"
+                        android:textColor="@color/txt_color"
+                        android:textColorHint="@color/txt_color"
+                        android:textSize="@dimen/text_13sp" />
+                </LinearLayout>
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/Post"
                 android:elevation="1dp"

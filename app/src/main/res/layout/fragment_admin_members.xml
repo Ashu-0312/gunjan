@@ -8,12 +8,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="@dimen/margin_10dp"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none"
-            android:id="@+id/list_recycler"/>
+            android:layout_height="wrap_content"
+            android:id="@+id/swipe_refresh">
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                android:id="@+id/list_recycler"/>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         <ImageView
             android:layout_marginBottom="73dp"
             android:id="@+id/filter"
@@ -23,5 +28,23 @@
             android:layout_alignParentBottom="true"
             android:layout_margin="@dimen/margin_15"
             android:src="@drawable/filter" />
+        <TextView
+            android:visibility="gone"
+            android:text="@string/no_users"
+            android:textColor="@color/pink"
+            android:textSize="@dimen/margin_25"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:scaleType="fitXY"
+            android:fontFamily="@font/popinbold"
+            android:id="@+id/blank_data"
+            android:layout_height="wrap_content"/>
+        <ProgressBar
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/progress_bar"
+            android:layout_alignParentBottom="true"
+            android:indeterminateTint="@color/pink"/>
     </RelativeLayout>
 </RelativeLayout>

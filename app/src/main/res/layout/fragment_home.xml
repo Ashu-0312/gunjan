@@ -124,6 +124,7 @@
                     app:civ_border_width="1dp" />
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/totalMember"
                     android:layout_width="35dip"
                     android:layout_height="35dip"
                     android:layout_marginStart="125dp"
@@ -132,11 +133,10 @@
                     app:cardCornerRadius="@dimen/text_30sp">
 
                     <TextView
-                        android:id="@+id/nmr_of_students"
+                        android:id="@+id/total_members"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="+20"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_13sp"
                         android:textStyle="bold" />
@@ -304,7 +304,7 @@
 
 
             <EditText
-                android:id="@+id/profileName"
+                android:id="@+id/discuss_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="top"

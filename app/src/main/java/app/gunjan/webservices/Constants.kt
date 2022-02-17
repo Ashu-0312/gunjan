@@ -52,6 +52,7 @@ class Constants {
         const val followerUserList = "user/getAllFollowerUserList"
         const val stateList = "user/getAllStateList"
         const val cityList = "user/getAllCityList"
+        const val getAllMemberList = "community/getAllMemberList"
     }
 
     object Keys {
@@ -104,5 +105,12 @@ class Constants {
         const val state_code = "state_code"
         const val userId = "userId"
         const val badge_type = "badge_type"
+        const val state = "state"
+        const val city = "city"
+        const val member_type = "member_type"
+        const val feed_type = "feed_type"
+        const val start_date = "start_date"
+        const val end_date = "end_date"
+        const val start_time = "start_time"
     }
 }

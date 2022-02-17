@@ -99,7 +99,20 @@ class HomeActivity : AppCompatActivity() {
             account_icon.setImageDrawable(resources.getDrawable(R.drawable.profile_selected))
             fragment = ProfileFragment()
             loadFragment(fragment!!)
-        }else {
+        }else if (FCSharedPreferances.getSharedPreferance(this).status.equals("members")){
+            FCSharedPreferances.getSharedPreferance(this).status=""
+            home_txt.setTextColor(resources.getColor(R.color.txt_color))
+            member_txt.setTextColor(resources.getColor(R.color.pink))
+            message_txt.setTextColor(resources.getColor(R.color.txt_color))
+            account_txt.setTextColor(resources.getColor(R.color.txt_color))
+            home_icon.setImageDrawable(resources.getDrawable(R.drawable.home_not_selected))
+            member_icon.setImageDrawable(resources.getDrawable(R.drawable.member_selected))
+            message_icon.setImageDrawable(resources.getDrawable(R.drawable.message_not_selected))
+            account_icon.setImageDrawable(resources.getDrawable(R.drawable.profile_not_selected))
+            fragment = MembersFragment()
+            loadFragment(fragment!!)
+        }
+        else {
             home_txt.setTextColor(resources.getColor(R.color.pink))
             member_txt.setTextColor(resources.getColor(R.color.txt_color))
             message_txt.setTextColor(resources.getColor(R.color.txt_color))
