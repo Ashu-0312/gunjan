@@ -30,6 +30,7 @@ class OthersPostFragment : Fragment() {
     private var postId: String? = ""
     var commentRecycler: RecyclerView? = null
     var swipeRefresh: SwipeRefreshLayout? = null
+    var blankData: TextView? = null
     var blankData2: TextView? = null
     private var postRecycler: RecyclerView? = null
     override fun onCreateView(
@@ -40,6 +41,7 @@ class OthersPostFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_others_post, container, false)
         postRecycler = view.findViewById(R.id.post_recycler)
         swipeRefresh = view.findViewById(R.id.swipe_refresh)
+        blankData = view.findViewById(R.id.blank_data)
         initData()
         return view
     }
@@ -69,13 +71,22 @@ class OthersPostFragment : Fragment() {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
                                     try {
+                                        if (response.body()!!.data.post_list.size == 0) {
+                                            postRecycler!!.visibility = View.GONE
+                                            blankData!!.visibility = View.VISIBLE
+                                        } else {
+                                            postRecycler!!.visibility=View.VISIBLE
+                                            blankData!!.visibility=View.GONE
                                         var postAdapter = OtherPostsAdapter(
-                                            context, response.body()!!.data.post_list,this@OthersPostFragment
+                                            context,
+                                            response.body()!!.data.post_list,
+                                            this@OthersPostFragment
                                         )
                                         var layoutManager: LinearLayoutManager? =
                                             LinearLayoutManager(context)
                                         postRecycler!!.layoutManager = layoutManager
                                         postRecycler!!.adapter = postAdapter
+                                    }
                                     } catch (e: Exception) {
                                     }
                                 } else {

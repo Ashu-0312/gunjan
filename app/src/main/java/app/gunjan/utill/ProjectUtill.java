@@ -30,6 +30,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 import app.gunjan.R;
@@ -52,6 +54,13 @@ public class ProjectUtill {
 
     public static boolean upperCase(String password){
         return Pattern.compile("^(?=.*[A-Z]).*$").matcher(password).matches();
+    }
+
+    public static String DateFormate(String d){
+        Date dt = new Date(d);
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
+        String time1 = sdf.format(dt);
+        return time1;
     }
 
     public static boolean lowerCase(String password){

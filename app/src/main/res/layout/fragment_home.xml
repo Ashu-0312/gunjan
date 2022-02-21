@@ -67,22 +67,20 @@
             android:layout_marginEnd="@dimen/margin_15">
 
             <FrameLayout
-                android:id="@+id/frames"
+                android:id="@+id/frames_member"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/student1"
+                    android:id="@+id/image1"
                     android:layout_width="36dip"
                     android:layout_height="36dip"
                     android:src="@drawable/user_avatar"
                     app:civ_border_color="#ffffff"
-                    app:civ_border_width="1dp"
-
-                    />
+                    app:civ_border_width="1dp" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/student2"
+                    android:id="@+id/image2"
                     android:layout_width="36dip"
                     android:layout_height="36dip"
                     android:layout_marginStart="@dimen/margin_25"
@@ -93,7 +91,7 @@
                     />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/student3"
+                    android:id="@+id/image3"
                     android:layout_width="36dip"
                     android:layout_height="36dip"
                     android:layout_marginStart="50dp"
@@ -104,7 +102,7 @@
                     />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/student4"
+                    android:id="@+id/image4"
                     android:layout_width="36dip"
                     android:layout_height="36dip"
                     android:layout_marginStart="75dp"
@@ -115,7 +113,8 @@
                     />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/student5"
+                    android:id="@+id/image5"
+
                     android:layout_width="36dip"
                     android:layout_height="36dip"
                     android:layout_marginStart="100dp"
@@ -128,7 +127,7 @@
                     android:layout_width="35dip"
                     android:layout_height="35dip"
                     android:layout_marginStart="125dp"
-                    android:layout_toRightOf="@+id/frames"
+                    android:layout_toRightOf="@+id/frames_member"
                     app:cardBackgroundColor="@color/black"
                     app:cardCornerRadius="@dimen/text_30sp">
 

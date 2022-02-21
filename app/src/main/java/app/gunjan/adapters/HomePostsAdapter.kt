@@ -7,7 +7,11 @@ import android.hardware.display.DisplayManager
 import android.media.MediaPlayer.OnCompletionListener
 import android.media.MediaPlayer.OnPreparedListener
 import android.os.Build
-import android.view.*
+import android.util.Log
+import android.view.Display
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
@@ -26,7 +30,10 @@ import de.hdodenhof.circleimageview.CircleImageView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.collections.ArrayList
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class HomePostsAdapter(
@@ -49,22 +56,75 @@ class HomePostsAdapter(
             holder.totalComment!!.text=data[position].total_comment.toString()+" Comments"
             holder.totalLike!!.text=data[position].total_like.toString()
             holder.totaldisLike!!.text=data[position].total_unlike.toString()
+            holder.postTime!!.text=convertTimeToText(data[position].createdAt)
             context?.let {
                 Glide.with(it).load(data[position].created_by.image).placeholder(R.drawable.user_avatar)
                     .into(holder.profile!!)
             }
+
+            if (data[position].feed_type=="event"){
+                holder.eventLayout!!.visibility=View.VISIBLE
+                var format = SimpleDateFormat("yyyy-MM-dd")
+                val date1 = format.parse(data[position].start_date)
+                val date2 = format.format(date1)
+
+                format =
+                    if (date2.endsWith("01") && !date2.endsWith("11")) SimpleDateFormat("d'st'") else if (date2.endsWith(
+                            "02"
+                        ) && !date2.endsWith("12")
+                    ) SimpleDateFormat("d'nd'") else if (date2.endsWith("03") && !date2.endsWith("13")) SimpleDateFormat(
+                        "d'rd'"
+                    ) else SimpleDateFormat("d'th'")
+
+                val yourDate = format.format(date1)
+                holder.day!!.text = yourDate
+
+                var format2 = SimpleDateFormat("yyyy-MM-dd")
+                val date3 = format2.parse(data[position].start_date)
+                val date4 = format2.format(date3)
+
+                format2 =
+                    if (date4.endsWith("01") && !date4.endsWith("11")) SimpleDateFormat("MMM") else if (date4.endsWith(
+                            "02"
+                        ) && !date4.endsWith("12")
+                    ) SimpleDateFormat("MMM") else if (date4.endsWith("03") && !date4.endsWith("13")) SimpleDateFormat(
+                        "MMM"
+                    ) else SimpleDateFormat("MMM")
+
+                val yourMonth = format2.format(date3)
+                holder.month!!.text = yourMonth
+
+                val tk =
+                    StringTokenizer(data[position].start_date.toString() + " " + data[position].start_time)
+                val date = tk.nextToken()
+                val time = tk.nextToken()
+
+                val sdf = SimpleDateFormat("hh:mm:ss")
+                val sdfs = SimpleDateFormat("hh:mmaa")
+                val dt: Date
+                try {
+                    dt = sdf.parse(time)
+                    holder.time!!.text = sdfs.format(dt)
+                } catch (e: ParseException) {
+                    e.printStackTrace()
+                }
+            }else{
+                holder.eventLayout!!.visibility=View.GONE
+            }
+
             if (data[position].content_type == "image") {
                 holder.picLayout!!.visibility = View.VISIBLE
-                holder.txtLayout!!.visibility = View.GONE
+                holder.txtLayout!!.visibility = View.VISIBLE
                 holder.videoLayout!!.visibility = View.GONE
                 holder.videoView!!.visibility = View.GONE
                 context?.let {
                     Glide.with(it).load(data[position].file).placeholder(R.drawable.user_avatar)
                         .into(holder.picLayout!!)
                 }
+                holder.description!!.text = data[position].description
             } else if (data[position].content_type == "video") {
                 holder.picLayout!!.visibility = View.GONE
-                holder.txtLayout!!.visibility = View.GONE
+                holder.txtLayout!!.visibility = View.VISIBLE
                 holder.videoLayout!!.visibility = View.VISIBLE
                 holder.videoView!!.visibility = View.VISIBLE
                 val display = context!!.getSystemService<DisplayManager>()
@@ -73,6 +133,7 @@ class HomePostsAdapter(
                 val height = display!!.height
                 holder.videoView!!.layoutParams = FrameLayout.LayoutParams(width, height)
                 holder.videoView!!.setVideoPath(data[position].file)
+                holder.description!!.text = data[position].description
             } else if (data[position].content_type == "text") {
                 holder.picLayout!!.visibility = View.GONE
                 holder.txtLayout!!.visibility = View.VISIBLE
@@ -80,7 +141,7 @@ class HomePostsAdapter(
                 holder.videoView!!.visibility = View.GONE
                 holder.description!!.text = data[position].description
             }
-        }catch (e:Exception){}
+        }catch (e: Exception){}
         holder.showMore!!.setOnClickListener(View.OnClickListener {
             if (holder.showMore!!.text.toString() == "Showmore...") {
                 holder.description!!.maxLines = Int.MAX_VALUE //your TextView
@@ -105,7 +166,9 @@ class HomePostsAdapter(
         }
 
         holder.profile!!.setOnClickListener {
-            if(data[position].created_by.id.toString()!=FCSharedPreferances.getSharedPreferance(context).useR_ID) {
+            if(data[position].created_by.id.toString()!=FCSharedPreferances.getSharedPreferance(
+                    context
+                ).useR_ID) {
                 FCSharedPreferances.getSharedPreferance(context).otheR_ID=data[position].created_by.id.toString()
                 context!!.startActivity(Intent(context, OthersProfileActivity::class.java))
             }else{
@@ -149,7 +212,7 @@ class HomePostsAdapter(
             val myDialog = ProjectUtill.showProgressDialog(context)
             context?.let { it1 ->
                 WebServiceRequest.getInstance().likeDislikePost(
-                    it1,data[position].id.toString(),"love","1",
+                    it1, data[position].id.toString(), "love", "1",
                     object : Callback<LikeDislikePostResponse> {
                         override fun onResponse(
                             call: Call<LikeDislikePostResponse>,
@@ -159,8 +222,10 @@ class HomePostsAdapter(
                             if (response != null) {
                                 if (response.isSuccessful) {
                                     if (response.body()!!.code == 1) {
-                                        holder.totalLike!!.text=response.body()!!.data.post.total_like.toString()
-                                        holder.totaldisLike!!.text=response.body()!!.data.post.total_unlike.toString()
+                                        holder.totalLike!!.text =
+                                            response.body()!!.data.post.total_like.toString()
+                                        holder.totaldisLike!!.text =
+                                            response.body()!!.data.post.total_unlike.toString()
                                     } else {
                                         ProjectUtill.printMessage(
                                             (context as Activity).window.decorView,
@@ -199,7 +264,7 @@ class HomePostsAdapter(
             val myDialog = ProjectUtill.showProgressDialog(context)
             context?.let { it1 ->
                 WebServiceRequest.getInstance().likeDislikePost(
-                    it1,data[position].id.toString(),"love","0",
+                    it1, data[position].id.toString(), "love", "0",
                     object : Callback<LikeDislikePostResponse> {
                         override fun onResponse(
                             call: Call<LikeDislikePostResponse>,
@@ -209,8 +274,10 @@ class HomePostsAdapter(
                             if (response != null) {
                                 if (response.isSuccessful) {
                                     if (response.body()!!.code == 1) {
-                                        holder.totalLike!!.text=response.body()!!.data.post.total_like.toString()
-                                        holder.totaldisLike!!.text=response.body()!!.data.post.total_unlike.toString()
+                                        holder.totalLike!!.text =
+                                            response.body()!!.data.post.total_like.toString()
+                                        holder.totaldisLike!!.text =
+                                            response.body()!!.data.post.total_unlike.toString()
                                     } else {
                                         ProjectUtill.printMessage(
                                             (context as Activity).window.decorView,
@@ -258,9 +325,47 @@ class HomePostsAdapter(
         return data!!.size
     }
 
+    fun convertTimeToText(dataDate: String?): String? {
+        var convTime: String? = null
+        val prefix = ""
+        val suffix = "ago"
+        try {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+            val pasTime = dateFormat.parse(dataDate)
+            val nowTime = Date()
+            val dateDiff = nowTime.time - pasTime.time
+            val second: Long = TimeUnit.MILLISECONDS.toSeconds(dateDiff)
+            val minute: Long = TimeUnit.MILLISECONDS.toMinutes(dateDiff)
+            val hour: Long = TimeUnit.MILLISECONDS.toHours(dateDiff)
+            val day: Long = TimeUnit.MILLISECONDS.toDays(dateDiff)
+            if (second < 60) {
+                convTime = "$second seconds $suffix"
+            } else if (minute < 60) {
+                convTime = "$minute minutes $suffix"
+            } else if (hour < 24) {
+                convTime = "$hour hours $suffix"
+            } else if (day >= 7) {
+                convTime = if (day > 360) {
+                    (day / 360).toString() + " years " + suffix
+                } else if (day > 30) {
+                    (day / 30).toString() + " months " + suffix
+                } else {
+                    (day / 7).toString() + " week " + suffix
+                }
+            } else if (day < 7) {
+                convTime = "$day days $suffix"
+            }
+        } catch (e: ParseException) {
+            e.printStackTrace()
+            Log.e("ConvTimeE", e.message!!)
+        }
+        return convTime
+    }
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var description: TextView? =null
         var showMore: TextView? =null
+        var postTime: TextView? =null
         var name: TextView? =null
         var totalComment: TextView? =null
         var totalLike: TextView? =null
@@ -279,6 +384,10 @@ class HomePostsAdapter(
         var progressBar: ProgressBar? =null
         var commentLayout: LinearLayout? =null
         var commentLayout2: LinearLayout? =null
+        var eventLayout: LinearLayout? =null
+        var day: TextView? = null
+        var month: TextView? = null
+        var time: TextView? = null
         init {
             description=itemView.findViewById(R.id.description)
             showMore=itemView.findViewById(R.id.show_more)
@@ -300,6 +409,11 @@ class HomePostsAdapter(
             dislike=itemView.findViewById(R.id.dislike)
             commentLayout=itemView.findViewById(R.id.comment_layout)
             commentLayout2=itemView.findViewById(R.id.comment_layout2)
+            eventLayout=itemView.findViewById(R.id.event_layout)
+            postTime=itemView.findViewById(R.id.time)
+            day = itemView.findViewById(R.id.activity_day)
+            month = itemView.findViewById(R.id.activity_month)
+            time = itemView.findViewById(R.id.activity_time)
         }
     }
 

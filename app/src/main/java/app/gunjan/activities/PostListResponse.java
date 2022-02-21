@@ -32,7 +32,7 @@ public class PostListResponse implements Serializable {
     /**
      * code : 1
      * message : Post list!
-     * data : {"total":2,"page":"","limit":"","post":[{"id":35,"title":"","feed_type":"post","description":"ccf","file":"","file_width":null,"file_height":null,"content_type":"text","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":32,"first_name":"User1","last_name":"User1","pincode":"868","mobile":"6060606060","countryCode":"+91","gender":"Male","dob":"2001-02-16","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-8254.jpg","email":"evvdvdv@gmail.com","state":"Assam","city":"Bijni","profile_stage":"5","active":true,"about":"cccc","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"00:51:40"},{"id":34,"title":"","feed_type":"post","description":"djdjd","file":"","file_width":null,"file_height":null,"content_type":"text","privacy":"community_member","total_like":1,"total_unlike":0,"total_comment":0,"created_by":{"id":36,"first_name":"User3","last_name":"User3","pincode":"8885","mobile":"9999999999","countryCode":"+91","gender":"Female","dob":"1992-02-17","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-1688.jpg","email":"e@gmail.comi","state":"Uttar Pradesh","city":"Aliganj","profile_stage":"5","active":true,"about":"cgthb","active_community":25},"like_type":["love"],"isLiked":true,"isCommented":false,"my_liked_type":"love","time":"01:45:03"}],"total_members":3}
+     * data : {"total":8,"page":"1","limit":"10","post":[{"id":62,"title":"","feed_type":"disccusion","description":"edhd","file":"","file_width":null,"file_height":null,"content_type":"text","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":37,"first_name":"User4","last_name":"User4","pincode":"8525","mobile":"5353535353","countryCode":"+91","gender":"Male","dob":"2001-02-17","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6006.jpg","email":"ww@gmail.com","state":"Goa","city":"Dicholi","profile_stage":"5","active":true,"about":"rfftf","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"00:00:14","createdAt":"2022-02-21T08:43:05.000Z","start_date":"0000-00-00","end_date":"0000-00-00","start_time":"00:00:00"},{"id":61,"title":"","feed_type":"event","description":"gbjuyg","file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-5001.jpg","file_width":null,"file_height":null,"content_type":"image","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":37,"first_name":"User4","last_name":"User4","pincode":"8525","mobile":"5353535353","countryCode":"+91","gender":"Male","dob":"2001-02-17","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6006.jpg","email":"ww@gmail.com","state":"Goa","city":"Dicholi","profile_stage":"5","active":true,"about":"rfftf","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"00:47:12","createdAt":"2022-02-21T07:56:07.000Z","start_date":"2022-02-21","end_date":"2022-02-22","start_time":"05:25:00"},{"id":60,"title":"","feed_type":"event","description":"","file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-272.jpg","file_width":null,"file_height":null,"content_type":"image","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":37,"first_name":"User4","last_name":"User4","pincode":"8525","mobile":"5353535353","countryCode":"+91","gender":"Male","dob":"2001-02-17","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6006.jpg","email":"ww@gmail.com","state":"Goa","city":"Dicholi","profile_stage":"5","active":true,"about":"rfftf","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"00:49:03","createdAt":"2022-02-21T07:54:16.000Z","start_date":"2022-02-24","end_date":"2022-02-25","start_time":"13:24:00"},{"id":59,"title":"","feed_type":"event","description":"","file":"","file_width":null,"file_height":null,"content_type":"image","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":37,"first_name":"User4","last_name":"User4","pincode":"8525","mobile":"5353535353","countryCode":"+91","gender":"Male","dob":"2001-02-17","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6006.jpg","email":"ww@gmail.com","state":"Goa","city":"Dicholi","profile_stage":"5","active":true,"about":"rfftf","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"00:52:26","createdAt":"2022-02-21T07:50:53.000Z","start_date":"2022-02-22","end_date":"2022-02-23","start_time":"13:20:00"},{"id":58,"title":"","feed_type":"event","description":"","file":"","file_width":null,"file_height":null,"content_type":"image","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":37,"first_name":"User4","last_name":"User4","pincode":"8525","mobile":"5353535353","countryCode":"+91","gender":"Male","dob":"2001-02-17","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6006.jpg","email":"ww@gmail.com","state":"Goa","city":"Dicholi","profile_stage":"5","active":true,"about":"rfftf","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"00:54:28","createdAt":"2022-02-21T07:48:51.000Z","start_date":"2022-02-21","end_date":"2022-02-22","start_time":"13:18:00"},{"id":57,"title":"","feed_type":"disccusion","description":"video demo","file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/VID_20220221_122817.mp4","file_width":null,"file_height":null,"content_type":"video","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":32,"first_name":"User1","last_name":"User1","pincode":"868","mobile":"6060606060","countryCode":"+91","gender":"Male","dob":"2001-02-16","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-8254.jpg","email":"evvdvdv@gmail.com","state":"Assam","city":"Bijni","profile_stage":"5","active":true,"about":"cccc","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"01:43:05","createdAt":"2022-02-21T07:00:14.000Z","start_date":"0000-00-00","end_date":"0000-00-00","start_time":"00:00:00"},{"id":56,"title":"","feed_type":"disccusion","description":"dvbcc","file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-7510.jpg","file_width":null,"file_height":null,"content_type":"image","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":32,"first_name":"User1","last_name":"User1","pincode":"868","mobile":"6060606060","countryCode":"+91","gender":"Male","dob":"2001-02-16","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-8254.jpg","email":"evvdvdv@gmail.com","state":"Assam","city":"Bijni","profile_stage":"5","active":true,"about":"cccc","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"01:45:22","createdAt":"2022-02-21T06:57:57.000Z","start_date":"0000-00-00","end_date":"0000-00-00","start_time":"00:00:00"},{"id":55,"title":"","feed_type":"disccusion","description":"ejdjdd","file":"","file_width":null,"file_height":null,"content_type":"text","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":32,"first_name":"User1","last_name":"User1","pincode":"868","mobile":"6060606060","countryCode":"+91","gender":"Male","dob":"2001-02-16","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-8254.jpg","email":"evvdvdv@gmail.com","state":"Assam","city":"Bijni","profile_stage":"5","active":true,"about":"cccc","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"01:45:52","createdAt":"2022-02-21T06:57:27.000Z","start_date":"0000-00-00","end_date":"0000-00-00","start_time":"00:00:00"}],"total_members":5,"member_list":[{"image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-8254.jpg"},{"image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6006.jpg"},{"image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-1688.jpg"},{"image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-5384.jpg"},{"image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-2941.jpg"}]}
      */
 
     private int code;
@@ -40,16 +40,6 @@ public class PostListResponse implements Serializable {
     private DataBean data;
 
     public static class DataBean implements Serializable {
-        /**
-         * total : 2
-         * page :
-         * limit :
-         * post : [{"id":35,"title":"","feed_type":"post","description":"ccf","file":"","file_width":null,"file_height":null,"content_type":"text","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":32,"first_name":"User1","last_name":"User1","pincode":"868","mobile":"6060606060","countryCode":"+91","gender":"Male","dob":"2001-02-16","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-8254.jpg","email":"evvdvdv@gmail.com","state":"Assam","city":"Bijni","profile_stage":"5","active":true,"about":"cccc","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"00:51:40"},{"id":34,"title":"","feed_type":"post","description":"djdjd","file":"","file_width":null,"file_height":null,"content_type":"text","privacy":"community_member","total_like":1,"total_unlike":0,"total_comment":0,"created_by":{"id":36,"first_name":"User3","last_name":"User3","pincode":"8885","mobile":"9999999999","countryCode":"+91","gender":"Female","dob":"1992-02-17","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-1688.jpg","email":"e@gmail.comi","state":"Uttar Pradesh","city":"Aliganj","profile_stage":"5","active":true,"about":"cgthb","active_community":25},"like_type":["love"],"isLiked":true,"isCommented":false,"my_liked_type":"love","time":"01:45:03"}]
-         * total_members : 3
-         */
-
-        private int total;
-
         public int getTotal() {
             return total;
         }
@@ -90,17 +80,36 @@ public class PostListResponse implements Serializable {
             this.post = post;
         }
 
+        public List<MemberListBean> getMember_list() {
+            return member_list;
+        }
+
+        public void setMember_list(List<MemberListBean> member_list) {
+            this.member_list = member_list;
+        }
+
+        /**
+         * total : 8
+         * page : 1
+         * limit : 10
+         * post : [{"id":62,"title":"","feed_type":"disccusion","description":"edhd","file":"","file_width":null,"file_height":null,"content_type":"text","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":37,"first_name":"User4","last_name":"User4","pincode":"8525","mobile":"5353535353","countryCode":"+91","gender":"Male","dob":"2001-02-17","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6006.jpg","email":"ww@gmail.com","state":"Goa","city":"Dicholi","profile_stage":"5","active":true,"about":"rfftf","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"00:00:14","createdAt":"2022-02-21T08:43:05.000Z","start_date":"0000-00-00","end_date":"0000-00-00","start_time":"00:00:00"},{"id":61,"title":"","feed_type":"event","description":"gbjuyg","file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-5001.jpg","file_width":null,"file_height":null,"content_type":"image","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":37,"first_name":"User4","last_name":"User4","pincode":"8525","mobile":"5353535353","countryCode":"+91","gender":"Male","dob":"2001-02-17","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6006.jpg","email":"ww@gmail.com","state":"Goa","city":"Dicholi","profile_stage":"5","active":true,"about":"rfftf","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"00:47:12","createdAt":"2022-02-21T07:56:07.000Z","start_date":"2022-02-21","end_date":"2022-02-22","start_time":"05:25:00"},{"id":60,"title":"","feed_type":"event","description":"","file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-272.jpg","file_width":null,"file_height":null,"content_type":"image","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":37,"first_name":"User4","last_name":"User4","pincode":"8525","mobile":"5353535353","countryCode":"+91","gender":"Male","dob":"2001-02-17","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6006.jpg","email":"ww@gmail.com","state":"Goa","city":"Dicholi","profile_stage":"5","active":true,"about":"rfftf","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"00:49:03","createdAt":"2022-02-21T07:54:16.000Z","start_date":"2022-02-24","end_date":"2022-02-25","start_time":"13:24:00"},{"id":59,"title":"","feed_type":"event","description":"","file":"","file_width":null,"file_height":null,"content_type":"image","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":37,"first_name":"User4","last_name":"User4","pincode":"8525","mobile":"5353535353","countryCode":"+91","gender":"Male","dob":"2001-02-17","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6006.jpg","email":"ww@gmail.com","state":"Goa","city":"Dicholi","profile_stage":"5","active":true,"about":"rfftf","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"00:52:26","createdAt":"2022-02-21T07:50:53.000Z","start_date":"2022-02-22","end_date":"2022-02-23","start_time":"13:20:00"},{"id":58,"title":"","feed_type":"event","description":"","file":"","file_width":null,"file_height":null,"content_type":"image","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":37,"first_name":"User4","last_name":"User4","pincode":"8525","mobile":"5353535353","countryCode":"+91","gender":"Male","dob":"2001-02-17","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6006.jpg","email":"ww@gmail.com","state":"Goa","city":"Dicholi","profile_stage":"5","active":true,"about":"rfftf","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"00:54:28","createdAt":"2022-02-21T07:48:51.000Z","start_date":"2022-02-21","end_date":"2022-02-22","start_time":"13:18:00"},{"id":57,"title":"","feed_type":"disccusion","description":"video demo","file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/VID_20220221_122817.mp4","file_width":null,"file_height":null,"content_type":"video","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":32,"first_name":"User1","last_name":"User1","pincode":"868","mobile":"6060606060","countryCode":"+91","gender":"Male","dob":"2001-02-16","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-8254.jpg","email":"evvdvdv@gmail.com","state":"Assam","city":"Bijni","profile_stage":"5","active":true,"about":"cccc","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"01:43:05","createdAt":"2022-02-21T07:00:14.000Z","start_date":"0000-00-00","end_date":"0000-00-00","start_time":"00:00:00"},{"id":56,"title":"","feed_type":"disccusion","description":"dvbcc","file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-7510.jpg","file_width":null,"file_height":null,"content_type":"image","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":32,"first_name":"User1","last_name":"User1","pincode":"868","mobile":"6060606060","countryCode":"+91","gender":"Male","dob":"2001-02-16","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-8254.jpg","email":"evvdvdv@gmail.com","state":"Assam","city":"Bijni","profile_stage":"5","active":true,"about":"cccc","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"01:45:22","createdAt":"2022-02-21T06:57:57.000Z","start_date":"0000-00-00","end_date":"0000-00-00","start_time":"00:00:00"},{"id":55,"title":"","feed_type":"disccusion","description":"ejdjdd","file":"","file_width":null,"file_height":null,"content_type":"text","privacy":"community_member","total_like":0,"total_unlike":0,"total_comment":0,"created_by":{"id":32,"first_name":"User1","last_name":"User1","pincode":"868","mobile":"6060606060","countryCode":"+91","gender":"Male","dob":"2001-02-16","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-8254.jpg","email":"evvdvdv@gmail.com","state":"Assam","city":"Bijni","profile_stage":"5","active":true,"about":"cccc","active_community":25},"like_type":[],"isLiked":false,"isCommented":false,"my_liked_type":"","time":"01:45:52","createdAt":"2022-02-21T06:57:27.000Z","start_date":"0000-00-00","end_date":"0000-00-00","start_time":"00:00:00"}]
+         * total_members : 5
+         * member_list : [{"image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-8254.jpg"},{"image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6006.jpg"},{"image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-1688.jpg"},{"image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-5384.jpg"},{"image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-2941.jpg"}]
+         */
+
+        private int total;
         private String page;
         private String limit;
         private int total_members;
         private List<PostBean> post;
+        private List<MemberListBean> member_list;
 
         public static class PostBean implements Serializable {
             /**
-             * id : 35
+             * id : 62
              * title :
-             * feed_type : post
-             * description : ccf
+             * feed_type : disccusion
+             * description : edhd
              * file :
              * file_width : null
              * file_height : null
@@ -109,12 +118,16 @@ public class PostListResponse implements Serializable {
              * total_like : 0
              * total_unlike : 0
              * total_comment : 0
-             * created_by : {"id":32,"first_name":"User1","last_name":"User1","pincode":"868","mobile":"6060606060","countryCode":"+91","gender":"Male","dob":"2001-02-16","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-8254.jpg","email":"evvdvdv@gmail.com","state":"Assam","city":"Bijni","profile_stage":"5","active":true,"about":"cccc","active_community":25}
+             * created_by : {"id":37,"first_name":"User4","last_name":"User4","pincode":"8525","mobile":"5353535353","countryCode":"+91","gender":"Male","dob":"2001-02-17","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6006.jpg","email":"ww@gmail.com","state":"Goa","city":"Dicholi","profile_stage":"5","active":true,"about":"rfftf","active_community":25}
              * like_type : []
              * isLiked : false
              * isCommented : false
              * my_liked_type :
-             * time : 00:51:40
+             * time : 00:00:14
+             * createdAt : 2022-02-21T08:43:05.000Z
+             * start_date : 0000-00-00
+             * end_date : 0000-00-00
+             * start_time : 00:00:00
              */
 
             private int id;
@@ -255,6 +268,38 @@ public class PostListResponse implements Serializable {
                 this.time = time;
             }
 
+            public String getCreatedAt() {
+                return createdAt;
+            }
+
+            public void setCreatedAt(String createdAt) {
+                this.createdAt = createdAt;
+            }
+
+            public String getStart_date() {
+                return start_date;
+            }
+
+            public void setStart_date(String start_date) {
+                this.start_date = start_date;
+            }
+
+            public String getEnd_date() {
+                return end_date;
+            }
+
+            public void setEnd_date(String end_date) {
+                this.end_date = end_date;
+            }
+
+            public String getStart_time() {
+                return start_time;
+            }
+
+            public void setStart_time(String start_time) {
+                this.start_time = start_time;
+            }
+
             public List<?> getLike_type() {
                 return like_type;
             }
@@ -279,9 +324,34 @@ public class PostListResponse implements Serializable {
             private boolean isCommented;
             private String my_liked_type;
             private String time;
+            private String createdAt;
+            private String start_date;
+            private String end_date;
+            private String start_time;
             private List<?> like_type;
 
             public static class CreatedByBean implements Serializable {
+                /**
+                 * id : 37
+                 * first_name : User4
+                 * last_name : User4
+                 * pincode : 8525
+                 * mobile : 5353535353
+                 * countryCode : +91
+                 * gender : Male
+                 * dob : 2001-02-17
+                 * image : https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6006.jpg
+                 * email : ww@gmail.com
+                 * state : Goa
+                 * city : Dicholi
+                 * profile_stage : 5
+                 * active : true
+                 * about : rfftf
+                 * active_community : 25
+                 */
+
+                private int id;
+
                 public int getId() {
                     return id;
                 }
@@ -410,26 +480,6 @@ public class PostListResponse implements Serializable {
                     this.active_community = active_community;
                 }
 
-                /**
-                 * id : 32
-                 * first_name : User1
-                 * last_name : User1
-                 * pincode : 868
-                 * mobile : 6060606060
-                 * countryCode : +91
-                 * gender : Male
-                 * dob : 2001-02-16
-                 * image : https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-8254.jpg
-                 * email : evvdvdv@gmail.com
-                 * state : Assam
-                 * city : Bijni
-                 * profile_stage : 5
-                 * active : true
-                 * about : cccc
-                 * active_community : 25
-                 */
-
-                private int id;
                 private String first_name;
                 private String last_name;
                 private String pincode;
@@ -446,6 +496,22 @@ public class PostListResponse implements Serializable {
                 private String about;
                 private int active_community;
             }
+        }
+
+        public static class MemberListBean implements Serializable {
+            public String getImage() {
+                return image;
+            }
+
+            public void setImage(String image) {
+                this.image = image;
+            }
+
+            /**
+             * image : https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-8254.jpg
+             */
+
+            private String image;
         }
     }
 }

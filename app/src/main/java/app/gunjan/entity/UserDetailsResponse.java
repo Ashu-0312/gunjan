@@ -81,8 +81,29 @@ public class UserDetailsResponse implements Serializable {
          */
 
         private UserBean user;
+
         private int following_count;
         private int follower_count;
+
+        public String getIsCommunityAdmin() {
+            return isCommunityAdmin;
+        }
+
+        public void setIsCommunityAdmin(String isCommunityAdmin) {
+            this.isCommunityAdmin = isCommunityAdmin;
+        }
+
+        private String isCommunityAdmin;
+
+        public String getIsActiveMember() {
+            return isActiveMember;
+        }
+
+        public void setIsActiveMember(String isActiveMember) {
+            this.isActiveMember = isActiveMember;
+        }
+
+        private String isActiveMember;
         private ActiveCommunityDetailsBean active_community_details;
 
         public static class UserBean implements Serializable {

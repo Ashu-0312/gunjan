@@ -301,11 +301,25 @@ interface ApiInterface {
         @HeaderMap headers: Map<String, String>,
     ): Call<BlockedUserListResponse>
 
+    @GET(Constants.Partial.generateToken)
+    fun generateToken(
+        @Query(Constants.Keys.token_type) token_type: String?,
+        @Query(Constants.Keys.device) device: String?,
+        @Query(Constants.Keys.room) room: String?,
+        @HeaderMap headers: Map<String, String>
+    ): Call<GenerateTokenResponse>
+
     @PATCH(Constants.Partial.acceptRejectRequest)
     fun acceptRejectRequest(
         @Body params: java.util.HashMap<String, String>,
         @HeaderMap headers: Map<String, String>
     ): Call<AcceptRejectRequestResponse>
+
+    @PATCH(Constants.Partial.makeAdmin)
+    fun makeAdmin(
+        @Body params: java.util.HashMap<String, String>,
+        @HeaderMap headers: Map<String, String>
+    ): Call<MakeAdminResponse>
 
     @PATCH(Constants.Partial.deleteAccount)
     fun deleteAccount(

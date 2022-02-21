@@ -396,8 +396,16 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
                                             pinCode!!.setText(response.body()!!.data.user.pincode)
                                         }
 
-                                        stateValue=response.body()!!.data.user.state
-                                        cityValue=response.body()!!.data.user.city
+                                        if (response.body()!!.data.user.state==null) {
+                                            stateValue=null
+                                        }else{
+                                            stateValue = response.body()!!.data.user.state
+                                        }
+                                        if (response.body()!!.data.user.city==null) {
+                                            cityValue=null
+                                        }else{
+                                            cityValue = response.body()!!.data.user.city
+                                        }
                                         getStateList()
                                     } catch (e: Exception) {
                                     }
@@ -486,7 +494,9 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
 
                                         }
                                     stateSpinner!!.adapter = arrayAdapter1
-                                    if (stateValue != null || stateValue != "") {
+                                    if (stateValue == null) {
+                                        Log.d("VALUE","fsnngjg")
+                                    }else{
                                         val spinnerPosition =
                                             arrayAdapter1.getPosition(stateValue)
                                         stateSpinner!!.setSelection(spinnerPosition)
@@ -587,7 +597,9 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
 
                                         }
                                     citySpinner!!.adapter = arrayAdapter1
-                                    if (cityValue != null || cityValue != "") {
+                                    if (cityValue == null) {
+                                        Log.d("VALUE","kfsdj")
+                                    }else{
                                         val spinnerPosition =
                                             arrayAdapter1.getPosition(cityValue)
                                         citySpinner!!.setSelection(spinnerPosition)

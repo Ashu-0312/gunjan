@@ -44,7 +44,6 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/userName"
                     android:gravity="center"
-                    android:text="Johny Ive"
                     android:textColor="@color/black"
                     android:fontFamily="@font/popinbold"
                     android:layout_centerHorizontal="true"

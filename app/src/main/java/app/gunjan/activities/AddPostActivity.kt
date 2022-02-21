@@ -311,7 +311,7 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
                 } else {
                     val myDialog = ProjectUtill.showProgressDialog(this@AddPostActivity)
                     WebServiceRequest.getInstance().addPost(
-                        this, edtPost.text.toString().trim(), awsPicUrl, type, feedType,fromDateValue,toDateValue!!,timeValue!!,
+                        this, edtEventPost.text.toString().trim(), awsPicUrl2, type, feedType,fromDateValue,toDateValue!!,timeValue!!,
                         object : Callback<AddPostResponse> {
                             override fun onResponse(
                                 call: Call<AddPostResponse>,
@@ -540,7 +540,6 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
                     startMinute = "0$startMinute"
                 }
                 timeValue = selectedStartTime
-                Toast.makeText(this,""+timeValue,Toast.LENGTH_LONG).show()
                 startTime.text = "$starthour:$startMinute $format"
             }, mHour, mMinute, true
         )
@@ -565,7 +564,7 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
             WindowManager.LayoutParams.FILL_PARENT
         )
         dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-        gallery = dialog.findViewById(R.id.rl_layout)
+        gallery = dialog.findViewById(R.id.gallery)
         video = dialog.findViewById(R.id.rl_layout1)
         captureVideo = dialog.findViewById(R.id.rl_layout2)
         capturePic = dialog.findViewById(R.id.rl_layout3)

@@ -10,8 +10,11 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
+import app.gunjan.activities.ChatActivity
 import app.gunjan.activities.HomeActivity
+import app.gunjan.activities.OthersProfileActivity
 import app.gunjan.entity.MemberListResponse
+import app.gunjan.utill.FCSharedPreferances
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlin.collections.ArrayList
@@ -23,7 +26,7 @@ class AdminMembersAdapter(
     private var data: ArrayList<MemberListResponse.DataBean.MemberListBean> = data
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val listItem: View = layoutInflater.inflate(R.layout.member_item, parent, false)
+        val listItem: View = layoutInflater.inflate(R.layout.admin_item, parent, false)
         return ViewHolder(listItem)
     }
 
@@ -40,9 +43,42 @@ class AdminMembersAdapter(
             holder.about!!.text=data[position].userDetails.about
         }catch (e:Exception){}
         holder!!.itemView.setOnClickListener {
-            /*  var intent = Intent(context, HomeActivity::class.java)
-              intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-              context!!.startActivity(intent)*/
+            if (FCSharedPreferances.getSharedPreferance(context).useR_ID.toString()==data[position].userId.toString()){
+                FCSharedPreferances.getSharedPreferance(context).status =
+                    "edit"
+                FCSharedPreferances.getSharedPreferance(context).otheR_ID=data[position].userId.toString()
+                var intent = Intent(
+                    context,
+                    HomeActivity::class.java
+                )
+                intent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                context!!.startActivity(intent)
+            }else {
+                var intent = Intent(context, ChatActivity::class.java)
+                intent.putExtra("pic",data[position].userDetails.image)
+                intent.putExtra("name",data[position].userDetails.first_name+" "+data[position].userDetails.last_name)
+                intent.putExtra("otherId",data[position].userId.toString())
+                context!!.startActivity(intent)
+            }
+        }
+
+        holder!!.profilePic!!.setOnClickListener {
+            if (FCSharedPreferances.getSharedPreferance(context).useR_ID.toString()==data[position].userId.toString()){
+                FCSharedPreferances.getSharedPreferance(context).status =
+                    "edit"
+                FCSharedPreferances.getSharedPreferance(context).otheR_ID=data[position].userId.toString()
+                var intent = Intent(
+                    context,
+                    HomeActivity::class.java
+                )
+                intent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                context!!.startActivity(intent)
+            }else {
+                FCSharedPreferances.getSharedPreferance(context).otheR_ID=data[position].userId.toString()
+                context!!.startActivity(Intent(context, OthersProfileActivity::class.java))
+            }
         }
     }
 

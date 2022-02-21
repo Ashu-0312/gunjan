@@ -109,9 +109,9 @@ class CommunitiesAdapter(
         }catch (e:Exception){}
 
         holder.itemView!!.setOnClickListener {
-            var intent = Intent(context,CommunityDetailsActivity::class.java)
+           /* var intent = Intent(context,CommunityDetailsActivity::class.java)
             intent.putExtra("id",data[position].id.toString())
-            context!!.startActivity(intent)
+            context!!.startActivity(intent)*/
         }
     }
 

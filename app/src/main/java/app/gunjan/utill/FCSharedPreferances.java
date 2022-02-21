@@ -14,7 +14,11 @@ public class FCSharedPreferances {
     private final String USER_ID="userid";
     private final String ACTIVE_COMMUNITY="active_community";
     private final String REASON_ID="reasonid";
+    private final String DEVICE_ID="DEVICEID";
     private final String OTHER_ID="otherid";
+    private final String CHAT_TOKEN="chattoken";
+    private final String IS_ADMIN="isadmin";
+    private final String IS_ACTIVE="isactive";
 
     private FCSharedPreferances(Context context){
         if(sharedPreferences==null){
@@ -29,6 +33,39 @@ public class FCSharedPreferances {
             return fcSharedPreferances=new FCSharedPreferances(context);
         }
 
+    }
+
+    public void setCHAT_TOKEN(String chat_token){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(CHAT_TOKEN,chat_token);
+        editor.commit();
+        editor.apply();
+    }
+
+    public String getCHAT_TOKEN(){
+        return sharedPreferences.getString(CHAT_TOKEN,"");
+    }
+
+    public void setIS_ADMIN(String is_admin){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(IS_ADMIN,is_admin);
+        editor.commit();
+        editor.apply();
+    }
+
+    public String getIS_ADMIN(){
+        return sharedPreferences.getString(IS_ADMIN,"");
+    }
+
+    public void setIS_ACTIVE(String is_active){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(IS_ACTIVE,is_active);
+        editor.commit();
+        editor.apply();
+    }
+
+    public String getIS_ACTIVE(){
+        return sharedPreferences.getString(IS_ACTIVE,"");
     }
 
     public void setTOKEN(String token){
@@ -75,6 +112,16 @@ public class FCSharedPreferances {
         return sharedPreferences.getString(ACTIVE_COMMUNITY,"");
     }
 
+    public void setDEVICE_ID(String device_id){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(DEVICE_ID,device_id);
+        editor.commit();
+        editor.apply();
+    }
+
+    public String getDEVICE_ID(){
+        return sharedPreferences.getString(DEVICE_ID,"");
+    }
 
     public void setUSER_ID(String user_id){
         SharedPreferences.Editor editor = sharedPreferences.edit();

@@ -5,11 +5,26 @@
     android:layout_height="match_parent"
     android:id="@+id/swipe_refresh"
     tools:context=".fragments.OthersPostFragment">
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
    <androidx.recyclerview.widget.RecyclerView
        android:layout_marginTop="@dimen/margin_10dp"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:id="@+id/post_recycler"
        android:scrollbars="none"/>
-
+   <TextView
+        android:visibility="gone"
+       android:text="@string/no_posts_yet"
+       android:textColor="@color/pink"
+       android:textSize="@dimen/margin_25"
+       android:layout_centerInParent="true"
+       android:layout_width="wrap_content"
+       android:scaleType="fitXY"
+       android:fontFamily="@font/popinbold"
+       android:id="@+id/blank_data"
+       android:layout_height="wrap_content"
+       android:src="@drawable/ic_launcher_background"/>
+   </RelativeLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

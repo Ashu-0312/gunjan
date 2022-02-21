@@ -489,6 +489,20 @@ class WebServiceRequest private constructor() {
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
+    fun makeAdmin(
+        context: Context,
+        member_id: String,
+        registrationResponseCallback: Callback<MakeAdminResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.member_id] = member_id
+        val registrationResponseCall: Call<MakeAdminResponse> =
+            apiInterface.makeAdmin(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
     fun deleteAccount(
         context: Context,
         registrationResponseCallback: Callback<DeleteAccountResponse>
@@ -834,6 +848,24 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.communityId] = communityId
         val registrationResponseCall: Call<BlockedUserListResponse> =
             apiInterface.getAllBlockedMemberList(page,limit,communityId,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun generateToken(
+        context: Context,
+        token_type: String,
+        device: String,
+        room: String,
+        registrationResponseCallback: Callback<GenerateTokenResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        var params = HashMap<String,String>()
+        params[Constants.Keys.token_type] = token_type
+        params[Constants.Keys.device] = device
+        params[Constants.Keys.room] = room
+        val registrationResponseCall: Call<GenerateTokenResponse> =
+            apiInterface.generateToken(token_type,device,room,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 

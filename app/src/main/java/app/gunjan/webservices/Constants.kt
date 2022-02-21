@@ -53,6 +53,8 @@ class Constants {
         const val stateList = "user/getAllStateList"
         const val cityList = "user/getAllCityList"
         const val getAllMemberList = "community/getAllMemberList"
+        const val makeAdmin = "community/makeAdmin"
+        const val generateToken = "twilio/generateToken"
     }
 
     object Keys {
@@ -112,5 +114,8 @@ class Constants {
         const val start_date = "start_date"
         const val end_date = "end_date"
         const val start_time = "start_time"
+        const val token_type = "token_type"
+        const val device = "device"
+        const val room = "room"
     }
 }

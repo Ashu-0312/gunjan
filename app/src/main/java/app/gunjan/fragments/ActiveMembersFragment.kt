@@ -1,7 +1,6 @@
 package app.gunjan.fragments
 
 import android.app.Dialog
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
@@ -12,22 +11,15 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.gunjan.R
 import app.gunjan.adapters.ActiveMembersAdapter
-import app.gunjan.adapters.CommunityListAdapter
-import app.gunjan.adapters.HomePostsAdapter
-import app.gunjan.adapters.NotificationListAdapter
 import app.gunjan.entity.*
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_add_community.*
 import kotlinx.android.synthetic.main.activity_notification.*
 import kotlinx.android.synthetic.main.activity_tc.*
-import org.xml.sax.ErrorHandler
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.IOException
 
 class ActiveMembersFragment : Fragment() {
     private var page: Int? = 1
@@ -294,7 +286,7 @@ class ActiveMembersFragment : Fragment() {
         page = 1
         isLastPage = false
         isLoading = false
-        memberAdapter = ActiveMembersAdapter(context, list)
+        memberAdapter = ActiveMembersAdapter(context, list,this@ActiveMembersFragment)
         layoutManager = LinearLayoutManager(context)
         listRecycler!!.layoutManager = layoutManager
         listRecycler!!.adapter = memberAdapter
@@ -321,6 +313,15 @@ class ActiveMembersFragment : Fragment() {
                 }
             }
         }
+
+    fun resetAdapter(){
+        isLastPage = false
+        isLoading = false
+        page = 1
+        list.clear()
+        memberAdapter!!.notifyDataSetChanged()
+        memberListSwipeApi("1")
+    }
 
     fun filterDialog() {
         var reset: TextView? = null

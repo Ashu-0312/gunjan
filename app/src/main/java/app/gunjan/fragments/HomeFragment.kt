@@ -62,6 +62,12 @@ class HomeFragment : Fragment() {
     private var postRecycler: RecyclerView? = null
     private var reasonLayout: LinearLayout? = null
     private var communityPic: CircleImageView? = null
+    private var image1: CircleImageView? = null
+    private var image2: CircleImageView? = null
+    private var image3: CircleImageView? = null
+    private var image4: CircleImageView? = null
+    private var image5: CircleImageView? = null
+    private var memberFrame: FrameLayout? = null
     private var communityName: TextView? = null
     private var invite: LinearLayout? = null
     private var discuss: LinearLayout? = null
@@ -92,6 +98,12 @@ class HomeFragment : Fragment() {
         submit = view.findViewById(R.id.submit)
         totalMembers = view.findViewById(R.id.total_members)
         totalMember = view.findViewById(R.id.totalMember)
+        image1 = view.findViewById(R.id.image1)
+        image2 = view.findViewById(R.id.image2)
+        image3 = view.findViewById(R.id.image3)
+        image4 = view.findViewById(R.id.image4)
+        image5 = view.findViewById(R.id.image5)
+        memberFrame = view.findViewById(R.id.frames_member)
         initData()
         return view
     }
@@ -119,39 +131,49 @@ class HomeFragment : Fragment() {
         }
 
         submit!!.setOnClickListener {
-            if (discusssValue!!.text.toString().trim() == "") {
-                discusssValue!!.requestFocus()
-                discusssValue!!.error = "Please enter start discussing value"
-                //  Toast.makeText(context,"Please enter start discussing value",Toast.LENGTH_LONG).show()
-            } else {
-                val myDialog = ProjectUtill.showProgressDialog(context)
-                context?.let { it1 ->
-                    WebServiceRequest.getInstance().addPost(
-                        it1,
-                        discusssValue!!.text.toString().trim(),
-                        "",
-                        "text",
-                        "disccusion",
-                        "",
-                        "",
-                        "",
-                        object : Callback<AddPostResponse> {
-                            override fun onResponse(
-                                call: Call<AddPostResponse>,
-                                response: Response<AddPostResponse>
-                            ) {
-                                myDialog.dismiss()
-                                if (response != null) {
-                                    if (response.isSuccessful) {
-                                        if (response.body()!!.code == 1) {
-                                            var intent = Intent(context, HomeActivity::class.java)
-                                            intent.flags =
-                                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                            startActivity(intent)
+            if (FCSharedPreferances.getSharedPreferance(context).iS_ACTIVE.equals("false")){
+                Toast.makeText(context,"You are blocked in this community",Toast.LENGTH_LONG).show()
+            }else {
+                if (discusssValue!!.text.toString().trim() == "") {
+                    discusssValue!!.requestFocus()
+                    discusssValue!!.error = "Please enter start discussing value"
+                    //  Toast.makeText(context,"Please enter start discussing value",Toast.LENGTH_LONG).show()
+                } else {
+                    val myDialog = ProjectUtill.showProgressDialog(context)
+                    context?.let { it1 ->
+                        WebServiceRequest.getInstance().addPost(
+                            it1,
+                            discusssValue!!.text.toString().trim(),
+                            "",
+                            "text",
+                            "disccusion",
+                            "",
+                            "",
+                            "",
+                            object : Callback<AddPostResponse> {
+                                override fun onResponse(
+                                    call: Call<AddPostResponse>,
+                                    response: Response<AddPostResponse>
+                                ) {
+                                    myDialog.dismiss()
+                                    if (response != null) {
+                                        if (response.isSuccessful) {
+                                            if (response.body()!!.code == 1) {
+                                                var intent =
+                                                    Intent(context, HomeActivity::class.java)
+                                                intent.flags =
+                                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                startActivity(intent)
+                                            } else {
+                                                ProjectUtill.printMessage(
+                                                    activity!!.window.decorView,
+                                                    response.body()?.message
+                                                )
+                                            }
                                         } else {
-                                            ProjectUtill.printMessage(
+                                            ProjectUtill.printErrorMessage(
                                                 activity!!.window.decorView,
-                                                response.body()?.message
+                                                ""
                                             )
                                         }
                                     } else {
@@ -160,25 +182,20 @@ class HomeFragment : Fragment() {
                                             ""
                                         )
                                     }
-                                } else {
+                                }
+
+                                override fun onFailure(
+                                    call: Call<AddPostResponse>,
+                                    t: Throwable
+                                ) {
+                                    myDialog.dismiss()
                                     ProjectUtill.printErrorMessage(
                                         activity!!.window.decorView,
                                         ""
                                     )
                                 }
-                            }
-
-                            override fun onFailure(
-                                call: Call<AddPostResponse>,
-                                t: Throwable
-                            ) {
-                                myDialog.dismiss()
-                                ProjectUtill.printErrorMessage(
-                                    activity!!.window.decorView,
-                                    ""
-                                )
-                            }
-                        })
+                            })
+                    }
                 }
             }
         }
@@ -238,10 +255,9 @@ class HomeFragment : Fragment() {
             trending!!.background = resources.getDrawable(R.drawable.edittext_bg)
             announce!!.background = resources.getDrawable(R.drawable.edittext_bg)
             discuss!!.background = resources.getDrawable(R.drawable.edittext_bg)
-            var eventAdapter = EventListAdapter(context,list,this@HomeFragment)
-            var layoutManager = LinearLayoutManager(context)
-            postRecycler!!.layoutManager=layoutManager
-            postRecycler!!.adapter=eventAdapter
+            type = "event"
+            initializeAdapter()
+            postListApi("1", type!!)
         }
 
         nestedScroll!!.viewTreeObserver.addOnScrollChangedListener(ViewTreeObserver.OnScrollChangedListener {
@@ -281,6 +297,59 @@ class HomeFragment : Fragment() {
                                 if (response.body()!!.code == 1) {
                                     try {
                                     totalMembers!!.text=response.body()!!.data.total_members.toString()
+                                        if (response.body()!!.data.member_list.size==0){
+                                            memberFrame!!.visibility=View.GONE
+                                        }else  if (response.body()!!.data.member_list.size==1) {
+                                            memberFrame!!.visibility = View.VISIBLE
+                                            image1!!.visibility = View.VISIBLE
+                                            image2!!.visibility = View.GONE
+                                            image3!!.visibility = View.GONE
+                                            image4!!.visibility = View.GONE
+                                            image5!!.visibility = View.GONE
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
+                                        }else  if (response.body()!!.data.member_list.size==2) {
+                                            memberFrame!!.visibility = View.VISIBLE
+                                            image1!!.visibility = View.VISIBLE
+                                            image2!!.visibility = View.VISIBLE
+                                            image3!!.visibility = View.GONE
+                                            image4!!.visibility = View.GONE
+                                            image5!!.visibility = View.GONE
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
+                                        }else  if (response.body()!!.data.member_list.size==3) {
+                                            memberFrame!!.visibility = View.VISIBLE
+                                            image1!!.visibility = View.VISIBLE
+                                            image2!!.visibility = View.VISIBLE
+                                            image3!!.visibility = View.VISIBLE
+                                            image4!!.visibility = View.GONE
+                                            image5!!.visibility = View.GONE
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[2].image).placeholder(R.drawable.user_avatar).into(image3!!)
+                                        }else  if (response.body()!!.data.member_list.size==4) {
+                                            memberFrame!!.visibility = View.VISIBLE
+                                            image1!!.visibility = View.VISIBLE
+                                            image2!!.visibility = View.VISIBLE
+                                            image3!!.visibility = View.VISIBLE
+                                            image4!!.visibility = View.VISIBLE
+                                            image5!!.visibility = View.GONE
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[2].image).placeholder(R.drawable.user_avatar).into(image3!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[3].image).placeholder(R.drawable.user_avatar).into(image4!!)
+                                        }else  if (response.body()!!.data.member_list.size==5) {
+                                            memberFrame!!.visibility = View.VISIBLE
+                                            image1!!.visibility = View.VISIBLE
+                                            image2!!.visibility = View.VISIBLE
+                                            image3!!.visibility = View.VISIBLE
+                                            image4!!.visibility = View.VISIBLE
+                                            image5!!.visibility = View.VISIBLE
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[2].image).placeholder(R.drawable.user_avatar).into(image3!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[3].image).placeholder(R.drawable.user_avatar).into(image4!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[4].image).placeholder(R.drawable.user_avatar).into(image5!!)
+                                        }
                                     }catch (e:Exception){}
                                     postList.clear()
                                     postList.addAll(response.body()!!.data.post)
@@ -353,6 +422,59 @@ class HomeFragment : Fragment() {
                                 if (response.body()!!.code == 1) {
                                        try {
                                     totalMembers!!.text=response.body()!!.data.total_members.toString()
+                                           if (response.body()!!.data.member_list.size==0){
+                                               memberFrame!!.visibility=View.GONE
+                                           }else  if (response.body()!!.data.member_list.size==1) {
+                                               memberFrame!!.visibility = View.VISIBLE
+                                               image1!!.visibility = View.VISIBLE
+                                               image2!!.visibility = View.GONE
+                                               image3!!.visibility = View.GONE
+                                               image4!!.visibility = View.GONE
+                                               image5!!.visibility = View.GONE
+                                               Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
+                                           }else  if (response.body()!!.data.member_list.size==2) {
+                                               memberFrame!!.visibility = View.VISIBLE
+                                               image1!!.visibility = View.VISIBLE
+                                               image2!!.visibility = View.VISIBLE
+                                               image3!!.visibility = View.GONE
+                                               image4!!.visibility = View.GONE
+                                               image5!!.visibility = View.GONE
+                                               Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
+                                               Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
+                                           }else  if (response.body()!!.data.member_list.size==3) {
+                                               memberFrame!!.visibility = View.VISIBLE
+                                               image1!!.visibility = View.VISIBLE
+                                               image2!!.visibility = View.VISIBLE
+                                               image3!!.visibility = View.VISIBLE
+                                               image4!!.visibility = View.GONE
+                                               image5!!.visibility = View.GONE
+                                               Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
+                                               Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
+                                               Glide.with(context!!).load(response.body()!!.data.member_list[2].image).placeholder(R.drawable.user_avatar).into(image3!!)
+                                           }else  if (response.body()!!.data.member_list.size==4) {
+                                               memberFrame!!.visibility = View.VISIBLE
+                                               image1!!.visibility = View.VISIBLE
+                                               image2!!.visibility = View.VISIBLE
+                                               image3!!.visibility = View.VISIBLE
+                                               image4!!.visibility = View.VISIBLE
+                                               image5!!.visibility = View.GONE
+                                               Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
+                                               Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
+                                               Glide.with(context!!).load(response.body()!!.data.member_list[2].image).placeholder(R.drawable.user_avatar).into(image3!!)
+                                               Glide.with(context!!).load(response.body()!!.data.member_list[3].image).placeholder(R.drawable.user_avatar).into(image4!!)
+                                           }else  if (response.body()!!.data.member_list.size==5) {
+                                               memberFrame!!.visibility = View.VISIBLE
+                                               image1!!.visibility = View.VISIBLE
+                                               image2!!.visibility = View.VISIBLE
+                                               image3!!.visibility = View.VISIBLE
+                                               image4!!.visibility = View.VISIBLE
+                                               image5!!.visibility = View.VISIBLE
+                                               Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
+                                               Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
+                                               Glide.with(context!!).load(response.body()!!.data.member_list[2].image).placeholder(R.drawable.user_avatar).into(image3!!)
+                                               Glide.with(context!!).load(response.body()!!.data.member_list[3].image).placeholder(R.drawable.user_avatar).into(image4!!)
+                                               Glide.with(context!!).load(response.body()!!.data.member_list[4].image).placeholder(R.drawable.user_avatar).into(image5!!)
+                                           }
                                     }catch (e:Exception){}
                                     postList.clear()
                                     postList.addAll(response.body()!!.data.post)
@@ -426,6 +548,59 @@ class HomeFragment : Fragment() {
                                 if (response.body()!!.code == 1) {
                                     try {
                                         totalMembers!!.text=response.body()!!.data.total_members.toString()
+                                        if (response.body()!!.data.member_list.size==0){
+                                            memberFrame!!.visibility=View.GONE
+                                        }else  if (response.body()!!.data.member_list.size==1) {
+                                            memberFrame!!.visibility = View.VISIBLE
+                                            image1!!.visibility = View.VISIBLE
+                                            image2!!.visibility = View.GONE
+                                            image3!!.visibility = View.GONE
+                                            image4!!.visibility = View.GONE
+                                            image5!!.visibility = View.GONE
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
+                                        }else  if (response.body()!!.data.member_list.size==2) {
+                                            memberFrame!!.visibility = View.VISIBLE
+                                            image1!!.visibility = View.VISIBLE
+                                            image2!!.visibility = View.VISIBLE
+                                            image3!!.visibility = View.GONE
+                                            image4!!.visibility = View.GONE
+                                            image5!!.visibility = View.GONE
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
+                                        }else  if (response.body()!!.data.member_list.size==3) {
+                                            memberFrame!!.visibility = View.VISIBLE
+                                            image1!!.visibility = View.VISIBLE
+                                            image2!!.visibility = View.VISIBLE
+                                            image3!!.visibility = View.VISIBLE
+                                            image4!!.visibility = View.GONE
+                                            image5!!.visibility = View.GONE
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[2].image).placeholder(R.drawable.user_avatar).into(image3!!)
+                                        }else  if (response.body()!!.data.member_list.size==4) {
+                                            memberFrame!!.visibility = View.VISIBLE
+                                            image1!!.visibility = View.VISIBLE
+                                            image2!!.visibility = View.VISIBLE
+                                            image3!!.visibility = View.VISIBLE
+                                            image4!!.visibility = View.VISIBLE
+                                            image5!!.visibility = View.GONE
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[2].image).placeholder(R.drawable.user_avatar).into(image3!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[3].image).placeholder(R.drawable.user_avatar).into(image4!!)
+                                        }else  if (response.body()!!.data.member_list.size==5) {
+                                            memberFrame!!.visibility = View.VISIBLE
+                                            image1!!.visibility = View.VISIBLE
+                                            image2!!.visibility = View.VISIBLE
+                                            image3!!.visibility = View.VISIBLE
+                                            image4!!.visibility = View.VISIBLE
+                                            image5!!.visibility = View.VISIBLE
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[2].image).placeholder(R.drawable.user_avatar).into(image3!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[3].image).placeholder(R.drawable.user_avatar).into(image4!!)
+                                            Glide.with(context!!).load(response.body()!!.data.member_list[4].image).placeholder(R.drawable.user_avatar).into(image5!!)
+                                        }
                                     }catch (e:Exception){}
                                     postList.addAll(response.body()!!.data.post)
                                     val prevSize: Int = response.body()!!.data.post.size

@@ -39,15 +39,60 @@
                 android:textSize="@dimen/text_13sp" />
 
             <TextView
+                android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_light"
-                android:text="30m"
                 android:textColor="@color/black3"
                 android:textSize="@dimen/text_12sp" />
         </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/event_layout"
+            android:layout_marginEnd="@dimen/padding_2"
+            android:layout_marginStart="@dimen/margin_10dp"
+            android:layout_marginBottom="@dimen/padding_2"
+            android:elevation="@dimen/padding_2"
+            android:background="@drawable/circle_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_7">
 
+            <ImageView
+                android:layout_width="@dimen/margin_15"
+                android:layout_height="@dimen/margin_15"
+                android:src="@drawable/dob"/>
+            <LinearLayout
+                android:layout_marginStart="@dimen/padding_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/activity_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/popinbold"
+                    android:textSize="@dimen/text_12sp"
+                    android:textColor="@color/pink"/>
+                <TextView
+                    android:id="@+id/activity_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppin_medium"
+                    android:textSize="@dimen/text_size_11"
+                    android:textColor="@color/pink"/>
+                <TextView
+                    android:id="@+id/activity_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppin_medium"
+                    android:textSize="@dimen/margin_10dp"
+                    android:textColor="@color/pink"/>
+            </LinearLayout>
+        </LinearLayout>
         <ImageView
+            android:layout_marginStart="@dimen/padding_5"
             android:id="@+id/menu"
             android:layout_width="@dimen/margin_20dp"
             android:layout_height="@dimen/margin_20dp"
