@@ -279,7 +279,7 @@ class IdentificationFragment : Fragment(), UploadFileListener {
             layout2!!.visibility = View.GONE
             layout!!.visibility = View.VISIBLE
             context?.let {
-                Glide.with(it).load(awsUrl).placeholder(R.drawable.user_avatar)
+                Glide.with(it).load(awsUrl).placeholder(R.drawable.logo)
                     .into(idPic!!)
             }
             awsPicUrl = awsUrl

@@ -135,7 +135,17 @@
             android:orientation="vertical"
             android:background="@drawable/right_chat_bg">
             <TextView
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet"
+                android:fontFamily="@font/popinbold"
+                android:id="@+id/right_user"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/padding_5"
+                android:layout_marginBottom="@dimen/padding_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_12sp"
+                android:textColor="@color/white"/>
+            <TextView
                 android:fontFamily="@font/poppin_regular"
                 android:id="@+id/right_message"
                 android:layout_marginRight="@dimen/margin_10dp"
@@ -149,7 +159,6 @@
             </TextView>
 
             <TextView
-                android:text="12:00pm"
                 android:id="@+id/rightTime"
                 android:fontFamily="@font/poppin_medium"
                 android:layout_gravity="end"

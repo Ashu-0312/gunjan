@@ -69,6 +69,7 @@
                             android:textSize="@dimen/text_16sp" />
 
                         <TextView
+                            android:visibility="gone"
                             android:id="@+id/About"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

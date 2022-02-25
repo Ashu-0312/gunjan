@@ -2,6 +2,7 @@ package app.gunjan.fragments
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
@@ -33,6 +34,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class HomeFragment : Fragment() {
+    var dialogComment:Dialog? = null
     private var page: Int? = 1
     var swipeRefresh: SwipeRefreshLayout? = null
     var progressBar: ProgressBar? = null
@@ -48,6 +50,7 @@ class HomeFragment : Fragment() {
     private var Status: String? = "2"
     private var pic: String? = ""
     private var name: String? = ""
+    private var userName: String? = ""
     private var description: String? = ""
     private var type: String? = "discussion"
     var commentRecycler: RecyclerView? = null
@@ -109,6 +112,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun initData() {
+        dialogComment = context?.let { Dialog(it) }
+        dialogComment!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
         animShow = AnimationUtils.loadAnimation(context, R.anim.move_right_in_activity)
         list.add("")
         list.add("")
@@ -132,7 +137,7 @@ class HomeFragment : Fragment() {
 
         submit!!.setOnClickListener {
             if (FCSharedPreferances.getSharedPreferance(context).iS_ACTIVE.equals("false")){
-                Toast.makeText(context,"You are blocked in this community",Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "You are blocked in this community", Toast.LENGTH_LONG).show()
             }else {
                 if (discusssValue!!.text.toString().trim() == "") {
                     discusssValue!!.requestFocus()
@@ -214,7 +219,7 @@ class HomeFragment : Fragment() {
         invite!!.setOnClickListener {
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
-            val shareBodyText = "Gunjan App"
+            val shareBodyText = userName+" inviting you to join"+name+".\n\n"+"All members can join this community below link\n\nlink is static"
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here")
             sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText)
             startActivity(sharingIntent)
@@ -296,61 +301,123 @@ class HomeFragment : Fragment() {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
                                     try {
-                                    totalMembers!!.text=response.body()!!.data.total_members.toString()
-                                        if (response.body()!!.data.member_list.size==0){
-                                            memberFrame!!.visibility=View.GONE
-                                        }else  if (response.body()!!.data.member_list.size==1) {
+                                        totalMembers!!.text =
+                                            response.body()!!.data.total_members.toString()
+                                        if (response.body()!!.data.member_list.size == 0) {
+                                            memberFrame!!.visibility = View.GONE
+                                        } else if (response.body()!!.data.member_list.size == 1) {
                                             memberFrame!!.visibility = View.VISIBLE
                                             image1!!.visibility = View.VISIBLE
                                             image2!!.visibility = View.GONE
                                             image3!!.visibility = View.GONE
                                             image4!!.visibility = View.GONE
                                             image5!!.visibility = View.GONE
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
-                                        }else  if (response.body()!!.data.member_list.size==2) {
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[0].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image1!!)
+                                        } else if (response.body()!!.data.member_list.size == 2) {
                                             memberFrame!!.visibility = View.VISIBLE
                                             image1!!.visibility = View.VISIBLE
                                             image2!!.visibility = View.VISIBLE
                                             image3!!.visibility = View.GONE
                                             image4!!.visibility = View.GONE
                                             image5!!.visibility = View.GONE
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
-                                        }else  if (response.body()!!.data.member_list.size==3) {
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[0].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image1!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[1].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image2!!)
+                                        } else if (response.body()!!.data.member_list.size == 3) {
                                             memberFrame!!.visibility = View.VISIBLE
                                             image1!!.visibility = View.VISIBLE
                                             image2!!.visibility = View.VISIBLE
                                             image3!!.visibility = View.VISIBLE
                                             image4!!.visibility = View.GONE
                                             image5!!.visibility = View.GONE
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[2].image).placeholder(R.drawable.user_avatar).into(image3!!)
-                                        }else  if (response.body()!!.data.member_list.size==4) {
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[0].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image1!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[1].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image2!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[2].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image3!!)
+                                        } else if (response.body()!!.data.member_list.size == 4) {
                                             memberFrame!!.visibility = View.VISIBLE
                                             image1!!.visibility = View.VISIBLE
                                             image2!!.visibility = View.VISIBLE
                                             image3!!.visibility = View.VISIBLE
                                             image4!!.visibility = View.VISIBLE
                                             image5!!.visibility = View.GONE
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[2].image).placeholder(R.drawable.user_avatar).into(image3!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[3].image).placeholder(R.drawable.user_avatar).into(image4!!)
-                                        }else  if (response.body()!!.data.member_list.size==5) {
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[0].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image1!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[1].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image2!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[2].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image3!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[3].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image4!!)
+                                        } else if (response.body()!!.data.member_list.size == 5) {
                                             memberFrame!!.visibility = View.VISIBLE
                                             image1!!.visibility = View.VISIBLE
                                             image2!!.visibility = View.VISIBLE
                                             image3!!.visibility = View.VISIBLE
                                             image4!!.visibility = View.VISIBLE
                                             image5!!.visibility = View.VISIBLE
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[2].image).placeholder(R.drawable.user_avatar).into(image3!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[3].image).placeholder(R.drawable.user_avatar).into(image4!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[4].image).placeholder(R.drawable.user_avatar).into(image5!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[0].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image1!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[1].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image2!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[2].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image3!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[3].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image4!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[4].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image5!!)
                                         }
-                                    }catch (e:Exception){}
+                                    } catch (e: Exception) {
+                                    }
                                     postList.clear()
                                     postList.addAll(response.body()!!.data.post)
                                     val prevSize: Int = response.body()!!.data.post.size
@@ -420,62 +487,124 @@ class HomeFragment : Fragment() {
                         if (response != null) {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
-                                       try {
-                                    totalMembers!!.text=response.body()!!.data.total_members.toString()
-                                           if (response.body()!!.data.member_list.size==0){
-                                               memberFrame!!.visibility=View.GONE
-                                           }else  if (response.body()!!.data.member_list.size==1) {
-                                               memberFrame!!.visibility = View.VISIBLE
-                                               image1!!.visibility = View.VISIBLE
-                                               image2!!.visibility = View.GONE
-                                               image3!!.visibility = View.GONE
-                                               image4!!.visibility = View.GONE
-                                               image5!!.visibility = View.GONE
-                                               Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
-                                           }else  if (response.body()!!.data.member_list.size==2) {
-                                               memberFrame!!.visibility = View.VISIBLE
-                                               image1!!.visibility = View.VISIBLE
-                                               image2!!.visibility = View.VISIBLE
-                                               image3!!.visibility = View.GONE
-                                               image4!!.visibility = View.GONE
-                                               image5!!.visibility = View.GONE
-                                               Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
-                                               Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
-                                           }else  if (response.body()!!.data.member_list.size==3) {
-                                               memberFrame!!.visibility = View.VISIBLE
-                                               image1!!.visibility = View.VISIBLE
-                                               image2!!.visibility = View.VISIBLE
-                                               image3!!.visibility = View.VISIBLE
-                                               image4!!.visibility = View.GONE
-                                               image5!!.visibility = View.GONE
-                                               Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
-                                               Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
-                                               Glide.with(context!!).load(response.body()!!.data.member_list[2].image).placeholder(R.drawable.user_avatar).into(image3!!)
-                                           }else  if (response.body()!!.data.member_list.size==4) {
-                                               memberFrame!!.visibility = View.VISIBLE
-                                               image1!!.visibility = View.VISIBLE
-                                               image2!!.visibility = View.VISIBLE
-                                               image3!!.visibility = View.VISIBLE
-                                               image4!!.visibility = View.VISIBLE
-                                               image5!!.visibility = View.GONE
-                                               Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
-                                               Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
-                                               Glide.with(context!!).load(response.body()!!.data.member_list[2].image).placeholder(R.drawable.user_avatar).into(image3!!)
-                                               Glide.with(context!!).load(response.body()!!.data.member_list[3].image).placeholder(R.drawable.user_avatar).into(image4!!)
-                                           }else  if (response.body()!!.data.member_list.size==5) {
-                                               memberFrame!!.visibility = View.VISIBLE
-                                               image1!!.visibility = View.VISIBLE
-                                               image2!!.visibility = View.VISIBLE
-                                               image3!!.visibility = View.VISIBLE
-                                               image4!!.visibility = View.VISIBLE
-                                               image5!!.visibility = View.VISIBLE
-                                               Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
-                                               Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
-                                               Glide.with(context!!).load(response.body()!!.data.member_list[2].image).placeholder(R.drawable.user_avatar).into(image3!!)
-                                               Glide.with(context!!).load(response.body()!!.data.member_list[3].image).placeholder(R.drawable.user_avatar).into(image4!!)
-                                               Glide.with(context!!).load(response.body()!!.data.member_list[4].image).placeholder(R.drawable.user_avatar).into(image5!!)
-                                           }
-                                    }catch (e:Exception){}
+                                    try {
+                                        totalMembers!!.text =
+                                            response.body()!!.data.total_members.toString()
+                                        if (response.body()!!.data.member_list.size == 0) {
+                                            memberFrame!!.visibility = View.GONE
+                                        } else if (response.body()!!.data.member_list.size == 1) {
+                                            memberFrame!!.visibility = View.VISIBLE
+                                            image1!!.visibility = View.VISIBLE
+                                            image2!!.visibility = View.GONE
+                                            image3!!.visibility = View.GONE
+                                            image4!!.visibility = View.GONE
+                                            image5!!.visibility = View.GONE
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[0].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image1!!)
+                                        } else if (response.body()!!.data.member_list.size == 2) {
+                                            memberFrame!!.visibility = View.VISIBLE
+                                            image1!!.visibility = View.VISIBLE
+                                            image2!!.visibility = View.VISIBLE
+                                            image3!!.visibility = View.GONE
+                                            image4!!.visibility = View.GONE
+                                            image5!!.visibility = View.GONE
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[0].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image1!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[1].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image2!!)
+                                        } else if (response.body()!!.data.member_list.size == 3) {
+                                            memberFrame!!.visibility = View.VISIBLE
+                                            image1!!.visibility = View.VISIBLE
+                                            image2!!.visibility = View.VISIBLE
+                                            image3!!.visibility = View.VISIBLE
+                                            image4!!.visibility = View.GONE
+                                            image5!!.visibility = View.GONE
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[0].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image1!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[1].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image2!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[2].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image3!!)
+                                        } else if (response.body()!!.data.member_list.size == 4) {
+                                            memberFrame!!.visibility = View.VISIBLE
+                                            image1!!.visibility = View.VISIBLE
+                                            image2!!.visibility = View.VISIBLE
+                                            image3!!.visibility = View.VISIBLE
+                                            image4!!.visibility = View.VISIBLE
+                                            image5!!.visibility = View.GONE
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[0].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image1!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[1].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image2!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[2].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image3!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[3].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image4!!)
+                                        } else if (response.body()!!.data.member_list.size == 5) {
+                                            memberFrame!!.visibility = View.VISIBLE
+                                            image1!!.visibility = View.VISIBLE
+                                            image2!!.visibility = View.VISIBLE
+                                            image3!!.visibility = View.VISIBLE
+                                            image4!!.visibility = View.VISIBLE
+                                            image5!!.visibility = View.VISIBLE
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[0].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image1!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[1].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image2!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[2].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image3!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[3].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image4!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[4].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image5!!)
+                                        }
+                                    } catch (e: Exception) {
+                                    }
                                     postList.clear()
                                     postList.addAll(response.body()!!.data.post)
                                     val prevSize: Int = response.body()!!.data.post.size
@@ -547,61 +676,123 @@ class HomeFragment : Fragment() {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
                                     try {
-                                        totalMembers!!.text=response.body()!!.data.total_members.toString()
-                                        if (response.body()!!.data.member_list.size==0){
-                                            memberFrame!!.visibility=View.GONE
-                                        }else  if (response.body()!!.data.member_list.size==1) {
+                                        totalMembers!!.text =
+                                            response.body()!!.data.total_members.toString()
+                                        if (response.body()!!.data.member_list.size == 0) {
+                                            memberFrame!!.visibility = View.GONE
+                                        } else if (response.body()!!.data.member_list.size == 1) {
                                             memberFrame!!.visibility = View.VISIBLE
                                             image1!!.visibility = View.VISIBLE
                                             image2!!.visibility = View.GONE
                                             image3!!.visibility = View.GONE
                                             image4!!.visibility = View.GONE
                                             image5!!.visibility = View.GONE
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
-                                        }else  if (response.body()!!.data.member_list.size==2) {
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[0].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image1!!)
+                                        } else if (response.body()!!.data.member_list.size == 2) {
                                             memberFrame!!.visibility = View.VISIBLE
                                             image1!!.visibility = View.VISIBLE
                                             image2!!.visibility = View.VISIBLE
                                             image3!!.visibility = View.GONE
                                             image4!!.visibility = View.GONE
                                             image5!!.visibility = View.GONE
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
-                                        }else  if (response.body()!!.data.member_list.size==3) {
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[0].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image1!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[1].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image2!!)
+                                        } else if (response.body()!!.data.member_list.size == 3) {
                                             memberFrame!!.visibility = View.VISIBLE
                                             image1!!.visibility = View.VISIBLE
                                             image2!!.visibility = View.VISIBLE
                                             image3!!.visibility = View.VISIBLE
                                             image4!!.visibility = View.GONE
                                             image5!!.visibility = View.GONE
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[2].image).placeholder(R.drawable.user_avatar).into(image3!!)
-                                        }else  if (response.body()!!.data.member_list.size==4) {
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[0].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image1!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[1].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image2!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[2].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image3!!)
+                                        } else if (response.body()!!.data.member_list.size == 4) {
                                             memberFrame!!.visibility = View.VISIBLE
                                             image1!!.visibility = View.VISIBLE
                                             image2!!.visibility = View.VISIBLE
                                             image3!!.visibility = View.VISIBLE
                                             image4!!.visibility = View.VISIBLE
                                             image5!!.visibility = View.GONE
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[2].image).placeholder(R.drawable.user_avatar).into(image3!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[3].image).placeholder(R.drawable.user_avatar).into(image4!!)
-                                        }else  if (response.body()!!.data.member_list.size==5) {
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[0].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image1!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[1].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image2!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[2].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image3!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[3].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image4!!)
+                                        } else if (response.body()!!.data.member_list.size == 5) {
                                             memberFrame!!.visibility = View.VISIBLE
                                             image1!!.visibility = View.VISIBLE
                                             image2!!.visibility = View.VISIBLE
                                             image3!!.visibility = View.VISIBLE
                                             image4!!.visibility = View.VISIBLE
                                             image5!!.visibility = View.VISIBLE
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[0].image).placeholder(R.drawable.user_avatar).into(image1!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[1].image).placeholder(R.drawable.user_avatar).into(image2!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[2].image).placeholder(R.drawable.user_avatar).into(image3!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[3].image).placeholder(R.drawable.user_avatar).into(image4!!)
-                                            Glide.with(context!!).load(response.body()!!.data.member_list[4].image).placeholder(R.drawable.user_avatar).into(image5!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[0].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image1!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[1].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image2!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[2].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image3!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[3].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image4!!)
+                                            Glide.with(context!!)
+                                                .load(response.body()!!.data.member_list[4].image)
+                                                .placeholder(
+                                                    R.drawable.user_avatar
+                                                ).into(image5!!)
                                         }
-                                    }catch (e:Exception){}
+                                    } catch (e: Exception) {
+                                    }
                                     postList.addAll(response.body()!!.data.post)
                                     val prevSize: Int = response.body()!!.data.post.size
                                     if (postList.size == 0) {
@@ -1061,28 +1252,29 @@ class HomeFragment : Fragment() {
         dialog.show()
     }
 
+
+
     fun commentsDialog(id: String) {
         var close: ImageView? = null
         var addComment: ImageView? = null
         var edtComment: EditText? = null
-        val dialog = context?.let { Dialog(it) }
         // Include dialog.xml file
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.comment_dialog)
-        dialog!!.setCancelable(true)
-        val window = dialog.window
+
+        dialogComment!!.setContentView(R.layout.comment_dialog)
+        dialogComment!!.setCancelable(true)
+        val window = dialogComment!!.window
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT
         )
-        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
-        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-        close = dialog.findViewById(R.id.close)
-        addComment = dialog.findViewById(R.id.add)
-        edtComment = dialog.findViewById(R.id.edt_comment)
-        blankData2 = dialog.findViewById(R.id.blank_data)
-        commentRecycler = dialog.findViewById(R.id.comment_recycler)
+        dialogComment!!.window!!.attributes.windowAnimations = R.style.DialogAnimation
+        dialogComment!!.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        close = dialogComment!!.findViewById(R.id.close)
+        addComment = dialogComment!!.findViewById(R.id.add)
+        edtComment = dialogComment!!.findViewById(R.id.edt_comment)
+        blankData2 = dialogComment!!.findViewById(R.id.blank_data)
+        commentRecycler = dialogComment!!.findViewById(R.id.comment_recycler)
         postId = id
         getCommentList(postId!!)
         addComment!!.setOnClickListener {
@@ -1138,10 +1330,34 @@ class HomeFragment : Fragment() {
         }
 
         close.setOnClickListener {
-            dialog.cancel()
+            dialogComment!!.cancel()
+            isLastPage = false
+            isLoading = false
+            page = 1
+            postList.clear()
+            postsAdapter!!.notifyDataSetChanged()
+            postListSwipeApi("1")
         }
 
-        dialog.show()
+        dialogComment!!.show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        dialogComment!!.setOnKeyListener { dialog, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                // To dismiss the fragment when the back-button is pressed.
+                dialog.cancel()
+                dialogComment!!.cancel()
+                isLastPage = false
+                isLoading = false
+                page = 1
+                postList.clear()
+                postsAdapter!!.notifyDataSetChanged()
+                postListSwipeApi("1")
+                true
+            } else false
+        }
     }
 
     fun commentsReplyDialog(id: String) {
@@ -1444,6 +1660,7 @@ class HomeFragment : Fragment() {
                                             response.body()!!.data.active_community_details.title
                                         pic = response.body()!!.data.active_community_details.image
                                         name = response.body()!!.data.active_community_details.title
+                                        userName = response.body()!!.data.user.first_name+" "+response.body()!!.data.user.last_name
                                         description =
                                             response.body()!!.data.active_community_details.about
                                     } catch (e: Exception) {

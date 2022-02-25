@@ -44,8 +44,10 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
     ClientCreated, ChannelCreated, TokenResponseListener {
     var progressDialog: ProgressDialog? = null
     private var pathPic = ""
+    private var chatType:String? = null
     var chatAdapter: ChatAdapter? = null
     private var otherId: String? = null
+    private var channelId: String? = null
     private val quickstartChatManager: QuickstartChatManager = QuickstartChatManager()
     var list: List<Message>? = null
     var memberList: ArrayList<String> = ArrayList<String>()
@@ -58,7 +60,9 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
     private fun initData() {
         try {
             userName.text = intent.getStringExtra("name")
+            chatType = intent.getStringExtra("type")
             otherId = intent.getStringExtra("otherId")
+            channelId = intent.getStringExtra("channelId")
             Glide.with(this).load(intent.getStringExtra("pic")).placeholder(R.drawable.user_avatar)
                 .into(
                     userPic
@@ -166,13 +170,18 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
     ) {
         if (success) {
             var myId: String? = ""
-            if (otherId!!.toInt() > FCSharedPreferances.getSharedPreferance(this@ChatActivity).useR_ID.toInt()
-            ) myId =
-                FCSharedPreferances.getSharedPreferance(this@ChatActivity).useR_ID.toString() + "_" + otherId else myId =
-                "" + otherId + "_" + FCSharedPreferances.getSharedPreferance(
-                    this@ChatActivity
-                ).useR_ID
-            quickstartChatManager.loadChannels(myId,otherId)
+            if (chatType=="individual_chat") {
+                if (otherId!!.toInt() > FCSharedPreferances.getSharedPreferance(this@ChatActivity).useR_ID.toInt()
+                ) myId =
+                    FCSharedPreferances.getSharedPreferance(this@ChatActivity).useR_ID.toString() + "_" + otherId else myId =
+                    "" + otherId + "_" + FCSharedPreferances.getSharedPreferance(
+                        this@ChatActivity
+                    ).useR_ID
+                quickstartChatManager.loadChannels(myId, otherId, chatType)
+            }else{
+                myId=channelId
+                quickstartChatManager.loadChannels(myId,otherId,chatType)
+            }
 
         } else {
             Log.d("error2", exception.toString() + "")

@@ -55,6 +55,7 @@ class Constants {
         const val getAllMemberList = "community/getAllMemberList"
         const val makeAdmin = "community/makeAdmin"
         const val generateToken = "twilio/generateToken"
+        const val getGroupList = "twilio/getGroupList"
     }
 
     object Keys {

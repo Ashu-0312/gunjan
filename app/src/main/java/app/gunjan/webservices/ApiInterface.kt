@@ -309,6 +309,11 @@ interface ApiInterface {
         @HeaderMap headers: Map<String, String>
     ): Call<GenerateTokenResponse>
 
+    @GET(Constants.Partial.getGroupList)
+    fun getGroupList(
+        @HeaderMap headers: Map<String, String>
+    ): Call<GroupListResponse>
+
     @PATCH(Constants.Partial.acceptRejectRequest)
     fun acceptRejectRequest(
         @Body params: java.util.HashMap<String, String>,

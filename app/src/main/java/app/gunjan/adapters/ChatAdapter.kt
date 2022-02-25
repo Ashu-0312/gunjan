@@ -176,6 +176,7 @@ class ChatAdapter(
                     holder.rightTime!!.visibility = View.VISIBLE
                     holder.rightMessage!!.text = data!![position].messageBody
                     holder.rightTime!!.text = ProjectUtill.DateFormate(data!![position].dateCreatedAsDate.toString())
+                   // holder.rightUser!!.text=data!![position].member.attributes.jsonObject!!.get("username").toString()
                 }
             } else {
                 holder.rightFrame!!.visibility = View.GONE
@@ -345,6 +346,7 @@ class ChatAdapter(
         var leftTime: TextView? = null
         var rightMessage: TextView? = null
         var rightTime: TextView? = null
+        var rightUser: TextView? = null
         var leftProgress: ProgressBar? = null
         var rightProgress: ProgressBar? = null
         var leftCard: CardView? = null
@@ -360,6 +362,7 @@ class ChatAdapter(
             leftTime = itemView.findViewById(R.id.leftTime)
             rightMessage = itemView.findViewById(R.id.right_message)
             rightTime = itemView.findViewById(R.id.rightTime)
+            rightUser = itemView.findViewById(R.id.right_user)
             leftVideo = itemView.findViewById(R.id.left_media_video)
             rightVideo = itemView.findViewById(R.id.right_media_video)
             leftImage = itemView.findViewById(R.id.left_media_pic)

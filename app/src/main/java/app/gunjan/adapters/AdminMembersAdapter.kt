@@ -6,6 +6,7 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
@@ -41,6 +42,12 @@ class AdminMembersAdapter(
 
             holder.name!!.text=data[position].userDetails.first_name+" "+data[position].userDetails.last_name
             holder.about!!.text=data[position].userDetails.about
+
+            if (FCSharedPreferances.getSharedPreferance(context).useR_ID.toString()==data[position].userId.toString()){
+                holder.chatIcon!!.visibility=View.GONE
+            }else{
+                holder.chatIcon!!.visibility=View.VISIBLE
+            }
         }catch (e:Exception){}
         holder!!.itemView.setOnClickListener {
             if (FCSharedPreferances.getSharedPreferance(context).useR_ID.toString()==data[position].userId.toString()){
@@ -59,6 +66,8 @@ class AdminMembersAdapter(
                 intent.putExtra("pic",data[position].userDetails.image)
                 intent.putExtra("name",data[position].userDetails.first_name+" "+data[position].userDetails.last_name)
                 intent.putExtra("otherId",data[position].userId.toString())
+                intent.putExtra("type","individual_chat")
+                intent.putExtra("channelId","sd")
                 context!!.startActivity(intent)
             }
         }
@@ -90,10 +99,12 @@ class AdminMembersAdapter(
         var profilePic: CircleImageView? =null
         var name: TextView? =null
         var about: TextView? =null
+        var chatIcon: ImageView? =null
         init {
             profilePic=itemView.findViewById(R.id.pic)
             name=itemView.findViewById(R.id.name)
             about=itemView.findViewById(R.id.about)
+            chatIcon=itemView.findViewById(R.id.chat_icon)
         }
     }
 

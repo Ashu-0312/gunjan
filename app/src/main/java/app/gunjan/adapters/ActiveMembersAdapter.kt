@@ -7,6 +7,7 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -59,6 +60,13 @@ class ActiveMembersAdapter(
             }else{
                 holder.makeAdmin!!.visibility=View.VISIBLE
             }
+
+            if (FCSharedPreferances.getSharedPreferance(context).useR_ID.toString()==data[position].userId.toString()){
+                holder.chatIcon!!.visibility=View.GONE
+            }else{
+                holder.chatIcon!!.visibility=View.VISIBLE
+            }
+          //  holder.about!!.text = ProjectUtill.DateFormate(data[position].userDetails.last_message.toString())
         }catch (e:Exception){}
 
         holder!!.makeAdmin!!.setOnClickListener {
@@ -130,6 +138,8 @@ class ActiveMembersAdapter(
                 intent.putExtra("pic",data[position].userDetails.image)
                 intent.putExtra("name",data[position].userDetails.first_name+" "+data[position].userDetails.last_name)
                 intent.putExtra("otherId",data[position].userId.toString())
+                intent.putExtra("type","individual_chat")
+                intent.putExtra("channelId","fjsdb")
                 context!!.startActivity(intent)
             }
         }
@@ -157,16 +167,23 @@ class ActiveMembersAdapter(
         return data!!.size
     }
 
+    fun setMessage(l: Int, messageBody: String?) {
+        data[l].userDetails.last_message = messageBody
+        notifyItemChanged(l)
+    }
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var profilePic: CircleImageView? =null
         var name: TextView? =null
         var about: TextView? =null
         var makeAdmin: TextView? =null
+        var chatIcon: ImageView? =null
         init {
             profilePic=itemView.findViewById(R.id.pic)
             name=itemView.findViewById(R.id.name)
             about=itemView.findViewById(R.id.about)
             makeAdmin=itemView.findViewById(R.id.make_admin)
+            chatIcon=itemView.findViewById(R.id.chat_icon)
         }
     }
 

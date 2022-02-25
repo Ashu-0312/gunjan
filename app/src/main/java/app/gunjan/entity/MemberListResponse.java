@@ -265,6 +265,16 @@ public class MemberListResponse implements Serializable {
                 private int id;
                 private String first_name;
                 private String last_name;
+
+                public String getLast_message() {
+                    return last_message;
+                }
+
+                public void setLast_message(String last_message) {
+                    this.last_message = last_message;
+                }
+
+                private String last_message;
                 private String pincode;
                 private String mobile;
                 private String countryCode;

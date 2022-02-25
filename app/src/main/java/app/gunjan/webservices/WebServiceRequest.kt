@@ -869,6 +869,17 @@ class WebServiceRequest private constructor() {
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
+    fun getGroupList(
+        context: Context,
+        registrationResponseCallback: Callback<GroupListResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val registrationResponseCall: Call<GroupListResponse> =
+            apiInterface.getGroupList(headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
     fun postList(
         context: Context,
         page: String,

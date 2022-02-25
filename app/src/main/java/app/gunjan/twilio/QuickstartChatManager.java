@@ -261,7 +261,7 @@ public class QuickstartChatManager extends AppCompatActivity {
     }
 
 
-    public void loadChannels(final String channelName, String memberName) {
+    public void loadChannels(final String channelName, String memberName,String type) {
         this.memberName = memberName;
         chatClient.getChannels().getChannel(channelName, new CallbackListener<Channel>() {
             @Override
@@ -306,7 +306,11 @@ public class QuickstartChatManager extends AppCompatActivity {
             @Override
             public void onError(ErrorInfo errorInfo) {
                 Log.e("TAG", "Error retrieving channel: " + errorInfo.getMessage());
-                createChannel(channelName);
+                if (type=="group_chat") {
+                    Log.d("BitData",type);
+                }else {
+                    createChannel(channelName);
+                }
             }
 
         });

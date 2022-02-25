@@ -757,7 +757,7 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
                     play.visibility = View.GONE
                     pause.visibility = View.GONE
                     postPic.visibility = View.VISIBLE
-                    Glide.with(this).load(awsPicUrl).placeholder(R.drawable.user_avatar)
+                    Glide.with(this).load(awsPicUrl).placeholder(R.drawable.logo)
                         .into(postPic)
                 } else if (type == "video") {
                     addMedia.visibility = View.GONE
@@ -781,7 +781,7 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
                     eplay.visibility = View.GONE
                     epause.visibility = View.GONE
                     epostPic.visibility = View.VISIBLE
-                    Glide.with(this).load(awsPicUrl2).placeholder(R.drawable.user_avatar)
+                    Glide.with(this).load(awsPicUrl2).placeholder(R.drawable.logo)
                         .into(epostPic)
                 } else if (type == "video") {
                     eaddMedia.visibility = View.GONE
