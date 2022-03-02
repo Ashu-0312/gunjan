@@ -100,6 +100,12 @@ interface ApiInterface {
         @HeaderMap headers:Map<String,String>
     ): Call<UnfollowUserResponse>
 
+    @POST(Constants.Partial.addCommunityMember)
+    fun addCommunityMember(
+        @Body params:HashMap<String,String>,
+        @HeaderMap headers:Map<String,String>
+    ): Call<AddMemberinGroupResponse>
+
     @PUT(Constants.Partial.addAboutYourself)
     fun addAboutYourself(
         @Body params:HashMap<String,String>,
@@ -313,6 +319,13 @@ interface ApiInterface {
     fun getGroupList(
         @HeaderMap headers: Map<String, String>
     ): Call<GroupListResponse>
+
+    @GET(Constants.Partial.getAllNonMemberList)
+    fun getAllNonMemberList(
+        @Query(Constants.Keys.page) page: String?,
+        @Query(Constants.Keys.limit) limit: String?,
+        @HeaderMap headers: Map<String, String>
+    ): Call<AllMembersListResponse>
 
     @PATCH(Constants.Partial.acceptRejectRequest)
     fun acceptRejectRequest(

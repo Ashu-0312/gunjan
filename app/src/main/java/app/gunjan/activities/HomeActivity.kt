@@ -99,6 +99,7 @@ class HomeActivity : AppCompatActivity() {
                       }
                   })
           })
+
         if (FCSharedPreferances.getSharedPreferance(this).status.equals("edit")){
             FCSharedPreferances.getSharedPreferance(this).status=""
             home_txt.setTextColor(resources.getColor(R.color.txt_color))

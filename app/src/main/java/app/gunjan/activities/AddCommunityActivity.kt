@@ -12,6 +12,8 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -68,6 +70,42 @@ class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
         progressdialog = ProgressDialog(this, R.style.MyAlertDialogStyle)
         getCategoryList()
         back.setOnClickListener { finish() }
+
+         community.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(arg0: CharSequence, arg1: Int, arg2: Int, arg3: Int) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun beforeTextChanged(
+                arg0: CharSequence, arg1: Int, arg2: Int,
+                arg3: Int
+            ) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                // TODO Auto-generated method stub
+                nameCount.text = (50 - s.toString().length).toString() + "/50" + "(50 char. max.)"
+            }
+        })
+
+        about.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(arg0: CharSequence, arg1: Int, arg2: Int, arg3: Int) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun beforeTextChanged(
+                arg0: CharSequence, arg1: Int, arg2: Int,
+                arg3: Int
+            ) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                // TODO Auto-generated method stub
+                descCount.text = (250 - s.toString().length).toString() + "/250" + "(250 char. max.)"
+            }
+        })
 
         Submit.setOnClickListener {
             if (awsPicUrl.toString().trim() == "") {

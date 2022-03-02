@@ -41,7 +41,7 @@ class MessagesAdapter(
                     )
             }
             holder.name!!.text=data[position].participants_details.first_name+" "+data[position].participants_details.last_name
-            holder.about!!.text=data[position].participants_details.about
+            holder.about!!.text=data[position].participants_details.last_message
         } catch (e: Exception) {
         }
         holder!!.itemView.setOnClickListener {
@@ -71,6 +71,11 @@ class MessagesAdapter(
 
     override fun getItemCount(): Int {
         return data!!.size
+    }
+
+    fun setMessage(l: Int, messageBody: String?) {
+        data[l].participants_details.last_message = messageBody
+        notifyItemChanged(l)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

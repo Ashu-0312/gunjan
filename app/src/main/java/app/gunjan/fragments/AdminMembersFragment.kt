@@ -2,7 +2,10 @@ package app.gunjan.fragments
 
 import android.app.Dialog
 import android.graphics.Color
+import android.os.AsyncTask
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
@@ -10,21 +13,27 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.gunjan.R
+import app.gunjan.adapters.ActiveMembersAdapter
 import app.gunjan.adapters.AdminMembersAdapter
 import app.gunjan.entity.CityListResponse
 import app.gunjan.entity.MemberListResponse
 import app.gunjan.entity.StateListResponse
+import app.gunjan.twilio.ClientCreated
+import app.gunjan.twilio.Logger
+import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
+import com.twilio.chat.*
 import kotlinx.android.synthetic.main.activity_notification.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AdminMembersFragment : Fragment() {
+class AdminMembersFragment : Fragment(),ClientCreated {
     private var page: Int? = 1
     var swipeRefresh: SwipeRefreshLayout? = null
     var progressBar: ProgressBar? = null
+    var chatClient: ChatClient? = null
     var blankData: TextView? = null
     var isLoading = false
     var isLastPage = false
@@ -53,7 +62,7 @@ class AdminMembersFragment : Fragment() {
     }
 
     private fun initData() {
-
+        createChatClient(FCSharedPreferances.getSharedPreferance(context).chaT_TOKEN)
         initializeAdapter()
         memberListApi("1","","")
 
@@ -117,6 +126,7 @@ class AdminMembersFragment : Fragment() {
                                             )
                                         }
                                     }
+                                    setUser()
                                 } else {
                                     ProjectUtill.printMessage(
                                         activity!!.window.decorView,
@@ -186,6 +196,7 @@ class AdminMembersFragment : Fragment() {
                                             )
                                         }
                                     }
+                                    setUser()
                                 } else {
                                     ProjectUtill.printMessage(
                                         activity!!.window.decorView,
@@ -255,6 +266,7 @@ class AdminMembersFragment : Fragment() {
                                             )
                                         }
                                     }
+                                    setUser()
                                 } else {
                                     ProjectUtill.printMessage(
                                         activity!!.window.decorView,
@@ -558,6 +570,90 @@ class AdminMembersFragment : Fragment() {
                             activity!!.window.decorView,
                             ""
                         )
+                    }
+                })
+        }
+    }
+
+    private fun setUser() {
+        if (chatClient != null) {
+            for (p in list.indices) {
+                var myId: String? = ""
+                if (list[p].userId!!.toInt() > FCSharedPreferances.getSharedPreferance(context).useR_ID.toInt()
+                ) myId =
+                    FCSharedPreferances.getSharedPreferance(context).useR_ID.toString() + "_" + list[p].userId else myId =
+                    "" + list[p].userId + "_" + FCSharedPreferances.getSharedPreferance(context
+                    ).useR_ID
+                Task1(memberAdapter,chatClient).execute(p.toString(), myId, list[p].userId.toString())
+            }
+        }
+    }
+    override fun clientCreated(chatClient: ChatClient?, success: Boolean, exception: Exception?) {
+        this.chatClient = chatClient
+    }
+
+    class Task1(chatAdapterr: AdminMembersAdapter?, chatClient: ChatClient?) : AsyncTask<String?, String?, String?>() {
+        var chatAdapter: AdminMembersAdapter? =chatAdapterr
+        var chatClient: ChatClient?=chatClient
+        override fun doInBackground(vararg params: String?): String? {
+            chatClient!!.channels.getChannel(params[1], object : CallbackListener<Channel>() {
+                override fun onSuccess(channel: Channel) {
+                    Handler().postDelayed({
+                        if (channel.messages != null) {
+                            channel.messages.getLastMessages(
+                                1,
+                                object : CallbackListener<List<Message>>() {
+                                    override fun onSuccess(messages: List<Message>) {
+                                        if (messages != null) {
+                                            if (messages.isNotEmpty()) {
+                                                chatAdapter!!.setMessage(
+                                                    params[0]!!.toInt(),
+                                                    messages[0].messageBody
+                                                )
+                                            }
+                                        }
+                                    }
+
+                                    override fun onError(errorInfo: ErrorInfo) {
+                                        super.onError(errorInfo)
+                                        Log.d("error3", errorInfo.message)
+                                    }
+                                })
+                        }
+                    }, 2000)
+                }
+
+                override fun onError(errorInfo: ErrorInfo) {
+                    super.onError(errorInfo)
+                    Log.d("error2", errorInfo.message)
+                }
+            })
+            return null
+        }
+    }
+
+
+    private fun createChatClient(token: String) {
+        val builder = ChatClient.Properties.Builder()
+        builder.setRegion("us1")
+        val props = builder.createProperties()
+        context?.let {
+            ChatClient.create(
+                it,
+                token,
+                props,
+                object : CallbackListener<ChatClient>() {
+                    override fun onSuccess(chatClient: ChatClient) {
+                        //Toast.makeText(HomeActivity.this, R.string.success_chat, Toast.LENGTH_LONG).show();
+                        Logger.show("success", "chatclient")
+                        this@AdminMembersFragment.chatClient = chatClient
+                        setUser()
+                    }
+
+                    override fun onError(errorInfo: ErrorInfo) {
+                        super.onError(errorInfo)
+                        //Toast.makeText(HomeActivity.this, R.string.failed_chat, Toast.LENGTH_LONG).show();
+                        Logger.show("success: errorInfo", errorInfo.message)
                     }
                 })
         }

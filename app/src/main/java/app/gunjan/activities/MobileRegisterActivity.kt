@@ -3,16 +3,20 @@ package app.gunjan.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputType
+import android.text.method.DigitsKeyListener
 import android.widget.Toast
 import app.gunjan.R
 import app.gunjan.entity.SignupResponse
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
+import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_forgot_password.*
 import kotlinx.android.synthetic.main.activity_mobile_register.*
 import kotlinx.android.synthetic.main.activity_mobile_register.back
 import kotlinx.android.synthetic.main.activity_mobile_register.ccp
+import kotlinx.android.synthetic.main.activity_mobile_register.edtMobile
 import kotlinx.android.synthetic.main.activity_mobile_register.privacy
 import kotlinx.android.synthetic.main.activity_mobile_register.tc
 import retrofit2.Call
@@ -27,6 +31,8 @@ class MobileRegisterActivity : AppCompatActivity() {
     }
 
     private fun initData() {
+        edtMobile.keyListener = DigitsKeyListener.getInstance("0123456789")
+        edtMobile.inputType = InputType.TYPE_CLASS_NUMBER
         back.setOnClickListener { finish() }
 
         tc.setOnClickListener {
@@ -41,7 +47,7 @@ class MobileRegisterActivity : AppCompatActivity() {
             if (validate()) {
                 val myDialog = ProjectUtill.showProgressDialog(this@MobileRegisterActivity)
                 WebServiceRequest.getInstance().signup(
-                    "en",edtMobile.text.toString().trim(),ccp.selectedCountryCodeWithPlus,"android",
+                    "en",edtMobile.text.toString().trim(),"+91","android",
                     object : Callback<SignupResponse> {
                         override fun onResponse(
                             call: Call<SignupResponse>,

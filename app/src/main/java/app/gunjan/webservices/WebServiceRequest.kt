@@ -359,6 +359,23 @@ class WebServiceRequest private constructor() {
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
+    fun addCommunityMember(
+        context: Context,
+        user_id: String,
+        isAdmin: String,
+        registrationResponseCallback: Callback<AddMemberinGroupResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.user_id] = user_id
+        params[Constants.Keys.isAdmin] = isAdmin
+        val registrationResponseCall: Call<AddMemberinGroupResponse> =
+            apiInterface.addCommunityMember(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+
     fun sendCommunityRequest(
         context: Context,
         communityId: String,
@@ -877,6 +894,22 @@ class WebServiceRequest private constructor() {
         headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
         val registrationResponseCall: Call<GroupListResponse> =
             apiInterface.getGroupList(headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun getAllNonMemberList(
+        context: Context,
+        page: String,
+        limit: String,
+        registrationResponseCallback: Callback<AllMembersListResponse>
+    ) {
+        var params = HashMap<String,String>()
+        params[Constants.Keys.page] = page
+        params[Constants.Keys.limit] = limit
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val registrationResponseCall: Call<AllMembersListResponse> =
+            apiInterface.getAllNonMemberList(page,limit,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 

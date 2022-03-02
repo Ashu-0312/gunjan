@@ -39,15 +39,13 @@ class AdminMembersAdapter(
                     holder.profilePic!!
                 )
             }
-
             holder.name!!.text=data[position].userDetails.first_name+" "+data[position].userDetails.last_name
-            holder.about!!.text=data[position].userDetails.about
-
             if (FCSharedPreferances.getSharedPreferance(context).useR_ID.toString()==data[position].userId.toString()){
                 holder.chatIcon!!.visibility=View.GONE
             }else{
                 holder.chatIcon!!.visibility=View.VISIBLE
             }
+            holder.about!!.text = data[position].userDetails.last_message.toString()
         }catch (e:Exception){}
         holder!!.itemView.setOnClickListener {
             if (FCSharedPreferances.getSharedPreferance(context).useR_ID.toString()==data[position].userId.toString()){
@@ -89,6 +87,11 @@ class AdminMembersAdapter(
                 context!!.startActivity(Intent(context, OthersProfileActivity::class.java))
             }
         }
+    }
+
+    fun setMessage(l: Int, messageBody: String?) {
+        data[l].userDetails.last_message = messageBody
+        notifyItemChanged(l)
     }
 
     override fun getItemCount(): Int {

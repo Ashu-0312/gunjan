@@ -121,7 +121,18 @@
                     android:textSize="@dimen/text_13sp"
                     tools:ignore="RtlCompat" />
             </LinearLayout>
-
+            <TextView
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/text_30sp"
+                android:layout_marginStart="@dimen/margin_25"
+                android:gravity="end"
+                android:id="@+id/nameCount"
+                android:layout_marginTop="@dimen/padding_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="50 char. max."
+                android:textColor="@color/txt_color"
+                android:textSize="@dimen/text_12sp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="170dp"
@@ -144,14 +155,25 @@
                     android:gravity="top"
                     android:hint="@string/tell_about_your_community"
                     android:inputType="textMultiLine"
-                    android:maxLength="200"
+                    android:maxLength="250"
                     android:padding="@dimen/margin_7"
                     android:textColor="@color/txt_color"
                     android:textColorHint="@color/txt_color"
                     android:textSize="@dimen/text_13sp"
                     tools:ignore="RtlCompat" />
             </LinearLayout>
-
+            <TextView
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/text_30sp"
+                android:layout_marginStart="@dimen/margin_25"
+                android:gravity="end"
+                android:id="@+id/descCount"
+                android:layout_marginTop="@dimen/padding_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="250 char. max."
+                android:textColor="@color/txt_color"
+                android:textSize="@dimen/text_12sp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

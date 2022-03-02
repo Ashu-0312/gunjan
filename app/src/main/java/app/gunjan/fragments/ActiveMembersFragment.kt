@@ -585,7 +585,7 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
                     FCSharedPreferances.getSharedPreferance(context).useR_ID.toString() + "_" + list[p].userId else myId =
                     "" + list[p].userId + "_" + FCSharedPreferances.getSharedPreferance(context
                     ).useR_ID
-               // Task1(memberAdapter,chatClient).execute(p.toString(), myId, list[p].userId.toString())
+                Task1(memberAdapter,chatClient).execute(p.toString(), myId, list[p].userId.toString())
             }
         }
     }

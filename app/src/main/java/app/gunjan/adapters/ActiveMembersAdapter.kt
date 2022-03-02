@@ -53,8 +53,6 @@ class ActiveMembersAdapter(
                 )
             }
             holder.name!!.text=data[position].userDetails.first_name+" "+data[position].userDetails.last_name
-            holder.about!!.text=data[position].userDetails.about
-
             if (data[position].isAdmin){
                 holder.makeAdmin!!.visibility=View.GONE
             }else{
@@ -66,7 +64,7 @@ class ActiveMembersAdapter(
             }else{
                 holder.chatIcon!!.visibility=View.VISIBLE
             }
-          //  holder.about!!.text = ProjectUtill.DateFormate(data[position].userDetails.last_message.toString())
+            holder.about!!.text = data[position].userDetails.last_message.toString()
         }catch (e:Exception){}
 
         holder!!.makeAdmin!!.setOnClickListener {

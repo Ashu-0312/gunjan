@@ -56,6 +56,8 @@ class Constants {
         const val makeAdmin = "community/makeAdmin"
         const val generateToken = "twilio/generateToken"
         const val getGroupList = "twilio/getGroupList"
+        const val getAllNonMemberList = "community/getAllNonMemberList"
+        const val addCommunityMember = "community/addCommunityMember"
     }
 
     object Keys {
@@ -118,5 +120,6 @@ class Constants {
         const val token_type = "token_type"
         const val device = "device"
         const val room = "room"
+        const val isAdmin = "isAdmin"
     }
 }

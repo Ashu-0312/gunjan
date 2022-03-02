@@ -12,6 +12,10 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.InputType
+import android.text.TextWatcher
+import android.text.method.DigitsKeyListener
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -87,11 +91,31 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
 
     private fun initData() {
         progressdialog = ProgressDialog(this, R.style.MyAlertDialogStyle)
+        edtMobile.keyListener = DigitsKeyListener.getInstance("0123456789")
+        edtMobile.inputType = InputType.TYPE_CLASS_NUMBER
         userDetails()
         genderList.add("Select Gender")
         genderList.add("Male")
         genderList.add("Female")
         genderList.add("Others")
+
+        about.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(arg0: CharSequence, arg1: Int, arg2: Int, arg3: Int) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun beforeTextChanged(
+                arg0: CharSequence, arg1: Int, arg2: Int,
+                arg3: Int
+            ) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                // TODO Auto-generated method stub
+                text_count.text = (500 - s.toString().length).toString() + "/500" + "(500 char. max.)"
+            }
+        })
 
         edtDob.setOnClickListener { getDate() }
 
@@ -157,7 +181,7 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                         edtDob.text.toString().trim(),
                         Gson().toJson(selectedInterestList),
                         edtMobile.text.toString().trim(),
-                        ccp.selectedCountryCodeWithPlus.toString(),
+                        "+91",
                         genderSpinner.selectedItem.toString(),
                         about.text.toString().trim(),
                         stateValue,

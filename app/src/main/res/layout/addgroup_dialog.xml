@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/popup_window"
-    android:scrollbars="none"
-    android:fillViewport="true"
-    android:maxHeight="450dp"
     android:layout_marginEnd="@dimen/margin_15"
     android:layout_marginStart="@dimen/margin_15"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="550dp"
     android:background="@drawable/circle_white"
     android:layout_gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
-        android:maxHeight="450dp"
         android:layout_margin="@dimen/margin_15"
         android:background="@drawable/circle_white"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <ImageView
             android:layout_marginEnd="@dimen/margin_15"
@@ -40,35 +36,55 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="@dimen/margin_10dp"
-            android:layout_marginBottom="@dimen/margin_10dp"
+            android:layout_marginBottom="65dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:scrollbars="none"
             android:id="@+id/members_recycler"/>
-        <LinearLayout
-            android:id="@+id/Add"
-            android:elevation="1dp"
+    </LinearLayout>
+    <TextView
+        android:visibility="gone"
+        android:text="@string/no_users"
+        android:textColor="@color/pink"
+        android:textSize="@dimen/margin_25"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:scaleType="fitXY"
+        android:fontFamily="@font/popinbold"
+        android:id="@+id/blank_data"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher_background"/>
+    <ProgressBar
+        android:visibility="gone"
+        android:layout_above="@+id/Add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress_bar"
+        android:indeterminateTint="@color/pink"/>
+    <LinearLayout
+        android:layout_marginTop="@dimen/padding_5"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/Add"
+        android:elevation="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/margin_40dp"
+        android:layout_marginEnd="@dimen/margin_40dp"
+        android:layout_marginBottom="@dimen/margin_20dp"
+        android:background="@drawable/button_bg"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_5">
+        <TextView
+            android:layout_marginTop="@dimen/padding_5"
+            android:layout_marginBottom="@dimen/padding_5"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="@dimen/margin_15"
+            android:fontFamily="@font/popinbold"
+            android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/margin_40dp"
-            android:layout_marginTop="@dimen/text_30sp"
-            android:layout_marginEnd="@dimen/margin_40dp"
-            android:layout_marginBottom="@dimen/padding_5"
-            android:background="@drawable/button_bg"
-            android:orientation="horizontal"
-            android:padding="@dimen/padding_5">
-            <TextView
-                android:layout_marginTop="@dimen/padding_5"
-                android:layout_marginBottom="@dimen/padding_5"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="@dimen/margin_15"
-                android:fontFamily="@font/popinbold"
-                android:textColor="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/add"/>
-        </LinearLayout>
+            android:text="@string/add"/>
     </LinearLayout>
-</ScrollView>
+</RelativeLayout>

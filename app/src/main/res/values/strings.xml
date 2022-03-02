@@ -105,6 +105,7 @@
     <string name="pincode">Please Enter PinCode</string>
     <string name="choose_pic">Please choose profile pic</string>
     <string name="about">Please enter about yourself</string>
+    <string name="about_limit">About yourself must be 200 characters</string>
     <string name="enter_dob">Please enter date of birth</string>
     <string name="select_gender">Please select gender</string>
     <string name="select_interest">Please select interest</string>

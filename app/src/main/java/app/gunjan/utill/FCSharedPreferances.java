@@ -19,6 +19,8 @@ public class FCSharedPreferances {
     private final String CHAT_TOKEN="chattoken";
     private final String IS_ADMIN="isadmin";
     private final String IS_ACTIVE="isactive";
+    private final String VALUE1="value1";
+    private final String VALUE2="value2";
 
     private FCSharedPreferances(Context context){
         if(sharedPreferences==null){
@@ -45,6 +47,29 @@ public class FCSharedPreferances {
     public String getCHAT_TOKEN(){
         return sharedPreferences.getString(CHAT_TOKEN,"");
     }
+
+    public void setVALUE1(String value1){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(VALUE1,value1);
+        editor.commit();
+        editor.apply();
+    }
+
+    public String getVALUE1(){
+        return sharedPreferences.getString(VALUE1,"");
+    }
+
+    public void setVALUE2(String value2){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(VALUE2,value2);
+        editor.commit();
+        editor.apply();
+    }
+
+    public String getVALUE2(){
+        return sharedPreferences.getString(VALUE2,"");
+    }
+
 
     public void setIS_ADMIN(String is_admin){
         SharedPreferences.Editor editor = sharedPreferences.edit();

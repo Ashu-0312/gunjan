@@ -22,7 +22,7 @@
         android:layout_height="wrap_content">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/activity_pic"
+            android:id="@+id/pic"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:src="@drawable/user_avatar"/>
@@ -37,27 +37,29 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
-                android:text="Johny Ive"
-                android:id="@+id/activity_name"
+                android:id="@+id/name"
                 android:fontFamily="@font/popinbold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_13sp"
                 android:textColor="@color/black"/>
             <TextView
-                android:text="Musician"
                 android:fontFamily="@font/poppin_medium"
-                android:id="@+id/dob"
+                android:id="@+id/about"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_12sp"
                 android:textColor="@color/txt_color"/>
         </LinearLayout>
-        <CheckBox
+        <ImageView
+            android:layout_marginTop="@dimen/padding_3"
+            android:layout_marginBottom="3dp"
+            android:id="@+id/cb_selector"
+            android:gravity="center"
+            android:src="@drawable/selected_not_selected"
             android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:buttonTint="@color/pink"/>
+            android:layout_width="@dimen/margin_20dp"
+            android:layout_height="@dimen/margin_20dp"/>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
