@@ -227,7 +227,6 @@ class MessagesFragment : Fragment(),ClientCreated {
                                             }
                                         }
                                     }
-
                                     override fun onError(errorInfo: ErrorInfo) {
                                         super.onError(errorInfo)
                                         Log.d("error3", errorInfo.message)
