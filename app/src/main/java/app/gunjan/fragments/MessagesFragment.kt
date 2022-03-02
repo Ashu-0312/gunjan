@@ -223,7 +223,6 @@ class MessagesFragment : Fragment(),ClientCreated {
                                     override fun onSuccess(messages: List<Message>) {
                                         if (messages != null) {
                                             if (messages.isNotEmpty()) {
-                                               Log.d("MESSAGEVALUE",messages[0].messageBody)
                                                     groupMessage!!.text=messages[0].messageBody
                                             }
                                         }
