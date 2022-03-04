@@ -155,6 +155,7 @@ class HomeFragment : Fragment() {
                             "",
                             "",
                             "",
+                            "",
                             object : Callback<AddPostResponse> {
                                 override fun onResponse(
                                     call: Call<AddPostResponse>,

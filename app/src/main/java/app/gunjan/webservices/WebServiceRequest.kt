@@ -246,6 +246,7 @@ class WebServiceRequest private constructor() {
         start_date: String,
         end_date: String,
         start_time: String,
+        end_time: String,
         registrationResponseCallback: Callback<AddPostResponse>
     ) {
         val headers= HashMap<String,String>()
@@ -258,6 +259,7 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.start_date] = start_date
         params[Constants.Keys.end_date] = end_date
         params[Constants.Keys.start_time] = start_time
+        params[Constants.Keys.end_time] = end_time
         val registrationResponseCall: Call<AddPostResponse> =
             apiInterface.addPost(params,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
@@ -361,15 +363,13 @@ class WebServiceRequest private constructor() {
 
     fun addCommunityMember(
         context: Context,
-        user_id: String,
-        isAdmin: String,
+        user_ids: String,
         registrationResponseCallback: Callback<AddMemberinGroupResponse>
     ) {
         val headers= HashMap<String,String>()
         headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
         val params = HashMap<String, String>()
-        params[Constants.Keys.user_id] = user_id
-        params[Constants.Keys.isAdmin] = isAdmin
+        params[Constants.Keys.user_ids] = user_ids
         val registrationResponseCall: Call<AddMemberinGroupResponse> =
             apiInterface.addCommunityMember(params,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)

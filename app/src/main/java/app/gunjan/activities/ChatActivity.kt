@@ -23,13 +23,16 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.gunjan.R
 import app.gunjan.adapters.ChatAdapter
 import app.gunjan.adapters.MemberListAdapter
+import app.gunjan.entity.AddMemberinGroupResponse
 import app.gunjan.entity.AllMembersListResponse
+import app.gunjan.entity.TermsResponse
 import app.gunjan.twilio.*
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.PermissionUtil
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.twilio.chat.CallbackListener
 import com.twilio.chat.ChatClient
 import com.twilio.chat.Message
@@ -37,6 +40,7 @@ import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_chat.back
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_notification.*
+import kotlinx.android.synthetic.main.activity_tc.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -422,7 +426,54 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
             dialog.cancel()
         }
 
-        add.setOnClickListener { dialog.cancel() }
+        add.setOnClickListener {
+            dialog.cancel()
+            Gson().toJson(memberAdapter!!.getSelectedData())
+
+            val myDialog = ProjectUtill.showProgressDialog(this@ChatActivity)
+            WebServiceRequest.getInstance().addCommunityMember(
+                this,Gson().toJson(memberAdapter!!.getSelectedData()),
+                object : Callback<AddMemberinGroupResponse> {
+                    override fun onResponse(
+                        call: Call<AddMemberinGroupResponse>,
+                        response: Response<AddMemberinGroupResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        this@ChatActivity.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    this@ChatActivity.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                this@ChatActivity.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<AddMemberinGroupResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            this@ChatActivity.window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
         dialog.show()
     }
 

@@ -56,7 +56,20 @@ class HomePostsAdapter(
             holder.totalComment!!.text=data[position].total_comment.toString()+" Comments"
             holder.totalLike!!.text=data[position].total_like.toString()
             holder.totaldisLike!!.text=data[position].total_unlike.toString()
-            holder.postTime!!.text=convertTimeToText(data[position].createdAt)
+
+            val input = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            val output = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+
+            var d: Date? = null
+            try {
+                d = input.parse(data[position].createdAt)
+            } catch (e: ParseException) {
+                e.printStackTrace()
+            }
+            val formatted = output.format(d)
+            Log.i("DATE", "" + formatted)
+
+            holder.postTime!!.text=convertTimeToText(formatted)
             context?.let {
                 Glide.with(it).load(data[position].created_by.image).placeholder(R.drawable.user_avatar)
                     .into(holder.profile!!)
@@ -330,10 +343,12 @@ class HomePostsAdapter(
         val prefix = ""
         val suffix = "ago"
         try {
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-            val pasTime = dateFormat.parse(dataDate)
+            val dateFormat = SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss"
+            )
+            val oldDate: Date = dateFormat.parse(dataDate)
             val nowTime = Date()
-            val dateDiff = nowTime.time - pasTime.time
+            val dateDiff = nowTime.time - oldDate.time-19800000
             val second: Long = TimeUnit.MILLISECONDS.toSeconds(dateDiff)
             val minute: Long = TimeUnit.MILLISECONDS.toMinutes(dateDiff)
             val hour: Long = TimeUnit.MILLISECONDS.toHours(dateDiff)

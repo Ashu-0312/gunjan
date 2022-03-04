@@ -40,10 +40,20 @@ class MemberListAdapter(
         holder.checkbox!!.setOnClickListener(View.OnClickListener {
             data[position].selected = !data[position].selected
             notifyItemChanged(position)
-
         })
 
+    }
 
+    fun getSelectedData(): ArrayList<String> {
+        var list:ArrayList<String> = ArrayList<String>()
+        try {
+            for (i in data.indices) {
+                if (data[i].selected) {
+                    list.add(data[i].userDetails.id.toString())
+                }
+            }
+        }catch (e: java.lang.Exception){}
+        return list
     }
 
     override fun getItemCount(): Int {

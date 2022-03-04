@@ -117,9 +117,11 @@ class Constants {
         const val start_date = "start_date"
         const val end_date = "end_date"
         const val start_time = "start_time"
+        const val end_time = "end_time"
         const val token_type = "token_type"
         const val device = "device"
         const val room = "room"
         const val isAdmin = "isAdmin"
+        const val user_ids = "user_ids"
     }
 }

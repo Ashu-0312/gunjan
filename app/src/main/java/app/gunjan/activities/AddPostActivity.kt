@@ -59,8 +59,10 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
     private  var mMinute:Int = 0
     private  var mSecond:Int = 0
     var selectedStartTime: String? = null
+    var selectedEndTime: String? = null
     var format:String? = ""
     var timeValue:String? = ""
+    var timeValue2:String? = ""
     var progressdialog: ProgressDialog? = null
     private var awsPicUrl = ""
     private var awsPicUrl2 = ""
@@ -90,7 +92,11 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
         }
 
         startTime.setOnClickListener {
-            getTime()
+            getTime("start")
+        }
+
+        endTime.setOnClickListener {
+            getTime("end")
         }
 
         discussType.setOnClickListener {
@@ -175,7 +181,7 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
                     } else {
                         val myDialog = ProjectUtill.showProgressDialog(this@AddPostActivity)
                         WebServiceRequest.getInstance().addPost(
-                            this, edtPost.text.toString().trim(), "", type, feedType,"","","",
+                            this, edtPost.text.toString().trim(), "", type, feedType,"","","","",
                             object : Callback<AddPostResponse> {
                                 override fun onResponse(
                                     call: Call<AddPostResponse>,
@@ -238,7 +244,7 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
                     } else {
                         val myDialog = ProjectUtill.showProgressDialog(this@AddPostActivity)
                         WebServiceRequest.getInstance().addPost(
-                            this, edtPost.text.toString().trim(), awsPicUrl, type, feedType,"","","",
+                            this, edtPost.text.toString().trim(), awsPicUrl, type, feedType,"","","","",
                             object : Callback<AddPostResponse> {
                                 override fun onResponse(
                                     call: Call<AddPostResponse>,
@@ -308,10 +314,13 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
                 } else if (toDateValue == "") {
                     Toast.makeText(this, "Please select event end date", Toast.LENGTH_LONG)
                         .show()
+                }else if (timeValue2 == "") {
+                    Toast.makeText(this, "Please select event end time", Toast.LENGTH_LONG)
+                        .show()
                 } else {
                     val myDialog = ProjectUtill.showProgressDialog(this@AddPostActivity)
                     WebServiceRequest.getInstance().addPost(
-                        this, edtEventPost.text.toString().trim(), awsPicUrl2, type, feedType,fromDateValue,toDateValue!!,timeValue!!,
+                        this, edtEventPost.text.toString().trim(), awsPicUrl2, type, feedType,fromDateValue,toDateValue!!,timeValue!!,timeValue2!!,
                         object : Callback<AddPostResponse> {
                             override fun onResponse(
                                 call: Call<AddPostResponse>,
@@ -510,7 +519,7 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
         datePickerDialog.show()
     }
 
-    private fun getTime() {
+    private fun getTime(statusTime:String) {
         val c = Calendar.getInstance()
         mHour = c[Calendar.HOUR_OF_DAY]
         mMinute = c[Calendar.MINUTE]
@@ -519,7 +528,11 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
             this@AddPostActivity,
             { view, hourOfDay, minute ->
                 var hourOfDay = hourOfDay
-                selectedStartTime = String.format("%02d:%02d", hourOfDay, minute)
+                if (statusTime == "start") {
+                    selectedStartTime = String.format("%02d:%02d", hourOfDay, minute)
+                }else{
+                    selectedEndTime = String.format("%02d:%02d", hourOfDay, minute)
+                }
                 if (hourOfDay == 0) {
                     hourOfDay += 12
                     format = "AM"
@@ -539,8 +552,13 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
                 if (startMinute.length == 1) {
                     startMinute = "0$startMinute"
                 }
-                timeValue = selectedStartTime
-                startTime.text = "$starthour:$startMinute $format"
+                if (statusTime == "start") {
+                    timeValue = selectedStartTime
+                    startTime.text = "$starthour:$startMinute $format"
+                }else{
+                    timeValue2 = selectedEndTime
+                    endTime.text = "$starthour:$startMinute $format"
+                }
             }, mHour, mMinute, true
         )
         timePickerDialog.show()
