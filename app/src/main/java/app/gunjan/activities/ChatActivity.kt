@@ -143,7 +143,7 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
             if (FCSharedPreferances.getSharedPreferance(this).iS_ADMIN=="true") {
                 memberListDialog()
             }else{
-                Toast.makeText(this, "You are not admin", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.not_admin), Toast.LENGTH_LONG).show()
             }
         }
     }

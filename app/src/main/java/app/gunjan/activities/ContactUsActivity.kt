@@ -38,7 +38,7 @@ class ContactUsActivity : AppCompatActivity() {
                     if (response != null) {
                         if (response.isSuccessful) {
                             if (response.body()!!.code == 1) {
-                                helpNumber.text = "Call Us: "+response.body()!!.data.mobile
+                                helpNumber.text = getString(R.string.call_us)+": "+response.body()!!.data.mobile
                             } else {
                                 ProjectUtill.printMessage(
                                     this@ContactUsActivity.window.decorView,
@@ -72,9 +72,9 @@ class ContactUsActivity : AppCompatActivity() {
 
         Submit.setOnClickListener {
             if (subject.text.toString().trim() == "") {
-                Toast.makeText(this, "Please Enter Subject", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.please_subject), Toast.LENGTH_LONG).show()
             } else if (query.text.toString().trim() == "") {
-                Toast.makeText(this, "Please Enter Query", android.widget.Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.please_query), android.widget.Toast.LENGTH_LONG).show()
             } else {
                 val myDialog = ProjectUtill.showProgressDialog(this@ContactUsActivity)
                 WebServiceRequest.getInstance().addQuery(

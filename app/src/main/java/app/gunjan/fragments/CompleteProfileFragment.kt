@@ -166,16 +166,16 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
         choosePic!!.setOnClickListener {
             if (checkPicturePermission()) {
                 val builder2 = AlertDialog.Builder(context)
-                builder2.setMessage("Press Gallery or Camera")
+                builder2.setMessage(getString(R.string.press_gallery))
                 builder2.setCancelable(true)
-                builder2.setPositiveButton("Gallery") { _, _ ->
+                builder2.setPositiveButton(R.string.gallery) { _, _ ->
                     val pickPhoto = Intent(
                         Intent.ACTION_PICK,
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                     )
                     startActivityForResult(pickPhoto, 1)
                 }
-                builder2.setNegativeButton("Camera") { _, _ ->
+                builder2.setNegativeButton(R.string.camera) { _, _ ->
                     val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                     startActivityForResult(takePicture, 0)
                 }
@@ -347,11 +347,11 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
             lastName!!.requestFocus()
             lastName!!.error = getString(R.string.enter_lastname)
             return false
-        } else if (stateSpinner!!.selectedItem.equals("Select State")) {
-            Toast.makeText(context, "Please select state", Toast.LENGTH_LONG).show()
+        } else if (stateSpinner!!.selectedItem.equals(getString(R.string.select_state))) {
+            Toast.makeText(context, getString(R.string.please_state), Toast.LENGTH_LONG).show()
             return false
-        } else if (citySpinner!!.selectedItem.equals("Select City")) {
-            Toast.makeText(context, "Please select city", Toast.LENGTH_LONG).show()
+        } else if (citySpinner!!.selectedItem.equals(getString(R.string.select_city))) {
+            Toast.makeText(context, getString(R.string.please_city), Toast.LENGTH_LONG).show()
             return false
         } else if (pinCode!!.text.toString().trim().equals("", ignoreCase = true)) {
             pinCode!!.requestFocus()

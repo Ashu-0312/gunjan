@@ -31,6 +31,7 @@ class JoinCommunityActivity : AppCompatActivity() {
 
     private fun initData() {
         Title.text=intent.getStringExtra("title")
+        txt.text=getString(R.string.click_join)+" "+intent.getStringExtra("title")+" "+getString(R.string.co)
         Glide.with(this).load(intent.getStringExtra("pic")).placeholder(R.drawable.user_avatar).into(Pic)
         back.setOnClickListener { finish() }
 

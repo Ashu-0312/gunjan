@@ -109,7 +109,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:fontFamily="@font/poppins_light"
-                    android:hint="Enter Community Name"
+                    android:hint="@string/enter_community_name"
                     android:inputType="textCapWords"
                     android:maxLength="50"
                     android:maxLines="1"
@@ -130,7 +130,7 @@
                 android:layout_marginTop="@dimen/padding_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="50 char. max."
+                android:text="@string/fifty_char"
                 android:textColor="@color/txt_color"
                 android:textSize="@dimen/text_12sp"/>
             <LinearLayout
@@ -171,7 +171,7 @@
                 android:layout_marginTop="@dimen/padding_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="250 char. max."
+                android:text="@string/twofifty_char"
                 android:textColor="@color/txt_color"
                 android:textSize="@dimen/text_12sp"/>
             <LinearLayout

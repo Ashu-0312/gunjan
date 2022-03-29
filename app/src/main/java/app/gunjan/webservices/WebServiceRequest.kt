@@ -709,6 +709,7 @@ class WebServiceRequest private constructor() {
         state: String,
         city: String,
         member_type: String,
+        search: String,
         registrationResponseCallback: Callback<MemberListResponse>
     ) {
         val headers= HashMap<String,String>()
@@ -719,8 +720,9 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.state] = state
         params[Constants.Keys.city] = city
         params[Constants.Keys.member_type] = member_type
+        params[Constants.Keys.search] = search
         val registrationResponseCall: Call<MemberListResponse> =
-            apiInterface.getAllMemberList(page,limit,state,city,member_type,headers)
+            apiInterface.getAllMemberList(page,limit,state,city,member_type,search,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 

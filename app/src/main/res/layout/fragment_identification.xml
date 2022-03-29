@@ -34,7 +34,7 @@
                 android:layout_marginEnd="@dimen/text_30sp"
                 android:fontFamily="@font/poppin_regular"
                 android:gravity="center"
-                android:text="Upload photo for"
+                android:text="@string/upload_photo_for"
                 android:textColor="@color/txt_color"
                 android:textSize="@dimen/text_13sp" />
 
@@ -118,7 +118,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:fontFamily="@font/poppins_semibold"
-                            android:text="Photo Verification"
+                            android:text="@string/photo_verification"
                             android:textColor="@color/pink"
                             android:textSize="@dimen/text_12sp" />
                         </LinearLayout>

@@ -1,14 +1,17 @@
 package app.gunjan.activities
 
 import android.app.Dialog
+import android.app.ProgressDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import app.gunjan.R
 import app.gunjan.entity.DeleteAccountResponse
 import app.gunjan.entity.LogoutResponse
@@ -21,8 +24,11 @@ import kotlinx.android.synthetic.main.activity_settings.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 class SettingsActivity : AppCompatActivity() {
+    private var myLocale:Locale?=null
+    private var currentLang:String?=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -45,9 +51,14 @@ class SettingsActivity : AppCompatActivity() {
                             if (response != null) {
                                 if (response.isSuccessful) {
                                     if (response.body()!!.code == 1) {
-                                        FCSharedPreferances.getSharedPreferance(this@SettingsActivity).statuS_LOGIN="false"
-                                        var intent = Intent(this@SettingsActivity,LoginActivity::class.java)
-                                        intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        FCSharedPreferances.getSharedPreferance(this@SettingsActivity).statuS_LOGIN =
+                                            "false"
+                                        var intent = Intent(
+                                            this@SettingsActivity,
+                                            LoginActivity::class.java
+                                        )
+                                        intent.flags =
+                                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                         startActivity(intent)
                                     } else {
                                         ProjectUtill.printMessage(
@@ -81,6 +92,10 @@ class SettingsActivity : AppCompatActivity() {
                         }
                     })
             }
+
+        languageChange.setOnClickListener {
+             languageDialog()
+        }
 
         leave_community!!.setOnClickListener {
             startActivity(Intent(this, JoinedCommunitesActivity::class.java))
@@ -182,9 +197,12 @@ class SettingsActivity : AppCompatActivity() {
                                                 .placeholder(R.drawable.user_avatar)
                                                 .into(userPic)
                                         }
-                                        profileName!!.text = response.body()!!.data.user.profile_name
-                                        FCSharedPreferances.getSharedPreferance(this@SettingsActivity).activE_COMMUNITY=response.body()!!.data.user.active_community.toString()
-                                    }catch (e:Exception){}
+                                        profileName!!.text =
+                                            response.body()!!.data.user.profile_name
+                                        FCSharedPreferances.getSharedPreferance(this@SettingsActivity).activE_COMMUNITY =
+                                            response.body()!!.data.user.active_community.toString()
+                                    } catch (e: Exception) {
+                                    }
                                 } else {
                                     ProjectUtill.printMessage(
                                         this@SettingsActivity.window.decorView,
@@ -231,9 +249,14 @@ class SettingsActivity : AppCompatActivity() {
                         if (response != null) {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
-                                    FCSharedPreferances.getSharedPreferance(this@SettingsActivity).statuS_LOGIN="false"
-                                    var intent = Intent(this@SettingsActivity,LoginActivity::class.java)
-                                    intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    FCSharedPreferances.getSharedPreferance(this@SettingsActivity).statuS_LOGIN =
+                                        "false"
+                                    var intent = Intent(
+                                        this@SettingsActivity,
+                                        LoginActivity::class.java
+                                    )
+                                    intent.flags =
+                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                     startActivity(intent)
                                 } else {
                                     ProjectUtill.printMessage(
@@ -266,5 +289,151 @@ class SettingsActivity : AppCompatActivity() {
                         )
                     }
                 })
+    }
+
+    fun setLocale(localeName: String?) {
+        myLocale = Locale(localeName)
+        val res = resources
+        val dm = res.displayMetrics
+        val conf = res.configuration
+        conf.locale = myLocale
+        res.updateConfiguration(conf, dm)
+        FCSharedPreferances.getSharedPreferance(this@SettingsActivity).setSAVE_LANG(localeName)
+        val refresh = Intent(this, HomeActivity::class.java)
+        refresh.putExtra(currentLang, localeName)
+        startActivity(refresh)
+    }
+
+    fun languageDialog() {
+        val english: RelativeLayout
+        val hindi: RelativeLayout
+        val close: ImageView
+        val dialog = Dialog(this@SettingsActivity)
+        // Include dialog.xml file
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.language_dialog)
+        dialog.setCancelable(true)
+        val window = dialog.window
+        window!!.setGravity(Gravity.CENTER)
+        window.setLayout(
+            WindowManager.LayoutParams.FILL_PARENT,
+            WindowManager.LayoutParams.FILL_PARENT
+        )
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        english = dialog.findViewById(R.id.rl_layout)
+        hindi = dialog.findViewById(R.id.rl_layout1)
+        close = dialog.findViewById(R.id.close)
+        close.setOnClickListener { dialog.cancel() }
+        english.setOnClickListener {
+            dialog.cancel()
+            setLocale("en")
+            /*val progressDialog = ProgressDialog(this@HomeActivity)
+            progressDialog.setCancelable(false)
+            progressDialog.show()
+            WebServiceRequest.getInstance().updateLanguage(
+                this@HomeActivity,
+                "en",
+                object : Callback<UpdateLanguageResponse> {
+                    override fun onResponse(
+                        call: Call<UpdateLanguageResponse>,
+                        response: Response<UpdateLanguageResponse>
+                    ) {
+                        progressDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful()) {
+                                if (response.body().getResponseCode() === 200) {
+                                    Toast.makeText(
+                                        this@HomeActivity,
+                                        "" + response.body().getResponseMessage(),
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                    dialog.cancel()
+                                    setLocale("en")
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        this@HomeActivity.getWindow().getDecorView(),
+                                        response.body().getResponseMessage()
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printMessage(
+                                    this@HomeActivity.getWindow().getDecorView(),
+                                    response.body().getResponseMessage()
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                this@HomeActivity.getWindow().getDecorView(), ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<UpdateLanguageResponse>,
+                        t: Throwable
+                    ) {
+                        progressDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            this@HomeActivity.getWindow().getDecorView(), ""
+                        )
+                    }
+                })*/
+        }
+        hindi.setOnClickListener {
+            dialog.cancel()
+            setLocale("hi")
+            /*val progressDialog = ProgressDialog(this@HomeActivity)
+            progressDialog.setCancelable(false)
+            progressDialog.show()
+            WebServiceRequest.getInstance().updateLanguage(
+                this@HomeActivity,
+                "ar",
+                object : Callback<UpdateLanguageResponse> {
+                    override fun onResponse(
+                        call: Call<UpdateLanguageResponse>,
+                        response: Response<UpdateLanguageResponse>
+                    ) {
+                        progressDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful()) {
+                                if (response.body().getResponseCode() === 200) {
+                                    Toast.makeText(
+                                        this@HomeActivity,
+                                        "" + response.body().getResponseMessage(),
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                    dialog.cancel()
+                                    setLocale("ar")
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        this@HomeActivity.getWindow().getDecorView(),
+                                        response.body().getResponseMessage()
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printMessage(
+                                    this@HomeActivity.getWindow().getDecorView(),
+                                    response.body().getResponseMessage()
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                this@HomeActivity.getWindow().getDecorView(), ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<UpdateLanguageResponse>,
+                        t: Throwable
+                    ) {
+                        progressDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            this@HomeActivity.getWindow().getDecorView(), ""
+                        )
+                    }
+                })*/
+        }
+        dialog.show()
     }
 }

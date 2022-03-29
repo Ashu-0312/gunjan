@@ -125,7 +125,7 @@
             android:layout_marginStart="@dimen/margin_20dp"
             android:layout_marginEnd="@dimen/margin_10dp"
             android:fontFamily="@font/poppin_medium"
-            android:text="Showmore..."
+            android:text="@string/showmore"
             android:textAllCaps="false"
             android:textColor="@color/blue"
             android:textSize="@dimen/text_13sp" />
@@ -190,7 +190,7 @@
         android:layout_marginTop="@dimen/margin_10dp"
         android:layout_marginEnd="@dimen/margin_10dp"
         android:fontFamily="@font/poppin_medium"
-        android:text="0 Comments"
+        android:text="@string/_0_comments"
         android:textAllCaps="false"
         android:textColor="@color/pink"
         android:textSize="@dimen/text_13sp" />
@@ -219,7 +219,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/padding_3"
                 android:fontFamily="@font/poppin_medium"
-                android:text="Comment"
+                android:text="@string/comment"
                 android:textColor="@color/txt_color"
                 android:textSize="@dimen/text_12sp" />
         </LinearLayout>
@@ -244,9 +244,10 @@
                 android:textSize="@dimen/text_12sp" />
 
             <ImageView
+                android:layout_gravity="center"
                 android:id="@+id/like"
                 android:layout_width="@dimen/margin_20dp"
-                android:layout_height="@dimen/margin_20dp"
+                android:layout_height="@dimen/text_18sp"
                 android:layout_marginStart="@dimen/padding_3"
                 android:src="@drawable/like" />
 
@@ -258,14 +259,15 @@
                 android:layout_marginTop="2dp"
                 android:fontFamily="@font/poppin_medium"
                 android:gravity="center"
-                android:text="Vote"
+                android:text="@string/vote"
                 android:textColor="@color/txt_color"
                 android:textSize="@dimen/text_12sp" />
 
             <ImageView
+                android:layout_marginTop="1dp"
                 android:id="@+id/dislike"
-                android:layout_width="@dimen/margin_20dp"
-                android:layout_height="@dimen/margin_20dp"
+                android:layout_width="19dp"
+                android:layout_height="@dimen/text_17sp"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/padding_3"
                 android:src="@drawable/dislike" />
@@ -300,7 +302,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/padding_3"
                 android:fontFamily="@font/poppin_medium"
-                android:text="Share"
+                android:text="@string/share"
                 android:textColor="@color/txt_color"
                 android:textSize="@dimen/text_12sp" />
         </LinearLayout>

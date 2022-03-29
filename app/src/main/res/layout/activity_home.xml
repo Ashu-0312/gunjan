@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semibold"
                 android:textSize="@dimen/text_size_11"
-                android:text="Home"
+                android:text="@string/home"
                 android:textColor="@color/pink"/>
         </LinearLayout>
         <LinearLayout
@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semibold"
                 android:textSize="@dimen/text_size_11"
-                android:text="Members"
+                android:text="@string/members"
                 android:textColor="@color/txt_color"/>
         </LinearLayout>
         <LinearLayout
@@ -144,7 +144,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semibold"
                 android:textSize="@dimen/text_size_11"
-                android:text="Messages"
+                android:text="@string/messages"
                 android:textColor="@color/txt_color"/>
         </LinearLayout>
         <LinearLayout
@@ -166,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semibold"
                 android:textSize="@dimen/text_size_11"
-                android:text="Profile"
+                android:text="@string/profile"
                 android:textColor="@color/txt_color"/>
         </LinearLayout>
     </LinearLayout>

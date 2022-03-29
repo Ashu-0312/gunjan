@@ -50,9 +50,9 @@ class CommunitiesAdapter(
             holder.title!!.text=data[position].title
             holder.about!!.text=data[position].about
             if (data[position].activeCommunity){
-                holder.status!!.text="Active"
+                holder.status!!.text=context!!.getString(R.string.active)
             }else{
-                holder.status!!.text="Switch"
+                holder.status!!.text=context!!.getString(R.string.switchh)
             }
 
             holder.status!!.setOnClickListener {

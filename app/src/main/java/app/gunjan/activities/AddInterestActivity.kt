@@ -40,7 +40,7 @@ class AddInterestActivity : AppCompatActivity() {
 
         Save.setOnClickListener {
             if (interestAdapter!!.getSelectedData()!!.size == 0) {
-                Toast.makeText(this, "Please select interest", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.select_interest), Toast.LENGTH_LONG).show()
             }else{
                 Log.d("SELECTEDDATA", interestAdapter!!.getSelectedData().toString())
                 selectedList= interestAdapter!!.getSelectedData()!!

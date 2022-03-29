@@ -59,7 +59,7 @@
                     android:textSize="14sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Feel free to connect us for any query :)"
+                    android:text="@string/feel_free_to_connect_us_for_any_query"
                     android:textColor="@color/pink"
                     android:gravity="center"
                     android:layout_marginStart="@dimen/margin_20dp"
@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
                     android:gravity="center"
-                    android:text="Or"/>
+                    android:text="@string/or"/>
                 <androidx.cardview.widget.CardView
                     android:elevation="@dimen/padding_3"
                     android:layout_marginStart="@dimen/margin_15"
@@ -130,7 +130,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
-                        android:hint="Your Subject"
+                        android:hint="@string/your_subject"
                         android:maxLines="1"
                         android:maxLength="30"
                         android:inputType="text"
@@ -158,7 +158,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
                         android:background="@null"
-                        android:hint="Write your query"
+                        android:hint="@string/write_your_query"
                         android:maxLength="150"
                         android:inputType="textMultiLine"
                         android:layout_marginStart="7dp"

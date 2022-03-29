@@ -40,6 +40,8 @@ class OthersProfileActivity : AppCompatActivity() {
     private var animShow: Animation? = null
     private var reasonList: ArrayList<String> = ArrayList<String>()
     private var reasonLayout: LinearLayout? = null
+    private var id:String?=""
+    private var pic:String?=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_others_profile)
@@ -48,14 +50,14 @@ class OthersProfileActivity : AppCompatActivity() {
 
     private fun initData() {
         animShow = AnimationUtils.loadAnimation(this, R.anim.move_right_in_activity)
-        reasonList.add("Spam")
-        reasonList.add("Abusive Language")
-        reasonList.add("Fake Post")
-        reasonList.add("Hate Speech")
-        reasonList.add("Obscene Post")
-        reasonList.add("Other")
-        tab_layout!!.addTab(tab_layout!!.newTab().setText("About"))
-        tab_layout!!.addTab(tab_layout!!.newTab().setText("Post"))
+        reasonList.add(getString(R.string.spam))
+        reasonList.add(getString(R.string.abusive))
+        reasonList.add(getString(R.string.fake))
+        reasonList.add(getString(R.string.hate))
+        reasonList.add(getString(R.string.obscene))
+        reasonList.add(getString(R.string.other))
+        tab_layout!!.addTab(tab_layout!!.newTab().setText(getString(R.string.about_tab)))
+        tab_layout!!.addTab(tab_layout!!.newTab().setText(getString(R.string.post_tab)))
         val tabsAdapter =
             OthersTabAdapter(
                 supportFragmentManager,
@@ -88,6 +90,16 @@ class OthersProfileActivity : AppCompatActivity() {
             startActivity(Intent(this, SocialProfileActivity::class.java))
         }
 
+        Message.setOnClickListener {
+            var intent = Intent(this, ChatActivity::class.java)
+            intent.putExtra("pic",pic)
+            intent.putExtra("name",userName!!.text.toString().trim())
+            intent.putExtra("otherId",id)
+            intent.putExtra("type","individual_chat")
+            intent.putExtra("channelId","fjsdb")
+            startActivity(intent)
+        }
+
         toggleButton.setOnCheckedChangeListener { _, b ->
             if (b) {
                 followUserApi()
@@ -116,6 +128,8 @@ class OthersProfileActivity : AppCompatActivity() {
                                             .load(response.body()!!.data.user.image)
                                             .placeholder(R.drawable.user_avatar)
                                             .into(userPic)
+                                        pic=response.body()!!.data.user.image
+                                        id=response.body()!!.data.user.id.toString()
                                     }
                                     userName!!.text = response.body()!!.data.user.first_name+" "+response.body()!!.data.user.last_name
                                     About.text=response.body()!!.data.user.about

@@ -9,7 +9,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
   android:orientation="vertical">
+  <LinearLayout
+      android:id="@+id/layout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/margin_15"
+        android:layout_marginTop="@dimen/margin_10dp"
+        android:layout_marginEnd="@dimen/margin_7"
+        android:layout_marginBottom="@dimen/margin_10dp"
+        android:background="@drawable/edittext_bg"
+        android:elevation="3dp"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_5">
+
+      <EditText
+          android:id="@+id/search_edt"
+          android:imeOptions="actionDone"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:layout_marginStart="@dimen/margin_10dp"
+          android:layout_marginTop="1dp"
+          android:layout_weight="1"
+          android:background="@null"
+          android:fontFamily="@font/poppins_light"
+          android:hint="@string/search_member_by_name_city_or_state"
+          android:inputType="text"
+          android:maxLength="50"
+          android:maxLines="1"
+          android:paddingTop="@dimen/margin_10dp"
+          android:paddingRight="@dimen/margin_10dp"
+          android:paddingBottom="@dimen/margin_10dp"
+          android:textColor="@color/txt_color"
+          android:textColorHint="@color/txt_color"
+          android:textSize="@dimen/text_13sp"
+          tools:ignore="RtlCompat" />
+
+      <ImageView
+          android:id="@+id/search"
+          android:layout_width="@dimen/margin_25"
+          android:layout_height="@dimen/margin_25"
+          android:layout_gravity="center"
+          android:layout_marginStart="@dimen/padding_8"
+          android:layout_marginEnd="@dimen/margin_15"
+          android:src="@drawable/search" />
+    </LinearLayout>
+    <ImageView
+        android:layout_marginBottom="73dp"
+        android:id="@+id/filter"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/margin_15"
+        android:src="@drawable/filter" />
+  </LinearLayout>
   <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+      android:layout_below="@id/layout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
     android:id="@+id/swipe_refresh">
@@ -20,15 +82,6 @@
       android:scrollbars="none"
       android:id="@+id/list_recycler"/>
   </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-  <ImageView
-      android:layout_marginBottom="73dp"
-      android:id="@+id/filter"
-      android:layout_width="50dp"
-      android:layout_height="50dp"
-      android:layout_alignParentEnd="true"
-      android:layout_alignParentBottom="true"
-      android:layout_margin="@dimen/margin_15"
-      android:src="@drawable/filter" />
   <TextView
       android:visibility="gone"
       android:text="@string/no_users"

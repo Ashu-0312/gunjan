@@ -94,10 +94,10 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
         edtMobile.keyListener = DigitsKeyListener.getInstance("0123456789")
         edtMobile.inputType = InputType.TYPE_CLASS_NUMBER
         userDetails()
-        genderList.add("Select Gender")
-        genderList.add("Male")
-        genderList.add("Female")
-        genderList.add("Others")
+        genderList.add(getString(R.string.gender_select))
+        genderList.add(getString(R.string.male))
+        genderList.add(getString(R.string.female))
+        genderList.add(getString(R.string.others))
 
         about.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(arg0: CharSequence, arg1: Int, arg2: Int, arg3: Int) {
@@ -128,16 +128,16 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
         choosePic.setOnClickListener {
             if (checkPicturePermission()) {
                 val builder2 = AlertDialog.Builder(this)
-                builder2.setMessage("Press Gallery or Camera")
+                builder2.setMessage(getString(R.string.press_gallery))
                 builder2.setCancelable(true)
-                builder2.setPositiveButton("Gallery") { _, _ ->
+                builder2.setPositiveButton(R.string.gallery) { _, _ ->
                     val pickPhoto = Intent(
                         Intent.ACTION_PICK,
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                     )
                     startActivityForResult(pickPhoto, 1)
                 }
-                builder2.setNegativeButton("Camera") { _, _ ->
+                builder2.setNegativeButton(R.string.camera) { _, _ ->
                     val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                     startActivityForResult(takePicture, 0)
                 }
@@ -643,14 +643,14 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
             about.requestFocus()
             about.error = getString(R.string.about)
             return false
-        } else if (genderSpinner.selectedItem.toString().trim() == "Select Gender") {
+        } else if (genderSpinner.selectedItem.toString().trim() == getString(R.string.gender_select)) {
             Toast.makeText(this, getString(R.string.select_gender), Toast.LENGTH_LONG).show()
             return false
-        }else if (stateSpinner!!.selectedItem.equals("Select State")) {
-                Toast.makeText(this, "Please select state", Toast.LENGTH_LONG).show()
+        }else if (stateSpinner!!.selectedItem.equals(getString(R.string.select_state))) {
+                Toast.makeText(this, getString(R.string.please_state), Toast.LENGTH_LONG).show()
                 return false
-            } else if (citySpinner!!.selectedItem.equals("Select City")) {
-                Toast.makeText(this, "Please select city", Toast.LENGTH_LONG).show()
+            } else if (citySpinner!!.selectedItem.equals(getString(R.string.select_city))) {
+                Toast.makeText(this, getString(R.string.please_city), Toast.LENGTH_LONG).show()
                 return false
         } else if (selectedInterestList.size == 0) {
             Toast.makeText(this, getString(R.string.select_interest), Toast.LENGTH_LONG).show()

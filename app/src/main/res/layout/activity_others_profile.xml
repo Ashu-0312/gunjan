@@ -110,7 +110,7 @@
                             android:layout_marginStart="@dimen/padding_5"
                             android:layout_marginEnd="@dimen/padding_5"
                             android:fontFamily="@font/poppin_regular"
-                            android:text="Followers"
+                            android:text="@string/followers"
                             android:textColor="@color/pink"
                             android:textSize="@dimen/text_16sp" />
 
@@ -140,7 +140,7 @@
                             android:layout_marginStart="@dimen/padding_5"
                             android:layout_marginEnd="@dimen/padding_5"
                             android:fontFamily="@font/poppin_regular"
-                            android:text="Following"
+                            android:text="@string/following"
                             android:textColor="@color/pink"
                             android:textSize="@dimen/text_16sp" />
 
@@ -184,7 +184,7 @@
                         android:layout_marginBottom="@dimen/padding_5"
                         android:fontFamily="@font/poppins_semibold"
                         android:gravity="center"
-                        android:text="Social Profile"
+                        android:text="@string/social_profile"
                         android:textColor="@color/pink"
                         android:textSize="@dimen/margin_15" />
                 </LinearLayout>
@@ -213,8 +213,8 @@
                         android:textAllCaps="false"
                         android:id="@+id/toggleButton"
                         android:textColor="@color/pink"
-                        android:textOff="Follow"
-                        android:textOn="Unfollow"
+                        android:textOff="@string/follow"
+                        android:textOn="@string/unfollow"
                         android:textSize="@dimen/margin_15" />
                 </LinearLayout>
 
@@ -239,7 +239,7 @@
                         android:layout_marginBottom="@dimen/padding_5"
                         android:fontFamily="@font/poppins_semibold"
                         android:gravity="center"
-                        android:text="Message"
+                        android:text="@string/message"
                         android:textColor="@color/pink"
                         android:textSize="@dimen/margin_15" />
                 </LinearLayout>

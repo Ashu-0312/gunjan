@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:background="@color/white"
-    tools:context=".activities.ForgotPasswordActivity">
+    tools:context=".activities.JoinCommunityActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -73,8 +73,7 @@
                 android:textSize="@dimen/text_13sp"
                 android:layout_marginTop="60dp"
                 android:layout_marginStart="@dimen/text_30sp"
-                android:layout_marginEnd="@dimen/text_30sp"
-                android:text="Click join button to enter Bharat Yuva Shakti community"/>
+                android:layout_marginEnd="@dimen/text_30sp"/>
             <LinearLayout
                 android:id="@+id/Join"
                 android:elevation="1dp"
@@ -98,7 +97,7 @@
                     android:textColor="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Join Community"/>
+                    android:text="@string/join_community"/>
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

@@ -222,7 +222,7 @@
                 android:textColor="@color/blue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Resend Code"/>
+                android:text="@string/resend_code"/>
         <LinearLayout
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"

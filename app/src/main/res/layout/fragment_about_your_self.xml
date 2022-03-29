@@ -81,7 +81,7 @@
                 android:layout_marginTop="@dimen/padding_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="500 char. max."
+                android:text="@string/jf"
                 android:textColor="@color/txt_color"
                 android:textSize="@dimen/text_12sp"/>
             <LinearLayout

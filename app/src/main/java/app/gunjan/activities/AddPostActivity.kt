@@ -176,7 +176,7 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
             if (feedType == "disccusion") {
                 if (type == "text") {
                     if (edtPost.text.toString().trim() == "") {
-                        Toast.makeText(this, "Please write about your post", Toast.LENGTH_LONG)
+                        Toast.makeText(this, getString(R.string.write_about_post), Toast.LENGTH_LONG)
                             .show()
                     } else {
                         val myDialog = ProjectUtill.showProgressDialog(this@AddPostActivity)
@@ -237,9 +237,9 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
                     }
                 } else if (type == "image" || type == "video") {
                     if (awsPicUrl == "") {
-                        Toast.makeText(this, "Please choose media", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, getString(R.string.choose_media), Toast.LENGTH_LONG).show()
                     } else if (edtPost.text.toString().trim() == "") {
-                        Toast.makeText(this, "Please write about your post", Toast.LENGTH_LONG)
+                        Toast.makeText(this, getString(R.string.write_about_post), Toast.LENGTH_LONG)
                             .show()
                     } else {
                         val myDialog = ProjectUtill.showProgressDialog(this@AddPostActivity)
@@ -301,21 +301,21 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
                 }
             } else {
                 if (awsPicUrl2 == "") {
-                    Toast.makeText(this, "Please choose media", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.choose_media), Toast.LENGTH_LONG).show()
                 } else if (edtEventPost.text.toString().trim() == "") {
-                    Toast.makeText(this, "Please write about your event", Toast.LENGTH_LONG)
+                    Toast.makeText(this, getString(R.string.write_about_event), Toast.LENGTH_LONG)
                         .show()
                 }else if (fromDateValue == "") {
-                    Toast.makeText(this, "Please select event start date", Toast.LENGTH_LONG)
+                    Toast.makeText(this, getString(R.string.please_start_date), Toast.LENGTH_LONG)
                         .show()
                 }else if (timeValue == "") {
-                    Toast.makeText(this, "Please select event start time", Toast.LENGTH_LONG)
+                    Toast.makeText(this, getString(R.string.please_start_time), Toast.LENGTH_LONG)
                         .show()
                 } else if (toDateValue == "") {
-                    Toast.makeText(this, "Please select event end date", Toast.LENGTH_LONG)
+                    Toast.makeText(this, getString(R.string.please_end_date), Toast.LENGTH_LONG)
                         .show()
                 }else if (timeValue2 == "") {
-                    Toast.makeText(this, "Please select event end time", Toast.LENGTH_LONG)
+                    Toast.makeText(this, getString(R.string.please_end_time), Toast.LENGTH_LONG)
                         .show()
                 } else {
                     val myDialog = ProjectUtill.showProgressDialog(this@AddPostActivity)
@@ -462,7 +462,7 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
                         } else {
                             Toast.makeText(
                                 this,
-                                "Event Start Date must be smaller then End Date",
+                                getString(R.string.start_end),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -474,7 +474,7 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
                         if (fromDateValue.equals("", ignoreCase = true)) {
                             Toast.makeText(
                                 this,
-                                "Please Select event start date",
+                                getString(R.string.please_start_date),
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
@@ -499,13 +499,13 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
                         if (fromDateValue.equals("", ignoreCase = true)) {
                             Toast.makeText(
                                 this,
-                                "Please Select Activity Start Date",
+                                getString(R.string.activity_start_date),
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
                             Toast.makeText(
                                 this,
-                                "Event End Date must be greater then Start Date",
+                                getString(R.string.end_start),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }

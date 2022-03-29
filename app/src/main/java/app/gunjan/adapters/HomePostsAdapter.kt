@@ -8,10 +8,7 @@ import android.media.MediaPlayer.OnCompletionListener
 import android.media.MediaPlayer.OnPreparedListener
 import android.os.Build
 import android.util.Log
-import android.view.Display
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
@@ -53,7 +50,7 @@ class HomePostsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         try {
             holder.name!!.text=data[position].created_by.first_name+" "+data[position].created_by.last_name
-            holder.totalComment!!.text=data[position].total_comment.toString()+" Comments"
+            holder.totalComment!!.text=data[position].total_comment.toString()+context!!.getString(R.string.commentss)
             holder.totalLike!!.text=data[position].total_like.toString()
             holder.totaldisLike!!.text=data[position].total_unlike.toString()
 
@@ -156,12 +153,12 @@ class HomePostsAdapter(
             }
         }catch (e: Exception){}
         holder.showMore!!.setOnClickListener(View.OnClickListener {
-            if (holder.showMore!!.text.toString() == "Showmore...") {
+            if (holder.showMore!!.text.toString() == context!!.getString(R.string.showmore)) {
                 holder.description!!.maxLines = Int.MAX_VALUE //your TextView
-                holder.showMore!!.text = "Showless"
+                holder.showMore!!.text = context!!.getString(R.string.showless)
             } else {
                 holder.description!!.maxLines = 4 //your TextView
-                holder.showMore!!.text = "Showmore..."
+                holder.showMore!!.text = context!!.getString(R.string.showmore)
             }
         })
 
@@ -175,7 +172,49 @@ class HomePostsAdapter(
         }
 
         holder.menu!!.setOnClickListener {
-            homeFragment.postreportDialog(data[position].created_by.id.toString())
+         //   homeFragment.postreportDialog(data[position].created_by.id.toString())
+
+            if (data[position].created_by.id.toString() == FCSharedPreferances.getSharedPreferance(context).useR_ID) {
+                val popup = PopupMenu(context, holder.menu)
+                //inflating menu from xml resource
+                //inflating menu from xml resource
+                popup.inflate(R.menu.options_menu2)
+                popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
+
+                    when (item!!.itemId) {
+                        R.id.copy -> {
+                            Toast.makeText(context, item.title, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    true
+                })
+
+                popup.show()
+            } else {
+                val popup = PopupMenu(context, holder.menu)
+                //inflating menu from xml resource
+                //inflating menu from xml resource
+                popup.inflate(R.menu.options_menu)
+                popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
+
+                    when (item!!.itemId) {
+                        R.id.block -> {
+                            homeFragment!!.blockDialog(data[position].created_by.id.toString())
+                        }
+                        R.id.copy -> {
+                            Toast.makeText(context, item.title, Toast.LENGTH_SHORT).show()
+                        }
+                        R.id.report -> {
+                            homeFragment!!.reportDialog(data[position].created_by.id.toString())
+                        }
+                    }
+
+                    true
+                })
+
+                popup.show()
+            }
         }
 
         holder.profile!!.setOnClickListener {
@@ -341,7 +380,7 @@ class HomePostsAdapter(
     fun convertTimeToText(dataDate: String?): String? {
         var convTime: String? = null
         val prefix = ""
-        val suffix = "ago"
+        val suffix = context!!.getString(R.string.ago)
         try {
             val dateFormat = SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss"
@@ -354,21 +393,21 @@ class HomePostsAdapter(
             val hour: Long = TimeUnit.MILLISECONDS.toHours(dateDiff)
             val day: Long = TimeUnit.MILLISECONDS.toDays(dateDiff)
             if (second < 60) {
-                convTime = "$second seconds $suffix"
+                convTime = second.toString()+ " "+context!!.getString(R.string.seconds)+" "+suffix
             } else if (minute < 60) {
-                convTime = "$minute minutes $suffix"
+                convTime = minute.toString()+ " "+context!!.getString(R.string.minutes)+" "+suffix
             } else if (hour < 24) {
-                convTime = "$hour hours $suffix"
+                convTime = hour.toString()+ " "+context!!.getString(R.string.hours)+" "+suffix
             } else if (day >= 7) {
                 convTime = if (day > 360) {
-                    (day / 360).toString() + " years " + suffix
+                    (day / 360).toString() + " "+context!!.getString(R.string.years)+" "+ suffix
                 } else if (day > 30) {
-                    (day / 30).toString() + " months " + suffix
+                    (day / 30).toString() + " "+context!!.getString(R.string.months)+" "+ suffix
                 } else {
-                    (day / 7).toString() + " week " + suffix
+                    (day / 7).toString() + " "+context!!.getString(R.string.weeks)+" "+ suffix
                 }
             } else if (day < 7) {
-                convTime = "$day days $suffix"
+                convTime = day.toString() + " "+context!!.getString(R.string.days)+" "+ suffix
             }
         } catch (e: ParseException) {
             e.printStackTrace()

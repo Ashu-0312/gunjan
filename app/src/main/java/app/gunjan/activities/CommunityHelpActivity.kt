@@ -16,8 +16,8 @@ class CommunityHelpActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        tab_layout!!.addTab(tab_layout!!.newTab().setText("Donate"))
-        tab_layout!!.addTab(tab_layout!!.newTab().setText("Received"))
+        tab_layout!!.addTab(tab_layout!!.newTab().setText(getString(R.string.donate)))
+        tab_layout!!.addTab(tab_layout!!.newTab().setText(getString(R.string.received)))
         val tabsAdapter =
             DonationHelpTabAdapter(
                 supportFragmentManager,

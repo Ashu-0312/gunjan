@@ -166,8 +166,10 @@ class ActiveMembersAdapter(
     }
 
     fun setMessage(l: Int, messageBody: String?) {
-        data[l].userDetails.last_message = messageBody
-        notifyItemChanged(l)
+        try {
+            data[l].userDetails.last_message = messageBody
+            notifyItemChanged(l)
+        }catch (e:Exception){}
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

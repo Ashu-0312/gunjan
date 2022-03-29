@@ -233,6 +233,7 @@ interface ApiInterface {
         @Query(Constants.Keys.state) state: String?,
         @Query(Constants.Keys.city) city: String?,
         @Query(Constants.Keys.member_type) member_type: String?,
+        @Query(Constants.Keys.search) search: String?,
         @HeaderMap headers: Map<String, String>,
     ): Call<MemberListResponse>
 

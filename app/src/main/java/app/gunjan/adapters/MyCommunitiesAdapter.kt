@@ -38,7 +38,7 @@ class MyCommunitiesAdapter(
             }
             holder.title!!.text=data[position].title
             holder.about!!.text=data[position].about
-            holder.requests!!.text="Requests: "+data[position].total_request
+            holder.requests!!.text=context!!.getString(R.string.requests)+": "+data[position].total_request
         }catch (e:Exception){}
 
         holder.itemView!!.setOnClickListener {

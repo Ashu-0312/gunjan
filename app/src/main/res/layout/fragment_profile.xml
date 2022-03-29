@@ -100,7 +100,7 @@
                                     android:layout_marginStart="@dimen/padding_5"
                                     android:layout_marginEnd="@dimen/padding_5"
                                     android:fontFamily="@font/poppin_regular"
-                                    android:text="Followers"
+                                    android:text="@string/followers"
                                     android:textColor="@color/pink"
                                     android:textSize="@dimen/text_16sp" />
 
@@ -130,7 +130,7 @@
                                     android:layout_marginStart="@dimen/padding_5"
                                     android:layout_marginEnd="@dimen/padding_5"
                                     android:fontFamily="@font/poppin_regular"
-                                    android:text="Following"
+                                    android:text="@string/following"
                                     android:textColor="@color/pink"
                                     android:textSize="@dimen/text_16sp" />
 

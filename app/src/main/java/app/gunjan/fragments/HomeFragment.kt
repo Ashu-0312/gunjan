@@ -34,6 +34,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class HomeFragment : Fragment() {
+    var dialogCommentReply:Dialog? = null
     var dialogComment:Dialog? = null
     private var page: Int? = 1
     var swipeRefresh: SwipeRefreshLayout? = null
@@ -112,7 +113,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun initData() {
+        dialogCommentReply = context?.let { Dialog(it) }
         dialogComment = context?.let { Dialog(it) }
+        dialogCommentReply!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialogComment!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
         animShow = AnimationUtils.loadAnimation(context, R.anim.move_right_in_activity)
         list.add("")
@@ -137,11 +140,11 @@ class HomeFragment : Fragment() {
 
         submit!!.setOnClickListener {
             if (FCSharedPreferances.getSharedPreferance(context).iS_ACTIVE.equals("false")){
-                Toast.makeText(context, "You are blocked in this community", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.blocked_cummunity), Toast.LENGTH_LONG).show()
             }else {
                 if (discusssValue!!.text.toString().trim() == "") {
                     discusssValue!!.requestFocus()
-                    discusssValue!!.error = "Please enter start discussing value"
+                    discusssValue!!.error = getString(R.string.please_discuss)
                     //  Toast.makeText(context,"Please enter start discussing value",Toast.LENGTH_LONG).show()
                 } else {
                     val myDialog = ProjectUtill.showProgressDialog(context)
@@ -1033,7 +1036,7 @@ class HomeFragment : Fragment() {
         yes.setOnClickListener {
             if (Status.equals("1")) {
                 if (edtReason.text.toString().trim() == "") {
-                    Toast.makeText(context, "Please enter reason", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, getString(R.string.please_reason), Toast.LENGTH_LONG).show()
                 } else {
                     dialog.cancel()
                     val myDialog = ProjectUtill.showProgressDialog(context)
@@ -1157,53 +1160,6 @@ class HomeFragment : Fragment() {
         dialog.show()
     }
 
-    fun postreportDialog(userId: String) {
-        var close: ImageView? = null
-        var report: RelativeLayout? = null
-        var copyPost: RelativeLayout? = null
-        var block: RelativeLayout? = null
-        val dialog = context?.let { Dialog(it) }
-        // Include dialog.xml file
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.postreport_dialog)
-        dialog!!.setCancelable(true)
-        val window = dialog.window
-        window!!.setGravity(Gravity.CENTER)
-        window.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT
-        )
-        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
-        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-        close = dialog.findViewById(R.id.close)
-        report = dialog.findViewById(R.id.report)
-        copyPost = dialog.findViewById(R.id.copy_post)
-        block = dialog.findViewById(R.id.block)
-
-        if (userId == FCSharedPreferances.getSharedPreferance(context).useR_ID) {
-            block.visibility = View.GONE
-            report.visibility = View.GONE
-        } else {
-            block.visibility = View.VISIBLE
-            report.visibility = View.VISIBLE
-        }
-
-        close.setOnClickListener {
-            dialog.cancel()
-        }
-
-        report.setOnClickListener {
-            dialog.cancel()
-            reportDialog(userId)
-        }
-
-        block.setOnClickListener {
-            dialog.cancel()
-            blockDialog(userId!!)
-        }
-        dialog.show()
-    }
-
     fun showReasonLayout(status: String) {
         Status = status
         if (Status.equals("1")) {
@@ -1223,14 +1179,14 @@ class HomeFragment : Fragment() {
         // Include dialog.xml file
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog!!.setContentView(R.layout.communitydescription_dialog)
+        dialog!!.setCanceledOnTouchOutside(true)
         dialog!!.setCancelable(true)
         val window = dialog.window
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT
-        )
-        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+            WindowManager.LayoutParams.WRAP_CONTENT)
+       // dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
         dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
         close = dialog.findViewById(R.id.close)
         cPic = dialog.findViewById(R.id.community_pic)
@@ -1253,14 +1209,11 @@ class HomeFragment : Fragment() {
         dialog.show()
     }
 
-
-
     fun commentsDialog(id: String) {
         var close: ImageView? = null
         var addComment: ImageView? = null
         var edtComment: EditText? = null
         // Include dialog.xml file
-
         dialogComment!!.setContentView(R.layout.comment_dialog)
         dialogComment!!.setCancelable(true)
         val window = dialogComment!!.window
@@ -1269,7 +1222,7 @@ class HomeFragment : Fragment() {
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT
         )
-        dialogComment!!.window!!.attributes.windowAnimations = R.style.DialogAnimation
+        dialogComment!!.window!!.attributes.windowAnimations = R.style.DialogAnimation2
         dialogComment!!.window!!.setBackgroundDrawableResource(android.R.color.transparent)
         close = dialogComment!!.findViewById(R.id.close)
         addComment = dialogComment!!.findViewById(R.id.add)
@@ -1293,8 +1246,13 @@ class HomeFragment : Fragment() {
                                 if (response != null) {
                                     if (response.isSuccessful) {
                                         if (response.body()!!.code == 1) {
-                                            edtComment.text.clear()
-                                            getCommentList(postId!!)
+                                            dialogComment!!.cancel()
+                                            isLastPage = false
+                                            isLoading = false
+                                            page = 1
+                                            postList.clear()
+                                            postsAdapter!!.notifyDataSetChanged()
+                                            postListSwipeApi("1")
                                         } else {
                                             ProjectUtill.printMessage(
                                                 (context as Activity).window.decorView,
@@ -1365,24 +1323,22 @@ class HomeFragment : Fragment() {
         var close: ImageView? = null
         var addComment: ImageView? = null
         var edtComment: EditText? = null
-        val dialog = context?.let { Dialog(it) }
         // Include dialog.xml file
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.commentreply_dialog)
-        dialog!!.setCancelable(true)
-        val window = dialog.window
+        dialogCommentReply!!.setContentView(R.layout.commentreply_dialog)
+        dialogCommentReply!!.setCancelable(true)
+        val window = dialogCommentReply!!.window
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT
         )
-        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
-        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-        close = dialog.findViewById(R.id.close)
-        addComment = dialog.findViewById(R.id.add)
-        edtComment = dialog.findViewById(R.id.edt_comment)
-        blankData3 = dialog.findViewById(R.id.blank_data2)
-        replyRecycler = dialog.findViewById(R.id.reply_recycler)
+        dialogCommentReply!!.window!!.attributes.windowAnimations = R.style.DialogAnimation2
+        dialogCommentReply!!.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        close =  dialogCommentReply!!.findViewById(R.id.close)
+        addComment =  dialogCommentReply!!.findViewById(R.id.add)
+        edtComment =  dialogCommentReply!!.findViewById(R.id.edt_comment)
+        blankData3 =  dialogCommentReply!!.findViewById(R.id.blank_data2)
+        replyRecycler =  dialogCommentReply!!.findViewById(R.id.reply_recycler)
         commentId = id
         getReplyCommentList(commentId!!)
         addComment!!.setOnClickListener {
@@ -1400,8 +1356,7 @@ class HomeFragment : Fragment() {
                                 if (response != null) {
                                     if (response.isSuccessful) {
                                         if (response.body()!!.code == 1) {
-                                            edtComment.text.clear()
-                                            getReplyCommentList(commentId!!)
+                                             dialogCommentReply!!.cancel()
                                         } else {
                                             ProjectUtill.printMessage(
                                                 (context as Activity).window.decorView,
@@ -1438,10 +1393,10 @@ class HomeFragment : Fragment() {
         }
 
         close.setOnClickListener {
-            dialog.cancel()
+            dialogCommentReply!!.cancel()
         }
 
-        dialog.show()
+        dialogCommentReply!!.show()
     }
 
     private fun getCommentList(postId: String) {

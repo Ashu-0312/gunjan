@@ -5,8 +5,11 @@ import android.graphics.Color
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.*
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,6 +49,8 @@ class AdminMembersFragment : Fragment(),ClientCreated {
     private var stateNameList: ArrayList<String> = ArrayList<String>()
     private var cityList: ArrayList<String> = ArrayList<String>()
     private var filter: ImageView? = null
+    private var searchEdt: EditText? = null
+    private var search: ImageView? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,6 +62,8 @@ class AdminMembersFragment : Fragment(),ClientCreated {
         swipeRefresh = view.findViewById(R.id.swipe_refresh)
         progressBar = view.findViewById(R.id.progress_bar)
         blankData = view.findViewById(R.id.blank_data)
+        searchEdt=view.findViewById(R.id.search_edt)
+        search=view.findViewById(R.id.search)
         initData()
         return view
     }
@@ -87,6 +94,105 @@ class AdminMembersFragment : Fragment(),ClientCreated {
             memberListSwipeApi("1")
             swipe_refresh!!.isRefreshing = false
         })
+           searchEdt!!.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+            }
+
+            override fun afterTextChanged(editable: Editable) {
+                if (searchEdt!!.text.toString().trim().isEmpty()) {
+                    memberListSearchApi(page.toString(),searchEdt!!.text.toString().trim())
+                }
+            }
+        })
+
+        searchEdt!!.onDone {
+            memberListSearchApi(page.toString(),searchEdt!!.text.toString().trim())
+        }
+
+        search!!.setOnClickListener {
+            memberListSearchApi(page.toString(),searchEdt!!.text.toString().trim())
+        }
+    }
+
+    fun EditText.onDone(callback: () -> Unit) {
+        setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                callback.invoke()
+                true
+            }
+            false
+        }
+    }
+
+    private fun memberListSearchApi(page: String,value:String) {
+        val myDialog = ProjectUtill.showProgressDialog(context)
+        context?.let {
+            WebServiceRequest.getInstance().getAllMemberList(
+                it, page, "10","","","only admin member",value!!,
+                object : Callback<MemberListResponse> {
+                    override fun onResponse(
+                        call: Call<MemberListResponse>,
+                        response: Response<MemberListResponse>,
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    list.clear()
+                                    list.addAll(response.body()!!.data.member_list)
+                                    val prevSize: Int = response.body()!!.data.member_list.size
+                                    if (list.size == 0) {
+                                        blankData!!.visibility = View.VISIBLE
+                                        listRecycler!!.visibility = View.GONE
+                                    } else {
+                                        blankData!!.visibility = View.GONE
+                                        listRecycler!!.visibility = View.VISIBLE
+                                        if (response.body()!!.data.member_list.size < 10) {
+                                            isLastPage = true
+                                        }
+                                        if (list.size == 10) {
+                                            memberAdapter!!.notifyDataSetChanged()
+                                        } else {
+                                            memberAdapter!!.notifyItemRangeChanged(
+                                                prevSize,
+                                                list.size
+                                            )
+                                        }
+                                    }
+                                    setUser()
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        activity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<MemberListResponse>,
+                        t: Throwable,
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            activity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
     }
 
     private fun memberListApi(page: String,city:String,state:String) {
@@ -94,7 +200,7 @@ class AdminMembersFragment : Fragment(),ClientCreated {
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let {
             WebServiceRequest.getInstance().getAllMemberList(
-                it, page, "10",state,city,"only admin member",
+                it, page, "10",state,city,"only admin member","",
                 object : Callback<MemberListResponse> {
                     override fun onResponse(
                         call: Call<MemberListResponse>,
@@ -165,7 +271,7 @@ class AdminMembersFragment : Fragment(),ClientCreated {
         isLoading = true
         context?.let {
             WebServiceRequest.getInstance().getAllMemberList(
-                it, page, "10","","","only admin member",
+                it, page, "10","","","only admin member","",
                 object : Callback<MemberListResponse> {
                     override fun onResponse(
                         call: Call<MemberListResponse>,
@@ -235,7 +341,7 @@ class AdminMembersFragment : Fragment(),ClientCreated {
         progress_bar!!.visibility = View.VISIBLE
         context?.let {
             WebServiceRequest.getInstance().getAllMemberList(
-                it, page, "10","","","only admin member",
+                it, page, "10","","","only admin member","",
                 object : Callback<MemberListResponse> {
                     override fun onResponse(
                         call: Call<MemberListResponse>,

@@ -26,8 +26,8 @@ class MembersFragment : Fragment() {
     }
 
     private fun initData() {
-        tabLayout!!.addTab(tabLayout!!.newTab().setText("Active Members"))
-        tabLayout!!.addTab(tabLayout!!.newTab().setText("Admin Members"))
+        tabLayout!!.addTab(tabLayout!!.newTab().setText(getString(R.string.active_members)))
+        tabLayout!!.addTab(tabLayout!!.newTab().setText(getString(R.string.admin_members)))
         val tabsAdapter =
             MembersTabAdapter(
                 activity?.supportFragmentManager,

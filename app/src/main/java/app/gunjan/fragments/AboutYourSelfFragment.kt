@@ -56,7 +56,7 @@ class AboutYourSelfFragment : Fragment() {
 
             override fun afterTextChanged(s: Editable) {
                 // TODO Auto-generated method stub
-                txtCount!!.text = (500 - s.toString().length).toString() + "/500" + "(500 char. max.)"
+                txtCount!!.text = (500 - s.toString().length).toString() + "/500" + getString(R.string.jf)
             }
         })
 

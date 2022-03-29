@@ -15,7 +15,7 @@
            android:layout_height="wrap_content"
            android:textSize="@dimen/text_13sp"
            android:textColor="@color/txt_color"
-           android:text="Connecting people come together"
+           android:text="@string/connecting_people_come_together"
            android:gravity="center"
            android:layout_alignParentBottom="true"
            android:fontFamily="@font/poppin_regular"

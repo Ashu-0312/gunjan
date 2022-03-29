@@ -85,7 +85,7 @@ class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
 
             override fun afterTextChanged(s: Editable) {
                 // TODO Auto-generated method stub
-                nameCount.text = (50 - s.toString().length).toString() + "/50" + "(50 char. max.)"
+                nameCount.text = (50 - s.toString().length).toString() + "/50" + getString(R.string.fifty_char)
             }
         })
 
@@ -103,7 +103,7 @@ class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
 
             override fun afterTextChanged(s: Editable) {
                 // TODO Auto-generated method stub
-                descCount.text = (250 - s.toString().length).toString() + "/250" + "(250 char. max.)"
+                descCount.text = (250 - s.toString().length).toString() + "/250" + getString(R.string.twofifty_char)
             }
         })
 
@@ -173,16 +173,16 @@ class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
         choosePic.setOnClickListener {
             if (checkPicturePermission()) {
                 val builder2 = AlertDialog.Builder(this)
-                builder2.setMessage("Press Gallery or Camera")
+                builder2.setMessage(R.string.press_gallery)
                 builder2.setCancelable(true)
-                builder2.setPositiveButton("Gallery") { _, _ ->
+                builder2.setPositiveButton(R.string.gallery) { _, _ ->
                     val pickPhoto = Intent(
                         Intent.ACTION_PICK,
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                     )
                     startActivityForResult(pickPhoto, 1)
                 }
-                builder2.setNegativeButton("Camera") { _, _ ->
+                builder2.setNegativeButton(R.string.camera) { _, _ ->
                     val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                     startActivityForResult(takePicture, 0)
                 }
@@ -341,14 +341,14 @@ class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
         private fun validate(): Boolean {
             if (community!!.text.toString().trim().equals("", ignoreCase = true)) {
                 community!!.requestFocus()
-                community!!.error = "Please Enter Community Name"
+                community!!.error = getString(R.string.please_community_name)
                 return false
             } else if (about!!.text.toString().trim().equals("", ignoreCase = true)) {
                 about!!.requestFocus()
-                about!!.error = "Please Enter About Community"
+                about!!.error = getString(R.string.about_community)
                 return false
-            } else if (categorySpinner!!.selectedItem.toString().trim().equals("Select Category")) {
-                Toast.makeText(this, "Please select category", Toast.LENGTH_LONG).show()
+            } else if (categorySpinner!!.selectedItem.toString().trim().equals(getString(R.string.select_category))) {
+                Toast.makeText(this, getString(R.string.please_category), Toast.LENGTH_LONG).show()
                 return false
             }
             return true
@@ -369,7 +369,7 @@ class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
                                 if (response.body()!!.code == 1) {
                                     idList.clear()
                                     idList.add("")
-                                    nameList.add("Select Category")
+                                    nameList.add(getString(R.string.select_category))
                                     for (i in response.body()!!.data.category_list) {
                                         idList.add(i.id.toString())
                                         nameList.add(i.name)

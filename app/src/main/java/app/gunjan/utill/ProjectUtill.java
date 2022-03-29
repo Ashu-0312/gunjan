@@ -149,7 +149,7 @@ public class ProjectUtill {
     }
 
     public static void printErrorMessage(View view, String message){
-        Snackbar.make(view, "Please check your internet connection.", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(view, R.string.check_internet, Snackbar.LENGTH_LONG).show();
     }
 
     public static void printMessage(View view, String message){

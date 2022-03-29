@@ -97,8 +97,8 @@ class ProfileFragment : Fragment() {
                                             .into(userPic!!)
                                     userName!!.text = response.body()!!.data.user.profile_name
                                     About!!.text=response.body()!!.data.user.about
-                                        tab_layout!!.addTab(tab_layout!!.newTab().setText("About"))
-                                        tab_layout!!.addTab(tab_layout!!.newTab().setText("Post"))
+                                        tab_layout!!.addTab(tab_layout!!.newTab().setText(getString(R.string.about_tab)))
+                                        tab_layout!!.addTab(tab_layout!!.newTab().setText(getString(R.string.post_tab)))
                                         val tabsAdapter =
                                             OthersTabAdapter(
                                                 childFragmentManager,

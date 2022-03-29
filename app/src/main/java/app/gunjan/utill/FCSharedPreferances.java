@@ -21,6 +21,8 @@ public class FCSharedPreferances {
     private final String IS_ACTIVE="isactive";
     private final String VALUE1="value1";
     private final String VALUE2="value2";
+    private final String SAVE_LANG="savelan";
+
 
     private FCSharedPreferances(Context context){
         if(sharedPreferences==null){
@@ -35,6 +37,17 @@ public class FCSharedPreferances {
             return fcSharedPreferances=new FCSharedPreferances(context);
         }
 
+    }
+
+    public String getSAVE_LANG(){
+        return sharedPreferences.getString(SAVE_LANG,"");
+    }
+
+    public void setSAVE_LANG(String save_lang){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(SAVE_LANG,save_lang);
+        editor.commit();
+        editor.apply();
     }
 
     public void setCHAT_TOKEN(String chat_token){

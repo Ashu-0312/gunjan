@@ -111,7 +111,7 @@
                 android:fontFamily="@font/poppins_semibold"
                 android:textSize="@dimen/text_12sp"
                 android:textColor="@color/blue"
-                android:text="By leaving this community you will loose your profile in this community"/>
+                android:text="@string/by_leaving_this_community_you_will_loose_your_profile_in_this_community"/>
             <LinearLayout
                 android:layout_marginBottom="@dimen/margin_15"
                 android:layout_width="match_parent"
@@ -128,7 +128,7 @@
                 android:fontFamily="@font/popinbold"
                 android:textSize="@dimen/text_12sp"
                 android:textColor="@color/black2"
-                android:text="Once your leave this community:"/>
+                android:text="@string/once_your_leave_this_community"/>
             <TextView
                 android:gravity="start"
                 android:layout_gravity="start"
@@ -139,7 +139,7 @@
                 android:fontFamily="@font/poppin_regular"
                 android:textSize="@dimen/text_12sp"
                 android:textColor="@color/txt_color"
-                android:text="1.You will loose all of your personal messages."
+                android:text="@string/_1_you_will_loose_all_of_your_personal_messages"
                 android:layout_marginTop="@dimen/margin_15"/>
             <TextView
                 android:gravity="start"
@@ -151,7 +151,7 @@
                 android:fontFamily="@font/poppin_regular"
                 android:textSize="@dimen/text_12sp"
                 android:textColor="@color/txt_color"
-                android:text="2.All of your likes, comments on posts will be removed." />
+                android:text="@string/_2_all_of_your_likes_comments_on_posts_will_be_removed" />
             <TextView
                 android:gravity="start"
                 android:layout_gravity="start"
@@ -162,7 +162,7 @@
                 android:fontFamily="@font/poppin_regular"
                 android:textSize="@dimen/text_12sp"
                 android:textColor="@color/txt_color"
-                android:text="3.All of your post posts will be removed." />
+                android:text="@string/_3_all_of_your_post_posts_will_be_removed" />
         </LinearLayout>
         <LinearLayout
             android:gravity="center"
@@ -194,7 +194,7 @@
                     android:fontFamily="@font/poppin_regular"
                     android:textSize="@dimen/text_12sp"
                     android:textColor="@color/pink"
-                    android:text="I confirm to leave this community." />
+                    android:text="@string/i_confirm_to_leave_this_community" />
             </LinearLayout>
             <LinearLayout
                 android:layout_marginTop="@dimen/margin_10dp"

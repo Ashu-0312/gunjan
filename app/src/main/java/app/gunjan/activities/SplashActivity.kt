@@ -7,8 +7,10 @@ import android.os.Handler
 import android.os.Looper
 import app.gunjan.R
 import app.gunjan.utill.FCSharedPreferances
+import java.util.*
 
 class SplashActivity : AppCompatActivity() {
+    var myLocale: Locale? = null
     private var handler: Handler? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +25,11 @@ class SplashActivity : AppCompatActivity() {
     private fun initHandler() {
         handler = Handler(Looper.getMainLooper())
         handler!!.postDelayed(Runnable {
+            if (FCSharedPreferances.getSharedPreferance(this@SplashActivity).savE_LANG.equals("en")){
+                setLocale("en")
+            }else{
+                setLocale("hi")
+            }
             FCSharedPreferances.getSharedPreferance(this@SplashActivity).status =
                 ""
             if (FCSharedPreferances.getSharedPreferance(this@SplashActivity).statuS_LOGIN.equals("true")) {
@@ -41,5 +48,15 @@ class SplashActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         handler!!.removeCallbacksAndMessages(null)
+    }
+
+    fun setLocale(localeName: String) {
+        myLocale = Locale(localeName)
+        val res = resources
+        val dm = res.displayMetrics
+        val conf = res.configuration
+        conf.locale = myLocale
+        res.updateConfiguration(conf, dm)
+        FCSharedPreferances.getSharedPreferance(this@SplashActivity).savE_LANG = localeName
     }
 }

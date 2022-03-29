@@ -5,8 +5,11 @@ import android.graphics.Color
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.*
+import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,6 +44,8 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
     private var listRecycler: RecyclerView? = null
     private var filter: ImageView? = null
     var citySpinner: Spinner? = null
+    private var searchEdt: EditText? = null
+    private var search: ImageView? = null
     private var list: ArrayList<MemberListResponse.DataBean.MemberListBean> = ArrayList<MemberListResponse.DataBean.MemberListBean>()
     private var stateList: ArrayList<String> = ArrayList<String>()
     private var stateNameList: ArrayList<String> = ArrayList<String>()
@@ -56,6 +61,8 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
         swipeRefresh = view.findViewById(R.id.swipe_refresh)
         progressBar = view.findViewById(R.id.progress_bar)
         blankData = view.findViewById(R.id.blank_data)
+        searchEdt=view.findViewById(R.id.search_edt)
+        search=view.findViewById(R.id.search)
         initData()
         return view
     }
@@ -78,6 +85,107 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
             memberListSwipeApi("1")
             swipe_refresh!!.isRefreshing = false
         })
+
+        searchEdt!!.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+            }
+
+            override fun afterTextChanged(editable: Editable) {
+                if (searchEdt!!.text.toString().trim().isEmpty()) {
+                    memberListSearchApi(page.toString(),searchEdt!!.text.toString().trim())
+                }
+            }
+        })
+
+        searchEdt!!.onDone {
+            memberListSearchApi(page.toString(),searchEdt!!.text.toString().trim())
+        }
+
+        search!!.setOnClickListener {
+            memberListSearchApi(page.toString(),searchEdt!!.text.toString().trim())
+        }
+    }
+
+    fun EditText.onDone(callback: () -> Unit) {
+        setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                callback.invoke()
+                true
+            }
+            false
+        }
+    }
+
+    private fun memberListSearchApi(page: String,value:String) {
+        initializeAdapter()
+        val myDialog = ProjectUtill.showProgressDialog(context)
+        context?.let {
+            WebServiceRequest.getInstance().getAllMemberList(
+                it, page, "10","","","only active member",value!!,
+                object : Callback<MemberListResponse> {
+                    override fun onResponse(
+                        call: Call<MemberListResponse>,
+                        response: Response<MemberListResponse>,
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    list.clear()
+                                    list.addAll(response.body()!!.data.member_list)
+                                    val prevSize: Int = response.body()!!.data.member_list.size
+                                    if (list.size == 0) {
+                                        blankData!!.visibility = View.VISIBLE
+                                        listRecycler!!.visibility = View.GONE
+                                    } else {
+                                        blankData!!.visibility = View.GONE
+                                        listRecycler!!.visibility = View.VISIBLE
+                                        if (response.body()!!.data.member_list.size < 10) {
+                                            isLastPage = true
+                                        }
+                                        if (list.size == 10) {
+                                            memberAdapter!!.notifyDataSetChanged()
+                                        } else {
+                                            memberAdapter!!.notifyItemRangeChanged(
+                                                prevSize,
+                                                list.size
+                                            )
+                                        }
+                                    }
+                                    setUser()
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        activity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<MemberListResponse>,
+                        t: Throwable,
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            activity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
     }
 
     private fun memberListApi(page: String,city:String,state:String) {
@@ -85,7 +193,7 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let {
             WebServiceRequest.getInstance().getAllMemberList(
-                it, page, "10",state,city,"only active member",
+                it, page, "10",state,city,"only active member","",
                 object : Callback<MemberListResponse> {
                     override fun onResponse(
                         call: Call<MemberListResponse>,
@@ -156,7 +264,7 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
         isLoading = true
         context?.let {
             WebServiceRequest.getInstance().getAllMemberList(
-                it, page, "10","","","only active member",
+                it, page, "10","","","only active member","",
                 object : Callback<MemberListResponse> {
                     override fun onResponse(
                         call: Call<MemberListResponse>,
@@ -226,7 +334,7 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
         progress_bar!!.visibility = View.VISIBLE
         context?.let {
             WebServiceRequest.getInstance().getAllMemberList(
-                it, page, "10","","","only active member",
+                it, page, "10","","","only active member","",
                 object : Callback<MemberListResponse> {
                     override fun onResponse(
                         call: Call<MemberListResponse>,
@@ -374,7 +482,7 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
                                     stateList.clear()
                                     stateNameList.clear()
                                     stateList.add("")
-                                    stateNameList.add("Select State")
+                                    stateNameList.add(getString(R.string.select_state))
                                     for (i in response.body()!!.data.state_list) {
                                         stateList.add(i.isoCode)
                                         stateNameList.add(i.name)
@@ -457,10 +565,10 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
         close.setOnClickListener { dialog.cancel() }
 
         apply.setOnClickListener {
-            if (stateSpinner!!.selectedItem.toString().trim() == "Select State"){
-                Toast.makeText(context,"Please select state",Toast.LENGTH_LONG).show()
-            }else if (citySpinner!!.selectedItem.toString().trim() == "Select City"){
-                Toast.makeText(context,"Please select city",Toast.LENGTH_LONG).show()
+            if (stateSpinner!!.selectedItem.toString().trim() == getString(R.string.select_state)){
+                Toast.makeText(context,getString(R.string.please_state),Toast.LENGTH_LONG).show()
+            }else if (citySpinner!!.selectedItem.toString().trim() == getString(R.string.select_city)){
+                Toast.makeText(context,getString(R.string.please_city),Toast.LENGTH_LONG).show()
             }else {
                 dialog.cancel()
                 initializeAdapter()
@@ -495,7 +603,7 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
                                     cityList.clear()
-                                    cityList.add("Select City")
+                                    cityList.add(getString(R.string.select_city))
                                     for (i in response.body()!!.data.city_list) {
                                         cityList.add(i.name)
                                     }
