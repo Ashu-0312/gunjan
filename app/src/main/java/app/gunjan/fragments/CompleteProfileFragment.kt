@@ -460,7 +460,7 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
                                     stateList.clear()
                                     stateNameList.clear()
                                     stateList.add("")
-                                    stateNameList.add("Select State")
+                                    stateNameList.add(getString(R.string.select_state))
                                     for (i in response.body()!!.data.state_list) {
                                         stateList.add(i.isoCode)
                                         stateNameList.add(i.name)
@@ -564,7 +564,7 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
                                     cityList.clear()
-                                    cityList.add("Select City")
+                                    cityList.add(getString(R.string.select_city))
                                     for (i in response.body()!!.data.city_list) {
                                         cityList.add(i.name)
                                     }

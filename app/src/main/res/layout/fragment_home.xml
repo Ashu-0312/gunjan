@@ -363,19 +363,19 @@
             android:id="@+id/post_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <TextView
+            android:visibility="gone"
+            android:text="@string/no_posts_yet"
+            android:textColor="@color/pink"
+            android:textSize="@dimen/margin_25"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:scaleType="fitXY"
+            android:fontFamily="@font/popinbold"
+            android:id="@+id/blank_data"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher_background"/>
     </LinearLayout>
-    <TextView
-        android:visibility="gone"
-        android:text="@string/no_posts_yet"
-        android:textColor="@color/pink"
-        android:textSize="@dimen/margin_25"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:scaleType="fitXY"
-        android:fontFamily="@font/popinbold"
-        android:id="@+id/blank_data"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher_background"/>
     <ProgressBar
         android:visibility="gone"
         android:layout_width="match_parent"

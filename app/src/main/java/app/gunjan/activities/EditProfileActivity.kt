@@ -113,7 +113,7 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
 
             override fun afterTextChanged(s: Editable) {
                 // TODO Auto-generated method stub
-                text_count.text = (500 - s.toString().length).toString() + "/500" + "(500 char. max.)"
+                text_count.text = (500 - s.toString().length).toString() + "/500" + getString(R.string.jf)
             }
         })
 
@@ -675,7 +675,7 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                                     stateList.clear()
                                     stateNameList.clear()
                                     stateList.add("")
-                                    stateNameList.add("Select State")
+                                    stateNameList.add(getString(R.string.select_state))
                                     for (i in response.body()!!.data.state_list) {
                                         stateList.add(i.isoCode)
                                         stateNameList.add(i.name)
@@ -775,7 +775,7 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
                                     cityList.clear()
-                                    cityList.add("Select City")
+                                    cityList.add(getString(R.string.select_city))
                                     for (i in response.body()!!.data.city_list) {
                                         cityList.add(i.name)
                                     }
