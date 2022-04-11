@@ -24,119 +24,148 @@
         tools:replace="allowBackup">
         <activity android:name=".activities.SettingsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.SwitchCommunityActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.AddPostActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.CommunityDetailsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.JoinedCommunitesActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.RequestListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.MyCommunitesActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.BlockListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.ChatActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.NotificationActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.OthersProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.AddMediaActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.SocialProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.CommunityHelpActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.FollowFollowerActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.ContactUsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.AddInterestActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.EditProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.LeaveCommunityActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.JoinCommunityActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.AddCommunityActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.SetProfileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.MobileRegisterActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.OtpActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.PrivacyPolicyActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.TcActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"
+            android:exported="true"/>
         <activity
             android:name=".activities.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme">
+            android:theme="@style/LoginTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
