@@ -320,6 +320,16 @@ public class UserDetailsResponse implements Serializable {
             }
 
             private String city;
+
+            public String getDesignation() {
+                return designation;
+            }
+
+            public void setDesignation(String designation) {
+                this.designation = designation;
+            }
+
+            private String designation;
             private String device_type;
             private String device_token;
             private String profile_stage;

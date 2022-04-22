@@ -480,6 +480,7 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                                             .into(profilePic!!)
                                     }
                                     profileName!!.setText(response.body()!!.data.user.profile_name)
+                                    designation!!.setText(response.body()!!.data.user.designation)
                                     firstName!!.setText(response.body()!!.data.user.first_name)
                                     lastName!!.setText(response.body()!!.data.user.last_name)
                                     pinCode!!.setText(response.body()!!.data.user.pincode)
