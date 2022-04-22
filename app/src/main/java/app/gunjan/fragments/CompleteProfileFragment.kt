@@ -106,6 +106,7 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
                             lastName!!.text.toString().trim(),
                             "android", "en", awsPicUrl, pinCode!!.text.toString().trim(),
                             stateValue!!,cityValue!!,
+                            designation!!.text.toString().trim(),
                             object : Callback<CompleteProfileResponse> {
                                 override fun onResponse(
                                     call: Call<CompleteProfileResponse>,

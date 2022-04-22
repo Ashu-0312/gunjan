@@ -220,7 +220,7 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/text_16sp"
                     android:layout_marginBottom="@dimen/padding_2"
-                    android:src="@drawable/user" />
+                    android:src="@drawable/suitcase" />
 
                 <EditText
                     android:id="@+id/designation"

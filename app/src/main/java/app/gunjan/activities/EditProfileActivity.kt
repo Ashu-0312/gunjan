@@ -186,6 +186,7 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                         about.text.toString().trim(),
                         stateValue,
                         cityValue,
+                        designation.text.toString().trim(),
                         object : Callback<EditProfileResponse> {
                             override fun onResponse(
                                 call: Call<EditProfileResponse>,

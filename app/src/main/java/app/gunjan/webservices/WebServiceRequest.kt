@@ -138,6 +138,7 @@ class WebServiceRequest private constructor() {
         pincode: String,
         state: String,
         city: String,
+        designation: String,
         registrationResponseCallback: Callback<CompleteProfileResponse>
     ) {
         val headers= HashMap<String,String>()
@@ -152,6 +153,7 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.pincode] = pincode
         params[Constants.Keys.state] = state
         params[Constants.Keys.city] = city
+        params[Constants.Keys.designation] = designation
         val registrationResponseCall: Call<CompleteProfileResponse> =
             apiInterface.completeProfile(params,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
@@ -191,6 +193,7 @@ class WebServiceRequest private constructor() {
         about: String,
         state: String,
         city: String,
+        designation: String,
         registrationResponseCallback: Callback<EditProfileResponse>
     ) {
         val headers= HashMap<String,String>()
@@ -212,6 +215,7 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.about] = about
         params[Constants.Keys.state] = state
         params[Constants.Keys.city] = city
+        params[Constants.Keys.designation] = designation
         val registrationResponseCall: Call<EditProfileResponse> =
             apiInterface.editProfile(params,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)

@@ -123,5 +123,6 @@ class Constants {
         const val room = "room"
         const val isAdmin = "isAdmin"
         const val user_ids = "user_ids"
+        const val designation = "designation"
     }
 }
