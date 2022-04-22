@@ -62,6 +62,7 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
     private var profileName: EditText? = null
     private var firstName: EditText? = null
     private var lastName: EditText? = null
+    private var designation: EditText? = null
     private var pinCode: EditText? = null
     private var Continue: LinearLayout? = null
     var citySpinner: Spinner? = null
@@ -84,6 +85,7 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
         Continue = view.findViewById(R.id.Continue)
         citySpinner = view.findViewById(R.id.city_spinner)
         stateSpinner = view.findViewById(R.id.state_spinner)
+        designation = view.findViewById(R.id.edt_designation)
         initData()
         return view
     }
@@ -346,6 +348,10 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
         } else if (lastName!!.text.toString().trim().equals("", ignoreCase = true)) {
             lastName!!.requestFocus()
             lastName!!.error = getString(R.string.enter_lastname)
+            return false
+        }else if (designation!!.text.toString().trim().equals("", ignoreCase = true)) {
+            designation!!.requestFocus()
+            designation!!.error = getString(R.string.please_designation)
             return false
         } else if (stateSpinner!!.selectedItem.equals(getString(R.string.select_state))) {
             Toast.makeText(context, getString(R.string.please_state), Toast.LENGTH_LONG).show()

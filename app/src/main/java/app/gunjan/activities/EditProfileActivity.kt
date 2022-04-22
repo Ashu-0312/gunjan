@@ -616,6 +616,10 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
             lastName!!.requestFocus()
             lastName!!.error = getString(R.string.enter_lastname)
             return false
+        } else if (designation!!.text.toString().trim().equals("", ignoreCase = true)) {
+            designation!!.requestFocus()
+            designation!!.error = getString(R.string.please_designation)
+            return false
         } else if (edtMobile.text.toString().trim().equals("", ignoreCase = true)) {
             edtMobile.requestFocus()
             edtMobile.error = getString(R.string.enter_mobile)

@@ -2,7 +2,7 @@ package app.gunjan.fragments
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.DialogInterface
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
@@ -10,6 +10,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +24,9 @@ import app.gunjan.entity.*
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
+import com.artjimlop.altex.AltexImageDownloader
 import com.bumptech.glide.Glide
+import com.ravikoradiya.zoomableimageview.ZoomableImageView
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_add_post.*
 import kotlinx.android.synthetic.main.activity_login.*
@@ -1185,7 +1188,8 @@ class HomeFragment : Fragment() {
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.WRAP_CONTENT)
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
        // dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
         dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
         close = dialog.findViewById(R.id.close)
@@ -1356,7 +1360,7 @@ class HomeFragment : Fragment() {
                                 if (response != null) {
                                     if (response.isSuccessful) {
                                         if (response.body()!!.code == 1) {
-                                             dialogCommentReply!!.cancel()
+                                            dialogCommentReply!!.cancel()
                                         } else {
                                             ProjectUtill.printMessage(
                                                 (context as Activity).window.decorView,
@@ -1616,7 +1620,8 @@ class HomeFragment : Fragment() {
                                             response.body()!!.data.active_community_details.title
                                         pic = response.body()!!.data.active_community_details.image
                                         name = response.body()!!.data.active_community_details.title
-                                        userName = response.body()!!.data.user.first_name+" "+response.body()!!.data.user.last_name
+                                        userName =
+                                            response.body()!!.data.user.first_name + " " + response.body()!!.data.user.last_name
                                         description =
                                             response.body()!!.data.active_community_details.about
                                     } catch (e: Exception) {
@@ -1653,4 +1658,87 @@ class HomeFragment : Fragment() {
                 })
         }
     }
+
+    fun showMedia(
+        media: String?,
+        type: String
+    ) {
+        val imageView: ZoomableImageView
+        val play: ImageView
+        val layout: LinearLayout
+        val downloadFile: LinearLayout
+        val pause: ImageView
+        val progressBar: ProgressBar
+        val frameLayout: FrameLayout
+        val videoView: VideoView
+        val dialog = context?.let { Dialog(it) }
+        // Include dialog.xml file
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.show_media_dialog)
+        dialog.setCancelable(true)
+        val window = dialog.window
+        window!!.setGravity(Gravity.CENTER)
+        window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation2
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        imageView = dialog.findViewById(R.id.image)
+        play = dialog.findViewById(R.id.play)
+        downloadFile = dialog.findViewById(R.id.download_file)
+        pause = dialog.findViewById(R.id.pause)
+        progressBar = dialog.findViewById(R.id.progress_bar)
+        frameLayout = dialog.findViewById(R.id.frame)
+        videoView = dialog.findViewById(R.id.video_view_chat)
+        layout = dialog.findViewById(R.id.layout)
+        layout.visibility = View.VISIBLE
+        progressBar.visibility = View.VISIBLE
+
+        if (type.equals("image", ignoreCase = true)) {
+            progressBar.visibility = View.GONE
+            layout.visibility = View.GONE
+            imageView.visibility = View.VISIBLE
+            context?.let { Glide.with(it).load(media).placeholder(R.drawable.user_avatar).into(imageView) }
+        } else {
+            progressBar.visibility = View.VISIBLE
+            frameLayout.visibility = View.VISIBLE
+            videoView.visibility = View.VISIBLE
+            imageView.visibility = View.GONE
+            val wm =context!!.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            val display = wm.defaultDisplay
+            val width = display.width
+            val height = display.height
+            videoView.layoutParams = FrameLayout.LayoutParams(width, height)
+            videoView.setVideoPath(media)
+        }
+        videoView.setOnCompletionListener {
+            play.visibility = View.VISIBLE
+            pause.visibility = View.GONE
+        }
+        videoView.setOnPreparedListener {
+            progressBar.visibility = View.GONE
+            layout.visibility = View.GONE
+            play.visibility = View.VISIBLE
+            pause.visibility = View.GONE
+        }
+        play.setOnClickListener {
+            play.visibility = View.GONE
+            pause.visibility = View.VISIBLE
+            videoView.start()
+        }
+        pause.setOnClickListener {
+            play.visibility = View.VISIBLE
+            pause.visibility = View.GONE
+            videoView.pause()
+        }
+
+        downloadFile.setOnClickListener {
+            if (media != null) {
+                AltexImageDownloader.writeToDisk(context, media, "GUNJAN")
+            }
+        }
+        dialog.show()
+    }
+
 }

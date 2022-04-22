@@ -50,6 +50,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:22.0.0'
     implementation 'com.google.firebase:firebase-auth:21.0.1'
     implementation 'com.google.firebase:firebase-core:20.0.2'
+    implementation 'com.github.RaviKoradiya:ZoomableImageView:1.1.1'
+    implementation 'com.artjimlop:altex-image-downloader:0.0.4'
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'

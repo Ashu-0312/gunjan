@@ -15,6 +15,7 @@ import androidx.core.content.getSystemService
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
 import app.gunjan.activities.HomeActivity
+import app.gunjan.activities.JoinedEventUserListActivity
 import app.gunjan.activities.OthersProfileActivity
 import app.gunjan.activities.PostListResponse
 import app.gunjan.entity.LikeDislikePostResponse
@@ -74,6 +75,8 @@ class HomePostsAdapter(
 
             if (data[position].feed_type=="event"){
                 holder.eventLayout!!.visibility=View.VISIBLE
+                holder.joinedLayout!!.visibility=View.VISIBLE
+                holder.joinLayout!!.visibility=View.VISIBLE
                 var format = SimpleDateFormat("yyyy-MM-dd")
                 val date1 = format.parse(data[position].start_date)
                 val date2 = format.format(date1)
@@ -120,6 +123,8 @@ class HomePostsAdapter(
                 }
             }else{
                 holder.eventLayout!!.visibility=View.GONE
+                holder.joinedLayout!!.visibility=View.GONE
+                holder.joinLayout!!.visibility=View.GONE
             }
 
             if (data[position].content_type == "image") {
@@ -172,9 +177,10 @@ class HomePostsAdapter(
         }
 
         holder.menu!!.setOnClickListener {
-         //   homeFragment.postreportDialog(data[position].created_by.id.toString())
 
-            if (data[position].created_by.id.toString() == FCSharedPreferances.getSharedPreferance(context).useR_ID) {
+            if (data[position].created_by.id.toString() == FCSharedPreferances.getSharedPreferance(
+                    context
+                ).useR_ID) {
                 val popup = PopupMenu(context, holder.menu)
                 //inflating menu from xml resource
                 //inflating menu from xml resource
@@ -371,6 +377,32 @@ class HomePostsAdapter(
         holder.commentLayout2!!.setOnClickListener {
             homeFragment.commentsDialog(data[position].id.toString())
         }
+
+        holder.joinedLayout!!.setOnClickListener {
+            context!!.startActivity(Intent(context, JoinedEventUserListActivity::class.java))
+        }
+
+        holder.picLayout!!.setOnClickListener {
+            if (data[position].content_type=="image"){
+                homeFragment!!.showMedia(
+                    data[position].file,
+                    data[position].content_type,
+                )
+            }else{
+                Log.d("","")
+            }
+        }
+
+        holder.videoLayout!!.setOnClickListener {
+            if (data[position].content_type=="video"){
+                homeFragment!!.showMedia(
+                    data[position].file,
+                    data[position].content_type,
+                )
+            }else{
+                Log.d("","")
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -439,6 +471,8 @@ class HomePostsAdapter(
         var commentLayout: LinearLayout? =null
         var commentLayout2: LinearLayout? =null
         var eventLayout: LinearLayout? =null
+        var joinLayout: LinearLayout? =null
+        var joinedLayout: LinearLayout? =null
         var day: TextView? = null
         var month: TextView? = null
         var time: TextView? = null
@@ -468,6 +502,8 @@ class HomePostsAdapter(
             day = itemView.findViewById(R.id.activity_day)
             month = itemView.findViewById(R.id.activity_month)
             time = itemView.findViewById(R.id.activity_time)
+            joinedLayout = itemView.findViewById(R.id.joined_event)
+            joinLayout = itemView.findViewById(R.id.join_event)
         }
     }
 

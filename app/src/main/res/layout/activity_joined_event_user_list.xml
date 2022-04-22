@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+
+    tools:context=".activities.BlockListActivity">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_white"
+        android:paddingTop="@dimen/margin_10dp"
+        android:paddingBottom="@dimen/margin_20dp">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="@dimen/margin_20dp"
+            android:layout_height="@dimen/margin_20dp"
+            android:layout_marginStart="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_15"
+            android:src="@drawable/back"
+            tools:ignore="RtlCompat" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:fontFamily="@font/popinbold"
+            android:gravity="center"
+            android:text="@string/joined_user_list"
+            android:textColor="@color/pink"
+            android:textSize="@dimen/text_17sp" />
+    </RelativeLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_below="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/swipe_refresh">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:id="@+id/userRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <TextView
+        android:visibility="gone"
+        android:text="@string/no_users"
+        android:textColor="@color/pink"
+        android:textSize="@dimen/margin_25"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:scaleType="fitXY"
+        android:fontFamily="@font/popinbold"
+        android:id="@+id/blank_data"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher_background"/>
+    <ProgressBar
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress_bar"
+        android:layout_alignParentBottom="true"
+        android:indeterminateTint="@color/pink"/>
+</RelativeLayout>

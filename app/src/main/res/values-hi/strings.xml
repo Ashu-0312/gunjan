@@ -245,5 +245,9 @@
     <string name="end_date">समाप्ति की तिथि</string>
     <string name="end_time">समाप्ति का समय</string>
     <string name="language_change">आपकी भाषा चुनें</string>
+    <string name="enter_designation">पदनाम दर्ज करें</string>
+    <string name="please_designation">कृपया पदनाम दर्ज करें</string>
+    <string name="join_event">आयोजन में शामिल हों</string>
+    <string name="joined_user_list">उपयोगकर्ता आयोजन में शामिल हुए</string>
 
 </resources>
