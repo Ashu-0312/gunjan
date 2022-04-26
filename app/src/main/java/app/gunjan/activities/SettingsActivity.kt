@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import app.gunjan.R
 import app.gunjan.entity.DeleteAccountResponse
 import app.gunjan.entity.LogoutResponse
+import app.gunjan.entity.UpdateDeviceTokenResponse
 import app.gunjan.entity.UserDetailsResponse
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
@@ -326,113 +327,97 @@ class SettingsActivity : AppCompatActivity() {
         close.setOnClickListener { dialog.cancel() }
         english.setOnClickListener {
             dialog.cancel()
-            setLocale("en")
-            /*val progressDialog = ProgressDialog(this@HomeActivity)
-            progressDialog.setCancelable(false)
-            progressDialog.show()
-            WebServiceRequest.getInstance().updateLanguage(
-                this@HomeActivity,
-                "en",
-                object : Callback<UpdateLanguageResponse> {
+            val myDialog = ProjectUtill.showProgressDialog(this)
+            WebServiceRequest.getInstance().updateDeviceToken(
+                this, FCSharedPreferances.getSharedPreferance(this@SettingsActivity).devicE_ID, "android","en",
+                object : Callback<UpdateDeviceTokenResponse> {
                     override fun onResponse(
-                        call: Call<UpdateLanguageResponse>,
-                        response: Response<UpdateLanguageResponse>
+                        call: Call<UpdateDeviceTokenResponse>,
+                        response: Response<UpdateDeviceTokenResponse>
                     ) {
-                        progressDialog.dismiss()
+                        myDialog.dismiss()
                         if (response != null) {
-                            if (response.isSuccessful()) {
-                                if (response.body().getResponseCode() === 200) {
-                                    Toast.makeText(
-                                        this@HomeActivity,
-                                        "" + response.body().getResponseMessage(),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                    dialog.cancel()
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
                                     setLocale("en")
                                 } else {
                                     ProjectUtill.printMessage(
-                                        this@HomeActivity.getWindow().getDecorView(),
-                                        response.body().getResponseMessage()
+                                        this@SettingsActivity!!.window.decorView,
+                                        response.body()?.message
                                     )
                                 }
                             } else {
-                                ProjectUtill.printMessage(
-                                    this@HomeActivity.getWindow().getDecorView(),
-                                    response.body().getResponseMessage()
+                                ProjectUtill.printErrorMessage(
+                                    this@SettingsActivity!!.window.decorView,
+                                    ""
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@HomeActivity.getWindow().getDecorView(), ""
+                                this@SettingsActivity!!.window.decorView,
+                                ""
                             )
                         }
                     }
 
                     override fun onFailure(
-                        call: Call<UpdateLanguageResponse>,
+                        call: Call<UpdateDeviceTokenResponse>,
                         t: Throwable
                     ) {
-                        progressDialog.dismiss()
+                        myDialog.dismiss()
                         ProjectUtill.printErrorMessage(
-                            this@HomeActivity.getWindow().getDecorView(), ""
+                            this@SettingsActivity!!.window.decorView,
+                            ""
                         )
                     }
-                })*/
+                })
         }
         hindi.setOnClickListener {
             dialog.cancel()
-            setLocale("hi")
-            /*val progressDialog = ProgressDialog(this@HomeActivity)
-            progressDialog.setCancelable(false)
-            progressDialog.show()
-            WebServiceRequest.getInstance().updateLanguage(
-                this@HomeActivity,
-                "ar",
-                object : Callback<UpdateLanguageResponse> {
+            val myDialog = ProjectUtill.showProgressDialog(this)
+            WebServiceRequest.getInstance().updateDeviceToken(
+                this, FCSharedPreferances.getSharedPreferance(this@SettingsActivity).devicE_ID, "android","en",
+                object : Callback<UpdateDeviceTokenResponse> {
                     override fun onResponse(
-                        call: Call<UpdateLanguageResponse>,
-                        response: Response<UpdateLanguageResponse>
+                        call: Call<UpdateDeviceTokenResponse>,
+                        response: Response<UpdateDeviceTokenResponse>
                     ) {
-                        progressDialog.dismiss()
+                        myDialog.dismiss()
                         if (response != null) {
-                            if (response.isSuccessful()) {
-                                if (response.body().getResponseCode() === 200) {
-                                    Toast.makeText(
-                                        this@HomeActivity,
-                                        "" + response.body().getResponseMessage(),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                    dialog.cancel()
-                                    setLocale("ar")
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    setLocale("hi")
                                 } else {
                                     ProjectUtill.printMessage(
-                                        this@HomeActivity.getWindow().getDecorView(),
-                                        response.body().getResponseMessage()
+                                        this@SettingsActivity!!.window.decorView,
+                                        response.body()?.message
                                     )
                                 }
                             } else {
-                                ProjectUtill.printMessage(
-                                    this@HomeActivity.getWindow().getDecorView(),
-                                    response.body().getResponseMessage()
+                                ProjectUtill.printErrorMessage(
+                                    this@SettingsActivity!!.window.decorView,
+                                    ""
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@HomeActivity.getWindow().getDecorView(), ""
+                                this@SettingsActivity!!.window.decorView,
+                                ""
                             )
                         }
                     }
 
                     override fun onFailure(
-                        call: Call<UpdateLanguageResponse>,
+                        call: Call<UpdateDeviceTokenResponse>,
                         t: Throwable
                     ) {
-                        progressDialog.dismiss()
+                        myDialog.dismiss()
                         ProjectUtill.printErrorMessage(
-                            this@HomeActivity.getWindow().getDecorView(), ""
+                            this@SettingsActivity!!.window.decorView,
+                            ""
                         )
                     }
-                })*/
+                })
         }
         dialog.show()
     }

@@ -146,6 +146,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/total_users"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -153,7 +154,7 @@
                 android:layout_marginEnd="@dimen/margin_20dp"
                 android:fontFamily="@font/popinbold"
                 android:gravity="center"
-                android:text="0 Users Joined"
+                android:text="@string/_0_users_joined"
                 android:textColor="@color/blue"
                 android:textSize="@dimen/margin_15" />
         </LinearLayout>
@@ -168,6 +169,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/join_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

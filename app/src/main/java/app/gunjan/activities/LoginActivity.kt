@@ -66,11 +66,6 @@ class LoginActivity : AppCompatActivity() {
                                 if (response.isSuccessful) {
                                     if (response.body()!!.code == 1) {
                                         FCSharedPreferances.getSharedPreferance(this@LoginActivity).token=""
-                                        Toast.makeText(
-                                            this@LoginActivity,
-                                            "" + response.body()!!.message,
-                                            Toast.LENGTH_LONG
-                                        ).show()
                                         var intent =
                                             Intent(
                                                 this@LoginActivity,

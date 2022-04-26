@@ -25,7 +25,9 @@ class SplashActivity : AppCompatActivity() {
     private fun initHandler() {
         handler = Handler(Looper.getMainLooper())
         handler!!.postDelayed(Runnable {
-            if (FCSharedPreferances.getSharedPreferance(this@SplashActivity).savE_LANG.equals("en")){
+            if (FCSharedPreferances.getSharedPreferance(this@SplashActivity).savE_LANG.equals("")){
+                setLocale("en")
+            }else if (FCSharedPreferances.getSharedPreferance(this@SplashActivity).savE_LANG.equals("en")){
                 setLocale("en")
             }else{
                 setLocale("hi")

@@ -214,6 +214,16 @@ public class VerifyOtpResponse implements Serializable {
 
             private int id;
             private String profile_name;
+
+            public String getLanguage() {
+                return language;
+            }
+
+            public void setLanguage(String language) {
+                this.language = language;
+            }
+
+            private String language;
             private String first_name;
             private String last_name;
             private String pincode;

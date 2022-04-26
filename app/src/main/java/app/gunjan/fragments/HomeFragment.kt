@@ -219,7 +219,7 @@ class HomeFragment : Fragment() {
             page = 1
             postList.clear()
             postsAdapter!!.notifyDataSetChanged()
-            postListSwipeApi("1")
+            postListSwipeApi("1",type!!)
             swipeRefresh!!.isRefreshing = false
         })
 
@@ -480,11 +480,11 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun postListSwipeApi(page: String) {
+    private fun postListSwipeApi(page: String,type: String) {
         isLoading = true
         context?.let {
             WebServiceRequest.getInstance().postList(
-                it, page, "10", "discussion",
+                it, page, "10", type,
                 object : Callback<PostListResponse> {
                     override fun onResponse(
                         call: Call<PostListResponse>,
@@ -910,7 +910,7 @@ class HomeFragment : Fragment() {
                                         page = 1
                                         postList.clear()
                                         postsAdapter!!.notifyDataSetChanged()
-                                        postListSwipeApi("1")
+                                        postListSwipeApi("1",type!!)
                                     } else {
                                         ProjectUtill.printMessage(
                                             activity!!.window.decorView,
@@ -1256,7 +1256,7 @@ class HomeFragment : Fragment() {
                                             page = 1
                                             postList.clear()
                                             postsAdapter!!.notifyDataSetChanged()
-                                            postListSwipeApi("1")
+                                            postListSwipeApi("1",type!!)
                                         } else {
                                             ProjectUtill.printMessage(
                                                 (context as Activity).window.decorView,
@@ -1299,7 +1299,7 @@ class HomeFragment : Fragment() {
             page = 1
             postList.clear()
             postsAdapter!!.notifyDataSetChanged()
-            postListSwipeApi("1")
+            postListSwipeApi("1",type!!)
         }
 
         dialogComment!!.show()
@@ -1317,7 +1317,7 @@ class HomeFragment : Fragment() {
                 page = 1
                 postList.clear()
                 postsAdapter!!.notifyDataSetChanged()
-                postListSwipeApi("1")
+                postListSwipeApi("1",type!!)
                 true
             } else false
         }

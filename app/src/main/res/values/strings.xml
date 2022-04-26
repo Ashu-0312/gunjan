@@ -248,6 +248,8 @@
     <string name="enter_designation">Enter Designation</string>
     <string name="please_designation">Please Enter Designation</string>
     <string name="join_event">Join Event</string>
+    <string name="joined">Joined</string>
     <string name="joined_user_list">Joined User List</string>
+    <string name="_0_users_joined">Users Joined</string>
 
 </resources>

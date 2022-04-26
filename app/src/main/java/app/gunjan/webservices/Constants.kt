@@ -58,6 +58,7 @@ class Constants {
         const val getGroupList = "twilio/getGroupList"
         const val getAllNonMemberList = "community/getAllNonMemberList"
         const val addCommunityMember = "community/addCommunityMember"
+        const val joinEvent = "post/joinEvent"
     }
 
     object Keys {

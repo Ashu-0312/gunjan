@@ -18,6 +18,7 @@ import app.gunjan.activities.HomeActivity
 import app.gunjan.activities.JoinedEventUserListActivity
 import app.gunjan.activities.OthersProfileActivity
 import app.gunjan.activities.PostListResponse
+import app.gunjan.entity.JoinEventResponse
 import app.gunjan.entity.LikeDislikePostResponse
 import app.gunjan.fragments.HomeFragment
 import app.gunjan.utill.FCSharedPreferances
@@ -54,6 +55,15 @@ class HomePostsAdapter(
             holder.totalComment!!.text=data[position].total_comment.toString()+context!!.getString(R.string.commentss)
             holder.totalLike!!.text=data[position].total_like.toString()
             holder.totaldisLike!!.text=data[position].total_unlike.toString()
+
+            if (data[position].isJoinedThisEvent){
+                holder.joinTxt!!.text = context!!.getString(R.string.joined)
+            }else{
+                holder.joinTxt!!.text = context!!.getString(R.string.join_event)
+            }
+
+            holder.totalUsers!!.text = data[position].total_joined_member+" "+context!!.getString(R.string._0_users_joined)
+
 
             val input = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
             val output = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -170,7 +180,7 @@ class HomePostsAdapter(
         holder.share!!.setOnClickListener {
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
-            val shareBodyText = "Gunjan App"
+            val shareBodyText = "Download this App"
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here")
             sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText)
             context!!.startActivity(sharingIntent)
@@ -379,7 +389,62 @@ class HomePostsAdapter(
         }
 
         holder.joinedLayout!!.setOnClickListener {
-            context!!.startActivity(Intent(context, JoinedEventUserListActivity::class.java))
+            var intent = Intent(context,JoinedEventUserListActivity::class.java)
+            intent.putExtra("id",data[position].id.toString())
+            context!!.startActivity(intent)
+        }
+
+        holder.joinLayout!!.setOnClickListener {
+            if (!data[position].isJoinedThisEvent) {
+                val myDialog = ProjectUtill.showProgressDialog(context)
+                context?.let { it1 ->
+                    WebServiceRequest.getInstance().joinEvent(
+                        it1, data[position].id.toString(),
+                        object : Callback<JoinEventResponse> {
+                            override fun onResponse(
+                                call: Call<JoinEventResponse>,
+                                response: Response<JoinEventResponse>
+                            ) {
+                                myDialog.dismiss()
+                                if (response != null) {
+                                    if (response.isSuccessful) {
+                                        if (response.body()!!.code == 1) {
+                                            holder.joinTxt!!.text = context!!.getString(R.string.joined)
+                                            data[position].isJoinedThisEvent=true
+                                            holder.totalUsers!!.text = response.body()!!.data.total_member+" "+context!!.getString(R.string._0_users_joined)
+                                        } else {
+                                            ProjectUtill.printMessage(
+                                                (context as Activity).window.decorView,
+                                                response.body()?.message
+                                            )
+                                        }
+                                    } else {
+                                        ProjectUtill.printErrorMessage(
+                                            (context as Activity).window.decorView,
+                                            ""
+                                        )
+                                    }
+                                } else {
+                                    ProjectUtill.printErrorMessage(
+                                        (context as Activity).window.decorView,
+                                        ""
+                                    )
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<JoinEventResponse>,
+                                t: Throwable
+                            ) {
+                                myDialog.dismiss()
+                                ProjectUtill.printErrorMessage(
+                                    (context as Activity).window.decorView,
+                                    ""
+                                )
+                            }
+                        })
+                }
+            }
         }
 
         holder.picLayout!!.setOnClickListener {
@@ -476,6 +541,8 @@ class HomePostsAdapter(
         var day: TextView? = null
         var month: TextView? = null
         var time: TextView? = null
+        var totalUsers: TextView? = null
+        var joinTxt: TextView? = null
         init {
             description=itemView.findViewById(R.id.description)
             showMore=itemView.findViewById(R.id.show_more)
@@ -504,6 +571,8 @@ class HomePostsAdapter(
             time = itemView.findViewById(R.id.activity_time)
             joinedLayout = itemView.findViewById(R.id.joined_event)
             joinLayout = itemView.findViewById(R.id.join_event)
+            totalUsers = itemView.findViewById(R.id.total_users)
+            joinTxt = itemView.findViewById(R.id.join_txt)
         }
     }
 

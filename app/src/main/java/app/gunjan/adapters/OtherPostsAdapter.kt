@@ -109,7 +109,7 @@ class OtherPostsAdapter(
         holder.share!!.setOnClickListener {
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
-            val shareBodyText = "Gunjan App"
+            val shareBodyText = "Download this App"
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here")
             sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText)
             context!!.startActivity(sharingIntent)

@@ -106,6 +106,12 @@ interface ApiInterface {
         @HeaderMap headers:Map<String,String>
     ): Call<AddMemberinGroupResponse>
 
+    @POST(Constants.Partial.joinEvent)
+    fun joinEvent(
+        @Body params:HashMap<String,String>,
+        @HeaderMap headers:Map<String,String>
+    ): Call<JoinEventResponse>
+
     @PUT(Constants.Partial.addAboutYourself)
     fun addAboutYourself(
         @Body params:HashMap<String,String>,
@@ -327,6 +333,12 @@ interface ApiInterface {
         @Query(Constants.Keys.limit) limit: String?,
         @HeaderMap headers: Map<String, String>
     ): Call<AllMembersListResponse>
+
+    @GET("post/joinedMemberList/{input}")
+    fun joinedUserList(
+        @Path("input") input: String?,
+        @HeaderMap headers: Map<String, String>
+    ): Call<EventJoinedUsersResponse>
 
     @PATCH(Constants.Partial.acceptRejectRequest)
     fun acceptRejectRequest(

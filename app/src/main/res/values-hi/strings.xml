@@ -248,6 +248,8 @@
     <string name="enter_designation">पदनाम दर्ज करें</string>
     <string name="please_designation">कृपया पदनाम दर्ज करें</string>
     <string name="join_event">आयोजन में शामिल हों</string>
+    <string name="joined">शामिल</string>
     <string name="joined_user_list">उपयोगकर्ता आयोजन में शामिल हुए</string>
+    <string name="_0_users_joined">उपयोगकर्ता शामिल हुए</string>
 
 </resources>

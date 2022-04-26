@@ -326,8 +326,28 @@ public class PostListResponse implements Serializable {
             private String time;
             private String createdAt;
             private String start_date;
+
+            public String getTotal_joined_member() {
+                return total_joined_member;
+            }
+
+            public void setTotal_joined_member(String total_joined_member) {
+                this.total_joined_member = total_joined_member;
+            }
+
+            private String total_joined_member;
             private String end_date;
             private String start_time;
+
+            public boolean isJoinedThisEvent() {
+                return isJoinedThisEvent;
+            }
+
+            public void setJoinedThisEvent(boolean joinedThisEvent) {
+                isJoinedThisEvent = joinedThisEvent;
+            }
+
+            private boolean isJoinedThisEvent;
             private List<?> like_type;
 
             public static class CreatedByBean implements Serializable {
