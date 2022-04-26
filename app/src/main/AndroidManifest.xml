@@ -22,7 +22,8 @@
         android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity"
         tools:replace="allowBackup">
-        <activity android:name=".activities.JoinedEventUserListActivity"
+        <activity
+            android:name=".activities.JoinedEventUserListActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
