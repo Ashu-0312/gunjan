@@ -770,6 +770,22 @@ class WebServiceRequest private constructor() {
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
+    fun pincodeList(
+        context: Context,
+        state:String,
+        city:String,
+        registrationResponseCallback: Callback<PincodeListResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        var params = HashMap<String,String>()
+        params[Constants.Keys.state] = state
+        params[Constants.Keys.city] = city
+        val registrationResponseCall: Call<PincodeListResponse> =
+            apiInterface.pincodeList(state,city,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
     fun otherUserProfile(
         context: Context,
         user_id: String,

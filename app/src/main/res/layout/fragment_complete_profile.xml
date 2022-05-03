@@ -264,8 +264,27 @@
                     android:layout_marginBottom="@dimen/padding_5"
                     android:backgroundTint="@color/pink" />
             </LinearLayout>
-
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_20dp"
+                android:layout_marginEnd="@dimen/margin_15"
+                android:background="@drawable/edittext_bg"
+                android:elevation="3dp"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_5">
+
+                <Spinner
+                    android:id="@+id/pincode_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/padding_5"
+                    android:layout_marginBottom="@dimen/padding_5"
+                    android:backgroundTint="@color/pink" />
+            </LinearLayout>
+           <!-- <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -318,14 +337,14 @@
                 android:fontFamily="@font/poppin_medium"
                 android:text="@string/what_is_my_pincode"
                 android:textColor="@color/pink"
-                android:textSize="13dp" />
+                android:textSize="13dp" />-->
             <LinearLayout
                 android:id="@+id/Continue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/margin_40dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="@dimen/margin_40dp"
                 android:layout_marginEnd="@dimen/margin_40dp"
                 android:layout_marginBottom="@dimen/margin_20dp"
                 android:background="@drawable/button_bg"

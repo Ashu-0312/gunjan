@@ -126,6 +126,7 @@
     <string name="no_posts_yet">अभी तक कोई पोस्ट नहीं है</string>
     <string name="comments">टिप्पणियाँ</string>
     <string name="no_comments_yet">अब तक कोई टिप्पणी नहीं।</string>
+    <string name="no_reply_yet">अभी तक कोई जवाब नहीं।</string>
     <string name="delete_comment">टिप्पणी हटाएं</string>
     <string name="joined_created_communities">समुदाय बनाए / शामिल हो</string>
     <string name="no_notifications">कोई सूचनाएं नहीं</string>
@@ -145,7 +146,7 @@
     <string name="gallery">गेलरी</string>
     <string name="camera">कैमरा</string>
     <string name="photo_verification">फोटो सत्यापन</string>
-    <string name="upload_photo_for">फोटो अपलोड करें</string>
+    <string name="upload_photo_for">पहचान के लिए फोटो अपलोड करें</string>
     <string name="jf">(अधिकतम 500 अक्षर )</string>
     <string name="check_internet">कृपया अपने इंटरनेट कनेक्शन की जाँच करें</string>
     <string name="search_your_community">अपनी पसंद का कम्युनिटी/समुदाय खोजें</string>
@@ -172,7 +173,7 @@
     <string name="_0_comments">0 राय</string>
     <string name="comment">राय</string>
     <string name="vote">वोट</string>
-    <string name="share">शेयर करें // साझा करें</string>
+    <string name="share">शेयर करें</string>
     <string name="showless">कम दिखाएं</string>
     <string name="ago">पूर्व</string>
     <string name="seconds">सेकंड</string>
@@ -251,5 +252,6 @@
     <string name="joined">शामिल</string>
     <string name="joined_user_list">उपयोगकर्ता आयोजन में शामिल हुए</string>
     <string name="_0_users_joined">उपयोगकर्ता शामिल हुए</string>
+    <string name="select_pincode">पिनकोड चुनें</string>
 
 </resources>

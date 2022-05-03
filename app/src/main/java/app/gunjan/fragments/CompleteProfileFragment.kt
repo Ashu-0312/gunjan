@@ -22,10 +22,7 @@ import android.widget.*
 import androidx.core.content.ContextCompat
 import app.gunjan.R
 import app.gunjan.activities.SetProfileActivity
-import app.gunjan.entity.CityListResponse
-import app.gunjan.entity.CompleteProfileResponse
-import app.gunjan.entity.StateListResponse
-import app.gunjan.entity.UserDetailsResponse
+import app.gunjan.entity.*
 import app.gunjan.utill.PermissionUtil
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.utill.UploadFileListener
@@ -55,6 +52,7 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
     private var pathPic = ""
     private var awsPicUrl = ""
     private var stateValue:String? = null
+    private var pincodeValue:String? = null
     private var cityValue:String? = null
     var progressdialog: ProgressDialog? = null
     private var choosePic: RelativeLayout? = null
@@ -63,13 +61,14 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
     private var firstName: EditText? = null
     private var lastName: EditText? = null
     private var designation: EditText? = null
-    private var pinCode: EditText? = null
     private var Continue: LinearLayout? = null
     var citySpinner: Spinner? = null
     var stateSpinner: Spinner? = null
+    var pincodeSpinner: Spinner? = null
     private var stateList: ArrayList<String> = ArrayList<String>()
     private var stateNameList: ArrayList<String> = ArrayList<String>()
     private var cityList: ArrayList<String> = ArrayList<String>()
+    private var pincodeList: ArrayList<String> = ArrayList<String>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -81,10 +80,10 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
         profileName = view.findViewById(R.id.profileName)
         firstName = view.findViewById(R.id.firstName)
         lastName = view.findViewById(R.id.lastName)
-        pinCode = view.findViewById(R.id.pinCode)
         Continue = view.findViewById(R.id.Continue)
         citySpinner = view.findViewById(R.id.city_spinner)
         stateSpinner = view.findViewById(R.id.state_spinner)
+        pincodeSpinner = view.findViewById(R.id.pincode_spinner)
         designation = view.findViewById(R.id.edt_designation)
         initData()
         return view
@@ -104,7 +103,7 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
                             it1, profileName!!.text.toString().trim(),
                             firstName!!.text.toString().trim(),
                             lastName!!.text.toString().trim(),
-                            "android", "en", awsPicUrl, pinCode!!.text.toString().trim(),
+                            "android", "en", awsPicUrl,pincodeValue!!,
                             stateValue!!,cityValue!!,
                             designation!!.text.toString().trim(),
                             object : Callback<CompleteProfileResponse> {
@@ -360,9 +359,8 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
         } else if (citySpinner!!.selectedItem.equals(getString(R.string.select_city))) {
             Toast.makeText(context, getString(R.string.please_city), Toast.LENGTH_LONG).show()
             return false
-        } else if (pinCode!!.text.toString().trim().equals("", ignoreCase = true)) {
-            pinCode!!.requestFocus()
-            pinCode!!.error = getString(R.string.pincode)
+        } else if (pincodeSpinner!!.selectedItem.equals(getString(R.string.select_pincode))) {
+            Toast.makeText(context, getString(R.string.enter_pincode), Toast.LENGTH_LONG).show()
             return false
         }
         return true
@@ -399,8 +397,13 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
                                         if (response.body()!!.data.user.last_name != null || response.body()!!.data.user.last_name != "") {
                                             lastName!!.setText(response.body()!!.data.user.last_name)
                                         }
-                                        if (response.body()!!.data.user.pincode != null || response.body()!!.data.user.pincode != "") {
-                                            pinCode!!.setText(response.body()!!.data.user.pincode)
+                                        if (response.body()!!.data.user.designation != null || response.body()!!.data.user.designation != "") {
+                                            designation!!.setText(response.body()!!.data.user.designation)
+                                        }
+                                        if (response.body()!!.data.user.pincode==null) {
+                                            pincodeValue=null
+                                        }else{
+                                            pincodeValue = response.body()!!.data.user.pincode
                                         }
 
                                         if (response.body()!!.data.user.state==null) {
@@ -619,9 +622,8 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
                                             i: Int,
                                             l: Long,
                                         ) {
-                                            if (i > 0) {
                                                 cityValue=cityList[i].toString()
-                                            }
+                                                getPincodeList(stateValue!!,cityList[i].toString())
                                         }
 
                                         override fun onNothingSelected(adapterView: AdapterView<*>?) {}
@@ -648,6 +650,108 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
 
                     override fun onFailure(
                         call: Call<CityListResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            activity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
+    }
+
+    private fun getPincodeList(state:String,city:String) {
+        val myDialog = ProjectUtill.showProgressDialog(context)
+        context?.let {
+            WebServiceRequest.getInstance().pincodeList(
+                it,state,city,
+                object : Callback<PincodeListResponse> {
+                    override fun onResponse(
+                        call: Call<PincodeListResponse>,
+                        response: Response<PincodeListResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    pincodeList.clear()
+                                    pincodeList.add(getString(R.string.select_pincode))
+                                    for (i in response.body()!!.data.pincodes) {
+                                        pincodeList.add(i.pincode.toString())
+                                    }
+                                    val arrayAdapter1: ArrayAdapter<String> =
+                                        object : ArrayAdapter<String>(
+                                            context!!,
+                                            R.layout.spinner_layout, pincodeList
+                                        ) {
+                                            override fun isEnabled(position: Int): Boolean {
+                                                return position != 0
+                                            }
+
+                                            override fun getDropDownView(
+                                                position: Int, convertView: View?,
+                                                parent: ViewGroup,
+                                            ): View {
+                                                val view = super.getDropDownView(
+                                                    position,
+                                                    convertView,
+                                                    parent
+                                                )
+                                                val tv = view as TextView
+                                                if (position == 0) { // Set the hint text color gray
+                                                    tv.setTextColor(Color.BLACK)
+                                                } else {
+                                                    tv.setTextColor(resources.getColor(R.color.txt_color))
+                                                }
+                                                return view
+                                            }
+
+                                        }
+                                    pincodeSpinner!!.adapter = arrayAdapter1
+                                    if (pincodeValue == null) {
+                                        Log.d("VALUE","fsnngjg")
+                                    }else{
+                                        val spinnerPosition =
+                                            arrayAdapter1.getPosition(pincodeValue)
+                                        pincodeSpinner!!.setSelection(spinnerPosition)
+                                    }
+                                    pincodeSpinner!!.onItemSelectedListener = object :
+                                        AdapterView.OnItemSelectedListener {
+                                        override fun onItemSelected(
+                                            adapterView: AdapterView<*>?,
+                                            view: View,
+                                            i: Int,
+                                            l: Long,
+                                        ) {
+                                            pincodeValue=pincodeList[i].toString()
+                                        }
+
+                                        override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        activity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<PincodeListResponse>,
                         t: Throwable
                     ) {
                         myDialog.dismiss()

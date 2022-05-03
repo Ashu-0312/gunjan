@@ -52,6 +52,7 @@ class Constants {
         const val followerUserList = "user/getAllFollowerUserList"
         const val stateList = "user/getAllStateList"
         const val cityList = "user/getAllCityList"
+        const val pincodeList = "user/getPincodeList"
         const val getAllMemberList = "community/getAllMemberList"
         const val makeAdmin = "community/makeAdmin"
         const val generateToken = "twilio/generateToken"

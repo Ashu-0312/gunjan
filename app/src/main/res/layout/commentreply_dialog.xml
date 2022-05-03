@@ -58,7 +58,7 @@
 
     <TextView
         android:visibility="gone"
-        android:text="@string/no_comments_yet"
+        android:text="@string/no_reply_yet"
         android:textColor="@color/pink"
         android:textSize="@dimen/margin_20dp"
         android:layout_width="wrap_content"

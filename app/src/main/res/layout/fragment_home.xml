@@ -65,7 +65,6 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/margin_15"
             android:layout_marginEnd="@dimen/margin_15">
-
             <FrameLayout
                 android:id="@+id/frames_member"
                 android:layout_width="wrap_content"
@@ -315,7 +314,6 @@
                 android:gravity="top"
                 android:hint="@string/start_discussing"
                 android:inputType="textMultiLine"
-                android:maxLength="100"
                 android:paddingTop="@dimen/padding_5"
                 android:paddingRight="@dimen/margin_10dp"
                 android:paddingBottom="@dimen/padding_5"

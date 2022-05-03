@@ -38,18 +38,6 @@
                 android:textColor="@color/txt_color"
                 android:textSize="@dimen/text_13sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/header"
-                android:layout_marginStart="@dimen/text_30sp"
-                android:layout_marginEnd="@dimen/text_30sp"
-                android:fontFamily="@font/poppin_regular"
-                android:gravity="center"
-                android:text="@string/identification"
-                android:textColor="@color/txt_color"
-                android:textSize="@dimen/text_13sp" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="170dp"

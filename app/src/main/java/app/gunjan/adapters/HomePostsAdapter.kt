@@ -1,6 +1,8 @@
 package app.gunjan.adapters
 
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.hardware.display.DisplayManager
@@ -199,7 +201,7 @@ class HomePostsAdapter(
 
                     when (item!!.itemId) {
                         R.id.copy -> {
-                            Toast.makeText(context, item.title, Toast.LENGTH_SHORT).show()
+                            copyText(holder.description!!.text.toString().trim())
                         }
                     }
 
@@ -219,7 +221,7 @@ class HomePostsAdapter(
                             homeFragment!!.blockDialog(data[position].created_by.id.toString())
                         }
                         R.id.copy -> {
-                            Toast.makeText(context, item.title, Toast.LENGTH_SHORT).show()
+                            copyText(holder.description!!.text.toString().trim())
                         }
                         R.id.report -> {
                             homeFragment!!.reportDialog(data[position].created_by.id.toString())
@@ -576,4 +578,9 @@ class HomePostsAdapter(
         }
     }
 
+    fun copyText(text:String){
+        val myClipboard = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val myClip: ClipData = ClipData.newPlainText("Label", text)
+        myClipboard.setPrimaryClip(myClip)
+    }
 }

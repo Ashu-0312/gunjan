@@ -314,11 +314,6 @@ class HomeFragment : Fragment() {
                                             memberFrame!!.visibility = View.GONE
                                         } else if (response.body()!!.data.member_list.size == 1) {
                                             memberFrame!!.visibility = View.VISIBLE
-                                            image1!!.visibility = View.VISIBLE
-                                            image2!!.visibility = View.GONE
-                                            image3!!.visibility = View.GONE
-                                            image4!!.visibility = View.GONE
-                                            image5!!.visibility = View.GONE
                                             Glide.with(context!!)
                                                 .load(response.body()!!.data.member_list[0].image)
                                                 .placeholder(
@@ -326,11 +321,6 @@ class HomeFragment : Fragment() {
                                                 ).into(image1!!)
                                         } else if (response.body()!!.data.member_list.size == 2) {
                                             memberFrame!!.visibility = View.VISIBLE
-                                            image1!!.visibility = View.VISIBLE
-                                            image2!!.visibility = View.VISIBLE
-                                            image3!!.visibility = View.GONE
-                                            image4!!.visibility = View.GONE
-                                            image5!!.visibility = View.GONE
                                             Glide.with(context!!)
                                                 .load(response.body()!!.data.member_list[0].image)
                                                 .placeholder(
@@ -343,11 +333,6 @@ class HomeFragment : Fragment() {
                                                 ).into(image2!!)
                                         } else if (response.body()!!.data.member_list.size == 3) {
                                             memberFrame!!.visibility = View.VISIBLE
-                                            image1!!.visibility = View.VISIBLE
-                                            image2!!.visibility = View.VISIBLE
-                                            image3!!.visibility = View.VISIBLE
-                                            image4!!.visibility = View.GONE
-                                            image5!!.visibility = View.GONE
                                             Glide.with(context!!)
                                                 .load(response.body()!!.data.member_list[0].image)
                                                 .placeholder(
@@ -365,11 +350,6 @@ class HomeFragment : Fragment() {
                                                 ).into(image3!!)
                                         } else if (response.body()!!.data.member_list.size == 4) {
                                             memberFrame!!.visibility = View.VISIBLE
-                                            image1!!.visibility = View.VISIBLE
-                                            image2!!.visibility = View.VISIBLE
-                                            image3!!.visibility = View.VISIBLE
-                                            image4!!.visibility = View.VISIBLE
-                                            image5!!.visibility = View.GONE
                                             Glide.with(context!!)
                                                 .load(response.body()!!.data.member_list[0].image)
                                                 .placeholder(
@@ -392,11 +372,6 @@ class HomeFragment : Fragment() {
                                                 ).into(image4!!)
                                         } else if (response.body()!!.data.member_list.size == 5) {
                                             memberFrame!!.visibility = View.VISIBLE
-                                            image1!!.visibility = View.VISIBLE
-                                            image2!!.visibility = View.VISIBLE
-                                            image3!!.visibility = View.VISIBLE
-                                            image4!!.visibility = View.VISIBLE
-                                            image5!!.visibility = View.VISIBLE
                                             Glide.with(context!!)
                                                 .load(response.body()!!.data.member_list[0].image)
                                                 .placeholder(
@@ -501,11 +476,6 @@ class HomeFragment : Fragment() {
                                             memberFrame!!.visibility = View.GONE
                                         } else if (response.body()!!.data.member_list.size == 1) {
                                             memberFrame!!.visibility = View.VISIBLE
-                                            image1!!.visibility = View.VISIBLE
-                                            image2!!.visibility = View.GONE
-                                            image3!!.visibility = View.GONE
-                                            image4!!.visibility = View.GONE
-                                            image5!!.visibility = View.GONE
                                             Glide.with(context!!)
                                                 .load(response.body()!!.data.member_list[0].image)
                                                 .placeholder(
@@ -513,11 +483,6 @@ class HomeFragment : Fragment() {
                                                 ).into(image1!!)
                                         } else if (response.body()!!.data.member_list.size == 2) {
                                             memberFrame!!.visibility = View.VISIBLE
-                                            image1!!.visibility = View.VISIBLE
-                                            image2!!.visibility = View.VISIBLE
-                                            image3!!.visibility = View.GONE
-                                            image4!!.visibility = View.GONE
-                                            image5!!.visibility = View.GONE
                                             Glide.with(context!!)
                                                 .load(response.body()!!.data.member_list[0].image)
                                                 .placeholder(
@@ -530,11 +495,6 @@ class HomeFragment : Fragment() {
                                                 ).into(image2!!)
                                         } else if (response.body()!!.data.member_list.size == 3) {
                                             memberFrame!!.visibility = View.VISIBLE
-                                            image1!!.visibility = View.VISIBLE
-                                            image2!!.visibility = View.VISIBLE
-                                            image3!!.visibility = View.VISIBLE
-                                            image4!!.visibility = View.GONE
-                                            image5!!.visibility = View.GONE
                                             Glide.with(context!!)
                                                 .load(response.body()!!.data.member_list[0].image)
                                                 .placeholder(
@@ -552,11 +512,6 @@ class HomeFragment : Fragment() {
                                                 ).into(image3!!)
                                         } else if (response.body()!!.data.member_list.size == 4) {
                                             memberFrame!!.visibility = View.VISIBLE
-                                            image1!!.visibility = View.VISIBLE
-                                            image2!!.visibility = View.VISIBLE
-                                            image3!!.visibility = View.VISIBLE
-                                            image4!!.visibility = View.VISIBLE
-                                            image5!!.visibility = View.GONE
                                             Glide.with(context!!)
                                                 .load(response.body()!!.data.member_list[0].image)
                                                 .placeholder(
@@ -579,11 +534,6 @@ class HomeFragment : Fragment() {
                                                 ).into(image4!!)
                                         } else if (response.body()!!.data.member_list.size == 5) {
                                             memberFrame!!.visibility = View.VISIBLE
-                                            image1!!.visibility = View.VISIBLE
-                                            image2!!.visibility = View.VISIBLE
-                                            image3!!.visibility = View.VISIBLE
-                                            image4!!.visibility = View.VISIBLE
-                                            image5!!.visibility = View.VISIBLE
                                             Glide.with(context!!)
                                                 .load(response.body()!!.data.member_list[0].image)
                                                 .placeholder(
@@ -689,11 +639,6 @@ class HomeFragment : Fragment() {
                                             memberFrame!!.visibility = View.GONE
                                         } else if (response.body()!!.data.member_list.size == 1) {
                                             memberFrame!!.visibility = View.VISIBLE
-                                            image1!!.visibility = View.VISIBLE
-                                            image2!!.visibility = View.GONE
-                                            image3!!.visibility = View.GONE
-                                            image4!!.visibility = View.GONE
-                                            image5!!.visibility = View.GONE
                                             Glide.with(context!!)
                                                 .load(response.body()!!.data.member_list[0].image)
                                                 .placeholder(
@@ -701,11 +646,6 @@ class HomeFragment : Fragment() {
                                                 ).into(image1!!)
                                         } else if (response.body()!!.data.member_list.size == 2) {
                                             memberFrame!!.visibility = View.VISIBLE
-                                            image1!!.visibility = View.VISIBLE
-                                            image2!!.visibility = View.VISIBLE
-                                            image3!!.visibility = View.GONE
-                                            image4!!.visibility = View.GONE
-                                            image5!!.visibility = View.GONE
                                             Glide.with(context!!)
                                                 .load(response.body()!!.data.member_list[0].image)
                                                 .placeholder(
@@ -718,11 +658,6 @@ class HomeFragment : Fragment() {
                                                 ).into(image2!!)
                                         } else if (response.body()!!.data.member_list.size == 3) {
                                             memberFrame!!.visibility = View.VISIBLE
-                                            image1!!.visibility = View.VISIBLE
-                                            image2!!.visibility = View.VISIBLE
-                                            image3!!.visibility = View.VISIBLE
-                                            image4!!.visibility = View.GONE
-                                            image5!!.visibility = View.GONE
                                             Glide.with(context!!)
                                                 .load(response.body()!!.data.member_list[0].image)
                                                 .placeholder(
@@ -740,11 +675,6 @@ class HomeFragment : Fragment() {
                                                 ).into(image3!!)
                                         } else if (response.body()!!.data.member_list.size == 4) {
                                             memberFrame!!.visibility = View.VISIBLE
-                                            image1!!.visibility = View.VISIBLE
-                                            image2!!.visibility = View.VISIBLE
-                                            image3!!.visibility = View.VISIBLE
-                                            image4!!.visibility = View.VISIBLE
-                                            image5!!.visibility = View.GONE
                                             Glide.with(context!!)
                                                 .load(response.body()!!.data.member_list[0].image)
                                                 .placeholder(
@@ -767,11 +697,6 @@ class HomeFragment : Fragment() {
                                                 ).into(image4!!)
                                         } else if (response.body()!!.data.member_list.size == 5) {
                                             memberFrame!!.visibility = View.VISIBLE
-                                            image1!!.visibility = View.VISIBLE
-                                            image2!!.visibility = View.VISIBLE
-                                            image3!!.visibility = View.VISIBLE
-                                            image4!!.visibility = View.VISIBLE
-                                            image5!!.visibility = View.VISIBLE
                                             Glide.with(context!!)
                                                 .load(response.body()!!.data.member_list[0].image)
                                                 .placeholder(

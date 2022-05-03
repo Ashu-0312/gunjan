@@ -254,6 +254,13 @@ interface ApiInterface {
         @HeaderMap headers: Map<String, String>,
     ): Call<CityListResponse>
 
+    @GET(Constants.Partial.pincodeList)
+    fun pincodeList(
+        @Query(Constants.Keys.state) state: String?,
+        @Query(Constants.Keys.city) city: String?,
+        @HeaderMap headers: Map<String, String>,
+    ): Call<PincodeListResponse>
+
     @GET(Constants.Partial.getOtherUserDetails)
     fun otherUserProfile(
         @Query(Constants.Keys.user_id) user_id: String?,

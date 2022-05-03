@@ -68,6 +68,7 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
     private var awsPicUrl = ""
     private var cityValue = ""
     private var stateValue = ""
+    private var pincodeValue = ""
     private var mYear = 0
     private var mMonth: Int = 0
     private var mDay: Int = 0
@@ -83,6 +84,7 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
     private var stateList: java.util.ArrayList<String> = java.util.ArrayList<String>()
     private var stateNameList: java.util.ArrayList<String> = java.util.ArrayList<String>()
     private var cityList: java.util.ArrayList<String> = java.util.ArrayList<String>()
+    private var pincodeList: java.util.ArrayList<String> = java.util.ArrayList<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
@@ -176,7 +178,7 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                         "android",
                         "en",
                         awsPicUrl,
-                        pinCode.text.toString().trim(),
+                        pincodeValue,
                         edtEmail.text.toString().trim(),
                         edtDob.text.toString().trim(),
                         Gson().toJson(selectedInterestList),
@@ -483,7 +485,6 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                                     designation!!.setText(response.body()!!.data.user.designation)
                                     firstName!!.setText(response.body()!!.data.user.first_name)
                                     lastName!!.setText(response.body()!!.data.user.last_name)
-                                    pinCode!!.setText(response.body()!!.data.user.pincode)
                                     edtMobile!!.setText(response.body()!!.data.user.mobile)
                                     about!!.setText(response.body()!!.data.user.about)
                                     if (response.body()!!.data.user.dob != null || response.body()!!.data.user.dob != "") {
@@ -569,6 +570,7 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                                     }
                                      stateValue=response.body()!!.data.user.state
                                      cityValue=response.body()!!.data.user.city
+                                     pincodeValue=response.body()!!.data.user.pincode
                                     getStateList()
                                 } catch (e: Exception) {
                                 }
@@ -630,11 +632,7 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
             edtMobile.requestFocus()
             edtMobile.error = getString(R.string.valid_mobile)
             return false
-        } else if (pinCode!!.text.toString().trim().equals("", ignoreCase = true)) {
-            pinCode!!.requestFocus()
-            pinCode!!.error = getString(R.string.pincode)
-            return false
-        } else if (edtEmail.text.toString().trim().equals("", ignoreCase = true)) {
+        }  else if (edtEmail.text.toString().trim().equals("", ignoreCase = true)) {
             edtEmail.requestFocus()
             edtEmail.error = getString(R.string.enter_mail)
             return false
@@ -658,7 +656,10 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
             } else if (citySpinner!!.selectedItem.equals(getString(R.string.select_city))) {
                 Toast.makeText(this, getString(R.string.please_city), Toast.LENGTH_LONG).show()
                 return false
-        } else if (selectedInterestList.size == 0) {
+        }  else if (pincodeSpinner!!.selectedItem.equals(getString(R.string.select_pincode))) {
+            Toast.makeText(this, getString(R.string.enter_pincode), Toast.LENGTH_LONG).show()
+            return false
+        }else if (selectedInterestList.size == 0) {
             Toast.makeText(this, getString(R.string.select_interest), Toast.LENGTH_LONG).show()
             return false
         }
@@ -829,6 +830,7 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                                         ) {
                                             if (i > 0) {
                                                 cityValue=cityList[i].toString()
+                                                getPincodeList(stateValue!!,cityList[i].toString())
                                             }
                                         }
 
@@ -856,6 +858,106 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
 
                     override fun onFailure(
                         call: Call<CityListResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            this@EditProfileActivity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
+    }
+
+    private fun getPincodeList(state:String,city:String) {
+        val myDialog = ProjectUtill.showProgressDialog(this)
+            WebServiceRequest.getInstance().pincodeList(
+                this,state,city,
+                object : Callback<PincodeListResponse> {
+                    override fun onResponse(
+                        call: Call<PincodeListResponse>,
+                        response: Response<PincodeListResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    pincodeList.clear()
+                                    pincodeList.add(getString(R.string.select_pincode))
+                                    for (i in response.body()!!.data.pincodes) {
+                                        pincodeList.add(i.pincode.toString())
+                                    }
+                                    val arrayAdapter1: ArrayAdapter<String> =
+                                        object : ArrayAdapter<String>(
+                                            this@EditProfileActivity!!,
+                                            R.layout.spinner_layout, pincodeList
+                                        ) {
+                                            override fun isEnabled(position: Int): Boolean {
+                                                return position != 0
+                                            }
+
+                                            override fun getDropDownView(
+                                                position: Int, convertView: View?,
+                                                parent: ViewGroup,
+                                            ): View {
+                                                val view = super.getDropDownView(
+                                                    position,
+                                                    convertView,
+                                                    parent
+                                                )
+                                                val tv = view as TextView
+                                                if (position == 0) { // Set the hint text color gray
+                                                    tv.setTextColor(Color.BLACK)
+                                                } else {
+                                                    tv.setTextColor(resources.getColor(R.color.txt_color))
+                                                }
+                                                return view
+                                            }
+
+                                        }
+                                    pincodeSpinner!!.adapter = arrayAdapter1
+                                    if (pincodeValue == null) {
+                                        Log.d("VALUE","fsnngjg")
+                                    }else{
+                                        val spinnerPosition =
+                                            arrayAdapter1.getPosition(pincodeValue)
+                                        pincodeSpinner!!.setSelection(spinnerPosition)
+                                    }
+                                    pincodeSpinner!!.onItemSelectedListener = object :
+                                        AdapterView.OnItemSelectedListener {
+                                        override fun onItemSelected(
+                                            adapterView: AdapterView<*>?,
+                                            view: View,
+                                            i: Int,
+                                            l: Long,
+                                        ) {
+                                            pincodeValue=pincodeList[i].toString()
+                                        }
+
+                                        override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+                                    }
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        this@EditProfileActivity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    this@EditProfileActivity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                this@EditProfileActivity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<PincodeListResponse>,
                         t: Throwable
                     ) {
                         myDialog.dismiss()
