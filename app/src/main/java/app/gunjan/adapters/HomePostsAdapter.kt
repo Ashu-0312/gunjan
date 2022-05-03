@@ -390,6 +390,10 @@ class HomePostsAdapter(
             homeFragment.commentsDialog(data[position].id.toString())
         }
 
+        holder.reward!!.setOnClickListener {
+            homeFragment.coinsDialog()
+        }
+
         holder.joinedLayout!!.setOnClickListener {
             var intent = Intent(context,JoinedEventUserListActivity::class.java)
             intent.putExtra("id",data[position].id.toString())
@@ -545,6 +549,7 @@ class HomePostsAdapter(
         var time: TextView? = null
         var totalUsers: TextView? = null
         var joinTxt: TextView? = null
+        var reward: ImageView? = null
         init {
             description=itemView.findViewById(R.id.description)
             showMore=itemView.findViewById(R.id.show_more)
@@ -575,6 +580,7 @@ class HomePostsAdapter(
             joinLayout = itemView.findViewById(R.id.join_event)
             totalUsers = itemView.findViewById(R.id.total_users)
             joinTxt = itemView.findViewById(R.id.join_txt)
+            reward = itemView.findViewById(R.id.reward)
         }
     }
 

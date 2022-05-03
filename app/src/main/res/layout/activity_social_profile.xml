@@ -61,101 +61,200 @@
         android:layout_below="@id/layout"
         android:orientation="vertical">
         <LinearLayout
-            android:id="@+id/Submit"
-            android:elevation="1dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="@dimen/margin_20dp"
-            android:layout_marginTop="@dimen/margin_40dp"
-            android:layout_marginEnd="@dimen/margin_20dp"
+            android:layout_marginStart="@dimen/margin_15"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="@dimen/margin_15"
             android:layout_marginBottom="@dimen/padding_5"
-            android:background="@drawable/pink_border2"
+            android:background="@drawable/pink_border"
+            android:elevation="3dp"
             android:orientation="horizontal"
             android:padding="@dimen/padding_5">
-            <TextView
-                android:layout_marginTop="@dimen/padding_5"
-                android:layout_marginBottom="@dimen/padding_5"
+
+            <ImageView
+                android:layout_width="@dimen/margin_20dp"
+                android:layout_height="@dimen/margin_20dp"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="@dimen/text_16sp"
-                android:fontFamily="@font/poppins_semibold"
-                android:textColor="@color/blue"
+                android:layout_marginStart="@dimen/margin_10dp"
+                android:src="@drawable/youtube" />
+
+            <TextView
+                android:layout_marginStart="@dimen/margin_7"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_13sp"
+                android:textColor="@color/txt_color"
+                android:text="https://www.youtube.com/"/>
+
+            <EditText
+                android:id="@+id/youtubeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Facebook"/>
+                android:layout_gravity="center"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:fontFamily="@font/poppins_light"
+                android:hint="@string/enter_name"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingTop="@dimen/margin_10dp"
+                android:paddingEnd="@dimen/padding_5"
+                android:paddingBottom="@dimen/margin_10dp"
+                android:textColor="@color/txt_color"
+                android:textColorHint="@color/txt_color"
+                android:textSize="@dimen/text_13sp" />
         </LinearLayout>
         <LinearLayout
-            android:elevation="1dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="@dimen/margin_20dp"
+            android:layout_marginStart="@dimen/margin_15"
             android:layout_marginTop="@dimen/margin_15"
-            android:layout_marginEnd="@dimen/margin_20dp"
+            android:layout_marginEnd="@dimen/margin_15"
             android:layout_marginBottom="@dimen/padding_5"
-            android:background="@drawable/pink_border2"
+            android:background="@drawable/pink_border"
+            android:elevation="3dp"
             android:orientation="horizontal"
             android:padding="@dimen/padding_5">
-            <TextView
-                android:layout_marginTop="@dimen/padding_5"
-                android:layout_marginBottom="@dimen/padding_5"
+
+            <ImageView
+                android:layout_width="@dimen/margin_20dp"
+                android:layout_height="@dimen/margin_20dp"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="@dimen/text_16sp"
-                android:fontFamily="@font/poppins_semibold"
-                android:textColor="@color/blue"
+                android:layout_marginStart="@dimen/margin_10dp"
+                android:src="@drawable/facebook" />
+
+            <TextView
+                android:layout_marginStart="@dimen/margin_7"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_13sp"
+                android:textColor="@color/txt_color"
+                android:text="https://www.facebook.com/"/>
+
+            <EditText
+                android:id="@+id/fbName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Instagram"/>
+                android:layout_gravity="center"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:fontFamily="@font/poppins_light"
+                android:hint="@string/enter_name"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingTop="@dimen/margin_10dp"
+                android:paddingEnd="@dimen/padding_5"
+                android:paddingBottom="@dimen/margin_10dp"
+                android:textColor="@color/txt_color"
+                android:textColorHint="@color/txt_color"
+                android:textSize="@dimen/text_13sp" />
         </LinearLayout>
         <LinearLayout
-            android:elevation="1dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="@dimen/margin_20dp"
+            android:layout_marginStart="@dimen/margin_15"
             android:layout_marginTop="@dimen/margin_15"
-            android:layout_marginEnd="@dimen/margin_20dp"
+            android:layout_marginEnd="@dimen/margin_15"
             android:layout_marginBottom="@dimen/padding_5"
-            android:background="@drawable/pink_border2"
+            android:background="@drawable/pink_border"
+            android:elevation="3dp"
             android:orientation="horizontal"
             android:padding="@dimen/padding_5">
-            <TextView
-                android:layout_marginTop="@dimen/padding_5"
-                android:layout_marginBottom="@dimen/padding_5"
+
+            <ImageView
+                android:layout_width="@dimen/margin_20dp"
+                android:layout_height="@dimen/margin_20dp"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="@dimen/text_16sp"
-                android:fontFamily="@font/poppins_semibold"
-                android:textColor="@color/blue"
+                android:layout_marginStart="@dimen/margin_10dp"
+                android:src="@drawable/instagram" />
+
+            <TextView
+                android:layout_marginStart="@dimen/margin_7"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_13sp"
+                android:textColor="@color/txt_color"
+                android:text="https://www.instagram.com/"/>
+
+            <EditText
+                android:id="@+id/instaName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="LinkedIn"/>
+                android:layout_gravity="center"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:fontFamily="@font/poppins_light"
+                android:hint="@string/enter_name"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingTop="@dimen/margin_10dp"
+                android:paddingEnd="@dimen/padding_5"
+                android:paddingBottom="@dimen/margin_10dp"
+                android:textColor="@color/txt_color"
+                android:textColorHint="@color/txt_color"
+                android:textSize="@dimen/text_13sp" />
         </LinearLayout>
         <LinearLayout
-            android:elevation="1dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="@dimen/margin_20dp"
+            android:layout_marginStart="@dimen/margin_15"
             android:layout_marginTop="@dimen/margin_15"
-            android:layout_marginEnd="@dimen/margin_20dp"
+            android:layout_marginEnd="@dimen/margin_15"
             android:layout_marginBottom="@dimen/padding_5"
-            android:background="@drawable/pink_border2"
+            android:background="@drawable/pink_border"
+            android:elevation="3dp"
             android:orientation="horizontal"
             android:padding="@dimen/padding_5">
-            <TextView
-                android:layout_marginTop="@dimen/padding_5"
-                android:layout_marginBottom="@dimen/padding_5"
+
+            <ImageView
+                android:layout_width="@dimen/margin_20dp"
+                android:layout_height="@dimen/margin_20dp"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="@dimen/text_16sp"
-                android:fontFamily="@font/poppins_semibold"
-                android:textColor="@color/blue"
+                android:layout_marginStart="@dimen/margin_10dp"
+                android:src="@drawable/linkedin" />
+
+            <TextView
+                android:layout_marginStart="@dimen/margin_7"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_13sp"
+                android:textColor="@color/txt_color"
+                android:text="https://www.linkedin.com/"/>
+
+            <EditText
+                android:id="@+id/linkedInName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Youtube"/>
+                android:layout_gravity="center"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:fontFamily="@font/poppins_light"
+                android:hint="@string/enter_name"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingTop="@dimen/margin_10dp"
+                android:paddingEnd="@dimen/padding_5"
+                android:paddingBottom="@dimen/margin_10dp"
+                android:textColor="@color/txt_color"
+                android:textColorHint="@color/txt_color"
+                android:textSize="@dimen/text_13sp" />
         </LinearLayout>
     </LinearLayout>
     </RelativeLayout>

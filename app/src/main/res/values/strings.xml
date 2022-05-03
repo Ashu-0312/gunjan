@@ -253,5 +253,7 @@
     <string name="joined_user_list">Joined User List</string>
     <string name="_0_users_joined">Users Joined</string>
     <string name="select_pincode">Select PinCode</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="awards">Awards</string>
 
 </resources>

@@ -253,5 +253,6 @@
     <string name="joined_user_list">उपयोगकर्ता आयोजन में शामिल हुए</string>
     <string name="_0_users_joined">उपयोगकर्ता शामिल हुए</string>
     <string name="select_pincode">पिनकोड चुनें</string>
-
+    <string name="enter_name">नाम दर्ज करें</string>
+    <string name="awards">पुरस्कार</string>
 </resources>

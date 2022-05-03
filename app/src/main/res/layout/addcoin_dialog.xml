@@ -1,0 +1,83 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:cardBackgroundColor="@color/white"
+    android:layout_margin="@dimen/margin_15"
+    app:cardCornerRadius="@dimen/margin_15"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/margin_15"
+            android:layout_marginTop="@dimen/text_30sp"
+            android:layout_marginEnd="@dimen/margin_15"
+            android:layout_marginBottom="@dimen/margin_20dp"
+            android:background="@drawable/edittext_bg"
+            android:elevation="2dp"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_5">
+
+            <ImageView
+                android:layout_width="@dimen/margin_15"
+                android:layout_height="@dimen/margin_15"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/text_16sp"
+                android:layout_marginBottom="@dimen/padding_2"
+                android:src="@drawable/coins" />
+
+            <EditText
+                android:id="@+id/edt_coin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:fontFamily="@font/poppins_light"
+                android:hint="Enter Coin"
+                android:inputType="number"
+                android:maxLines="1"
+                android:paddingTop="@dimen/text_13sp"
+                android:paddingRight="@dimen/margin_10dp"
+                android:paddingBottom="@dimen/text_13sp"
+                android:textColor="@color/txt_color"
+                android:textColorHint="@color/txt_color"
+                android:textSize="@dimen/text_13sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/done"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/margin_40dp"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_marginEnd="@dimen/margin_40dp"
+            android:layout_marginBottom="@dimen/margin_20dp"
+            android:background="@drawable/button_bg"
+            android:elevation="1dp"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_5">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/padding_5"
+                android:layout_marginBottom="@dimen/padding_5"
+                android:fontFamily="@font/popinbold"
+                android:gravity="center"
+                android:text="@string/submit"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16sp" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

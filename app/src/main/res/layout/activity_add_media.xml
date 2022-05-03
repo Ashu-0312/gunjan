@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".activities.AddMediaActivity">
+    tools:context=".activities.SocialProfileActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -61,44 +61,227 @@
             android:layout_below="@id/layout"
             android:orientation="vertical">
             <LinearLayout
-                android:layout_marginBottom="@dimen/padding_5"
-                android:layout_marginStart="@dimen/margin_15"
-                android:layout_marginEnd="@dimen/margin_15"
-                android:layout_marginTop="@dimen/text_30sp"
-                android:padding="@dimen/margin_7"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:elevation="@dimen/padding_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/edittext_bg"
-                android:orientation="horizontal">
-                <app.gunjan.utill.MultipleSelectionSpinner
-                    android:layout_marginTop="@dimen/padding_5"
-                    android:layout_marginBottom="@dimen/padding_5"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_15"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="@dimen/margin_15"
+                android:layout_marginBottom="@dimen/padding_5"
+                android:background="@drawable/pink_border"
+                android:elevation="3dp"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_5">
+
+                <ImageView
+                    android:layout_width="@dimen/margin_20dp"
+                    android:layout_height="@dimen/margin_20dp"
+                    android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_10dp"
-                    android:layout_weight="1"
+                    android:src="@drawable/youtube" />
+
+                <TextView
+                    android:layout_marginStart="@dimen/margin_7"
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_13sp"
                     android:textColor="@color/txt_color"
-                    android:background="@null"
-                    android:id="@+id/spinner"
-                    android:fontFamily="@font/poppin_regular"
-                    android:textSize="@dimen/text_13sp"/>
-                <ImageView
-                    android:layout_marginEnd="@dimen/margin_10dp"
-                    android:layout_marginStart="@dimen/padding_5"
+                    android:text="https://www.youtube.com/"/>
+
+                <EditText
+                    android:id="@+id/youtubeName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_width="@dimen/text_12sp"
-                    android:layout_height="@dimen/text_12sp"
-                    android:src="@drawable/arrow"/>
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:fontFamily="@font/poppins_light"
+                    android:hint="@string/enter_name"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingTop="@dimen/margin_10dp"
+                    android:paddingEnd="@dimen/padding_5"
+                    android:paddingBottom="@dimen/margin_10dp"
+                    android:textColor="@color/txt_color"
+                    android:textColorHint="@color/txt_color"
+                    android:textSize="@dimen/text_13sp" />
             </LinearLayout>
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginTop="@dimen/margin_40dp"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/mediaRecycler"
-                android:scrollbars="none"/>
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_15"
+                android:layout_marginEnd="@dimen/margin_15"
+                android:layout_marginBottom="@dimen/padding_5"
+                android:background="@drawable/pink_border"
+                android:elevation="3dp"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_5">
+
+                <ImageView
+                    android:layout_width="@dimen/margin_20dp"
+                    android:layout_height="@dimen/margin_20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_10dp"
+                    android:src="@drawable/facebook" />
+
+                <TextView
+                    android:layout_marginStart="@dimen/margin_7"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_13sp"
+                    android:textColor="@color/txt_color"
+                    android:text="https://www.facebook.com/"/>
+
+                <EditText
+                    android:id="@+id/fbName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:fontFamily="@font/poppins_light"
+                    android:hint="@string/enter_name"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingTop="@dimen/margin_10dp"
+                    android:paddingEnd="@dimen/padding_5"
+                    android:paddingBottom="@dimen/margin_10dp"
+                    android:textColor="@color/txt_color"
+                    android:textColorHint="@color/txt_color"
+                    android:textSize="@dimen/text_13sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_15"
+                android:layout_marginEnd="@dimen/margin_15"
+                android:layout_marginBottom="@dimen/padding_5"
+                android:background="@drawable/pink_border"
+                android:elevation="3dp"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_5">
+
+                <ImageView
+                    android:layout_width="@dimen/margin_20dp"
+                    android:layout_height="@dimen/margin_20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_10dp"
+                    android:src="@drawable/instagram" />
+
+                <TextView
+                    android:layout_marginStart="@dimen/margin_7"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_13sp"
+                    android:textColor="@color/txt_color"
+                    android:text="https://www.instagram.com/"/>
+
+                <EditText
+                    android:id="@+id/instaName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:fontFamily="@font/poppins_light"
+                    android:hint="@string/enter_name"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingTop="@dimen/margin_10dp"
+                    android:paddingEnd="@dimen/padding_5"
+                    android:paddingBottom="@dimen/margin_10dp"
+                    android:textColor="@color/txt_color"
+                    android:textColorHint="@color/txt_color"
+                    android:textSize="@dimen/text_13sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_15"
+                android:layout_marginEnd="@dimen/margin_15"
+                android:layout_marginBottom="@dimen/padding_5"
+                android:background="@drawable/pink_border"
+                android:elevation="3dp"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_5">
+
+                <ImageView
+                    android:layout_width="@dimen/margin_20dp"
+                    android:layout_height="@dimen/margin_20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_10dp"
+                    android:src="@drawable/linkedin" />
+
+                <TextView
+                    android:layout_marginStart="@dimen/margin_7"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_13sp"
+                    android:textColor="@color/txt_color"
+                    android:text="https://www.linkedin.com/"/>
+
+                <EditText
+                    android:id="@+id/linkedInName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:fontFamily="@font/poppins_light"
+                    android:hint="@string/enter_name"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingTop="@dimen/margin_10dp"
+                    android:paddingEnd="@dimen/padding_5"
+                    android:paddingBottom="@dimen/margin_10dp"
+                    android:textColor="@color/txt_color"
+                    android:textColorHint="@color/txt_color"
+                    android:textSize="@dimen/text_13sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/Save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_40dp"
+                android:layout_marginTop="@dimen/margin_40dp"
+                android:layout_marginEnd="@dimen/margin_40dp"
+                android:layout_marginBottom="@dimen/margin_20dp"
+                android:background="@drawable/button_bg"
+                android:elevation="1dp"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_5">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/padding_5"
+                    android:layout_marginBottom="@dimen/padding_5"
+                    android:fontFamily="@font/popinbold"
+                    android:gravity="center"
+                    android:text="@string/save"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_18sp" />
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
-</androidx.core.widget.NestedScrollView>
+</ScrollView>

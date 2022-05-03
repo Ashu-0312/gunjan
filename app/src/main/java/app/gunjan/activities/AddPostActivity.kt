@@ -694,7 +694,7 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
         if (file.exists()) file.delete()
         try {
             val out = FileOutputStream(file)
-            bip.compress(Bitmap.CompressFormat.JPEG, 90, out)
+            bip.compress(Bitmap.CompressFormat.PNG, 100, out)
             pathPic = file.absolutePath
             Log.d("BitData", pathPic)
             progressdialog!!.setCancelable(false)
@@ -829,7 +829,7 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
     private fun getInputStream(file: File): InputStream {
         val bitmap = BitmapFactory.decodeFile(file.absolutePath, BitmapFactory.Options())
         val bos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 30, bos)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos)
         val bitmapdata = bos.toByteArray()
         return ByteArrayInputStream(bitmapdata)
     }

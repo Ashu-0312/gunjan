@@ -13,6 +13,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -66,6 +67,7 @@ class HomeFragment : Fragment() {
         ArrayList<PostListResponse.DataBean.PostBean>()
     private var animShow: Animation? = null
     private var list: ArrayList<String> = ArrayList<String>()
+    private var coinList: ArrayList<String> = ArrayList<String>()
     private var postRecycler: RecyclerView? = null
     private var reasonLayout: LinearLayout? = null
     private var communityPic: CircleImageView? = null
@@ -1663,6 +1665,76 @@ class HomeFragment : Fragment() {
                 AltexImageDownloader.writeToDisk(context, media, "GUNJAN")
             }
         }
+        dialog.show()
+    }
+
+    fun coinsDialog() {
+        var coinsRecycler: RecyclerView? = null
+        var addCoins: CardView? = null
+        val dialog = context?.let { Dialog(it) }
+        // Include dialog.xml file
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog!!.setContentView(R.layout.reward_dialog)
+        dialog!!.setCancelable(true)
+        val window = dialog.window
+        window!!.setGravity(Gravity.CENTER)
+        window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation2
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        coinsRecycler = dialog.findViewById(R.id.coins_recycler)
+        addCoins = dialog.findViewById(R.id.add_coins)
+
+        coinList.add("5")
+        coinList.add("10")
+        coinList.add("15")
+        coinList.add("20")
+        coinList.add("25")
+        coinList.add("30")
+        coinList.add("35")
+        coinList.add("40")
+        coinList.add("45")
+        coinList.add("50")
+        coinList.add("55")
+        coinList.add("60")
+        coinList.add("65")
+        coinList.add("70")
+        coinList.add("75")
+        coinList.add("80")
+        coinList.add("85")
+        coinList.add("90")
+        coinList.add("95")
+        coinList.add("100")
+
+        var coinsAdapter = CoinsAdapter(context,coinList)
+        coinsRecycler!!.layoutManager = GridLayoutManager(context,4)
+        coinsRecycler!!.adapter = coinsAdapter
+
+        addCoins!!.setOnClickListener { addCoinsDialog() }
+
+        dialog.show()
+    }
+
+    fun addCoinsDialog() {
+        var done: LinearLayout? = null
+        val dialog = context?.let { Dialog(it) }
+        // Include dialog.xml file
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog!!.setContentView(R.layout.addcoin_dialog)
+        dialog!!.setCancelable(true)
+        val window = dialog.window
+        window!!.setGravity(Gravity.CENTER)
+        window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        done = dialog.findViewById(R.id.done)
+
+        done!!.setOnClickListener { dialog.cancel() }
+
         dialog.show()
     }
 
