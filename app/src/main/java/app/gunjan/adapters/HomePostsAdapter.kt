@@ -57,6 +57,7 @@ class HomePostsAdapter(
             holder.totalComment!!.text=data[position].total_comment.toString()+context!!.getString(R.string.commentss)
             holder.totalLike!!.text=data[position].total_like.toString()
             holder.totaldisLike!!.text=data[position].total_unlike.toString()
+            holder.coins!!.text=data[position].total_coins.toString()+" "+context!!.getString(R.string.coins)
 
             if (data[position].isJoinedThisEvent){
                 holder.joinTxt!!.text = context!!.getString(R.string.joined)
@@ -391,7 +392,7 @@ class HomePostsAdapter(
         }
 
         holder.reward!!.setOnClickListener {
-            homeFragment.coinsDialog()
+            homeFragment.coinsDialog(data[position].id.toString())
         }
 
         holder.joinedLayout!!.setOnClickListener {
@@ -521,6 +522,7 @@ class HomePostsAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var description: TextView? =null
+        var coins: TextView? =null
         var showMore: TextView? =null
         var postTime: TextView? =null
         var name: TextView? =null
@@ -581,6 +583,7 @@ class HomePostsAdapter(
             totalUsers = itemView.findViewById(R.id.total_users)
             joinTxt = itemView.findViewById(R.id.join_txt)
             reward = itemView.findViewById(R.id.reward)
+            coins = itemView.findViewById(R.id.total_coins)
         }
     }
 

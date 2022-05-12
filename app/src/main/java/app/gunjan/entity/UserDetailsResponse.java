@@ -338,6 +338,16 @@ public class UserDetailsResponse implements Serializable {
             private String about;
             private String identification_file;
             private int active_community;
+
+            public int getTotal_available_coins() {
+                return total_available_coins;
+            }
+
+            public void setTotal_available_coins(int total_available_coins) {
+                this.total_available_coins = total_available_coins;
+            }
+
+            private int total_available_coins;
             private List<InterestListBean> interest_list;
 
             public static class InterestListBean implements Serializable {

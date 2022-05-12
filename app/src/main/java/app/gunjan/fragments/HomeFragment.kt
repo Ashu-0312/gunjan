@@ -10,7 +10,6 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -38,6 +37,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class HomeFragment : Fragment() {
+    var coinDialog:Dialog?=null
+    var totalCoins: TextView? = null
+    var idd: String? = null
     var dialogCommentReply:Dialog? = null
     var dialogComment:Dialog? = null
     private var page: Int? = 1
@@ -1668,25 +1670,30 @@ class HomeFragment : Fragment() {
         dialog.show()
     }
 
-    fun coinsDialog() {
+    fun coinsDialog(id:String) {
         var coinsRecycler: RecyclerView? = null
         var addCoins: CardView? = null
-        val dialog = context?.let { Dialog(it) }
+         coinDialog = context?.let { Dialog(it) }
         // Include dialog.xml file
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.reward_dialog)
-        dialog!!.setCancelable(true)
-        val window = dialog.window
+        coinDialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        coinDialog!!.setContentView(R.layout.reward_dialog)
+        coinDialog!!.setCancelable(true)
+        val window = coinDialog!!.window
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT
         )
-        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation2
-        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-        coinsRecycler = dialog.findViewById(R.id.coins_recycler)
-        addCoins = dialog.findViewById(R.id.add_coins)
+        coinDialog!!.window!!.attributes.windowAnimations = R.style.DialogAnimation2
+        coinDialog!!.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        coinsRecycler = coinDialog!!.findViewById(R.id.coins_recycler)
+        addCoins = coinDialog!!.findViewById(R.id.add_coins)
+        totalCoins = coinDialog!!.findViewById(R.id.total_coins)
 
+        idd = id
+        totalCoins!!.text = FCSharedPreferances.getSharedPreferance(context).totaL_COINS
+
+        coinList.clear()
         coinList.add("5")
         coinList.add("10")
         coinList.add("15")
@@ -1708,17 +1715,18 @@ class HomeFragment : Fragment() {
         coinList.add("95")
         coinList.add("100")
 
-        var coinsAdapter = CoinsAdapter(context,coinList)
+        var coinsAdapter = CoinsAdapter(context,coinList,this@HomeFragment)
         coinsRecycler!!.layoutManager = GridLayoutManager(context,4)
         coinsRecycler!!.adapter = coinsAdapter
 
         addCoins!!.setOnClickListener { addCoinsDialog() }
 
-        dialog.show()
+        coinDialog!!.show()
     }
 
     fun addCoinsDialog() {
         var done: LinearLayout? = null
+        var edtCoin: EditText? = null
         val dialog = context?.let { Dialog(it) }
         // Include dialog.xml file
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -1732,10 +1740,119 @@ class HomeFragment : Fragment() {
         )
         dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
         done = dialog.findViewById(R.id.done)
+        edtCoin = dialog.findViewById(R.id.edt_coin)
 
-        done!!.setOnClickListener { dialog.cancel() }
+        done!!.setOnClickListener {
+            if (edtCoin.text.toString().trim() == ""){
+                edtCoin.requestFocus()
+                edtCoin.error = getString(R.string.please_coin)
+            }else{
+                dialog.cancel()
+                val myDialog = ProjectUtill.showProgressDialog(context)
+                context?.let { it1 ->
+                    WebServiceRequest.getInstance().addCoin(
+                        it1,edtCoin.text.toString().trim(),
+                        object : Callback<AddCoinResponse> {
+                            override fun onResponse(
+                                call: Call<AddCoinResponse>,
+                                response: Response<AddCoinResponse>
+                            ) {
+                                myDialog.dismiss()
+                                if (response != null) {
+                                    if (response.isSuccessful) {
+                                        if (response.body()!!.code == 1) {
+                                            FCSharedPreferances.getSharedPreferance(context).totaL_COINS = response.body()!!.data.total_available_coins.toString()
+                                            totalCoins!!.text = response.body()!!.data.total_available_coins.toString()
+                                        } else {
+                                            ProjectUtill.printMessage(
+                                                (context as Activity).window.decorView,
+                                                response.body()?.message
+                                            )
+                                        }
+                                    } else {
+                                        ProjectUtill.printErrorMessage(
+                                            (context as Activity).window.decorView,
+                                            ""
+                                        )
+                                    }
+                                } else {
+                                    ProjectUtill.printErrorMessage(
+                                        (context as Activity).window.decorView,
+                                        ""
+                                    )
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<AddCoinResponse>,
+                                t: Throwable
+                            ) {
+                                myDialog.dismiss()
+                                ProjectUtill.printErrorMessage(
+                                    (context as Activity).window.decorView,
+                                    ""
+                                )
+                            }
+                        })
+                }
+            }
+        }
 
         dialog.show()
     }
+    fun donateCoins(coin:String){
+        val myDialog = ProjectUtill.showProgressDialog(context)
+        context?.let { it1 ->
+            WebServiceRequest.getInstance().addPostCoin(
+                it1,coin,idd!!,
+                object : Callback<DonateCoinResponse> {
+                    override fun onResponse(
+                        call: Call<DonateCoinResponse>,
+                        response: Response<DonateCoinResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    coinDialog!!.cancel()
+                                    FCSharedPreferances.getSharedPreferance(context).totaL_COINS = response.body()!!.data.total_available_coins.toString()
+                                    isLastPage = false
+                                    isLoading = false
+                                    page = 1
+                                    postList.clear()
+                                    postsAdapter!!.notifyDataSetChanged()
+                                    postListSwipeApi("1",type!!)
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        (context as Activity).window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    (context as Activity).window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                (context as Activity).window.decorView,
+                                ""
+                            )
+                        }
+                    }
 
+                    override fun onFailure(
+                        call: Call<DonateCoinResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            (context as Activity).window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
+    }
 }

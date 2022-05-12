@@ -28,6 +28,29 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:gravity="center"
+                        android:layout_margin="@dimen/margin_25"
+                        android:elevation="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="@dimen/margin_40dp"
+                        android:layout_height="@dimen/margin_40dp"
+                        android:src="@drawable/coins" />
+                        <TextView
+                            android:id="@+id/coins"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/padding_5"
+                            android:layout_marginEnd="@dimen/padding_5"
+                            android:fontFamily="@font/poppin_regular"
+                            android:text="0"
+                            android:textColor="@color/black2"
+                            android:textSize="14sp" />
+                    </LinearLayout>
                       <ImageView
                           android:layout_width="@dimen/margin_40dp"
                           android:layout_height="@dimen/margin_40dp"

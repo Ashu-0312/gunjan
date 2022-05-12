@@ -255,4 +255,8 @@
     <string name="select_pincode">पिनकोड चुनें</string>
     <string name="enter_name">नाम दर्ज करें</string>
     <string name="awards">पुरस्कार</string>
+    <string name="enter_coin">कॉइन दर्ज करें</string>
+    <string name="please_coin">कृपया कॉइन दर्ज करें</string>
+    <string name="coins">कॉइन</string>
+
 </resources>

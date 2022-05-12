@@ -202,6 +202,7 @@ class SettingsActivity : AppCompatActivity() {
                                             response.body()!!.data.user.profile_name
                                         FCSharedPreferances.getSharedPreferance(this@SettingsActivity).activE_COMMUNITY =
                                             response.body()!!.data.user.active_community.toString()
+                                        coins.text = response.body()!!.data.user.total_available_coins.toString()
                                     } catch (e: Exception) {
                                     }
                                 } else {

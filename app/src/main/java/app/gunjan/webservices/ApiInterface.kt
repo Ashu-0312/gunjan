@@ -112,6 +112,18 @@ interface ApiInterface {
         @HeaderMap headers:Map<String,String>
     ): Call<JoinEventResponse>
 
+    @POST(Constants.Partial.addCoin)
+    fun addCoin(
+        @Body params:HashMap<String,String>,
+        @HeaderMap headers:Map<String,String>
+    ): Call<AddCoinResponse>
+
+    @POST(Constants.Partial.addPostCoin)
+    fun addPostCoin(
+        @Body params:HashMap<String,String>,
+        @HeaderMap headers:Map<String,String>
+    ): Call<DonateCoinResponse>
+
     @PUT(Constants.Partial.addAboutYourself)
     fun addAboutYourself(
         @Body params:HashMap<String,String>,

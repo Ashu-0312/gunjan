@@ -321,6 +321,16 @@ public class PostListResponse implements Serializable {
             private int total_comment;
             private CreatedByBean created_by;
             private boolean isLiked;
+
+            public String getTotal_coins() {
+                return total_coins;
+            }
+
+            public void setTotal_coins(String total_coins) {
+                this.total_coins = total_coins;
+            }
+
+            private String total_coins;
             private boolean isCommented;
             private String my_liked_type;
             private String time;

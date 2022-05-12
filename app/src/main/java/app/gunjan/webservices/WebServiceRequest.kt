@@ -408,6 +408,35 @@ class WebServiceRequest private constructor() {
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
+    fun addCoin(
+        context: Context,
+        total_coins: String,
+        registrationResponseCallback: Callback<AddCoinResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.total_coins] = total_coins
+        val registrationResponseCall: Call<AddCoinResponse> =
+            apiInterface.addCoin(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun addPostCoin(
+        context: Context,
+        total_coins: String,
+        postId: String,
+        registrationResponseCallback: Callback<DonateCoinResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.total_coins] = total_coins
+        params[Constants.Keys.postId] = postId
+        val registrationResponseCall: Call<DonateCoinResponse> =
+            apiInterface.addPostCoin(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
 
     fun likeDislikePost(
         context: Context,

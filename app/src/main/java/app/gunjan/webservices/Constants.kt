@@ -60,6 +60,8 @@ class Constants {
         const val getAllNonMemberList = "community/getAllNonMemberList"
         const val addCommunityMember = "community/addCommunityMember"
         const val joinEvent = "post/joinEvent"
+        const val addCoin = "user/addCoin"
+        const val addPostCoin = "post/addCoin"
     }
 
     object Keys {
@@ -126,5 +128,6 @@ class Constants {
         const val isAdmin = "isAdmin"
         const val user_ids = "user_ids"
         const val designation = "designation"
+        const val total_coins = "total_coins"
     }
 }

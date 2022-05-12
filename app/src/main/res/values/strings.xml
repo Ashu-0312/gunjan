@@ -255,5 +255,8 @@
     <string name="select_pincode">Select PinCode</string>
     <string name="enter_name">Enter Name</string>
     <string name="awards">Awards</string>
+    <string name="enter_coin">Enter Coin</string>
+    <string name="please_coin">Please Enter Coin</string>
+    <string name="coins">Coins</string>
 
 </resources>

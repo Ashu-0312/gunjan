@@ -135,6 +135,7 @@ class OthersProfileActivity : AppCompatActivity() {
                                     About.text=response.body()!!.data.user.about
                                     followerCount.text = response.body()!!.data.follower_count.toString()
                                     followingCount.text = response.body()!!.data.following_count.toString()
+                                    coins!!.text = response.body()!!.data.user.total_available_coins.toString()
 
                                     toggleButton.isChecked =
                                         response.body()!!.data.following_this_user

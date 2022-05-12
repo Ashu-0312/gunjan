@@ -297,8 +297,8 @@ class HomeActivity : AppCompatActivity() {
                             if (response.body()!!.code == 1) {
                                FCSharedPreferances.getSharedPreferance(this@HomeActivity).iS_ADMIN=response.body()!!.data.isCommunityAdmin
                                FCSharedPreferances.getSharedPreferance(this@HomeActivity).iS_ACTIVE=response.body()!!.data.isActiveMember
-                                FCSharedPreferances.getSharedPreferance(this@HomeActivity).useR_ID =
-                                    response.body()!!.data.user.id.toString()
+                                FCSharedPreferances.getSharedPreferance(this@HomeActivity).useR_ID = response.body()!!.data.user.id.toString()
+                                FCSharedPreferances.getSharedPreferance(this@HomeActivity).totaL_COINS = response.body()!!.data.user.total_available_coins.toString()
                             } else {
                                 ProjectUtill.printMessage(
                                     this@HomeActivity.window.decorView,

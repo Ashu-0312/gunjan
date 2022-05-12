@@ -18,6 +18,7 @@ public class FCSharedPreferances {
     private final String OTHER_ID="otherid";
     private final String CHAT_TOKEN="chattoken";
     private final String IS_ADMIN="isadmin";
+    private final String TOTAL_COINS="coins";
     private final String IS_ACTIVE="isactive";
     private final String VALUE1="value1";
     private final String VALUE2="value2";
@@ -203,5 +204,16 @@ public class FCSharedPreferances {
 
     public String getSTATUS_LOGIN(){
         return sharedPreferences.getString(STATUS_LOGIN,"");
+    }
+
+    public void setTOTAL_COINS(String total_coins){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(TOTAL_COINS,total_coins);
+        editor.commit();
+        editor.apply();
+    }
+
+    public String getTOTAL_COINS(){
+        return sharedPreferences.getString(TOTAL_COINS,"");
     }
 }

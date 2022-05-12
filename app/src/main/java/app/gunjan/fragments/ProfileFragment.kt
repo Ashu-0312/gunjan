@@ -24,6 +24,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_others_profile.*
 import kotlinx.android.synthetic.main.activity_privacy_policy.*
 import kotlinx.android.synthetic.main.activity_privacy_policy.back
+import kotlinx.android.synthetic.main.activity_settings.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,6 +40,7 @@ class ProfileFragment : Fragment() {
     private var About:TextView?=null
     private var followerCount:TextView?=null
     private var followingCount:TextView?=null
+    private var coins:TextView?=null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,6 +57,7 @@ class ProfileFragment : Fragment() {
         settings = view.findViewById(R.id.settings)
         followerCount = view.findViewById(R.id.follower_count)
         followingCount = view.findViewById(R.id.following_count)
+        coins = view.findViewById(R.id.coins)
         initData()
         return view
     }
@@ -109,6 +112,7 @@ class ProfileFragment : Fragment() {
 
                                         followerCount!!.text = response.body()!!.data.follower_count.toString()
                                         followingCount!!.text = response.body()!!.data.following_count.toString()
+                                        coins!!.text = response.body()!!.data.user.total_available_coins.toString()
                                     }catch (e:Exception){}
                                 } else {
                                     ProjectUtill.printMessage(

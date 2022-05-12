@@ -236,6 +236,16 @@ public class OtherUserDetailsResponse implements Serializable {
             private String profile_stage;
             private boolean active;
             private String about;
+
+            public String getTotal_available_coins() {
+                return total_available_coins;
+            }
+
+            public void setTotal_available_coins(String total_available_coins) {
+                this.total_available_coins = total_available_coins;
+            }
+
+            private String total_available_coins;
             private int active_community;
         }
 
