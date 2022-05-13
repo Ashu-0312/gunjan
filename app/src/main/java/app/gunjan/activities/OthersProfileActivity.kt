@@ -18,13 +18,11 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
-import app.gunjan.adapters.FollowerFollowingTabAdapter
 import app.gunjan.adapters.OthersTabAdapter
 import app.gunjan.adapters.ReasonListAdapter
 import app.gunjan.entity.FollowUserResponse
 import app.gunjan.entity.OtherUserDetailsResponse
 import app.gunjan.entity.UnfollowUserResponse
-import app.gunjan.entity.UserDetailsResponse
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
@@ -32,6 +30,9 @@ import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_others_profile.*
 import kotlinx.android.synthetic.main.activity_others_profile.back
+import kotlinx.android.synthetic.main.activity_others_profile.userName
+import kotlinx.android.synthetic.main.activity_others_profile.userPic
+import kotlinx.android.synthetic.main.activity_social_profile.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -138,7 +139,7 @@ class OthersProfileActivity : AppCompatActivity() {
                                     coins!!.text = response.body()!!.data.user.total_available_coins.toString()
 
                                     toggleButton.isChecked =
-                                        response.body()!!.data.following_this_user
+                                        response.body()!!.data.isFollowing_this_user
                                 }catch (e:Exception){}
                             } else {
                                 ProjectUtill.printMessage(

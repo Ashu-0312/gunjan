@@ -24,6 +24,7 @@
             android:background="@color/pink"
             android:orientation="vertical">
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/userPic"
                 android:layout_marginTop="@dimen/margin_10dp"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -38,7 +39,7 @@
                 android:layout_marginEnd="@dimen/margin_10dp"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_17sp"
-                android:text="Johny Ive"
+                android:id="@+id/userName"
                 android:fontFamily="@font/popinbold"
                 android:layout_gravity="center"
                 android:gravity="center"
@@ -50,7 +51,7 @@
                 android:layout_marginEnd="@dimen/margin_10dp"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_17sp"
-                android:text="Musician"
+               android:id="@+id/userDesignation"
                 android:fontFamily="@font/poppin_medium"
                 android:layout_gravity="center"
                 android:gravity="center"/>

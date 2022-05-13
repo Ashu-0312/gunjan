@@ -124,6 +124,12 @@ interface ApiInterface {
         @HeaderMap headers:Map<String,String>
     ): Call<DonateCoinResponse>
 
+    @POST(Constants.Partial.addSocialMedia)
+    fun addSocialMedia(
+        @Body params:HashMap<String,String>,
+        @HeaderMap headers:Map<String,String>
+    ): Call<AddSocialMediaResponse>
+
     @PUT(Constants.Partial.addAboutYourself)
     fun addAboutYourself(
         @Body params:HashMap<String,String>,
@@ -358,6 +364,18 @@ interface ApiInterface {
         @Path("input") input: String?,
         @HeaderMap headers: Map<String, String>
     ): Call<EventJoinedUsersResponse>
+
+    @GET(Constants.Partial.getAllDonationList)
+    fun getAllDonationList(
+        @Query(Constants.Keys.type) type: String?,
+        @HeaderMap headers: Map<String, String>
+    ): Call<DonationListResponse>
+
+    @GET(Constants.Partial.getAllDonationList)
+    fun getAllReceivedDonationList(
+        @Query(Constants.Keys.type) type: String?,
+        @HeaderMap headers: Map<String, String>
+    ): Call<ReceivedCoinListResponse>
 
     @PATCH(Constants.Partial.acceptRejectRequest)
     fun acceptRejectRequest(

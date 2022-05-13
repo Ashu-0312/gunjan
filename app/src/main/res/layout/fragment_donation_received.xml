@@ -25,7 +25,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/popinbold"
-            android:text="@string/amount"
+            android:text="@string/coins"
             android:textColor="@color/blue"/>
         <TextView
             android:layout_marginEnd="@dimen/margin_15"
@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppin_regular"
-            android:text="97 \u20B9"
+            android:id="@+id/total_coins"
             android:textSize="@dimen/text_12sp"
             android:textColor="@color/txt_color"/>
         <TextView

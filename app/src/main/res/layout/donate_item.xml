@@ -27,7 +27,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppin_regular"
-            android:text="temple run"
+            android:id="@+id/community_name"
             android:textSize="@dimen/text_12sp"
             android:textColor="@color/txt_color"/>
         <TextView
@@ -38,7 +38,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppin_regular"
-            android:text="1 \u20B9"
+            android:id="@+id/coin"
             android:textSize="@dimen/text_12sp"
             android:textColor="@color/txt_color"/>
     </LinearLayout>

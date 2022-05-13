@@ -5,14 +5,6 @@ import java.util.List;
 
 public class UserDetailsResponse implements Serializable {
 
-    /**
-     * code : 1
-     * message : User details
-     * data : {"user":{"id":22,"profile_name":"User1","first_name":"User1","last_name":"Demo","pincode":"2585","mobile":"1111111111","countryCode":"+91","gender":"Male","dob":"2000-02-15","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-5787.jpg","email":"user1@gmail.com","device_type":"android","device_token":"eDcfGzrKReWa-QRKVr39E8:APA91bHXmzpjsqd99yYkzsZPK-4FPXY-xUUdztKGhYx9S8oL6PDKfM4NaJXYj7rq16XdO4lBVFc3rTjx3uY-FS3ZbiVEbvAiQyd7JD95nPsA203yXS14rkjF9iA-ZKalfmvU41JNlw5F","profile_stage":"5","active":true,"notification_permission":"allow","about":"dcfffkfndmdndndk","identification_file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6187.jpg","active_community":18,"interest_list":[{"id":17,"interestId":2,"interestDetails":{"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}},{"id":18,"interestId":3,"interestDetails":{"id":3,"name":"interests3","image":"url","createdAt":"2022-01-10T12:16:50.000Z"}}]},"following_count":2,"follower_count":2,"active_community_details":{"id":18,"userId":22,"category":2,"title":"community1","about":"fjfjvjffjfjfkfj","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-9142.jpg"}}
-     */
-
-    private int code;
-
     public int getCode() {
         return code;
     }
@@ -37,6 +29,13 @@ public class UserDetailsResponse implements Serializable {
         this.data = data;
     }
 
+    /**
+     * code : 1
+     * message : User details
+     * data : {"user":{"id":89,"profile_name":"Dummyuser","first_name":"Dummy","last_name":"User","pincode":"741150","mobile":"8299727845","countryCode":"+91","gender":"Male","dob":"1996-05-13","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-3427.jpg","email":"rd@gmail.com","state":"Uttar Pradesh","city":"Aliganj","designation":"Development","device_type":"android","device_token":"eO80MqzkSnSyLE4_-sxMgH:APA91bEaGZCZZJJsMXBXkUxrlHh5uqTA-kWQsQX392DHk62E133WYot1b9EixKOdYRCbti8lDMpVFR5QUUl9fQ2OudhKyhU6KLuZjzecDfTTu5JVcd8Ng91RPguo72PP3EBBCBt3cAjb","profile_stage":"5","active":true,"notification_permission":"allow","about":"djfjfjfrjfkfkfkffkfkfkfkrkrfkfkfkfkfkffkfkfkfkfkfkffkckckckckckcmcmcmccmcmckfkfkckffkfkfkfkfkfkfkckckfkfkcckckckckfkffkfkfkfkfkfjfkfjffjfkfkfkfkfkffkkffkkffkgkgkfkfkkggkfkfkffkfkfkfjfckfkfjfkfkffkfkfkfkfkfkg","identification_file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-1635.jpg","active_community":50,"language":"en","total_available_coins":500,"interest_list":[{"id":39,"interestId":1,"interestDetails":{"id":1,"name":"testing interests","image":"url","createdAt":"2022-01-10T09:56:50.000Z"}},{"id":40,"interestId":2,"interestDetails":{"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}}],"social_media_details":{"id":2,"facebook":"fb","youtube":"youtube","instagram":"insta","linkedin":"linked"}},"following_count":0,"follower_count":0,"active_community_details":{"id":50,"userId":89,"category":6,"title":"My Community Added","about":"fnfjffifkfkfkfjfif","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-3149.jpg"},"isCommunityAdmin":true,"isActiveMember":true}
+     */
+
+    private int code;
     private String message;
     private DataBean data;
 
@@ -73,38 +72,37 @@ public class UserDetailsResponse implements Serializable {
             this.active_community_details = active_community_details;
         }
 
-        /**
-         * user : {"id":22,"profile_name":"User1","first_name":"User1","last_name":"Demo","pincode":"2585","mobile":"1111111111","countryCode":"+91","gender":"Male","dob":"2000-02-15","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-5787.jpg","email":"user1@gmail.com","device_type":"android","device_token":"eDcfGzrKReWa-QRKVr39E8:APA91bHXmzpjsqd99yYkzsZPK-4FPXY-xUUdztKGhYx9S8oL6PDKfM4NaJXYj7rq16XdO4lBVFc3rTjx3uY-FS3ZbiVEbvAiQyd7JD95nPsA203yXS14rkjF9iA-ZKalfmvU41JNlw5F","profile_stage":"5","active":true,"notification_permission":"allow","about":"dcfffkfndmdndndk","identification_file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6187.jpg","active_community":18,"interest_list":[{"id":17,"interestId":2,"interestDetails":{"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}},{"id":18,"interestId":3,"interestDetails":{"id":3,"name":"interests3","image":"url","createdAt":"2022-01-10T12:16:50.000Z"}}]}
-         * following_count : 2
-         * follower_count : 2
-         * active_community_details : {"id":18,"userId":22,"category":2,"title":"community1","about":"fjfjvjffjfjfkfj","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-9142.jpg"}
-         */
-
-        private UserBean user;
-
-        private int following_count;
-        private int follower_count;
-
-        public String getIsCommunityAdmin() {
+        public String isCommunityAdmin() {
             return isCommunityAdmin;
         }
 
-        public void setIsCommunityAdmin(String isCommunityAdmin) {
-            this.isCommunityAdmin = isCommunityAdmin;
+        public void setCommunityAdmin(String communityAdmin) {
+            isCommunityAdmin = communityAdmin;
         }
 
-        private String isCommunityAdmin;
-
-        public String getIsActiveMember() {
+        public String isActiveMember() {
             return isActiveMember;
         }
 
-        public void setIsActiveMember(String isActiveMember) {
-            this.isActiveMember = isActiveMember;
+        public void setActiveMember(String activeMember) {
+            isActiveMember = activeMember;
         }
 
-        private String isActiveMember;
+        /**
+         * user : {"id":89,"profile_name":"Dummyuser","first_name":"Dummy","last_name":"User","pincode":"741150","mobile":"8299727845","countryCode":"+91","gender":"Male","dob":"1996-05-13","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-3427.jpg","email":"rd@gmail.com","state":"Uttar Pradesh","city":"Aliganj","designation":"Development","device_type":"android","device_token":"eO80MqzkSnSyLE4_-sxMgH:APA91bEaGZCZZJJsMXBXkUxrlHh5uqTA-kWQsQX392DHk62E133WYot1b9EixKOdYRCbti8lDMpVFR5QUUl9fQ2OudhKyhU6KLuZjzecDfTTu5JVcd8Ng91RPguo72PP3EBBCBt3cAjb","profile_stage":"5","active":true,"notification_permission":"allow","about":"djfjfjfrjfkfkfkffkfkfkfkrkrfkfkfkfkfkffkfkfkfkfkfkffkckckckckckcmcmcmccmcmckfkfkckffkfkfkfkfkfkfkckckfkfkcckckckckfkffkfkfkfkfkfjfkfjffjfkfkfkfkfkffkkffkkffkgkgkfkfkkggkfkfkffkfkfkfjfckfkfjfkfkffkfkfkfkfkfkg","identification_file":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-1635.jpg","active_community":50,"language":"en","total_available_coins":500,"interest_list":[{"id":39,"interestId":1,"interestDetails":{"id":1,"name":"testing interests","image":"url","createdAt":"2022-01-10T09:56:50.000Z"}},{"id":40,"interestId":2,"interestDetails":{"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}}],"social_media_details":{"id":2,"facebook":"fb","youtube":"youtube","instagram":"insta","linkedin":"linked"}}
+         * following_count : 0
+         * follower_count : 0
+         * active_community_details : {"id":50,"userId":89,"category":6,"title":"My Community Added","about":"fnfjffifkfkfkfjfif","image":"https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-3149.jpg"}
+         * isCommunityAdmin : true
+         * isActiveMember : true
+         */
+
+        private UserBean user;
+        private int following_count;
+        private int follower_count;
         private ActiveCommunityDetailsBean active_community_details;
+        private String isCommunityAdmin;
+        private String isActiveMember;
 
         public static class UserBean implements Serializable {
             public int getId() {
@@ -195,6 +193,30 @@ public class UserDetailsResponse implements Serializable {
                 this.email = email;
             }
 
+            public String getState() {
+                return state;
+            }
+
+            public void setState(String state) {
+                this.state = state;
+            }
+
+            public String getCity() {
+                return city;
+            }
+
+            public void setCity(String city) {
+                this.city = city;
+            }
+
+            public String getDesignation() {
+                return designation;
+            }
+
+            public void setDesignation(String designation) {
+                this.designation = designation;
+            }
+
             public String getDevice_type() {
                 return device_type;
             }
@@ -259,6 +281,30 @@ public class UserDetailsResponse implements Serializable {
                 this.active_community = active_community;
             }
 
+            public String getLanguage() {
+                return language;
+            }
+
+            public void setLanguage(String language) {
+                this.language = language;
+            }
+
+            public int getTotal_available_coins() {
+                return total_available_coins;
+            }
+
+            public void setTotal_available_coins(int total_available_coins) {
+                this.total_available_coins = total_available_coins;
+            }
+
+            public SocialMediaDetailsBean getSocial_media_details() {
+                return social_media_details;
+            }
+
+            public void setSocial_media_details(SocialMediaDetailsBean social_media_details) {
+                this.social_media_details = social_media_details;
+            }
+
             public List<InterestListBean> getInterest_list() {
                 return interest_list;
             }
@@ -268,26 +314,32 @@ public class UserDetailsResponse implements Serializable {
             }
 
             /**
-             * id : 22
-             * profile_name : User1
-             * first_name : User1
-             * last_name : Demo
-             * pincode : 2585
-             * mobile : 1111111111
+             * id : 89
+             * profile_name : Dummyuser
+             * first_name : Dummy
+             * last_name : User
+             * pincode : 741150
+             * mobile : 8299727845
              * countryCode : +91
              * gender : Male
-             * dob : 2000-02-15
-             * image : https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-5787.jpg
-             * email : user1@gmail.com
+             * dob : 1996-05-13
+             * image : https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-3427.jpg
+             * email : rd@gmail.com
+             * state : Uttar Pradesh
+             * city : Aliganj
+             * designation : Development
              * device_type : android
-             * device_token : eDcfGzrKReWa-QRKVr39E8:APA91bHXmzpjsqd99yYkzsZPK-4FPXY-xUUdztKGhYx9S8oL6PDKfM4NaJXYj7rq16XdO4lBVFc3rTjx3uY-FS3ZbiVEbvAiQyd7JD95nPsA203yXS14rkjF9iA-ZKalfmvU41JNlw5F
+             * device_token : eO80MqzkSnSyLE4_-sxMgH:APA91bEaGZCZZJJsMXBXkUxrlHh5uqTA-kWQsQX392DHk62E133WYot1b9EixKOdYRCbti8lDMpVFR5QUUl9fQ2OudhKyhU6KLuZjzecDfTTu5JVcd8Ng91RPguo72PP3EBBCBt3cAjb
              * profile_stage : 5
              * active : true
              * notification_permission : allow
-             * about : dcfffkfndmdndndk
-             * identification_file : https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-6187.jpg
-             * active_community : 18
-             * interest_list : [{"id":17,"interestId":2,"interestDetails":{"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}},{"id":18,"interestId":3,"interestDetails":{"id":3,"name":"interests3","image":"url","createdAt":"2022-01-10T12:16:50.000Z"}}]
+             * about : djfjfjfrjfkfkfkffkfkfkfkrkrfkfkfkfkfkffkfkfkfkfkfkffkckckckckckcmcmcmccmcmckfkfkckffkfkfkfkfkfkfkckckfkfkcckckckckfkffkfkfkfkfkfjfkfjffjfkfkfkfkfkffkkffkkffkgkgkfkfkkggkfkfkffkfkfkfjfckfkfjfkfkffkfkfkfkfkfkg
+             * identification_file : https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-1635.jpg
+             * active_community : 50
+             * language : en
+             * total_available_coins : 500
+             * interest_list : [{"id":39,"interestId":1,"interestDetails":{"id":1,"name":"testing interests","image":"url","createdAt":"2022-01-10T09:56:50.000Z"}},{"id":40,"interestId":2,"interestDetails":{"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}}]
+             * social_media_details : {"id":2,"facebook":"fb","youtube":"youtube","instagram":"insta","linkedin":"linked"}
              */
 
             private int id;
@@ -302,33 +354,7 @@ public class UserDetailsResponse implements Serializable {
             private String image;
             private String email;
             private String state;
-
-            public String getState() {
-                return state;
-            }
-
-            public void setState(String state) {
-                this.state = state;
-            }
-
-            public String getCity() {
-                return city;
-            }
-
-            public void setCity(String city) {
-                this.city = city;
-            }
-
             private String city;
-
-            public String getDesignation() {
-                return designation;
-            }
-
-            public void setDesignation(String designation) {
-                this.designation = designation;
-            }
-
             private String designation;
             private String device_type;
             private String device_token;
@@ -338,19 +364,76 @@ public class UserDetailsResponse implements Serializable {
             private String about;
             private String identification_file;
             private int active_community;
-
-            public int getTotal_available_coins() {
-                return total_available_coins;
-            }
-
-            public void setTotal_available_coins(int total_available_coins) {
-                this.total_available_coins = total_available_coins;
-            }
-
+            private String language;
             private int total_available_coins;
+            private SocialMediaDetailsBean social_media_details;
             private List<InterestListBean> interest_list;
 
+            public static class SocialMediaDetailsBean implements Serializable {
+                public int getId() {
+                    return id;
+                }
+
+                public void setId(int id) {
+                    this.id = id;
+                }
+
+                public String getFacebook() {
+                    return facebook;
+                }
+
+                public void setFacebook(String facebook) {
+                    this.facebook = facebook;
+                }
+
+                public String getYoutube() {
+                    return youtube;
+                }
+
+                public void setYoutube(String youtube) {
+                    this.youtube = youtube;
+                }
+
+                public String getInstagram() {
+                    return instagram;
+                }
+
+                public void setInstagram(String instagram) {
+                    this.instagram = instagram;
+                }
+
+                public String getLinkedin() {
+                    return linkedin;
+                }
+
+                public void setLinkedin(String linkedin) {
+                    this.linkedin = linkedin;
+                }
+
+                /**
+                 * id : 2
+                 * facebook : fb
+                 * youtube : youtube
+                 * instagram : insta
+                 * linkedin : linked
+                 */
+
+                private int id;
+                private String facebook;
+                private String youtube;
+                private String instagram;
+                private String linkedin;
+            }
+
             public static class InterestListBean implements Serializable {
+                /**
+                 * id : 39
+                 * interestId : 1
+                 * interestDetails : {"id":1,"name":"testing interests","image":"url","createdAt":"2022-01-10T09:56:50.000Z"}
+                 */
+
+                private int id;
+
                 public int getId() {
                     return id;
                 }
@@ -375,13 +458,6 @@ public class UserDetailsResponse implements Serializable {
                     this.interestDetails = interestDetails;
                 }
 
-                /**
-                 * id : 17
-                 * interestId : 2
-                 * interestDetails : {"id":2,"name":"testing interests 2","image":"url","createdAt":"2022-01-10T10:05:49.000Z"}
-                 */
-
-                private int id;
                 private int interestId;
                 private InterestDetailsBean interestDetails;
 
@@ -419,10 +495,10 @@ public class UserDetailsResponse implements Serializable {
                     }
 
                     /**
-                     * id : 2
-                     * name : testing interests 2
+                     * id : 1
+                     * name : testing interests
                      * image : url
-                     * createdAt : 2022-01-10T10:05:49.000Z
+                     * createdAt : 2022-01-10T09:56:50.000Z
                      */
 
                     private int id;
@@ -483,12 +559,12 @@ public class UserDetailsResponse implements Serializable {
             }
 
             /**
-             * id : 18
-             * userId : 22
-             * category : 2
-             * title : community1
-             * about : fjfjvjffjfjfkfj
-             * image : https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-9142.jpg
+             * id : 50
+             * userId : 89
+             * category : 6
+             * title : My Community Added
+             * about : fnfjffifkfkfkfjfif
+             * image : https://s3.us-east-2.amazonaws.com/media-appsinvo/Image-3149.jpg
              */
 
             private int id;

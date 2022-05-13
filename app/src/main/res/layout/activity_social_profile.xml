@@ -27,6 +27,7 @@
         android:layout_marginTop="@dimen/margin_10dp"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:id="@+id/userPic"
         android:src="@drawable/user_avatar"
         app:civ_border_color="@color/white"
         app:civ_border_width="@dimen/padding_2"
@@ -38,7 +39,7 @@
         android:layout_marginEnd="@dimen/margin_10dp"
         android:textColor="@color/white"
         android:textSize="@dimen/text_17sp"
-        android:text="Johny Ive"
+        android:id="@+id/userName"
         android:fontFamily="@font/popinbold"
         android:layout_gravity="center"
         android:gravity="center"
@@ -50,7 +51,7 @@
         android:layout_marginEnd="@dimen/margin_10dp"
         android:textColor="@color/white"
         android:textSize="@dimen/text_17sp"
-        android:text="Musician"
+        android:id="@+id/userDesignation"
         android:fontFamily="@font/poppin_medium"
         android:layout_gravity="center"
         android:gravity="center"/>
@@ -89,7 +90,7 @@
                 android:textColor="@color/txt_color"
                 android:text="https://www.youtube.com/"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/youtubeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -138,7 +139,7 @@
                 android:textColor="@color/txt_color"
                 android:text="https://www.facebook.com/"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/fbName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -187,7 +188,7 @@
                 android:textColor="@color/txt_color"
                 android:text="https://www.instagram.com/"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/instaName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -236,7 +237,7 @@
                 android:textColor="@color/txt_color"
                 android:text="https://www.linkedin.com/"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/linkedInName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

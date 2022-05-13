@@ -62,6 +62,8 @@ class Constants {
         const val joinEvent = "post/joinEvent"
         const val addCoin = "user/addCoin"
         const val addPostCoin = "post/addCoin"
+        const val addSocialMedia = "user/addSocialMedia"
+        const val getAllDonationList = "post/getAllDonationList"
     }
 
     object Keys {
@@ -129,5 +131,9 @@ class Constants {
         const val user_ids = "user_ids"
         const val designation = "designation"
         const val total_coins = "total_coins"
+        const val facebook = "facebook"
+        const val youtube = "youtube"
+        const val instagram = "instagram"
+        const val linkedin = "linkedin"
     }
 }

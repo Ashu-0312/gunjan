@@ -3,6 +3,7 @@ package app.gunjan.webservices
 import android.content.Context
 import app.gunjan.activities.PostListResponse
 import app.gunjan.entity.*
+import app.gunjan.fragments.DonationFragment
 import app.gunjan.utill.FCSharedPreferances
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -435,6 +436,26 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.postId] = postId
         val registrationResponseCall: Call<DonateCoinResponse> =
             apiInterface.addPostCoin(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun addSocialMedia(
+        context: Context,
+        facebook: String,
+        instagram: String,
+        youtube: String,
+        linkedin: String,
+        registrationResponseCallback: Callback<AddSocialMediaResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.facebook] = facebook
+        params[Constants.Keys.instagram] = instagram
+        params[Constants.Keys.youtube] = youtube
+        params[Constants.Keys.linkedin] = linkedin
+        val registrationResponseCall: Call<AddSocialMediaResponse> =
+            apiInterface.addSocialMedia(params,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
@@ -990,6 +1011,34 @@ class WebServiceRequest private constructor() {
         headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
         val registrationResponseCall: Call<EventJoinedUsersResponse> =
             apiInterface.joinedUserList(input,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun donationList(
+        context: Context,
+        type: String,
+        registrationResponseCallback: Callback<DonationListResponse>
+    ) {
+        var params = HashMap<String,String>()
+        params[Constants.Keys.type] = type
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val registrationResponseCall: Call<DonationListResponse> =
+            apiInterface.getAllDonationList(type,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun getAllReceivedDonationList(
+        context: Context,
+        type: String,
+        registrationResponseCallback: Callback<ReceivedCoinListResponse>
+    ) {
+        var params = HashMap<String,String>()
+        params[Constants.Keys.type] = type
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        val registrationResponseCall: Call<ReceivedCoinListResponse> =
+            apiInterface.getAllReceivedDonationList(type,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
