@@ -5,37 +5,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <LinearLayout
-        android:weightSum="5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_weight="2"
-            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/popinbold"
             android:text="@string/community_name"
             android:textColor="@color/blue"/>
         <TextView
             android:layout_gravity="center"
-            android:gravity="end"
+            android:gravity="center"
             android:layout_weight="1"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/popinbold"
             android:text="@string/coins"
-            android:textColor="@color/blue"/>
-        <TextView
-            android:layout_marginEnd="@dimen/margin_15"
-            android:layout_gravity="center"
-            android:gravity="end"
-            android:layout_weight="2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/popinbold"
-            android:text="@string/say_thanks"
             android:textColor="@color/blue"/>
     </LinearLayout>
     <LinearLayout
@@ -68,7 +57,7 @@
             android:layout_marginStart="@dimen/margin_10dp"
             android:layout_weight="1"
             android:layout_gravity="center"
-            android:gravity="start"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/popinbold"
@@ -77,7 +66,7 @@
             android:textColor="@color/txt_color"/>
         <TextView
             android:layout_gravity="center"
-            android:gravity="start"
+            android:gravity="center"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -85,15 +74,5 @@
             android:id="@+id/total_coins"
             android:textSize="@dimen/text_12sp"
             android:textColor="@color/txt_color"/>
-        <TextView
-            android:layout_marginEnd="@dimen/margin_10dp"
-            android:layout_gravity="center"
-            android:gravity="start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/popinbold"
-            android:text="@string/claim_rewards"
-            android:textSize="14sp"
-            android:textColor="@color/blue"/>
     </LinearLayout>
 </LinearLayout>
