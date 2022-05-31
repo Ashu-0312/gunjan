@@ -62,6 +62,7 @@
         android:layout_below="@id/layout"
         android:orientation="vertical">
         <LinearLayout
+            android:id="@+id/youtubeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -82,15 +83,7 @@
                 android:src="@drawable/youtube" />
 
             <TextView
-                android:layout_marginStart="@dimen/margin_7"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_13sp"
-                android:textColor="@color/txt_color"
-                android:text="https://www.youtube.com/"/>
-
-            <TextView
+                android:autoLink="web"
                 android:id="@+id/youtubeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -111,6 +104,7 @@
                 android:textSize="@dimen/text_13sp" />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/fbLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -131,15 +125,7 @@
                 android:src="@drawable/facebook" />
 
             <TextView
-                android:layout_marginStart="@dimen/margin_7"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_13sp"
-                android:textColor="@color/txt_color"
-                android:text="https://www.facebook.com/"/>
-
-            <TextView
+                android:autoLink="web"
                 android:id="@+id/fbName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -160,6 +146,7 @@
                 android:textSize="@dimen/text_13sp" />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/instaLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -180,15 +167,7 @@
                 android:src="@drawable/instagram" />
 
             <TextView
-                android:layout_marginStart="@dimen/margin_7"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_13sp"
-                android:textColor="@color/txt_color"
-                android:text="https://www.instagram.com/"/>
-
-            <TextView
+                android:autoLink="web"
                 android:id="@+id/instaName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -209,6 +188,7 @@
                 android:textSize="@dimen/text_13sp" />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/linkedInLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -227,17 +207,8 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/margin_10dp"
                 android:src="@drawable/linkedin" />
-
             <TextView
-                android:layout_marginStart="@dimen/margin_7"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_13sp"
-                android:textColor="@color/txt_color"
-                android:text="https://www.linkedin.com/"/>
-
-            <TextView
+                android:autoLink="web"
                 android:id="@+id/linkedInName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

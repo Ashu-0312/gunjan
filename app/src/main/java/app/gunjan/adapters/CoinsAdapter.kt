@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
@@ -35,9 +36,23 @@ class CoinsAdapter(
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-         holder.name!!.text = data[position].toString()
+        holder.name!!.text = data[position].toString()
         holder.itemView!!.setOnClickListener {
-            fragment!!.donateCoins(data[position].toString())
+            if (FCSharedPreferances.getSharedPreferance(context).totaL_COINS.equals("") or FCSharedPreferances.getSharedPreferance(
+                    context
+                ).totaL_COINS.equals("0")
+                or (FCSharedPreferances.getSharedPreferance(
+                    context
+                ).totaL_COINS.toInt() < data[position].toString().toInt())
+            ) {
+                Toast.makeText(
+                    context,
+                    context!!.getString(R.string.please_coins),
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                fragment!!.donateCoins(data[position].toString())
+            }
         }
     }
 
@@ -46,9 +61,10 @@ class CoinsAdapter(
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var name: TextView? =null
+        var name: TextView? = null
+
         init {
-            name=itemView.findViewById(R.id.name)
+            name = itemView.findViewById(R.id.name)
         }
     }
 

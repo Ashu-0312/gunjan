@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
 import app.gunjan.adapters.DonationReceiveAdapter
+import app.gunjan.adapters.FaqListAdapter
 import app.gunjan.entity.ReceivedCoinListResponse
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
@@ -18,9 +20,13 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class DonationReceivedFragment : Fragment() {
+    private var list:ArrayList<String> = ArrayList<String>()
     private var totalCoins:Int?=0
     private var totalCoin:TextView?=null
     private var donationRecycler: RecyclerView? = null
+    private var faqRecycler: RecyclerView? = null
+    private var faqLayout: LinearLayout? = null
+    private var claimReward: TextView? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,11 +35,27 @@ class DonationReceivedFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_donation_received, container, false)
         donationRecycler=view.findViewById(R.id.donate_recycler)
         totalCoin=view.findViewById(R.id.total_coins)
+        faqRecycler=view.findViewById(R.id.faqRecycler)
+        faqLayout=view.findViewById(R.id.faqLayout)
+        claimReward=view.findViewById(R.id.claim_reward)
         initData()
         return view
     }
 
     private fun initData() {
+
+        list.add("")
+        list.add("")
+        list.add("")
+        list.add("")
+
+        var faqListAdapter = FaqListAdapter(context,list)
+        faqRecycler!!.layoutManager = LinearLayoutManager(context)
+        faqRecycler!!.adapter = faqListAdapter
+
+        claimReward!!.setOnClickListener {
+            faqLayout!!.visibility = View.VISIBLE
+        }
 
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let {

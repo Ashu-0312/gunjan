@@ -50,6 +50,7 @@ import java.util.*
 
 class CompleteProfileFragment : Fragment(), UploadFileListener {
     private var pathPic = ""
+    private var statusPin = ""
     private var awsPicUrl = ""
     private var stateValue:String? = null
     private var pincodeValue:String? = null
@@ -65,6 +66,9 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
     var citySpinner: Spinner? = null
     var stateSpinner: Spinner? = null
     var pincodeSpinner: Spinner? = null
+    var pincodeLayout: LinearLayout? = null
+    var pincodeLayout2: LinearLayout? = null
+    var edtPincode: EditText? = null
     private var stateList: ArrayList<String> = ArrayList<String>()
     private var stateNameList: ArrayList<String> = ArrayList<String>()
     private var cityList: ArrayList<String> = ArrayList<String>()
@@ -85,6 +89,9 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
         stateSpinner = view.findViewById(R.id.state_spinner)
         pincodeSpinner = view.findViewById(R.id.pincode_spinner)
         designation = view.findViewById(R.id.edt_designation)
+        pincodeLayout = view.findViewById(R.id.pincodeLayout)
+        pincodeLayout2 = view.findViewById(R.id.pincodeLayout2)
+        edtPincode = view.findViewById(R.id.edtPincode)
         initData()
         return view
     }
@@ -96,14 +103,15 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
             if (awsPicUrl.toString().trim() == "") {
                 Toast.makeText(context, getString(R.string.choose_pic), Toast.LENGTH_LONG).show()
             } else {
-                if (validate()) {
-                    val myDialog = ProjectUtill.showProgressDialog(context)
+                if (statusPin == "1") {
+                    if (validate2()) {
+                         val myDialog = ProjectUtill.showProgressDialog(context)
                     context?.let { it1 ->
                         WebServiceRequest.getInstance().completeProfile(
                             it1, profileName!!.text.toString().trim(),
                             firstName!!.text.toString().trim(),
                             lastName!!.text.toString().trim(),
-                            "android", "en", awsPicUrl,pincodeValue!!,
+                            "android", "en", awsPicUrl,edtPincode!!.text.toString().trim(),
                             stateValue!!,cityValue!!,
                             designation!!.text.toString().trim(),
                             object : Callback<CompleteProfileResponse> {
@@ -147,6 +155,61 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
                                     )
                                 }
                             })
+                    }
+                    }
+                }else if (statusPin=="2") {
+                    if (validate()) {
+                        val myDialog = ProjectUtill.showProgressDialog(context)
+                        context?.let { it1 ->
+                            WebServiceRequest.getInstance().completeProfile(
+                                it1, profileName!!.text.toString().trim(),
+                                firstName!!.text.toString().trim(),
+                                lastName!!.text.toString().trim(),
+                                "android", "en", awsPicUrl, pincodeValue!!,
+                                stateValue!!, cityValue!!,
+                                designation!!.text.toString().trim(),
+                                object : Callback<CompleteProfileResponse> {
+                                    override fun onResponse(
+                                        call: Call<CompleteProfileResponse>,
+                                        response: Response<CompleteProfileResponse>
+                                    ) {
+                                        myDialog.dismiss()
+                                        if (response != null) {
+                                            if (response.isSuccessful) {
+                                                if (response.body()!!.code == 1) {
+                                                    (activity as SetProfileActivity).loadIdentificationFragment()
+                                                } else {
+                                                    ProjectUtill.printMessage(
+                                                        (context as Activity).window.decorView,
+                                                        response.body()?.message
+                                                    )
+                                                }
+                                            } else {
+                                                ProjectUtill.printErrorMessage(
+                                                    (context as Activity).window.decorView,
+                                                    ""
+                                                )
+                                            }
+                                        } else {
+                                            ProjectUtill.printErrorMessage(
+                                                (context as Activity).window.decorView,
+                                                ""
+                                            )
+                                        }
+                                    }
+
+                                    override fun onFailure(
+                                        call: Call<CompleteProfileResponse>,
+                                        t: Throwable
+                                    ) {
+                                        myDialog.dismiss()
+                                        ProjectUtill.printErrorMessage(
+                                            (context as Activity).window.decorView,
+                                            ""
+                                        )
+                                    }
+                                })
+                        }
                     }
                 }
             }
@@ -366,6 +429,37 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
         return true
     }
 
+    private fun validate2(): Boolean {
+        if (profileName!!.text.toString().trim().equals("", ignoreCase = true)) {
+            profileName!!.requestFocus()
+            profileName!!.error = getString(R.string.enter_profilename)
+            return false
+        } else if (firstName!!.text.toString().trim().equals("", ignoreCase = true)) {
+            firstName!!.requestFocus()
+            firstName!!.error = getString(R.string.enter_firstname)
+            return false
+        } else if (lastName!!.text.toString().trim().equals("", ignoreCase = true)) {
+            lastName!!.requestFocus()
+            lastName!!.error = getString(R.string.enter_lastname)
+            return false
+        }else if (designation!!.text.toString().trim().equals("", ignoreCase = true)) {
+            designation!!.requestFocus()
+            designation!!.error = getString(R.string.please_designation)
+            return false
+        } else if (stateSpinner!!.selectedItem.equals(getString(R.string.select_state))) {
+            Toast.makeText(context, getString(R.string.please_state), Toast.LENGTH_LONG).show()
+            return false
+        } else if (citySpinner!!.selectedItem.equals(getString(R.string.select_city))) {
+            Toast.makeText(context, getString(R.string.please_city), Toast.LENGTH_LONG).show()
+            return false
+        }else if (edtPincode!!.text.toString().trim().equals("", ignoreCase = true)) {
+            edtPincode!!.requestFocus()
+            edtPincode!!.error = getString(R.string.enter_pincode)
+            return false
+        }
+        return true
+    }
+
     private fun userDetails() {
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let { it1 ->
@@ -404,6 +498,7 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
                                             pincodeValue=null
                                         }else{
                                             pincodeValue = response.body()!!.data.user.pincode
+                                            edtPincode!!.setText(response.body()!!.data.user.pincode)
                                         }
 
                                         if (response.body()!!.data.user.state==null) {
@@ -680,6 +775,15 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
                                     pincodeList.add(getString(R.string.select_pincode))
                                     for (i in response.body()!!.data.pincodes) {
                                         pincodeList.add(i.pincode.toString())
+                                    }
+                                    if (pincodeList.size == 1) {
+                                        statusPin = "1"
+                                        pincodeLayout!!.visibility = View.GONE
+                                        pincodeLayout2!!.visibility = View.VISIBLE
+                                    } else {
+                                        statusPin = "2"
+                                        pincodeLayout!!.visibility = View.VISIBLE
+                                        pincodeLayout2!!.visibility = View.GONE
                                     }
                                     val arrayAdapter1: ArrayAdapter<String> =
                                         object : ArrayAdapter<String>(

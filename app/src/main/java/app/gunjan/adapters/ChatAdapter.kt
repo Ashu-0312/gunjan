@@ -331,7 +331,7 @@ class ChatAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var leftLayout: LinearLayout? = null
-        var rightLayout: RelativeLayout? = null
+        var rightLayout: LinearLayout? = null
         var leftFrame: FrameLayout? = null
         var rightFrame: FrameLayout? = null
         var leftImage: ImageView? = null

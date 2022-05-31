@@ -142,7 +142,7 @@ class HomeActivity : AppCompatActivity() {
 
         addCommunity.setOnClickListener {
              if (FCSharedPreferances.getSharedPreferance(this).iS_ACTIVE.equals("false")){
-                Toast.makeText(this,getString(R.string.block_in_community),Toast.LENGTH_LONG).show()
+                Toast.makeText(this,getString(R.string.create_community),Toast.LENGTH_LONG).show()
             }else {
                  startActivity(Intent(this, AddPostActivity::class.java))
              }

@@ -118,8 +118,6 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rightLayout"
-        android:visibility="gone"
         android:elevation="5dp"
         android:padding="@dimen/padding_5"
         android:layout_marginStart="@dimen/margin_15"
@@ -129,6 +127,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/rightLayout"
             android:minWidth="120dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,5 +78,45 @@
             android:id="@+id/total_coins"
             android:textSize="@dimen/text_12sp"
             android:textColor="@color/txt_color"/>
+        <TextView
+            android:id="@+id/claim_reward"
+            android:layout_marginStart="@dimen/margin_10dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/popinbold"
+            android:text="@string/claim_rewards"
+            android:textSize="14sp"
+            android:textColor="@color/blue"/>
     </LinearLayout>
-</LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_margin="@dimen/margin_15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/faqLayout">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/faq_page_under_reward_page"
+            android:fontFamily="@font/poppin_medium"
+            android:textColor="@color/black"
+            android:textSize="@dimen/margin_15"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/faq_desc"
+            android:fontFamily="@font/poppin_regular"
+            android:textColor="@color/txt_color"
+            android:textSize="@dimen/text_12sp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/faqRecycler"
+        android:scrollbars="none"/>
+    </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

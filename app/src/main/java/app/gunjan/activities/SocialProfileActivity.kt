@@ -1,7 +1,9 @@
 package app.gunjan.activities
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import app.gunjan.R
 import app.gunjan.entity.OtherUserDetailsResponse
 import app.gunjan.utill.FCSharedPreferances
@@ -9,14 +11,10 @@ import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_social_profile.*
-import kotlinx.android.synthetic.main.activity_social_profile.back
-import kotlinx.android.synthetic.main.activity_social_profile.fbName
-import kotlinx.android.synthetic.main.activity_social_profile.instaName
-import kotlinx.android.synthetic.main.activity_social_profile.linkedInName
-import kotlinx.android.synthetic.main.activity_social_profile.youtubeName
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class SocialProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,12 +26,140 @@ class SocialProfileActivity : AppCompatActivity() {
     private fun initData() {
         back.setOnClickListener { finish() }
 
+        youtubeLayout.setOnClickListener {
+            try {
+                if (youtubeName.text.toString().contains("http")) {
+                    val url: String = youtubeName.text.toString()
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }else{
+                    val url: String = "https://www.youtube.com/"+youtubeName.text.toString()
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }
+            }catch (e: Exception){}
+        }
+
+        youtubeName.setOnClickListener {
+            try {
+                if (youtubeName.text.toString().contains("http")) {
+                    val url: String = youtubeName.text.toString()
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }else{
+                    val url: String = "https://www.youtube.com/"+youtubeName.text.toString()
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }
+            }catch (e: Exception){}
+        }
+
+        fbLayout.setOnClickListener {
+            try {
+                if (fbName.text.toString().contains("http")) {
+                    val url: String = fbName.text.toString()
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }else{
+                    val url: String = "https://www.facebook.com/"+fbName.text.toString()
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }
+            }catch (e: Exception){}
+        }
+
+        fbName.setOnClickListener {
+            try {
+                if (youtubeName.text.toString().contains("http")) {
+                    val url: String = fbName.text.toString()
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }else{
+                    val url: String = "https://www.facebook.com/"+fbName.text.toString()
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }
+            }catch (e: Exception){}
+        }
+
+        instaLayout.setOnClickListener {
+            try {
+                if (instaName.text.toString().contains("http")) {
+                    val url: String = instaName.text.toString()
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }else{
+                    val url: String = "https://www.instagram.com/"+instaName.text.toString()
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }
+            }catch (e: Exception){}
+        }
+
+        instaName.setOnClickListener {
+            try {
+                if (instaName.text.toString().contains("http")) {
+                    val url: String = instaName.text.toString()
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }else{
+                    val url: String = "https://www.instagram.com/"+instaName.text.toString()
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }
+            }catch (e: Exception){}
+        }
+
+        linkedInLayout.setOnClickListener {
+            try {
+                if (linkedInName.text.toString().contains("http")) {
+                    val url: String = linkedInName.text.toString()
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }else{
+                    val url: String = "https://www.linkedin.com/"+linkedInName.text.toString()
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }
+            }catch (e: Exception){}
+        }
+
+        linkedInName.setOnClickListener {
+            try {
+                if (linkedInName.text.toString().contains("http")) {
+                    val url: String = linkedInName.text.toString()
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }else{
+                    val url: String = "https://www.linkedin.com/"+linkedInName.text.toString()
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse(url)
+                    startActivity(i)
+                }
+            }catch (e: Exception){}
+        }
+
         userDetails()
     }
     private fun userDetails(){
         val myDialog = ProjectUtill.showProgressDialog(this)
         WebServiceRequest.getInstance().otherUserProfile(
-            this,FCSharedPreferances.getSharedPreferance(this).otheR_ID,
+            this, FCSharedPreferances.getSharedPreferance(this).otheR_ID,
             object : Callback<OtherUserDetailsResponse> {
                 override fun onResponse(
                     call: Call<OtherUserDetailsResponse>,
@@ -50,13 +176,19 @@ class SocialProfileActivity : AppCompatActivity() {
                                             .placeholder(R.drawable.user_avatar)
                                             .into(userPic)
                                     }
-                                    userName!!.text = response.body()!!.data.user.first_name+" "+response.body()!!.data.user.last_name
+                                    userName!!.text =
+                                        response.body()!!.data.user.first_name + " " + response.body()!!.data.user.last_name
                                     userDesignation!!.text = response.body()!!.data.user.designation
-                                    fbName.text = response.body()!!.data.user.social_media_details.facebook
-                                    youtubeName.text = response.body()!!.data.user.social_media_details.youtube
-                                    instaName.text = response.body()!!.data.user.social_media_details.instagram
-                                    linkedInName.text = response.body()!!.data.user.social_media_details.linkedin
-                                } catch (e: Exception) {}
+                                    fbName.text =
+                                        response.body()!!.data.user.social_media_details.facebook
+                                    youtubeName.text =
+                                        response.body()!!.data.user.social_media_details.youtube
+                                    instaName.text =
+                                        response.body()!!.data.user.social_media_details.instagram
+                                    linkedInName.text =
+                                        response.body()!!.data.user.social_media_details.linkedin
+                                } catch (e: Exception) {
+                                }
                             } else {
                                 ProjectUtill.printMessage(
                                     this@SocialProfileActivity.window.decorView,

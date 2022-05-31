@@ -65,6 +65,7 @@ import kotlin.collections.ArrayList
 
 class EditProfileActivity : AppCompatActivity(), UploadFileListener {
     private var pathPic = ""
+    private var statusPin = ""
     private var awsPicUrl = ""
     private var cityValue = ""
     private var stateValue = ""
@@ -115,7 +116,8 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
 
             override fun afterTextChanged(s: Editable) {
                 // TODO Auto-generated method stub
-                text_count.text = (500 - s.toString().length).toString() + "/500" + getString(R.string.jf)
+                text_count.text =
+                    (500 - s.toString().length).toString() + "/500" + getString(R.string.jf)
             }
         })
 
@@ -168,69 +170,77 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
             if (awsPicUrl.toString().trim() == "") {
                 Toast.makeText(this, getString(R.string.choose_pic), Toast.LENGTH_LONG).show()
             } else {
-                if (validate()) {
-                    val myDialog = ProjectUtill.showProgressDialog(this@EditProfileActivity)
-                    WebServiceRequest.getInstance().editProfile(
-                        this,
-                        profileName.text.toString().trim(),
-                        firstName.text.toString().trim(),
-                        lastName.text.toString().trim(),
-                        "android",
-                        "en",
-                        awsPicUrl,
-                        pincodeValue,
-                        edtEmail.text.toString().trim(),
-                        edtDob.text.toString().trim(),
-                        Gson().toJson(selectedInterestList),
-                        edtMobile.text.toString().trim(),
-                        "+91",
-                        genderSpinner.selectedItem.toString(),
-                        about.text.toString().trim(),
-                        stateValue,
-                        cityValue,
-                        designation.text.toString().trim(),
-                        object : Callback<EditProfileResponse> {
-                            override fun onResponse(
-                                call: Call<EditProfileResponse>,
-                                response: Response<EditProfileResponse>
-                            ) {
-                                myDialog.dismiss()
-                                if (response != null) {
-                                    if (response.isSuccessful) {
-                                        if (response.body()!!.code == 1) {
-                                            FCSharedPreferances.getSharedPreferance(this@EditProfileActivity).status =
-                                                "edit"
-                                            if (response.body()!!.message.equals("OTP sent on given number")) {
-                                                var intent = Intent(
-                                                    this@EditProfileActivity,
-                                                    OtpActivity::class.java
-                                                )
-                                                intent.putExtra(
-                                                    "mobile",
-                                                    edtMobile.text.toString().trim()
-                                                )
-                                                intent.putExtra(
-                                                    "code",
-                                                    ccp.selectedCountryCodeWithPlus.toString()
-                                                )
-                                                intent.putExtra(
-                                                    "type",
+
+                if (statusPin == "1") {
+                    if (validate2()) {
+                        val myDialog = ProjectUtill.showProgressDialog(this@EditProfileActivity)
+                        WebServiceRequest.getInstance().editProfile(
+                            this,
+                            profileName.text.toString().trim(),
+                            firstName.text.toString().trim(),
+                            lastName.text.toString().trim(),
+                            "android",
+                            "en",
+                            awsPicUrl,
+                            edtPincode.text.toString().trim(),
+                            edtEmail.text.toString().trim(),
+                            edtDob.text.toString().trim(),
+                            Gson().toJson(selectedInterestList),
+                            edtMobile.text.toString().trim(),
+                            "+91",
+                            genderSpinner.selectedItem.toString(),
+                            about.text.toString().trim(),
+                            stateValue,
+                            cityValue,
+                            designation.text.toString().trim(),
+                            object : Callback<EditProfileResponse> {
+                                override fun onResponse(
+                                    call: Call<EditProfileResponse>,
+                                    response: Response<EditProfileResponse>
+                                ) {
+                                    myDialog.dismiss()
+                                    if (response != null) {
+                                        if (response.isSuccessful) {
+                                            if (response.body()!!.code == 1) {
+                                                FCSharedPreferances.getSharedPreferance(this@EditProfileActivity).status =
                                                     "edit"
-                                                )
-                                                startActivity(intent)
+                                                if (response.body()!!.message.equals("OTP sent on given number")) {
+                                                    var intent = Intent(
+                                                        this@EditProfileActivity,
+                                                        OtpActivity::class.java
+                                                    )
+                                                    intent.putExtra(
+                                                        "mobile",
+                                                        edtMobile.text.toString().trim()
+                                                    )
+                                                    intent.putExtra(
+                                                        "code",
+                                                        ccp.selectedCountryCodeWithPlus.toString()
+                                                    )
+                                                    intent.putExtra(
+                                                        "type",
+                                                        "edit"
+                                                    )
+                                                    startActivity(intent)
+                                                } else {
+                                                    var intent = Intent(
+                                                        this@EditProfileActivity,
+                                                        HomeActivity::class.java
+                                                    )
+                                                    intent.flags =
+                                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                    startActivity(intent)
+                                                }
                                             } else {
-                                                var intent = Intent(
-                                                    this@EditProfileActivity,
-                                                    HomeActivity::class.java
+                                                ProjectUtill.printMessage(
+                                                    this@EditProfileActivity.window.decorView,
+                                                    response.body()?.message
                                                 )
-                                                intent.flags =
-                                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                                startActivity(intent)
                                             }
                                         } else {
-                                            ProjectUtill.printMessage(
+                                            ProjectUtill.printErrorMessage(
                                                 this@EditProfileActivity.window.decorView,
-                                                response.body()?.message
+                                                ""
                                             )
                                         }
                                     } else {
@@ -239,25 +249,112 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                                             ""
                                         )
                                     }
-                                } else {
+                                }
+
+                                override fun onFailure(
+                                    call: Call<EditProfileResponse>,
+                                    t: Throwable
+                                ) {
+                                    myDialog.dismiss()
                                     ProjectUtill.printErrorMessage(
                                         this@EditProfileActivity.window.decorView,
                                         ""
                                     )
                                 }
-                            }
+                            })
+                    }
+                } else if (statusPin == "2") {
+                    if (validate()) {
+                        val myDialog = ProjectUtill.showProgressDialog(this@EditProfileActivity)
+                        WebServiceRequest.getInstance().editProfile(
+                            this,
+                            profileName.text.toString().trim(),
+                            firstName.text.toString().trim(),
+                            lastName.text.toString().trim(),
+                            "android",
+                            "en",
+                            awsPicUrl,
+                            pincodeValue,
+                            edtEmail.text.toString().trim(),
+                            edtDob.text.toString().trim(),
+                            Gson().toJson(selectedInterestList),
+                            edtMobile.text.toString().trim(),
+                            "+91",
+                            genderSpinner.selectedItem.toString(),
+                            about.text.toString().trim(),
+                            stateValue,
+                            cityValue,
+                            designation.text.toString().trim(),
+                            object : Callback<EditProfileResponse> {
+                                override fun onResponse(
+                                    call: Call<EditProfileResponse>,
+                                    response: Response<EditProfileResponse>
+                                ) {
+                                    myDialog.dismiss()
+                                    if (response != null) {
+                                        if (response.isSuccessful) {
+                                            if (response.body()!!.code == 1) {
+                                                FCSharedPreferances.getSharedPreferance(this@EditProfileActivity).status =
+                                                    "edit"
+                                                if (response.body()!!.message.equals("OTP sent on given number")) {
+                                                    var intent = Intent(
+                                                        this@EditProfileActivity,
+                                                        OtpActivity::class.java
+                                                    )
+                                                    intent.putExtra(
+                                                        "mobile",
+                                                        edtMobile.text.toString().trim()
+                                                    )
+                                                    intent.putExtra(
+                                                        "code",
+                                                        ccp.selectedCountryCodeWithPlus.toString()
+                                                    )
+                                                    intent.putExtra(
+                                                        "type",
+                                                        "edit"
+                                                    )
+                                                    startActivity(intent)
+                                                } else {
+                                                    var intent = Intent(
+                                                        this@EditProfileActivity,
+                                                        HomeActivity::class.java
+                                                    )
+                                                    intent.flags =
+                                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                    startActivity(intent)
+                                                }
+                                            } else {
+                                                ProjectUtill.printMessage(
+                                                    this@EditProfileActivity.window.decorView,
+                                                    response.body()?.message
+                                                )
+                                            }
+                                        } else {
+                                            ProjectUtill.printErrorMessage(
+                                                this@EditProfileActivity.window.decorView,
+                                                ""
+                                            )
+                                        }
+                                    } else {
+                                        ProjectUtill.printErrorMessage(
+                                            this@EditProfileActivity.window.decorView,
+                                            ""
+                                        )
+                                    }
+                                }
 
-                            override fun onFailure(
-                                call: Call<EditProfileResponse>,
-                                t: Throwable
-                            ) {
-                                myDialog.dismiss()
-                                ProjectUtill.printErrorMessage(
-                                    this@EditProfileActivity.window.decorView,
-                                    ""
-                                )
-                            }
-                        })
+                                override fun onFailure(
+                                    call: Call<EditProfileResponse>,
+                                    t: Throwable
+                                ) {
+                                    myDialog.dismiss()
+                                    ProjectUtill.printErrorMessage(
+                                        this@EditProfileActivity.window.decorView,
+                                        ""
+                                    )
+                                }
+                            })
+                    }
                 }
             }
         }
@@ -487,6 +584,7 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                                     lastName!!.setText(response.body()!!.data.user.last_name)
                                     edtMobile!!.setText(response.body()!!.data.user.mobile)
                                     about!!.setText(response.body()!!.data.user.about)
+                                    edtPincode!!.setText(response.body()!!.data.user.pincode)
                                     if (response.body()!!.data.user.dob != null || response.body()!!.data.user.dob != "") {
                                         edtDob!!.text = response.body()!!.data.user.dob
                                     }
@@ -568,9 +666,9 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                                         interest_recycler!!.layoutManager = layoutManager
                                         interest_recycler!!.adapter = interestAdapter
                                     }
-                                     stateValue=response.body()!!.data.user.state
-                                     cityValue=response.body()!!.data.user.city
-                                     pincodeValue=response.body()!!.data.user.pincode
+                                    stateValue = response.body()!!.data.user.state
+                                    cityValue = response.body()!!.data.user.city
+                                    pincodeValue = response.body()!!.data.user.pincode
                                     getStateList()
                                 } catch (e: Exception) {
                                 }
@@ -632,7 +730,7 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
             edtMobile.requestFocus()
             edtMobile.error = getString(R.string.valid_mobile)
             return false
-        }  else if (edtEmail.text.toString().trim().equals("", ignoreCase = true)) {
+        } else if (edtEmail.text.toString().trim().equals("", ignoreCase = true)) {
             edtEmail.requestFocus()
             edtEmail.error = getString(R.string.enter_mail)
             return false
@@ -647,19 +745,83 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
             about.requestFocus()
             about.error = getString(R.string.about)
             return false
-        } else if (genderSpinner.selectedItem.toString().trim() == getString(R.string.gender_select)) {
+        } else if (genderSpinner.selectedItem.toString()
+                .trim() == getString(R.string.gender_select)
+        ) {
             Toast.makeText(this, getString(R.string.select_gender), Toast.LENGTH_LONG).show()
             return false
-        }else if (stateSpinner!!.selectedItem.equals(getString(R.string.select_state))) {
-                Toast.makeText(this, getString(R.string.please_state), Toast.LENGTH_LONG).show()
-                return false
-            } else if (citySpinner!!.selectedItem.equals(getString(R.string.select_city))) {
-                Toast.makeText(this, getString(R.string.please_city), Toast.LENGTH_LONG).show()
-                return false
-        }  else if (pincodeSpinner!!.selectedItem.equals(getString(R.string.select_pincode))) {
+        } else if (stateSpinner!!.selectedItem.equals(getString(R.string.select_state))) {
+            Toast.makeText(this, getString(R.string.please_state), Toast.LENGTH_LONG).show()
+            return false
+        } else if (citySpinner!!.selectedItem.equals(getString(R.string.select_city))) {
+            Toast.makeText(this, getString(R.string.please_city), Toast.LENGTH_LONG).show()
+            return false
+        } else if (pincodeSpinner!!.selectedItem.equals(getString(R.string.select_pincode))) {
             Toast.makeText(this, getString(R.string.enter_pincode), Toast.LENGTH_LONG).show()
             return false
-        }else if (selectedInterestList.size == 0) {
+        } else if (selectedInterestList.size == 0) {
+            Toast.makeText(this, getString(R.string.select_interest), Toast.LENGTH_LONG).show()
+            return false
+        }
+        return true
+    }
+
+    private fun validate2(): Boolean {
+        if (profileName!!.text.toString().trim().equals("", ignoreCase = true)) {
+            profileName!!.requestFocus()
+            profileName!!.error = getString(R.string.enter_profilename)
+            return false
+        } else if (firstName!!.text.toString().trim().equals("", ignoreCase = true)) {
+            firstName!!.requestFocus()
+            firstName!!.error = getString(R.string.enter_firstname)
+            return false
+        } else if (lastName!!.text.toString().trim().equals("", ignoreCase = true)) {
+            lastName!!.requestFocus()
+            lastName!!.error = getString(R.string.enter_lastname)
+            return false
+        } else if (designation!!.text.toString().trim().equals("", ignoreCase = true)) {
+            designation!!.requestFocus()
+            designation!!.error = getString(R.string.please_designation)
+            return false
+        } else if (edtMobile.text.toString().trim().equals("", ignoreCase = true)) {
+            edtMobile.requestFocus()
+            edtMobile.error = getString(R.string.enter_mobile)
+            return false
+        } else if (edtMobile.text.toString().trim().length < 10) {
+            edtMobile.requestFocus()
+            edtMobile.error = getString(R.string.valid_mobile)
+            return false
+        } else if (edtEmail.text.toString().trim().equals("", ignoreCase = true)) {
+            edtEmail.requestFocus()
+            edtEmail.error = getString(R.string.enter_mail)
+            return false
+        } else if (!ProjectUtill.isValidEmailId(edtEmail!!.text.toString().trim())) {
+            edtEmail!!.requestFocus()
+            edtEmail!!.error = getString(R.string.valid_mail)
+            return false
+        } else if (edtDob.text.toString().trim().equals("", ignoreCase = true)) {
+            Toast.makeText(this, getString(R.string.enter_dob), Toast.LENGTH_LONG).show()
+            return false
+        } else if (about.text.toString().trim().equals("", ignoreCase = true)) {
+            about.requestFocus()
+            about.error = getString(R.string.about)
+            return false
+        } else if (genderSpinner.selectedItem.toString()
+                .trim() == getString(R.string.gender_select)
+        ) {
+            Toast.makeText(this, getString(R.string.select_gender), Toast.LENGTH_LONG).show()
+            return false
+        } else if (stateSpinner!!.selectedItem.equals(getString(R.string.select_state))) {
+            Toast.makeText(this, getString(R.string.please_state), Toast.LENGTH_LONG).show()
+            return false
+        } else if (citySpinner!!.selectedItem.equals(getString(R.string.select_city))) {
+            Toast.makeText(this, getString(R.string.please_city), Toast.LENGTH_LONG).show()
+            return false
+        } else if (edtPincode.text.toString().trim().equals("", ignoreCase = true)) {
+            edtPincode.requestFocus()
+            edtPincode.error = getString(R.string.enter_pincode)
+            return false
+        } else if (selectedInterestList.size == 0) {
             Toast.makeText(this, getString(R.string.select_interest), Toast.LENGTH_LONG).show()
             return false
         }
@@ -668,83 +830,77 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
 
     private fun getStateList() {
         val myDialog = ProjectUtill.showProgressDialog(this)
-            WebServiceRequest.getInstance().getStateList(
-                this,
-                object : Callback<StateListResponse> {
-                    override fun onResponse(
-                        call: Call<StateListResponse>,
-                        response: Response<StateListResponse>
-                    ) {
-                        myDialog.dismiss()
-                        if (response != null) {
-                            if (response.isSuccessful) {
-                                if (response.body()!!.code == 1) {
-                                    stateList.clear()
-                                    stateNameList.clear()
-                                    stateList.add("")
-                                    stateNameList.add(getString(R.string.select_state))
-                                    for (i in response.body()!!.data.state_list) {
-                                        stateList.add(i.isoCode)
-                                        stateNameList.add(i.name)
-                                    }
-                                    val arrayAdapter1: ArrayAdapter<String> =
-                                        object : ArrayAdapter<String>(
-                                            this@EditProfileActivity,
-                                            R.layout.spinner_layout, stateNameList
-                                        ) {
-                                            override fun isEnabled(position: Int): Boolean {
-                                                return position != 0
-                                            }
-
-                                            override fun getDropDownView(
-                                                position: Int, convertView: View?,
-                                                parent: ViewGroup,
-                                            ): View {
-                                                val view = super.getDropDownView(
-                                                    position,
-                                                    convertView,
-                                                    parent
-                                                )
-                                                val tv = view as TextView
-                                                if (position == 0) { // Set the hint text color gray
-                                                    tv.setTextColor(Color.BLACK)
-                                                } else {
-                                                    tv.setTextColor(resources.getColor(R.color.txt_color))
-                                                }
-                                                return view
-                                            }
-
-                                        }
-                                    stateSpinner!!.adapter = arrayAdapter1
-                                    if (stateValue != null || stateValue != "") {
-                                        val spinnerPosition =
-                                            arrayAdapter1.getPosition(stateValue)
-                                        stateSpinner!!.setSelection(spinnerPosition)
-                                    }
-                                    stateSpinner!!.onItemSelectedListener = object :
-                                        AdapterView.OnItemSelectedListener {
-                                        override fun onItemSelected(
-                                            adapterView: AdapterView<*>?,
-                                            view: View,
-                                            i: Int,
-                                            l: Long,
-                                        ) {
-                                            stateValue=stateNameList[i].toString()
-                                            getCityList(stateList[i].toString())
+        WebServiceRequest.getInstance().getStateList(
+            this,
+            object : Callback<StateListResponse> {
+                override fun onResponse(
+                    call: Call<StateListResponse>,
+                    response: Response<StateListResponse>
+                ) {
+                    myDialog.dismiss()
+                    if (response != null) {
+                        if (response.isSuccessful) {
+                            if (response.body()!!.code == 1) {
+                                stateList.clear()
+                                stateNameList.clear()
+                                stateList.add("")
+                                stateNameList.add(getString(R.string.select_state))
+                                for (i in response.body()!!.data.state_list) {
+                                    stateList.add(i.isoCode)
+                                    stateNameList.add(i.name)
+                                }
+                                val arrayAdapter1: ArrayAdapter<String> =
+                                    object : ArrayAdapter<String>(
+                                        this@EditProfileActivity,
+                                        R.layout.spinner_layout, stateNameList
+                                    ) {
+                                        override fun isEnabled(position: Int): Boolean {
+                                            return position != 0
                                         }
 
-                                        override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+                                        override fun getDropDownView(
+                                            position: Int, convertView: View?,
+                                            parent: ViewGroup,
+                                        ): View {
+                                            val view = super.getDropDownView(
+                                                position,
+                                                convertView,
+                                                parent
+                                            )
+                                            val tv = view as TextView
+                                            if (position == 0) { // Set the hint text color gray
+                                                tv.setTextColor(Color.BLACK)
+                                            } else {
+                                                tv.setTextColor(resources.getColor(R.color.txt_color))
+                                            }
+                                            return view
+                                        }
+
                                     }
-                                } else {
-                                    ProjectUtill.printMessage(
-                                        this@EditProfileActivity!!.window.decorView,
-                                        response.body()?.message
-                                    )
+                                stateSpinner!!.adapter = arrayAdapter1
+                                if (stateValue != null || stateValue != "") {
+                                    val spinnerPosition =
+                                        arrayAdapter1.getPosition(stateValue)
+                                    stateSpinner!!.setSelection(spinnerPosition)
+                                }
+                                stateSpinner!!.onItemSelectedListener = object :
+                                    AdapterView.OnItemSelectedListener {
+                                    override fun onItemSelected(
+                                        adapterView: AdapterView<*>?,
+                                        view: View,
+                                        i: Int,
+                                        l: Long,
+                                    ) {
+                                        stateValue = stateNameList[i].toString()
+                                        getCityList(stateList[i].toString())
+                                    }
+
+                                    override fun onNothingSelected(adapterView: AdapterView<*>?) {}
                                 }
                             } else {
-                                ProjectUtill.printErrorMessage(
+                                ProjectUtill.printMessage(
                                     this@EditProfileActivity!!.window.decorView,
-                                    ""
+                                    response.body()?.message
                                 )
                             }
                         } else {
@@ -753,99 +909,99 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                                 ""
                             )
                         }
-                    }
-
-                    override fun onFailure(
-                        call: Call<StateListResponse>,
-                        t: Throwable
-                    ) {
-                        myDialog.dismiss()
+                    } else {
                         ProjectUtill.printErrorMessage(
                             this@EditProfileActivity!!.window.decorView,
                             ""
                         )
                     }
-                })
+                }
+
+                override fun onFailure(
+                    call: Call<StateListResponse>,
+                    t: Throwable
+                ) {
+                    myDialog.dismiss()
+                    ProjectUtill.printErrorMessage(
+                        this@EditProfileActivity!!.window.decorView,
+                        ""
+                    )
+                }
+            })
     }
 
     private fun getCityList(code: String) {
         val myDialog = ProjectUtill.showProgressDialog(this)
-            WebServiceRequest.getInstance().getCityList(
-                this, code,
-                object : Callback<CityListResponse> {
-                    override fun onResponse(
-                        call: Call<CityListResponse>,
-                        response: Response<CityListResponse>
-                    ) {
-                        myDialog.dismiss()
-                        if (response != null) {
-                            if (response.isSuccessful) {
-                                if (response.body()!!.code == 1) {
-                                    cityList.clear()
-                                    cityList.add(getString(R.string.select_city))
-                                    for (i in response.body()!!.data.city_list) {
-                                        cityList.add(i.name)
-                                    }
-                                    val arrayAdapter1: ArrayAdapter<String> =
-                                        object : ArrayAdapter<String>(
-                                            this@EditProfileActivity,
-                                            R.layout.spinner_layout, cityList
-                                        ) {
-                                            override fun isEnabled(position: Int): Boolean {
-                                                return position != 0
-                                            }
-
-                                            override fun getDropDownView(
-                                                position: Int, convertView: View?,
-                                                parent: ViewGroup,
-                                            ): View {
-                                                val view = super.getDropDownView(
-                                                    position,
-                                                    convertView,
-                                                    parent
-                                                )
-                                                val tv = view as TextView
-                                                if (position == 0) { // Set the hint text color gray
-                                                    tv.setTextColor(Color.BLACK)
-                                                } else {
-                                                    tv.setTextColor(resources.getColor(R.color.txt_color))
-                                                }
-                                                return view
-                                            }
-
-                                        }
-                                    citySpinner!!.adapter = arrayAdapter1
-                                    if (cityValue != null || cityValue != "") {
-                                        val spinnerPosition =
-                                            arrayAdapter1.getPosition(cityValue)
-                                        citySpinner!!.setSelection(spinnerPosition)
-                                    }
-                                    citySpinner!!.onItemSelectedListener = object :
-                                        AdapterView.OnItemSelectedListener {
-                                        override fun onItemSelected(
-                                            adapterView: AdapterView<*>?,
-                                            view: View,
-                                            i: Int,
-                                            l: Long,
-                                        ) {
-                                            if (i > 0) {
-                                                cityValue=cityList[i].toString()
-                                                getPincodeList(stateValue!!,cityList[i].toString())
-                                            }
+        WebServiceRequest.getInstance().getCityList(
+            this, code,
+            object : Callback<CityListResponse> {
+                override fun onResponse(
+                    call: Call<CityListResponse>,
+                    response: Response<CityListResponse>
+                ) {
+                    myDialog.dismiss()
+                    if (response != null) {
+                        if (response.isSuccessful) {
+                            if (response.body()!!.code == 1) {
+                                cityList.clear()
+                                cityList.add(getString(R.string.select_city))
+                                for (i in response.body()!!.data.city_list) {
+                                    cityList.add(i.name)
+                                }
+                                val arrayAdapter1: ArrayAdapter<String> =
+                                    object : ArrayAdapter<String>(
+                                        this@EditProfileActivity,
+                                        R.layout.spinner_layout, cityList
+                                    ) {
+                                        override fun isEnabled(position: Int): Boolean {
+                                            return position != 0
                                         }
 
-                                        override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+                                        override fun getDropDownView(
+                                            position: Int, convertView: View?,
+                                            parent: ViewGroup,
+                                        ): View {
+                                            val view = super.getDropDownView(
+                                                position,
+                                                convertView,
+                                                parent
+                                            )
+                                            val tv = view as TextView
+                                            if (position == 0) { // Set the hint text color gray
+                                                tv.setTextColor(Color.BLACK)
+                                            } else {
+                                                tv.setTextColor(resources.getColor(R.color.txt_color))
+                                            }
+                                            return view
+                                        }
+
                                     }
-                                } else {
-                                    ProjectUtill.printMessage(
-                                        this@EditProfileActivity!!.window.decorView,
-                                        response.body()?.message
-                                    )
+                                citySpinner!!.adapter = arrayAdapter1
+                                if (cityValue != null || cityValue != "") {
+                                    val spinnerPosition =
+                                        arrayAdapter1.getPosition(cityValue)
+                                    citySpinner!!.setSelection(spinnerPosition)
+                                }
+                                citySpinner!!.onItemSelectedListener = object :
+                                    AdapterView.OnItemSelectedListener {
+                                    override fun onItemSelected(
+                                        adapterView: AdapterView<*>?,
+                                        view: View,
+                                        i: Int,
+                                        l: Long,
+                                    ) {
+                                        if (i > 0) {
+                                            cityValue = cityList[i].toString()
+                                            getPincodeList(stateValue!!, cityList[i].toString())
+                                        }
+                                    }
+
+                                    override fun onNothingSelected(adapterView: AdapterView<*>?) {}
                                 }
                             } else {
-                                ProjectUtill.printErrorMessage(
+                                ProjectUtill.printMessage(
                                     this@EditProfileActivity!!.window.decorView,
-                                    ""
+                                    response.body()?.message
                                 )
                             }
                         } else {
@@ -854,98 +1010,107 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                                 ""
                             )
                         }
-                    }
-
-                    override fun onFailure(
-                        call: Call<CityListResponse>,
-                        t: Throwable
-                    ) {
-                        myDialog.dismiss()
+                    } else {
                         ProjectUtill.printErrorMessage(
                             this@EditProfileActivity!!.window.decorView,
                             ""
                         )
                     }
-                })
+                }
+
+                override fun onFailure(
+                    call: Call<CityListResponse>,
+                    t: Throwable
+                ) {
+                    myDialog.dismiss()
+                    ProjectUtill.printErrorMessage(
+                        this@EditProfileActivity!!.window.decorView,
+                        ""
+                    )
+                }
+            })
     }
 
-    private fun getPincodeList(state:String,city:String) {
+    private fun getPincodeList(state: String, city: String) {
         val myDialog = ProjectUtill.showProgressDialog(this)
-            WebServiceRequest.getInstance().pincodeList(
-                this,state,city,
-                object : Callback<PincodeListResponse> {
-                    override fun onResponse(
-                        call: Call<PincodeListResponse>,
-                        response: Response<PincodeListResponse>
-                    ) {
-                        myDialog.dismiss()
-                        if (response != null) {
-                            if (response.isSuccessful) {
-                                if (response.body()!!.code == 1) {
-                                    pincodeList.clear()
-                                    pincodeList.add(getString(R.string.select_pincode))
-                                    for (i in response.body()!!.data.pincodes) {
-                                        pincodeList.add(i.pincode.toString())
-                                    }
-                                    val arrayAdapter1: ArrayAdapter<String> =
-                                        object : ArrayAdapter<String>(
-                                            this@EditProfileActivity!!,
-                                            R.layout.spinner_layout, pincodeList
-                                        ) {
-                                            override fun isEnabled(position: Int): Boolean {
-                                                return position != 0
-                                            }
-
-                                            override fun getDropDownView(
-                                                position: Int, convertView: View?,
-                                                parent: ViewGroup,
-                                            ): View {
-                                                val view = super.getDropDownView(
-                                                    position,
-                                                    convertView,
-                                                    parent
-                                                )
-                                                val tv = view as TextView
-                                                if (position == 0) { // Set the hint text color gray
-                                                    tv.setTextColor(Color.BLACK)
-                                                } else {
-                                                    tv.setTextColor(resources.getColor(R.color.txt_color))
-                                                }
-                                                return view
-                                            }
-
-                                        }
-                                    pincodeSpinner!!.adapter = arrayAdapter1
-                                    if (pincodeValue == null) {
-                                        Log.d("VALUE","fsnngjg")
-                                    }else{
-                                        val spinnerPosition =
-                                            arrayAdapter1.getPosition(pincodeValue)
-                                        pincodeSpinner!!.setSelection(spinnerPosition)
-                                    }
-                                    pincodeSpinner!!.onItemSelectedListener = object :
-                                        AdapterView.OnItemSelectedListener {
-                                        override fun onItemSelected(
-                                            adapterView: AdapterView<*>?,
-                                            view: View,
-                                            i: Int,
-                                            l: Long,
-                                        ) {
-                                            pincodeValue=pincodeList[i].toString()
-                                        }
-
-                                        override fun onNothingSelected(adapterView: AdapterView<*>?) {}
-                                    }
+        WebServiceRequest.getInstance().pincodeList(
+            this, state, city,
+            object : Callback<PincodeListResponse> {
+                override fun onResponse(
+                    call: Call<PincodeListResponse>,
+                    response: Response<PincodeListResponse>
+                ) {
+                    myDialog.dismiss()
+                    if (response != null) {
+                        if (response.isSuccessful) {
+                            if (response.body()!!.code == 1) {
+                                pincodeList.clear()
+                                pincodeList.add(getString(R.string.select_pincode))
+                                for (i in response.body()!!.data.pincodes) {
+                                    pincodeList.add(i.pincode.toString())
+                                }
+                                if (pincodeList.size == 1) {
+                                    statusPin = "1"
+                                    pincodeLayout.visibility = View.GONE
+                                    pincodeLayout2.visibility = View.VISIBLE
                                 } else {
-                                    ProjectUtill.printMessage(
-                                        this@EditProfileActivity!!.window.decorView,
-                                        response.body()?.message
-                                    )
+                                    statusPin = "2"
+                                    pincodeLayout.visibility = View.VISIBLE
+                                    pincodeLayout2.visibility = View.GONE
+                                }
+                                val arrayAdapter1: ArrayAdapter<String> =
+                                    object : ArrayAdapter<String>(
+                                        this@EditProfileActivity!!,
+                                        R.layout.spinner_layout, pincodeList
+                                    ) {
+                                        override fun isEnabled(position: Int): Boolean {
+                                            return position != 0
+                                        }
+
+                                        override fun getDropDownView(
+                                            position: Int, convertView: View?,
+                                            parent: ViewGroup,
+                                        ): View {
+                                            val view = super.getDropDownView(
+                                                position,
+                                                convertView,
+                                                parent
+                                            )
+                                            val tv = view as TextView
+                                            if (position == 0) { // Set the hint text color gray
+                                                tv.setTextColor(Color.BLACK)
+                                            } else {
+                                                tv.setTextColor(resources.getColor(R.color.txt_color))
+                                            }
+                                            return view
+                                        }
+
+                                    }
+                                pincodeSpinner!!.adapter = arrayAdapter1
+                                if (pincodeValue == null) {
+                                    Log.d("VALUE", "fsnngjg")
+                                } else {
+                                    val spinnerPosition =
+                                        arrayAdapter1.getPosition(pincodeValue)
+                                    pincodeSpinner!!.setSelection(spinnerPosition)
+                                }
+                                pincodeSpinner!!.onItemSelectedListener = object :
+                                    AdapterView.OnItemSelectedListener {
+                                    override fun onItemSelected(
+                                        adapterView: AdapterView<*>?,
+                                        view: View,
+                                        i: Int,
+                                        l: Long,
+                                    ) {
+                                        pincodeValue = pincodeList[i].toString()
+                                    }
+
+                                    override fun onNothingSelected(adapterView: AdapterView<*>?) {}
                                 }
                             } else {
-                                ProjectUtill.printErrorMessage(
+                                ProjectUtill.printMessage(
                                     this@EditProfileActivity!!.window.decorView,
-                                    ""
+                                    response.body()?.message
                                 )
                             }
                         } else {
@@ -954,18 +1119,24 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                                 ""
                             )
                         }
-                    }
-
-                    override fun onFailure(
-                        call: Call<PincodeListResponse>,
-                        t: Throwable
-                    ) {
-                        myDialog.dismiss()
+                    } else {
                         ProjectUtill.printErrorMessage(
                             this@EditProfileActivity!!.window.decorView,
                             ""
                         )
                     }
-                })
+                }
+
+                override fun onFailure(
+                    call: Call<PincodeListResponse>,
+                    t: Throwable
+                ) {
+                    myDialog.dismiss()
+                    ProjectUtill.printErrorMessage(
+                        this@EditProfileActivity!!.window.decorView,
+                        ""
+                    )
+                }
+            })
     }
 }

@@ -258,5 +258,8 @@
     <string name="enter_coin">कॉइन दर्ज करें</string>
     <string name="please_coin">कृपया कॉइन दर्ज करें</string>
     <string name="coins">कॉइन</string>
-
+    <string name="faq_page_under_reward_page">अक्सर पूछे जाने वाले प्रश्न पृष्ठ इनाम पृष्ठ के अंतर्गत</string>
+    <string name="faq_desc">सिक्के एक आभासी वस्तु है जिसका उपयोग आप अनुकरणीय पोस्ट या टिप्पणियों को पुरस्कृत करने के लिए कर सकते हैं। गुंजन का समर्थन करें और अपने पसंदीदा योगदानकर्ताओं को गुंजन को बेहतर बनाने के लिए प्रोत्साहित करें।</string>
+    <string name="create_community">समुदाय बनाएं</string>
+    <string name="please_coins">कृपया सिक्के जोड़ें</string>
 </resources>

@@ -529,6 +529,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/pincodeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -547,6 +548,51 @@
                     android:layout_marginTop="@dimen/padding_5"
                     android:layout_marginBottom="@dimen/padding_5"
                     android:backgroundTint="@color/pink" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/pincodeLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:layout_marginEnd="@dimen/margin_15"
+                android:layout_marginBottom="@dimen/padding_5"
+                android:background="@drawable/edittext_bg"
+                android:elevation="3dp"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_5">
+
+                <ImageView
+                    android:layout_width="@dimen/margin_15"
+                    android:layout_height="@dimen/margin_15"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/text_16sp"
+                    android:layout_marginBottom="@dimen/padding_2"
+                    android:src="@drawable/user" />
+
+                <EditText
+                    android:id="@+id/edtPincode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:fontFamily="@font/poppins_light"
+                    android:hint="@string/enter_pincode"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:maxLines="1"
+                    android:paddingTop="@dimen/text_13sp"
+                    android:paddingRight="@dimen/margin_10dp"
+                    android:paddingBottom="@dimen/text_13sp"
+                    android:textColor="@color/txt_color"
+                    android:textColorHint="@color/txt_color"
+                    android:textSize="@dimen/text_13sp" />
             </LinearLayout>
 
             <LinearLayout

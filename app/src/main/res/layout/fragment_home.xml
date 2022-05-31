@@ -356,11 +356,15 @@
             android:layout_marginTop="@dimen/margin_15"
             android:layout_marginBottom="@dimen/margin_15"
             android:background="@color/txt_color" />
-
+        <LinearLayout
+            android:background="@color/light_grey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/post_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        </LinearLayout>
         <TextView
             android:visibility="gone"
             android:text="@string/no_posts_yet"

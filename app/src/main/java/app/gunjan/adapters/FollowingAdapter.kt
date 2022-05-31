@@ -1,6 +1,7 @@
 package app.gunjan.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,10 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
+import app.gunjan.activities.HomeActivity
+import app.gunjan.activities.OthersProfileActivity
 import app.gunjan.entity.FollowingListResponse
+import app.gunjan.utill.FCSharedPreferances
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 import java.lang.Exception
@@ -36,8 +40,24 @@ class FollowingAdapter(
                     )
             }
             holder.name!!.text=data[position].partnerDetails.first_name+" "+data[position].partnerDetails.last_name
-            holder.description!!.text=data[position].partnerDetails.about
-        } catch (e: Exception) {
+        } catch (e: Exception) { }
+
+        holder!!.itemView!!.setOnClickListener {
+            if (FCSharedPreferances.getSharedPreferance(context).useR_ID.toString()==data[position].partnerDetails.id.toString()){
+                FCSharedPreferances.getSharedPreferance(context).status =
+                    "edit"
+                FCSharedPreferances.getSharedPreferance(context).otheR_ID=data[position].partnerDetails.id.toString()
+                var intent = Intent(
+                    context,
+                    HomeActivity::class.java
+                )
+                intent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                context!!.startActivity(intent)
+            }else {
+                FCSharedPreferances.getSharedPreferance(context).otheR_ID=data[position].partnerDetails.id.toString()
+                context!!.startActivity(Intent(context, OthersProfileActivity::class.java))
+            }
         }
     }
 
@@ -48,12 +68,10 @@ class FollowingAdapter(
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var profilePic: CircleImageView? = null
         var name: TextView? = null
-        var description: TextView? = null
 
         init {
             profilePic = itemView.findViewById(R.id.pic)
             name = itemView.findViewById(R.id.name)
-            description = itemView.findViewById(R.id.description)
         }
     }
 
