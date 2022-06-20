@@ -25,7 +25,6 @@ import app.gunjan.adapters.ChatAdapter
 import app.gunjan.adapters.MemberListAdapter
 import app.gunjan.entity.AddMemberinGroupResponse
 import app.gunjan.entity.AllMembersListResponse
-import app.gunjan.entity.TermsResponse
 import app.gunjan.twilio.*
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.PermissionUtil
@@ -33,9 +32,7 @@ import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
-import com.twilio.chat.CallbackListener
-import com.twilio.chat.ChatClient
-import com.twilio.chat.Message
+import com.twilio.chat.*
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_chat.back
 import kotlinx.android.synthetic.main.activity_edit_profile.*
@@ -44,9 +41,7 @@ import kotlinx.android.synthetic.main.activity_tc.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
+import java.io.*
 import java.util.*
 
 class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManagerListener,
@@ -646,4 +641,99 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
                 }
             }
         }
+    fun downloadPdfAndShow(media: Message.Media, type: String) {
+        val imageView: ImageView
+        val play: ImageView
+        val layout: LinearLayout
+        val pause: ImageView
+        val progressBar: ProgressBar
+        val frameLayout: FrameLayout
+        val videoView: VideoView
+        val dialog = Dialog(this@ChatActivity)
+        // Include dialog.xml file
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.show_chat_media)
+        dialog.setCancelable(true)
+        val window = dialog.window
+        window!!.setGravity(Gravity.CENTER)
+        window.setLayout(
+            WindowManager.LayoutParams.FILL_PARENT,
+            WindowManager.LayoutParams.FILL_PARENT
+        )
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        imageView = dialog.findViewById(R.id.image)
+        play = dialog.findViewById(R.id.play)
+        pause = dialog.findViewById(R.id.pause)
+        progressBar = dialog.findViewById(R.id.progress_bar)
+        frameLayout = dialog.findViewById(R.id.frame)
+        videoView = dialog.findViewById(R.id.video_view_chat)
+        layout = dialog.findViewById(R.id.layout)
+        layout.visibility = View.VISIBLE
+        progressBar.visibility = View.VISIBLE
+        val out = ByteArrayOutputStream()
+        media.download(out, object : StatusListener() {
+            override fun onSuccess() {
+                progressBar.visibility = View.GONE
+                val byteArray = out.toByteArray()
+                val someFile = File(getExternalFilesDir(null), media.fileName)
+                try {
+                    var fos: FileOutputStream? = null
+                    fos = FileOutputStream(someFile)
+                    fos.write(byteArray)
+                    fos.flush()
+                    fos.close()
+                    // Toast.makeText(context, "success"+someFile.getPath(), Toast.LENGTH_SHORT).show();
+                    if (type.equals("image", ignoreCase = true)) {
+                        imageView.visibility = View.VISIBLE
+                        Glide.with(this@ChatActivity).load(someFile.path)
+                            .placeholder(R.drawable.logo).into(imageView)
+                    } else {
+                        imageView.visibility = View.GONE
+                        frameLayout.visibility = View.VISIBLE
+                        videoView.visibility = View.VISIBLE
+                        videoView.setVideoPath(someFile.path)
+                        play.setOnClickListener {
+                            play.visibility = View.GONE
+                            pause.visibility = View.VISIBLE
+                            videoView.start()
+                        }
+                        pause.setOnClickListener {
+                            play.visibility = View.VISIBLE
+                            pause.visibility = View.GONE
+                            videoView.pause()
+                        }
+                        videoView.setOnCompletionListener {
+                            play.visibility = View.VISIBLE
+                            pause.visibility = View.GONE
+                        }
+                        videoView.setOnPreparedListener {
+                            progressBar.visibility = View.GONE
+                            play.visibility = View.VISIBLE
+                            pause.visibility = View.GONE
+                        }
+                        videoView.setOnErrorListener { mediaPlayer, i, i1 -> false }
+                    }
+                } catch (e: FileNotFoundException) {
+                    e.printStackTrace()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        }, object : ProgressListener() {
+            override fun onStarted() {
+                progressBar.visibility = View.VISIBLE
+            }
+
+            override fun onProgress(l: Long) {
+                progressBar.visibility = View.VISIBLE
+            }
+
+            override fun onCompleted(s: String) {
+                progressBar.visibility = View.GONE
+                layout.visibility = View.GONE
+                Logger.show("sssssssss", s)
+            }
+        })
+        dialog.show()
+    }
 }

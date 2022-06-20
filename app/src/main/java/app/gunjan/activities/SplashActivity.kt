@@ -23,6 +23,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun initHandler() {
+        FCSharedPreferances.getSharedPreferance(this).totaL_COINS = ""
         handler = Handler(Looper.getMainLooper())
         handler!!.postDelayed(Runnable {
             if (FCSharedPreferances.getSharedPreferance(this@SplashActivity).savE_LANG.equals("")){
@@ -40,9 +41,16 @@ class SplashActivity : AppCompatActivity() {
                     Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
             } else {
-                val intent = Intent(this@SplashActivity, LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
+                if (FCSharedPreferances.getSharedPreferance(this).firsT_TIME.equals("true")) {
+                    val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }else{
+                    FCSharedPreferances.getSharedPreferance(this).firsT_TIME = "true"
+                    val intent = Intent(this@SplashActivity, ChooseLanguageActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }
             }
         }, 3000)
     }

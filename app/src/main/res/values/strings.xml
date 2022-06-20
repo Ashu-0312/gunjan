@@ -258,9 +258,11 @@
     <string name="enter_coin">Enter Coin</string>
     <string name="please_coin">Please Enter Coin</string>
     <string name="coins">Coins</string>
-    <string name="faq_page_under_reward_page">FAQ Page Under Reward Page</string>
+    <string name="faq_page_under_reward_page">FAQ</string>
     <string name="faq_desc">Coins are a virtual item that you can use to reward exemplary posts or comments. Support Gunjan and encourage your favorite contributors to improve Gunjan.</string>
     <string name="create_community">Create Community</string>
     <string name="please_coins">Please Add Coins</string>
+    <string name="select_language">Select Language</string>
+    <string name="loading">Loading Please Wait...</string>
 
 </resources>

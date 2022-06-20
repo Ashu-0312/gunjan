@@ -23,6 +23,7 @@ public class FCSharedPreferances {
     private final String VALUE1="value1";
     private final String VALUE2="value2";
     private final String SAVE_LANG="savelan";
+    private final String FIRST_TIME="firsttime";
 
 
     private FCSharedPreferances(Context context){
@@ -37,7 +38,6 @@ public class FCSharedPreferances {
         }else {
             return fcSharedPreferances=new FCSharedPreferances(context);
         }
-
     }
 
     public String getSAVE_LANG(){
@@ -215,5 +215,16 @@ public class FCSharedPreferances {
 
     public String getTOTAL_COINS(){
         return sharedPreferences.getString(TOTAL_COINS,"");
+    }
+
+    public void setFIRST_TIME(String first_time){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(FIRST_TIME,first_time);
+        editor.commit();
+        editor.apply();
+    }
+
+    public String getFIRST_TIME(){
+        return sharedPreferences.getString(FIRST_TIME,"");
     }
 }

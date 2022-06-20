@@ -6,6 +6,7 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -37,6 +38,47 @@ class CoinsAdapter(
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name!!.text = data[position].toString()
+        if (position ==0){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin1))
+        }else if (position ==1){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin2))
+        }else if (position ==2){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin3))
+        }else if (position ==3){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin4))
+        }else if (position ==4){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin5))
+        }else if (position ==5){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin6))
+        }else if (position ==6){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin7))
+        }else if (position ==7){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin8))
+        }else if (position ==8){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin9))
+        }else if (position ==9){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin10))
+        }else if (position ==10){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin11))
+        }else if (position ==11){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin12))
+        }else if (position ==12){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin13))
+        }else if (position ==13){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin14))
+        }else if (position ==14){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin15))
+        }else if (position ==15){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin16))
+        }else if (position ==16){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin17))
+        }else if (position ==17){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin18))
+        }else if (position ==18){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin19))
+        }else if (position ==19){
+            holder.pic!!.setImageDrawable(context!!.resources.getDrawable(R.drawable.coin20))
+        }
         holder.itemView!!.setOnClickListener {
             if (FCSharedPreferances.getSharedPreferance(context).totaL_COINS.equals("") or FCSharedPreferances.getSharedPreferance(
                     context
@@ -50,6 +92,7 @@ class CoinsAdapter(
                     context!!.getString(R.string.please_coins),
                     Toast.LENGTH_LONG
                 ).show()
+                fragment!!.addCoinsDialog()
             } else {
                 fragment!!.donateCoins(data[position].toString())
             }
@@ -62,9 +105,11 @@ class CoinsAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name: TextView? = null
+        var pic: ImageView? = null
 
         init {
             name = itemView.findViewById(R.id.name)
+            pic = itemView.findViewById(R.id.pic)
         }
     }
 

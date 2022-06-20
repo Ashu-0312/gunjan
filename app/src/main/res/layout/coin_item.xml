@@ -9,6 +9,7 @@
     android:layout_marginTop="@dimen/padding_5"
     android:layout_marginBottom="@dimen/padding_5">
     <ImageView
+        android:id="@+id/pic"
         android:layout_gravity="center"
         android:layout_width="50dp"
         android:layout_height="50dp"

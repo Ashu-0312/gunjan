@@ -64,7 +64,23 @@ class ProfileFragment : Fragment() {
 
     private fun initData() {
         userDetails()
+        tab_layout!!.addTab(tab_layout!!.newTab().setText(getString(R.string.about_tab)))
+        tab_layout!!.addTab(tab_layout!!.newTab().setText(getString(R.string.post_tab)))
+        val tabsAdapter =
+            OthersTabAdapter(
+                childFragmentManager,
+                tab_layout!!.tabCount
+            )
+        view_pager!!.adapter = tabsAdapter
+        view_pager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tab_layout))
+        tab_layout!!.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                view_pager!!.currentItem = tab.position
+            }
 
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
         followers!!.setOnClickListener {
             startActivity(Intent(context, FollowFollowerActivity::class.java))
         }
@@ -100,15 +116,7 @@ class ProfileFragment : Fragment() {
                                             .into(userPic!!)
                                     userName!!.text = response.body()!!.data.user.profile_name
                                     About!!.text=response.body()!!.data.user.about
-                                        tab_layout!!.addTab(tab_layout!!.newTab().setText(getString(R.string.about_tab)))
-                                        tab_layout!!.addTab(tab_layout!!.newTab().setText(getString(R.string.post_tab)))
-                                        val tabsAdapter =
-                                            OthersTabAdapter(
-                                                childFragmentManager,
-                                                tab_layout!!.tabCount
-                                            )
-                                        view_pager!!.adapter = tabsAdapter
-                                        view_pager!!.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tab_layout))
+
 
                                         followerCount!!.text = response.body()!!.data.follower_count.toString()
                                         followingCount!!.text = response.body()!!.data.following_count.toString()

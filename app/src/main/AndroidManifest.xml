@@ -23,148 +23,153 @@
         tools:ignore="LockedOrientationActivity"
         tools:replace="allowBackup">
         <activity
+            android:name=".activities.ChooseLanguageActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/LoginTheme" />
+        <activity
             android:name=".activities.JoinedEventUserListActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.SettingsActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.SwitchCommunityActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.AddPostActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.CommunityDetailsActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.JoinedCommunitesActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.RequestListActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.MyCommunitesActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.BlockListActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.ChatActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.NotificationActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.OthersProfileActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.AddMediaActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.SocialProfileActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.CommunityHelpActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.FollowFollowerActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.ContactUsActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.AddInterestActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.EditProfileActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.LeaveCommunityActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.JoinCommunityActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.HomeActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.AddCommunityActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.SetProfileActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.MobileRegisterActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.OtpActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.PrivacyPolicyActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.TcActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".activities.LoginActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
         <activity
@@ -179,8 +184,9 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".utill.MyFirebaseMessagingService"
-            android:exported="true">
+        <service
+            android:name=".utill.MyFirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

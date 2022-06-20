@@ -46,12 +46,13 @@
        android:layout_below="@+id/tvtitle"
        android:layout_width="match_parent"
        android:layout_height="wrap_content">
+
        <TextView
-           android:layout_marginStart="@dimen/padding_8"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
+           android:layout_marginStart="@dimen/padding_8"
+           android:gravity="center"
            android:text="English"
-          android:gravity="center"
            android:textColor="@color/black"
 
            android:textSize="15dp"></TextView>

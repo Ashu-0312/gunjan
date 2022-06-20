@@ -1673,6 +1673,7 @@ class HomeFragment : Fragment() {
     fun coinsDialog(id:String) {
         var coinsRecycler: RecyclerView? = null
         var addCoins: CardView? = null
+        var close: LinearLayout? = null
          coinDialog = context?.let { Dialog(it) }
         // Include dialog.xml file
         coinDialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -1689,6 +1690,7 @@ class HomeFragment : Fragment() {
         coinsRecycler = coinDialog!!.findViewById(R.id.coins_recycler)
         addCoins = coinDialog!!.findViewById(R.id.add_coins)
         totalCoins = coinDialog!!.findViewById(R.id.total_coins)
+        close = coinDialog!!.findViewById(R.id.close)
 
         idd = id
         totalCoins!!.text = FCSharedPreferances.getSharedPreferance(context).totaL_COINS
@@ -1718,6 +1720,8 @@ class HomeFragment : Fragment() {
         var coinsAdapter = CoinsAdapter(context,coinList,this@HomeFragment)
         coinsRecycler!!.layoutManager = GridLayoutManager(context,4)
         coinsRecycler!!.adapter = coinsAdapter
+
+        close!!.setOnClickListener { coinDialog!!.cancel() }
 
         addCoins!!.setOnClickListener { addCoinsDialog() }
 

@@ -1,6 +1,7 @@
 package app.gunjan.adapters
 
 import android.content.Context
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
+import app.gunjan.activities.ChatActivity
 import app.gunjan.twilio.Logger
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
@@ -148,7 +150,7 @@ class ChatAdapter(
                                     fos!!.close()
                                     //  Toast.makeText(context, "success"+someFile.getPath(), Toast.LENGTH_SHORT).show();
                                     Glide.with(context!!).load(someFile.path)
-                                        .placeholder(R.drawable.user_avatar).into(holder.rightImage!!)
+                                        .placeholder(R.drawable.logo).into(holder.rightImage!!)
                                 } catch (fileNotFoundException: FileNotFoundException) {
                                     fileNotFoundException.printStackTrace()
                                 } catch (ioException: IOException) {
@@ -292,7 +294,7 @@ class ChatAdapter(
                                     fos!!.close()
                                     //Toast.makeText(context, "success"+someFile.getPath(), Toast.LENGTH_SHORT).show();
                                     Glide.with(context!!).load(someFile.path)
-                                        .placeholder(R.drawable.user_avatar).into(holder.leftImage!!)
+                                        .placeholder(R.drawable.logo).into(holder.leftImage!!)
                                 } catch (fileNotFoundException: FileNotFoundException) {
                                     fileNotFoundException.printStackTrace()
                                 } catch (ioException: IOException) {
@@ -323,6 +325,26 @@ class ChatAdapter(
                 }
             }
         }catch (e: Exception){}
+        holder.itemView.setOnClickListener {
+            if (data!![position].hasMedia()) {
+                if (data!![position].media.type == "image/jpeg") {
+                    // Toast.makeText(context, "" + data.get(position).getMedia().getType() + ": " + data.get(position).getMedia().getFileName(), Toast.LENGTH_SHORT).show();
+                    Handler().postDelayed({
+                        (context as ChatActivity).downloadPdfAndShow(
+                            data!![position].media,
+                            "image"
+                        )
+                    }, 1000)
+                } else {
+                    Handler().postDelayed({
+                        (context as ChatActivity).downloadPdfAndShow(
+                            data!![position].media,
+                            "video"
+                        )
+                    }, 1000)
+                }
+            }
+        }
     }
 
     override fun getItemCount(): Int {

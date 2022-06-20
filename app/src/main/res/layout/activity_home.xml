@@ -28,17 +28,18 @@
         android:text="0"
         android:fontFamily="@font/poppin_regular"
         android:textSize="@dimen/margin_10dp"/>
+
     <ImageView
-        android:layout_marginTop="@dimen/margin_25"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/margin_20dp"
-        android:layout_marginStart="@dimen/margin_20dp"
-        android:elevation="1dp"
         android:id="@+id/notification"
-        android:layout_centerHorizontal="true"
         android:layout_width="@dimen/margin_25"
         android:layout_height="@dimen/margin_25"
-        android:src="@drawable/notification"/>
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="@dimen/margin_20dp"
+        android:layout_marginTop="@dimen/margin_25"
+        android:layout_marginEnd="@dimen/margin_20dp"
+        android:elevation="1dp"
+        android:src="@drawable/notification" />
     <FrameLayout
         android:layout_below="@id/logo"
         android:id="@+id/frame_container"
