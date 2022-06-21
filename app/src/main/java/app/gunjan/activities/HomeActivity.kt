@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import app.gunjan.R
 import app.gunjan.entity.GenerateTokenResponse
 import app.gunjan.entity.NotificationCountResponse
@@ -21,6 +22,7 @@ import app.gunjan.twilio.Logger
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
+import com.cashfree.pg.CFPaymentService
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.twilio.chat.CallbackListener
@@ -298,7 +300,9 @@ class HomeActivity : AppCompatActivity() {
                                FCSharedPreferances.getSharedPreferance(this@HomeActivity).iS_ADMIN=response.body()!!.data.isCommunityAdmin
                                FCSharedPreferances.getSharedPreferance(this@HomeActivity).iS_ACTIVE=response.body()!!.data.isActiveMember
                                 FCSharedPreferances.getSharedPreferance(this@HomeActivity).useR_ID = response.body()!!.data.user.id.toString()
+                                FCSharedPreferances.getSharedPreferance(this@HomeActivity).otheR_ID = response.body()!!.data.user.id.toString()
                                 FCSharedPreferances.getSharedPreferance(this@HomeActivity).totaL_COINS = response.body()!!.data.user.total_available_coins.toString()
+                                FCSharedPreferances.getSharedPreferance(this@HomeActivity).useR_NAME = response.body()!!.data.user.first_name+" "+response.body()!!.data.user.last_name
                             } else {
                                 ProjectUtill.printMessage(
                                     this@HomeActivity.window.decorView,
@@ -374,6 +378,27 @@ class HomeActivity : AppCompatActivity() {
         conf.locale = myLocale
         res.updateConfiguration(conf, dm)
         FCSharedPreferances.getSharedPreferance(this@HomeActivity).savE_LANG = localeName
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        //Same request code for all payment APIs.
+        Log.d(ContentValues.TAG, "ReqCode : " + CFPaymentService.REQ_CODE)
+        Log.d(ContentValues.TAG, "API Response : ")
+        //Prints all extras. Replace with app logic.
+        if (data != null) {
+            val bundle = data.extras
+            if (bundle != null) {
+                if (bundle.getString("txStatus").toString() == "CANCELLED" || bundle.getString("txStatus").toString() == "FAILED"){
+                    Toast.makeText(this,"Transaction Failed",Toast.LENGTH_LONG).show()
+                }else{
+                    val fm: FragmentManager = supportFragmentManager
+                    val fragment: HomeFragment =
+                        fm.findFragmentById(R.id.frame_container) as HomeFragment
+                    fragment.addCoins(bundle.getString("orderAmount").toString())
+                }
+            }
+        }
     }
 
 }

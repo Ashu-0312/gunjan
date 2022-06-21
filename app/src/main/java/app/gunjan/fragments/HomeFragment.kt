@@ -2,9 +2,11 @@ package app.gunjan.fragments
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -26,6 +28,7 @@ import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import com.artjimlop.altex.AltexImageDownloader
 import com.bumptech.glide.Glide
+import com.cashfree.pg.CFPaymentService
 import com.ravikoradiya.zoomableimageview.ZoomableImageView
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_add_post.*
@@ -230,7 +233,7 @@ class HomeFragment : Fragment() {
         invite!!.setOnClickListener {
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
-            val shareBodyText = userName+" inviting you to join"+name+".\n\n"+"All members can join this community below link\n\nlink is static"
+            val shareBodyText = userName+" inviting you to join "+name+".\n"+"Please download this app:\nhttps://play.google.com/store/apps/details?id=app.gunjan"
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here")
             sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText)
             startActivity(sharingIntent)
@@ -1553,6 +1556,7 @@ class HomeFragment : Fragment() {
                                             response.body()!!.data.user.first_name + " " + response.body()!!.data.user.last_name
                                         description =
                                             response.body()!!.data.active_community_details.about
+                                        FCSharedPreferances.getSharedPreferance(context).communitY_NAME = response.body()!!.data.active_community_details.title
                                     } catch (e: Exception) {
                                     }
                                 } else {
@@ -1634,7 +1638,7 @@ class HomeFragment : Fragment() {
             frameLayout.visibility = View.VISIBLE
             videoView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
-            val wm =context!!.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            val wm =requireActivity()!!.getSystemService(Context.WINDOW_SERVICE) as WindowManager
             val display = wm.defaultDisplay
             val width = display.width
             val height = display.height
@@ -1752,53 +1756,7 @@ class HomeFragment : Fragment() {
                 edtCoin.error = getString(R.string.please_coin)
             }else{
                 dialog.cancel()
-                val myDialog = ProjectUtill.showProgressDialog(context)
-                context?.let { it1 ->
-                    WebServiceRequest.getInstance().addCoin(
-                        it1,edtCoin.text.toString().trim(),
-                        object : Callback<AddCoinResponse> {
-                            override fun onResponse(
-                                call: Call<AddCoinResponse>,
-                                response: Response<AddCoinResponse>
-                            ) {
-                                myDialog.dismiss()
-                                if (response != null) {
-                                    if (response.isSuccessful) {
-                                        if (response.body()!!.code == 1) {
-                                            FCSharedPreferances.getSharedPreferance(context).totaL_COINS = response.body()!!.data.total_available_coins.toString()
-                                            totalCoins!!.text = response.body()!!.data.total_available_coins.toString()
-                                        } else {
-                                            ProjectUtill.printMessage(
-                                                (context as Activity).window.decorView,
-                                                response.body()?.message
-                                            )
-                                        }
-                                    } else {
-                                        ProjectUtill.printErrorMessage(
-                                            (context as Activity).window.decorView,
-                                            ""
-                                        )
-                                    }
-                                } else {
-                                    ProjectUtill.printErrorMessage(
-                                        (context as Activity).window.decorView,
-                                        ""
-                                    )
-                                }
-                            }
-
-                            override fun onFailure(
-                                call: Call<AddCoinResponse>,
-                                t: Throwable
-                            ) {
-                                myDialog.dismiss()
-                                ProjectUtill.printErrorMessage(
-                                    (context as Activity).window.decorView,
-                                    ""
-                                )
-                            }
-                        })
-                }
+                generateToken(edtCoin.text.toString().trim())
             }
         }
 
@@ -1848,6 +1806,124 @@ class HomeFragment : Fragment() {
 
                     override fun onFailure(
                         call: Call<DonateCoinResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            (context as Activity).window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
+    }
+
+    fun generateToken(amount:String){
+        val myDialog = ProjectUtill.showProgressDialog(context)
+        context?.let {
+            WebServiceRequest.getInstance().generateCashFreeToken(
+                it,amount, "INR", "Test Transaction",
+                object : Callback<PaymentTokenGenerateResponse> {
+                    override fun onResponse(
+                        call: Call<PaymentTokenGenerateResponse>,
+                        response: Response<PaymentTokenGenerateResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    Toast.makeText(
+                                        context,
+                                        "" + response.body()!!.message,
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                    var params: HashMap<String, String> = HashMap()
+                                    params[CFPaymentService.PARAM_APP_ID] = "22061307922ac43c73853febd0316022"
+                                    params[CFPaymentService.PARAM_ORDER_ID] = response.body()!!.data.data.orderId
+                                    params[CFPaymentService.PARAM_ORDER_AMOUNT] = response.body()!!.data.data.orderAmount
+                                    params[CFPaymentService.PARAM_ORDER_NOTE] = "Gunjan"
+                                    params[CFPaymentService.PARAM_CUSTOMER_NAME] = response.body()!!.data.data.customerName
+                                    params[CFPaymentService.PARAM_CUSTOMER_PHONE] = response.body()!!.data.data.customerPhone
+                                        params[CFPaymentService.PARAM_CUSTOMER_EMAIL] = response.body()!!.data.data.customerEmail
+                                    params[CFPaymentService.PARAM_ORDER_CURRENCY] = response.body()!!.data.data.orderCurrency
+                                    CFPaymentService.getCFPaymentServiceInstance().doPayment(
+                                        context as Activity,
+                                        params,
+                                        response.body()!!.data.data.tokenData,
+                                        "PROD"
+                                    )
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        activity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<PaymentTokenGenerateResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            activity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
+    }
+
+     fun addCoins(amount: String) {
+        val myDialog = ProjectUtill.showProgressDialog(context)
+        context?.let { it1 ->
+            WebServiceRequest.getInstance().addCoin(
+                it1,amount,
+                object : Callback<AddCoinResponse> {
+                    override fun onResponse(
+                        call: Call<AddCoinResponse>,
+                        response: Response<AddCoinResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    FCSharedPreferances.getSharedPreferance(context).totaL_COINS = response.body()!!.data.total_available_coins.toString()
+                                    totalCoins!!.text = response.body()!!.data.total_available_coins.toString()
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        (context as Activity).window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    (context as Activity).window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                (context as Activity).window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<AddCoinResponse>,
                         t: Throwable
                     ) {
                         myDialog.dismiss()

@@ -54,6 +54,8 @@ class SettingsActivity : AppCompatActivity() {
                                     if (response.body()!!.code == 1) {
                                         FCSharedPreferances.getSharedPreferance(this@SettingsActivity).statuS_LOGIN =
                                             "false"
+                                        FCSharedPreferances.getSharedPreferance(this@SettingsActivity).token =
+                                            ""
                                         var intent = Intent(
                                             this@SettingsActivity,
                                             LoginActivity::class.java

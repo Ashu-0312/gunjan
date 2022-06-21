@@ -62,6 +62,7 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
     private var firstName: EditText? = null
     private var lastName: EditText? = null
     private var designation: EditText? = null
+    private var edtEmail: EditText? = null
     private var Continue: LinearLayout? = null
     var citySpinner: Spinner? = null
     var stateSpinner: Spinner? = null
@@ -92,6 +93,7 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
         pincodeLayout = view.findViewById(R.id.pincodeLayout)
         pincodeLayout2 = view.findViewById(R.id.pincodeLayout2)
         edtPincode = view.findViewById(R.id.edtPincode)
+        edtEmail = view.findViewById(R.id.edtEmail)
         initData()
         return view
     }
@@ -114,6 +116,7 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
                             "android", "en", awsPicUrl,edtPincode!!.text.toString().trim(),
                             stateValue!!,cityValue!!,
                             designation!!.text.toString().trim(),
+                            edtEmail!!.text.toString().trim(),
                             object : Callback<CompleteProfileResponse> {
                                 override fun onResponse(
                                     call: Call<CompleteProfileResponse>,
@@ -168,6 +171,7 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
                                 "android", "en", awsPicUrl, pincodeValue!!,
                                 stateValue!!, cityValue!!,
                                 designation!!.text.toString().trim(),
+                                edtEmail!!.text.toString().trim(),
                                 object : Callback<CompleteProfileResponse> {
                                     override fun onResponse(
                                         call: Call<CompleteProfileResponse>,
@@ -412,6 +416,14 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
             lastName!!.requestFocus()
             lastName!!.error = getString(R.string.enter_lastname)
             return false
+        }else if (edtEmail!!.text.toString().trim().equals("", ignoreCase = true)) {
+            edtEmail!!.requestFocus()
+            edtEmail!!.error = getString(R.string.enter_mail)
+            return false
+        } else if (!ProjectUtill.isValidEmailId(edtEmail!!.text.toString().trim())) {
+            edtEmail!!.requestFocus()
+            edtEmail!!.error = getString(R.string.valid_mail)
+            return false
         }else if (designation!!.text.toString().trim().equals("", ignoreCase = true)) {
             designation!!.requestFocus()
             designation!!.error = getString(R.string.please_designation)
@@ -441,6 +453,14 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
         } else if (lastName!!.text.toString().trim().equals("", ignoreCase = true)) {
             lastName!!.requestFocus()
             lastName!!.error = getString(R.string.enter_lastname)
+            return false
+        }else if (edtEmail!!.text.toString().trim().equals("", ignoreCase = true)) {
+            edtEmail!!.requestFocus()
+            edtEmail!!.error = getString(R.string.enter_mail)
+            return false
+        } else if (!ProjectUtill.isValidEmailId(edtEmail!!.text.toString().trim())) {
+            edtEmail!!.requestFocus()
+            edtEmail!!.error = getString(R.string.valid_mail)
             return false
         }else if (designation!!.text.toString().trim().equals("", ignoreCase = true)) {
             designation!!.requestFocus()

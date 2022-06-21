@@ -12,13 +12,14 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
+import app.gunjan.entity.CoinFaqListResponse
 import kotlin.collections.ArrayList
 
 class FaqListAdapter(
     var context: Context?,
-    data: ArrayList<String>
+    data: MutableList<CoinFaqListResponse.DataBean.QuestionBean>
 ) : RecyclerView.Adapter<FaqListAdapter.ViewHolder>() {
-    private var data: ArrayList<String> = data
+    private var data: MutableList<CoinFaqListResponse.DataBean.QuestionBean> = data
     private var currentPosition = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -30,13 +31,12 @@ class FaqListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         try {
-          /*  holder.question!!.text = data[position].quesion
-            holder.answer!!.text = data[position].answer*/
+            holder.question!!.text = data[position].question
+            holder.answer!!.text = data[position].answer
         }catch (e:Exception){}
 
         holder.answer!!.visibility = View.GONE
         holder.showDetails!!.setImageDrawable(context!!.getDrawable(R.drawable.red_drop_down))
-        //if the position is equals to the item position which is to be expanded
         //if the position is equals to the item position which is to be expanded
         if (currentPosition == position) {
             //creating an animation

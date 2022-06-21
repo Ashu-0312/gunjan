@@ -40,6 +40,7 @@ class ProfileFragment : Fragment() {
     private var About:TextView?=null
     private var followerCount:TextView?=null
     private var followingCount:TextView?=null
+    private var communityHelp:LinearLayout?=null
     private var coins:TextView?=null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +59,7 @@ class ProfileFragment : Fragment() {
         followerCount = view.findViewById(R.id.follower_count)
         followingCount = view.findViewById(R.id.following_count)
         coins = view.findViewById(R.id.coins)
+        communityHelp = view.findViewById(R.id.community_help)
         initData()
         return view
     }
@@ -91,6 +93,10 @@ class ProfileFragment : Fragment() {
 
         settings!!.setOnClickListener {
             startActivity(Intent(context, SettingsActivity::class.java))
+        }
+
+        communityHelp!!.setOnClickListener {
+            startActivity(Intent(context, CommunityHelpActivity::class.java))
         }
     }
 

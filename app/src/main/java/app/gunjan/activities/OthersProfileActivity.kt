@@ -137,9 +137,17 @@ class OthersProfileActivity : AppCompatActivity() {
                                     followerCount.text = response.body()!!.data.follower_count.toString()
                                     followingCount.text = response.body()!!.data.following_count.toString()
                                     coins!!.text = response.body()!!.data.user.total_available_coins.toString()
-
-                                    toggleButton.isChecked =
-                                        response.body()!!.data.isFollowing_this_user
+                                    toggleButton.isChecked = response.body()!!.data.isFollowing_this_user
+                                    if(response.body()!!.data.user.social_media_details == null){
+                                        SocialProfile.visibility = View.GONE
+                                    }else if(response.body()!!.data.user.social_media_details.facebook.equals("") &&
+                                        response.body()!!.data.user.social_media_details.instagram.equals("") &&
+                                        response.body()!!.data.user.social_media_details.linkedin.equals("") &&
+                                        response.body()!!.data.user.social_media_details.youtube.equals("")){
+                                        SocialProfile.visibility = View.GONE
+                                    }else{
+                                        SocialProfile.visibility = View.VISIBLE
+                                    }
                                 }catch (e:Exception){}
                             } else {
                                 ProjectUtill.printMessage(

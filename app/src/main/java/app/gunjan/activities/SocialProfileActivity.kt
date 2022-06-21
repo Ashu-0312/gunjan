@@ -3,6 +3,7 @@ package app.gunjan.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import app.gunjan.R
 import app.gunjan.entity.OtherUserDetailsResponse
@@ -175,6 +176,26 @@ class SocialProfileActivity : AppCompatActivity() {
                                             .load(response.body()!!.data.user.image)
                                             .placeholder(R.drawable.user_avatar)
                                             .into(userPic)
+                                    }
+                                    if (response.body()!!.data.user.social_media_details.facebook.equals("")){
+                                        fbLayout.visibility = View.GONE
+                                    }else{
+                                        fbLayout.visibility = View.VISIBLE
+                                    }
+                                    if (response.body()!!.data.user.social_media_details.instagram.equals("")){
+                                        instaLayout.visibility = View.GONE
+                                    }else{
+                                        instaLayout.visibility = View.VISIBLE
+                                    }
+                                    if (response.body()!!.data.user.social_media_details.youtube.equals("")){
+                                        youtubeLayout.visibility = View.GONE
+                                    }else{
+                                        youtubeLayout.visibility = View.VISIBLE
+                                    }
+                                    if (response.body()!!.data.user.social_media_details.linkedin.equals("")){
+                                        linkedInLayout.visibility = View.GONE
+                                    }else{
+                                        linkedInLayout.visibility = View.VISIBLE
                                     }
                                     userName!!.text =
                                         response.body()!!.data.user.first_name + " " + response.body()!!.data.user.last_name

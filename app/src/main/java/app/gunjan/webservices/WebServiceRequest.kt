@@ -140,6 +140,7 @@ class WebServiceRequest private constructor() {
         state: String,
         city: String,
         designation: String,
+        email: String,
         registrationResponseCallback: Callback<CompleteProfileResponse>
     ) {
         val headers= HashMap<String,String>()
@@ -155,6 +156,7 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.state] = state
         params[Constants.Keys.city] = city
         params[Constants.Keys.designation] = designation
+        params[Constants.Keys.email] = email
         val registrationResponseCall: Call<CompleteProfileResponse> =
             apiInterface.completeProfile(params,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
@@ -456,6 +458,24 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.linkedin] = linkedin
         val registrationResponseCall: Call<AddSocialMediaResponse> =
             apiInterface.addSocialMedia(params,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun generateCashFreeToken(
+        context: Context,
+        orderAmount: String,
+        orderCurrency: String,
+        orderNote: String,
+        registrationResponseCallback: Callback<PaymentTokenGenerateResponse>
+    ) {
+        val headers = HashMap<String, String>()
+        headers[Constants.Keys.token] = FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.orderAmount] = orderAmount
+        params[Constants.Keys.orderCurrency] = orderCurrency
+        params[Constants.Keys.orderNote] = orderNote
+        val registrationResponseCall: Call<PaymentTokenGenerateResponse> =
+            apiInterface.generateCashFreeToken(params, headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
@@ -817,6 +837,20 @@ class WebServiceRequest private constructor() {
         params[Constants.Keys.state_code] = state_code
         val registrationResponseCall: Call<CityListResponse> =
             apiInterface.getCityList(state_code,headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun getFAQs(
+        context: Context,
+        language:String,
+        registrationResponseCallback: Callback<CoinFaqListResponse>
+    ) {
+        val headers= HashMap<String,String>()
+        headers[Constants.Keys.token]=FCSharedPreferances.getSharedPreferance(context).token
+        var params = HashMap<String,String>()
+        params[Constants.Keys.language] = language
+        val registrationResponseCall: Call<CoinFaqListResponse> =
+            apiInterface.getFAQs(language,headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 

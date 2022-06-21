@@ -26,7 +26,7 @@
             android:name=".activities.ChooseLanguageActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme" />
+            android:theme="@style/LoginTheme"/>
         <activity
             android:name=".activities.JoinedEventUserListActivity"
             android:exported="false"

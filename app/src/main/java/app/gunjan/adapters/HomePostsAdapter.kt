@@ -183,7 +183,7 @@ class HomePostsAdapter(
         holder.share!!.setOnClickListener {
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
-            val shareBodyText = "Download this App"
+            val shareBodyText = FCSharedPreferances.getSharedPreferance(context).useR_NAME+" inviting you to join "+FCSharedPreferances.getSharedPreferance(context).communitY_NAME+".\n"+"Please download this app:\nhttps://play.google.com/store/apps/details?id=app.gunjan"
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here")
             sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText)
             context!!.startActivity(sharingIntent)

@@ -14,8 +14,8 @@
         android:id="@+id/group_layout"
         android:paddingStart="@dimen/margin_10dp"
         android:paddingEnd="@dimen/margin_10dp"
-        android:paddingTop="@dimen/margin_15"
-        android:paddingBottom="@dimen/margin_15"
+        android:paddingTop="@dimen/margin_20dp"
+        android:paddingBottom="@dimen/margin_20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="@dimen/padding_3"
@@ -23,7 +23,7 @@
         android:layout_marginEnd="@dimen/margin_10dp"
         android:layout_marginTop="@dimen/padding_5"
         android:layout_marginBottom="@dimen/padding_5"
-        android:background="@drawable/circle_white">
+        android:background="@drawable/circle_pinkborder">
         <TextView
             android:layout_marginEnd="@dimen/margin_10dp"
             android:layout_marginStart="@dimen/margin_10dp"
@@ -46,12 +46,12 @@
                 android:layout_gravity="center"
                 android:gravity="top"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="55dp"
                 android:orientation="vertical">
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/group_pic"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
                     android:src="@drawable/user_avatar"/>
             </LinearLayout>
             <LinearLayout

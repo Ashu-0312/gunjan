@@ -53,6 +53,7 @@
         android:layout_height="1dp"
         android:background="@color/pink"/>
     <LinearLayout
+        android:weightSum="4"
         android:layout_marginTop="@dimen/margin_15"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,7 +63,7 @@
             android:layout_weight="1"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/popinbold"
             android:text="@string/total"
@@ -72,7 +73,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_weight="1"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppin_regular"
             android:id="@+id/total_coins"
@@ -81,10 +82,10 @@
         <TextView
             android:id="@+id/claim_reward"
             android:layout_marginStart="@dimen/margin_10dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/popinbold"
             android:text="@string/claim_rewards"

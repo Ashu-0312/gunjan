@@ -43,15 +43,9 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_13sp"
                 android:textColor="@color/black"/>
-            <TextView
-                android:fontFamily="@font/poppin_medium"
-                android:id="@+id/about"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_12sp"
-                android:textColor="@color/txt_color"/>
         </LinearLayout>
         <ImageView
+            android:visibility="gone"
             android:layout_marginTop="@dimen/padding_3"
             android:layout_marginBottom="3dp"
             android:id="@+id/cb_selector"

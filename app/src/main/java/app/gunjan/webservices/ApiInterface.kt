@@ -130,6 +130,12 @@ interface ApiInterface {
         @HeaderMap headers:Map<String,String>
     ): Call<AddSocialMediaResponse>
 
+    @POST(Constants.Partial.generateCashFreeToken)
+    fun generateCashFreeToken(
+        @Body params: java.util.HashMap<String, String>,
+        @HeaderMap headers: Map<String, String>
+    ): Call<PaymentTokenGenerateResponse>
+
     @PUT(Constants.Partial.addAboutYourself)
     fun addAboutYourself(
         @Body params:HashMap<String,String>,
@@ -271,6 +277,12 @@ interface ApiInterface {
         @Query(Constants.Keys.state_code) state_code: String?,
         @HeaderMap headers: Map<String, String>,
     ): Call<CityListResponse>
+
+    @GET(Constants.Partial.getFAQs)
+    fun getFAQs(
+        @Query(Constants.Keys.language) language: String?,
+        @HeaderMap headers: Map<String, String>,
+    ): Call<CoinFaqListResponse>
 
     @GET(Constants.Partial.pincodeList)
     fun pincodeList(

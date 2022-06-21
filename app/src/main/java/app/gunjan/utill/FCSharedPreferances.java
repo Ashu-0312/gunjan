@@ -24,6 +24,9 @@ public class FCSharedPreferances {
     private final String VALUE2="value2";
     private final String SAVE_LANG="savelan";
     private final String FIRST_TIME="firsttime";
+    private final String USER_NAME="username";
+    private final String COMMUNITY_NAME="cname";
+    private final String NOTIFICATION_TYPE="ntype";
 
 
     private FCSharedPreferances(Context context){
@@ -226,5 +229,38 @@ public class FCSharedPreferances {
 
     public String getFIRST_TIME(){
         return sharedPreferences.getString(FIRST_TIME,"");
+    }
+
+    public void setUSER_NAME(String user_name){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(USER_NAME,user_name);
+        editor.commit();
+        editor.apply();
+    }
+
+    public String getUSER_NAME(){
+        return sharedPreferences.getString(USER_NAME,"");
+    }
+
+    public void setCOMMUNITY_NAME(String community_name){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(COMMUNITY_NAME,community_name);
+        editor.commit();
+        editor.apply();
+    }
+
+    public String getCOMMUNITY_NAME(){
+        return sharedPreferences.getString(COMMUNITY_NAME,"");
+    }
+
+    public void setNOTIFICATION_TYPE(String notification_type){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(NOTIFICATION_TYPE,notification_type);
+        editor.commit();
+        editor.apply();
+    }
+
+    public String getNOTIFICATION_TYPE(){
+        return sharedPreferences.getString(NOTIFICATION_TYPE,"");
     }
 }

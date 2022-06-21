@@ -64,6 +64,8 @@ class Constants {
         const val addPostCoin = "post/addCoin"
         const val addSocialMedia = "user/addSocialMedia"
         const val getAllDonationList = "post/getAllDonationList"
+        const val generateCashFreeToken = "user/generateCashFreeToken"
+        const val getFAQs = "auth/getFAQs"
     }
 
     object Keys {
@@ -135,5 +137,8 @@ class Constants {
         const val youtube = "youtube"
         const val instagram = "instagram"
         const val linkedin = "linkedin"
+        const val orderAmount = "orderAmount"
+        const val orderCurrency = "orderCurrency"
+        const val orderNote = "orderNote"
     }
 }

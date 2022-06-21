@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
 import app.gunjan.adapters.DonationReceiveAdapter
 import app.gunjan.adapters.FaqListAdapter
+import app.gunjan.entity.CoinFaqListResponse
 import app.gunjan.entity.ReceivedCoinListResponse
+import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import retrofit2.Call
@@ -20,7 +22,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class DonationReceivedFragment : Fragment() {
-    private var list:ArrayList<String> = ArrayList<String>()
     private var totalCoins:Int?=0
     private var totalCoin:TextView?=null
     private var donationRecycler: RecyclerView? = null
@@ -44,17 +45,9 @@ class DonationReceivedFragment : Fragment() {
 
     private fun initData() {
 
-        list.add("")
-        list.add("")
-        list.add("")
-        list.add("")
-
-        var faqListAdapter = FaqListAdapter(context,list)
-        faqRecycler!!.layoutManager = LinearLayoutManager(context)
-        faqRecycler!!.adapter = faqListAdapter
-
         claimReward!!.setOnClickListener {
             faqLayout!!.visibility = View.VISIBLE
+            faqList()
         }
 
         val myDialog = ProjectUtill.showProgressDialog(context)
@@ -102,6 +95,57 @@ class DonationReceivedFragment : Fragment() {
 
                     override fun onFailure(
                         call: Call<ReceivedCoinListResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            activity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
+        }
+    }
+
+    private fun faqList(){
+        val myDialog = ProjectUtill.showProgressDialog(context)
+        context?.let {
+            WebServiceRequest.getInstance().getFAQs(
+                it,FCSharedPreferances.getSharedPreferance(context).savE_LANG,
+                object : Callback<CoinFaqListResponse> {
+                    override fun onResponse(
+                        call: Call<CoinFaqListResponse>,
+                        response: Response<CoinFaqListResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    var faqListAdapter = FaqListAdapter(context,response.body()!!.data.question)
+                                    faqRecycler!!.layoutManager = LinearLayoutManager(context)
+                                    faqRecycler!!.adapter = faqListAdapter
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        activity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    activity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                activity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<CoinFaqListResponse>,
                         t: Throwable
                     ) {
                         myDialog.dismiss()

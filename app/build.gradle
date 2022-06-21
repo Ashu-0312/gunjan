@@ -53,6 +53,9 @@ dependencies {
     implementation 'com.github.RaviKoradiya:ZoomableImageView:1.1.1'
     implementation 'com.artjimlop:altex-image-downloader:0.0.4'
 
+    //cashfree payment gateway
+    implementation 'com.cashfree.pg:android-sdk:1.7.24'
+
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'

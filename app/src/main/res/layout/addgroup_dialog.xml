@@ -11,36 +11,40 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_margin="@dimen/margin_15"
-        android:background="@drawable/circle_white"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/margin_15"
+        android:layout_marginTop="@dimen/margin_15"
+        android:layout_marginEnd="@dimen/margin_15"
+        android:layout_marginBottom="@dimen/margin_15"
+        android:background="@drawable/circle_white"
+        android:orientation="vertical">
 
         <ImageView
-            android:layout_marginEnd="@dimen/margin_15"
-            android:layout_marginTop="@dimen/margin_15"
             android:id="@+id/close"
-            android:layout_gravity="end"
             android:layout_width="@dimen/margin_15"
             android:layout_height="@dimen/margin_15"
-            android:src="@drawable/cross_black"/>
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/margin_15"
+            android:layout_marginEnd="@dimen/margin_15"
+            android:src="@drawable/cross_black" />
+
         <TextView
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:fontFamily="@font/popinbold"
+            android:text="@string/add_members"
             android:textColor="@color/black2"
-            android:textSize="@dimen/text_18sp"
-            android:text="@string/add_members"/>
+            android:textSize="@dimen/text_18sp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="@dimen/margin_10dp"
-            android:layout_marginBottom="65dp"
+            android:id="@+id/members_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none"
-            android:id="@+id/members_recycler"/>
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_marginBottom="65dp"
+            android:scrollbars="none" />
     </LinearLayout>
     <TextView
         android:visibility="gone"
@@ -62,6 +66,7 @@
         android:id="@+id/progress_bar"
         android:indeterminateTint="@color/pink"/>
     <LinearLayout
+        android:visibility="gone"
         android:layout_marginTop="@dimen/padding_5"
         android:layout_alignParentBottom="true"
         android:id="@+id/Add"

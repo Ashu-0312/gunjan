@@ -24,7 +24,7 @@ import app.gunjan.R
 import app.gunjan.adapters.ChatAdapter
 import app.gunjan.adapters.MemberListAdapter
 import app.gunjan.entity.AddMemberinGroupResponse
-import app.gunjan.entity.AllMembersListResponse
+import app.gunjan.entity.MemberListResponse
 import app.gunjan.twilio.*
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.PermissionUtil
@@ -35,9 +35,7 @@ import com.google.gson.Gson
 import com.twilio.chat.*
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_chat.back
-import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_notification.*
-import kotlinx.android.synthetic.main.activity_tc.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -62,7 +60,7 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
     private var memberRecycler: RecyclerView? = null
     private val quickstartChatManager: QuickstartChatManager = QuickstartChatManager()
     var list: List<Message>? = null
-    var memberList: ArrayList<AllMembersListResponse.DataBean.UserListBean> = ArrayList<AllMembersListResponse.DataBean.UserListBean>()
+    var memberList: ArrayList<MemberListResponse.DataBean.MemberListBean> = ArrayList<MemberListResponse.DataBean.MemberListBean>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
@@ -423,7 +421,7 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
 
         add.setOnClickListener {
             dialog.cancel()
-            Gson().toJson(memberAdapter!!.getSelectedData())
+            /*Gson().toJson(memberAdapter!!.getSelectedData())
 
             val myDialog = ProjectUtill.showProgressDialog(this@ChatActivity)
             WebServiceRequest.getInstance().addCommunityMember(
@@ -467,7 +465,7 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
                             ""
                         )
                     }
-                })
+                })*/
         }
         dialog.show()
     }
@@ -475,12 +473,12 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
     private fun userListApi(page: String) {
         isLoading = true
         val myDialog = ProjectUtill.showProgressDialog(this)
-        WebServiceRequest.getInstance().getAllNonMemberList(
-            this, page, "10",
-            object : Callback<AllMembersListResponse> {
+        WebServiceRequest.getInstance().getAllMemberList(
+            this, page, "10","","","only active member","",
+            object : Callback<MemberListResponse> {
                 override fun onResponse(
-                    call: Call<AllMembersListResponse>,
-                    response: Response<AllMembersListResponse>,
+                    call: Call<MemberListResponse>,
+                    response: Response<MemberListResponse>,
                 ) {
                     isLoading = false
                     myDialog.dismiss()
@@ -488,15 +486,15 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
                         if (response.isSuccessful) {
                             if (response.body()!!.code == 1) {
                                 memberList.clear()
-                                memberList.addAll(response.body()!!.data.user_list)
-                                val prevSize: Int = response.body()!!.data.user_list.size
+                                memberList.addAll(response.body()!!.data.member_list)
+                                val prevSize: Int = response.body()!!.data.member_list.size
                                 if (memberList.size == 0) {
                                     blankData!!.visibility = View.VISIBLE
                                     memberRecycler!!.visibility = View.GONE
                                 } else {
                                     blankData!!.visibility = View.GONE
                                     memberRecycler!!.visibility = View.VISIBLE
-                                    if (response.body()!!.data.user_list.size < 10) {
+                                    if (response.body()!!.data.member_list.size < 10) {
                                         isLastPage = true
                                     }
                                     if (memberList.size == 10) {
@@ -529,7 +527,7 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
                 }
 
                 override fun onFailure(
-                    call: Call<AllMembersListResponse>,
+                    call: Call<MemberListResponse>,
                     t: Throwable,
                 ) {
                     myDialog.dismiss()
@@ -544,27 +542,27 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
     private fun userListPaginationApi(page: String) {
         isLoading = true
         progressBar!!.visibility = View.VISIBLE
-        WebServiceRequest.getInstance().getAllNonMemberList(
-            this, page, "10",
-            object : Callback<AllMembersListResponse> {
+        WebServiceRequest.getInstance().getAllMemberList(
+            this, page, "10","","","only active member","",
+            object : Callback<MemberListResponse> {
                 override fun onResponse(
-                    call: Call<AllMembersListResponse>,
-                    response: Response<AllMembersListResponse>,
+                    call: Call<MemberListResponse>,
+                    response: Response<MemberListResponse>,
                 ) {
                     isLoading = false
                     progressBar!!.visibility = View.GONE
                     if (response != null) {
                         if (response.isSuccessful) {
                             if (response.body()!!.code == 1) {
-                                memberList.addAll(response.body()!!.data.user_list)
-                                val prevSize: Int = response.body()!!.data.user_list.size
+                                memberList.addAll(response.body()!!.data.member_list)
+                                val prevSize: Int = response.body()!!.data.member_list.size
                                 if (memberList.size == 0) {
                                     blankData!!.visibility = View.VISIBLE
                                     memberRecycler!!.visibility = View.GONE
                                 } else {
                                     blankData!!.visibility = View.GONE
                                     memberRecycler!!.visibility = View.VISIBLE
-                                    if (response.body()!!.data.user_list.size < 10) {
+                                    if (response.body()!!.data.member_list.size < 10) {
                                         isLastPage = true
                                     }
                                     if (memberList.size == 10) {
@@ -597,7 +595,7 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
                 }
 
                 override fun onFailure(
-                    call: Call<AllMembersListResponse>,
+                    call: Call<MemberListResponse>,
                     t: Throwable,
                 ) {
                     progress_bar!!.visibility = View.GONE

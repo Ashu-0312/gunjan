@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.widget.Toast
 import app.gunjan.R
 import app.gunjan.utill.FCSharedPreferances
 import java.util.*
@@ -36,10 +37,18 @@ class SplashActivity : AppCompatActivity() {
             FCSharedPreferances.getSharedPreferance(this@SplashActivity).status =
                 ""
             if (FCSharedPreferances.getSharedPreferance(this@SplashActivity).statuS_LOGIN.equals("true")) {
-                val intent = Intent(this@SplashActivity, HomeActivity::class.java)
-                intent.flags =
-                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
+                if (FCSharedPreferances.getSharedPreferance(this).notificatioN_TYPE.equals("post coin")){
+                    FCSharedPreferances.getSharedPreferance(this).notificatioN_TYPE=""
+                    val intent = Intent(this@SplashActivity, CommunityHelpActivity::class.java)
+                    intent.flags =
+                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }else{
+                    val intent = Intent(this@SplashActivity, HomeActivity::class.java)
+                    intent.flags =
+                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }
             } else {
                 if (FCSharedPreferances.getSharedPreferance(this).firsT_TIME.equals("true")) {
                     val intent = Intent(this@SplashActivity, LoginActivity::class.java)
