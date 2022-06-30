@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import app.gunjan.R
 import app.gunjan.entity.PrivacyPolicyResponse
+import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import kotlinx.android.synthetic.main.activity_privacy_policy.*
@@ -23,7 +24,7 @@ class PrivacyPolicyActivity : AppCompatActivity() {
 
         val myDialog = ProjectUtill.showProgressDialog(this@PrivacyPolicyActivity)
         WebServiceRequest.getInstance().privacyPolicy(
-            "en",
+            FCSharedPreferances.getSharedPreferance(this).savE_LANG,
             object : Callback<PrivacyPolicyResponse> {
                 override fun onResponse(
                     call: Call<PrivacyPolicyResponse>,

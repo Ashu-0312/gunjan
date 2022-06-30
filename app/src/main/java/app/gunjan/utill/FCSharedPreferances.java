@@ -27,6 +27,7 @@ public class FCSharedPreferances {
     private final String USER_NAME="username";
     private final String COMMUNITY_NAME="cname";
     private final String NOTIFICATION_TYPE="ntype";
+    private final String PAYMENT_TYPE="type";
 
 
     private FCSharedPreferances(Context context){
@@ -262,5 +263,16 @@ public class FCSharedPreferances {
 
     public String getNOTIFICATION_TYPE(){
         return sharedPreferences.getString(NOTIFICATION_TYPE,"");
+    }
+
+    public void setPAYMENT_TYPE(String payment_type){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(PAYMENT_TYPE,payment_type);
+        editor.commit();
+        editor.apply();
+    }
+
+    public String getPAYMENT_TYPE(){
+        return sharedPreferences.getString(PAYMENT_TYPE,"");
     }
 }

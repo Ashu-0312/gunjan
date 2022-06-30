@@ -104,7 +104,7 @@
     <string name="pincode">कृपया पिनकोड दर्ज करें</string>
     <string name="choose_pic">कृपया प्रोफाइल फोटो अपलोड करें</string>
     <string name="about">कृपया अपने बारे में बताइए</string>
-    <string name="about_limit">अपने बारे में 200 शब्दों में बताइए</string>
+    <string name="about_limit">अपने बारे में 100 शब्दों में बताइए</string>
     <string name="enter_dob">कृपया जन्म तिथि दर्ज करें</string>
     <string name="select_gender">कृपया लिंग चुनें</string>
     <string name="select_interest">कृपया रुचि का चयन करें</string>
@@ -256,7 +256,7 @@
     <string name="enter_name">नाम दर्ज करें</string>
     <string name="awards">पुरस्कार</string>
     <string name="enter_coin">कॉइन दर्ज करें</string>
-    <string name="please_coin">कृपया कॉइन दर्ज करें</string>
+    <string name="please_coin">आपका बैलेंस पर्याप्त नहीं है, कृपया और सिक्के जोड़ें।</string>
     <string name="coins">कॉइन</string>
     <string name="faq_page_under_reward_page">सामान्य प्रश्न</string>
     <string name="faq_desc">सिक्के एक आभासी वस्तु है जिसका उपयोग आप अनुकरणीय पोस्ट या टिप्पणियों को पुरस्कृत करने के लिए कर सकते हैं। गुंजन का समर्थन करें और अपने पसंदीदा योगदानकर्ताओं को गुंजन को बेहतर बनाने के लिए प्रोत्साहित करें।</string>
@@ -264,5 +264,7 @@
     <string name="please_coins">कृपया सिक्के जोड़ें</string>
     <string name="select_language">भाषा चुने</string>
     <string name="loading">लोड हो रहा है कृपया प्रतीक्षा करें...</string>
-
+    <string name="guidelines">समुदाय दिशानिर्देश</string>
+    <string name="community">समुदाय</string>
+    <string name="failed">लेन - देन विफल</string>
 </resources>

@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
     <RelativeLayout
-        android:visibility="gone"
+         android:visibility="gone"
         android:id="@+id/group_layout"
         android:paddingStart="@dimen/margin_10dp"
         android:paddingEnd="@dimen/margin_10dp"
@@ -55,6 +55,7 @@
                     android:src="@drawable/user_avatar"/>
             </LinearLayout>
             <LinearLayout
+                android:layout_weight="1"
                 android:layout_marginTop="@dimen/padding_5"
                 android:layout_marginStart="@dimen/margin_7"
                 android:layout_width="match_parent"
@@ -84,9 +85,17 @@
                         android:textSize="@dimen/text_12sp"
                         android:textColor="@color/txt_color"
                         android:id="@+id/group_message"/>
-
                 </LinearLayout>
             </LinearLayout>
+            <TextView
+                android:layout_gravity="center"
+                android:text="@string/community"
+                android:layout_marginStart="@dimen/padding_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semibold"
+                android:textSize="@dimen/margin_15"
+                android:textColor="@color/pink"/>
         </LinearLayout>
     </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView

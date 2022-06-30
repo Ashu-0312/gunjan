@@ -100,6 +100,10 @@ class SettingsActivity : AppCompatActivity() {
              languageDialog()
         }
 
+        guideline.setOnClickListener {
+            startActivity(Intent(this, GuidelinesActivity::class.java))
+        }
+
         leave_community!!.setOnClickListener {
             startActivity(Intent(this, JoinedCommunitesActivity::class.java))
         }

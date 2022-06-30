@@ -4,16 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/swipe_refresh"
+    android:background="@color/white"
     tools:context=".fragments.OthersPostFragment">
    <RelativeLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent">
-   <androidx.recyclerview.widget.RecyclerView
-       android:layout_marginTop="@dimen/margin_10dp"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:id="@+id/post_recycler"
-       android:scrollbars="none"/>
+      <LinearLayout
+          android:background="@color/light_grey"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/post_recycler"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="@dimen/margin_10dp"
+          android:scrollbars="none" />
+      </LinearLayout>
    <TextView
         android:visibility="gone"
        android:text="@string/no_posts_yet"

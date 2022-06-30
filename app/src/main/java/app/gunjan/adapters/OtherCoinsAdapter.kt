@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
 import app.gunjan.entity.DonateCoinResponse
 import app.gunjan.fragments.HomeFragment
+import app.gunjan.fragments.OthersPostFragment
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
@@ -22,13 +23,13 @@ import retrofit2.Callback
 import retrofit2.Response
 import kotlin.collections.ArrayList
 
-class CoinsAdapter(
+class OtherCoinsAdapter(
     var context: Context?,
     data: ArrayList<String>,
-    fragment: HomeFragment
-) : RecyclerView.Adapter<CoinsAdapter.ViewHolder>() {
+    fragment: OthersPostFragment
+) : RecyclerView.Adapter<OtherCoinsAdapter.ViewHolder>() {
     private var data: ArrayList<String> = data
-    private var fragment: HomeFragment = fragment
+    private var fragment: OthersPostFragment = fragment
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val listItem: View = layoutInflater.inflate(R.layout.coin_item, parent, false)

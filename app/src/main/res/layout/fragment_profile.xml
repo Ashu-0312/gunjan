@@ -29,10 +29,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <LinearLayout
+                        android:elevation="@dimen/margin_40dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/margin_25"
+                        android:layout_marginStart="@dimen/margin_25"
+                        android:layout_marginEnd="@dimen/margin_25"
                         android:id="@+id/community_help"
                         android:gravity="center"
-                        android:layout_margin="@dimen/margin_25"
-                        android:elevation="4dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
@@ -51,6 +57,14 @@
                             android:text="0"
                             android:textColor="@color/black2"
                             android:textSize="14sp" />
+                    </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/add_coin"
+                            android:layout_gravity="center"
+                            android:layout_width="@dimen/text_30sp"
+                            android:layout_height="@dimen/text_30sp"
+                            android:src="@drawable/add_community"/>
                     </LinearLayout>
                       <ImageView
                           android:layout_width="@dimen/margin_40dp"

@@ -14,10 +14,7 @@ import app.gunjan.entity.GenerateTokenResponse
 import app.gunjan.entity.NotificationCountResponse
 import app.gunjan.entity.UpdateDeviceTokenResponse
 import app.gunjan.entity.UserDetailsResponse
-import app.gunjan.fragments.HomeFragment
-import app.gunjan.fragments.MembersFragment
-import app.gunjan.fragments.MessagesFragment
-import app.gunjan.fragments.ProfileFragment
+import app.gunjan.fragments.*
 import app.gunjan.twilio.Logger
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
@@ -390,12 +387,24 @@ class HomeActivity : AppCompatActivity() {
             val bundle = data.extras
             if (bundle != null) {
                 if (bundle.getString("txStatus").toString() == "CANCELLED" || bundle.getString("txStatus").toString() == "FAILED"){
-                    Toast.makeText(this,"Transaction Failed",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this,getString(R.string.failed),Toast.LENGTH_LONG).show()
                 }else{
-                    val fm: FragmentManager = supportFragmentManager
-                    val fragment: HomeFragment =
-                        fm.findFragmentById(R.id.frame_container) as HomeFragment
-                    fragment.addCoins(bundle.getString("orderAmount").toString())
+                    if (FCSharedPreferances.getSharedPreferance(this).paymenT_TYPE.equals("home")){
+                        val fm: FragmentManager = supportFragmentManager
+                        val fragment: HomeFragment =
+                            fm.findFragmentById(R.id.frame_container) as HomeFragment
+                        fragment.addCoins(bundle.getString("orderAmount").toString())
+                    }else if(FCSharedPreferances.getSharedPreferance(this).paymenT_TYPE.equals("profile")){
+                        val fm: FragmentManager = supportFragmentManager
+                        val fragment: ProfileFragment =
+                            fm.findFragmentById(R.id.frame_container) as ProfileFragment
+                        fragment.addCoins(bundle.getString("orderAmount").toString())
+                    }else if(FCSharedPreferances.getSharedPreferance(this).paymenT_TYPE.equals("other")){
+                        val fm: FragmentManager = supportFragmentManager
+                        val fragment: ProfileFragment =
+                            fm.findFragmentById(R.id.frame_container) as ProfileFragment
+                        fragment.addCoins(bundle.getString("orderAmount").toString())
+                    }
                 }
             }
         }

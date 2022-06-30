@@ -22,6 +22,12 @@
         android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity"
         tools:replace="allowBackup">
+
+        <activity
+            android:name=".activities.GuidelinesActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/LoginTheme"/>
         <activity
             android:name=".activities.ChooseLanguageActivity"
             android:exported="false"

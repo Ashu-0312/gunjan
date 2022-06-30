@@ -3,11 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/padding_5"
-    android:layout_marginBottom="@dimen/margin_10dp"
+    android:background="@color/white"
+    android:layout_marginBottom="@dimen/padding_8"
+    android:paddingBottom="@dimen/margin_10dp"
     android:orientation="vertical">
 
     <LinearLayout
+        android:layout_marginTop="@dimen/padding_5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_10dp"
@@ -46,9 +48,54 @@
                 android:textColor="@color/black3"
                 android:textSize="@dimen/text_12sp" />
         </LinearLayout>
-
-        <ImageView
+        <LinearLayout
             android:visibility="gone"
+            android:id="@+id/event_layout"
+            android:layout_marginEnd="@dimen/padding_2"
+            android:layout_marginStart="@dimen/margin_10dp"
+            android:layout_marginBottom="@dimen/padding_2"
+            android:elevation="@dimen/padding_2"
+            android:background="@drawable/circle_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_7">
+
+            <ImageView
+                android:layout_width="@dimen/margin_15"
+                android:layout_height="@dimen/margin_15"
+                android:src="@drawable/dob"/>
+            <LinearLayout
+                android:layout_marginStart="@dimen/padding_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/activity_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/popinbold"
+                    android:textSize="@dimen/text_12sp"
+                    android:textColor="@color/pink"/>
+                <TextView
+                    android:id="@+id/activity_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppin_medium"
+                    android:textSize="@dimen/text_size_11"
+                    android:textColor="@color/pink"/>
+                <TextView
+                    android:id="@+id/activity_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppin_medium"
+                    android:textSize="@dimen/margin_10dp"
+                    android:textColor="@color/pink"/>
+            </LinearLayout>
+        </LinearLayout>
+        <ImageView
+
+            android:layout_marginStart="@dimen/padding_5"
             android:id="@+id/menu"
             android:layout_width="@dimen/margin_20dp"
             android:layout_height="@dimen/margin_20dp"
@@ -86,6 +133,59 @@
             android:textColor="@color/blue"
             android:textSize="@dimen/text_13sp" />
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_marginStart="@dimen/margin_10dp"
+        android:layout_marginEnd="@dimen/margin_10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:minWidth="130dp"
+            android:id="@+id/joined_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:elevation="1dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/total_users"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_10dp"
+                android:layout_marginEnd="@dimen/margin_20dp"
+                android:fontFamily="@font/popinbold"
+                android:gravity="center"
+                android:text="@string/_0_users_joined"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/margin_15" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:minWidth="130dp"
+            android:id="@+id/join_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:elevation="1dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/join_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_20dp"
+                android:layout_marginEnd="@dimen/margin_10dp"
+                android:fontFamily="@font/popinbold"
+                android:gravity="center"
+                android:text="@string/join_event"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/margin_15" />
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <ImageView
         android:visibility="gone"
@@ -132,26 +232,15 @@
             android:id="@+id/progress_bar"/>
 
     </FrameLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0.6dp"
-
+        android:layout_height="0.5dp"
         android:background="@color/txt_color" />
 
-    <TextView
-        android:id="@+id/total_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_20dp"
-        android:layout_marginTop="@dimen/margin_10dp"
-        android:layout_marginEnd="@dimen/margin_10dp"
-        android:fontFamily="@font/poppin_medium"
-        android:text="@string/_0_comments"
-        android:textAllCaps="false"
-        android:textColor="@color/pink"
-        android:textSize="@dimen/text_13sp" />
-
     <LinearLayout
+        android:layout_marginTop="@dimen/margin_10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_15"
@@ -159,8 +248,9 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:layout_gravity="center"
             android:id="@+id/comment_layout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal">
@@ -168,41 +258,42 @@
             <ImageView
                 android:layout_width="@dimen/margin_20dp"
                 android:layout_height="@dimen/margin_20dp"
-                android:src="@drawable/message_not_selected" />
+                android:src="@drawable/message_grey" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/padding_3"
+                android:layout_marginStart="@dimen/padding_5"
                 android:fontFamily="@font/poppin_medium"
-                android:text="@string/comment"
+                android:id="@+id/total_comment"
                 android:textColor="@color/txt_color"
                 android:textSize="@dimen/text_12sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/total_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/padding_3"
-                android:layout_marginTop="2dp"
                 android:fontFamily="@font/poppin_medium"
                 android:gravity="center"
                 android:text="0"
-                android:id="@+id/total_like"
-                android:textColor="@color/pink"
+                android:textColor="@color/txt_color"
                 android:textSize="@dimen/text_12sp" />
 
             <ImageView
+                android:layout_gravity="center"
                 android:id="@+id/like"
                 android:layout_width="@dimen/margin_20dp"
-                android:layout_height="@dimen/margin_20dp"
+                android:layout_height="@dimen/text_18sp"
                 android:layout_marginStart="@dimen/padding_3"
                 android:src="@drawable/like" />
 
@@ -211,7 +302,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/padding_3"
-                android:layout_marginTop="2dp"
                 android:fontFamily="@font/poppin_medium"
                 android:gravity="center"
                 android:text="@string/vote"
@@ -219,9 +309,10 @@
                 android:textSize="@dimen/text_12sp" />
 
             <ImageView
+                android:layout_marginTop="1dp"
                 android:id="@+id/dislike"
-                android:layout_width="@dimen/margin_20dp"
-                android:layout_height="@dimen/margin_20dp"
+                android:layout_width="19dp"
+                android:layout_height="@dimen/text_17sp"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/padding_3"
                 android:src="@drawable/dislike" />
@@ -231,16 +322,17 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/padding_3"
-                android:layout_marginTop="2dp"
                 android:fontFamily="@font/poppin_medium"
                 android:gravity="center"
                 android:text="0"
                 android:id="@+id/total_dislike"
-                android:textColor="@color/blue"
+                android:textColor="@color/txt_color"
                 android:textSize="@dimen/text_12sp" />
         </LinearLayout>
 
         <LinearLayout
+            android:layout_weight="1"
+            android:layout_gravity="center"
             android:id="@+id/share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -252,6 +344,7 @@
                 android:src="@drawable/share" />
 
             <TextView
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/padding_3"
@@ -260,6 +353,14 @@
                 android:textColor="@color/txt_color"
                 android:textSize="@dimen/text_12sp" />
         </LinearLayout>
+        <ImageView
+            android:layout_weight="1"
+            android:layout_width="@dimen/text_17sp"
+            android:layout_height="@dimen/text_17sp"
+            android:src="@drawable/reward"
+            android:id="@+id/reward"
+            android:layout_marginStart="@dimen/margin_10dp"
+            android:layout_gravity="center"/>
     </LinearLayout>
 
     <LinearLayout
@@ -313,9 +414,4 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0.6dp"
-        android:layout_marginTop="@dimen/margin_20dp"
-        android:background="@color/txt_color" />
 </LinearLayout>

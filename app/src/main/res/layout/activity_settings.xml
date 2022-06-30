@@ -145,7 +145,7 @@
                 <ImageView
                     android:layout_width="@dimen/margin_20dp"
                     android:layout_height="@dimen/margin_20dp"
-                    android:src="@drawable/contact_us"/>
+                    android:src="@drawable/community_help"/>
                 <TextView
                     android:layout_gravity="center"
                     android:layout_weight="1"
@@ -175,7 +175,7 @@
 
                     android:layout_width="@dimen/margin_20dp"
                     android:layout_height="@dimen/margin_20dp"
-                    android:src="@drawable/contact_us"/>
+                    android:src="@drawable/my_community"/>
                 <TextView
                     android:layout_gravity="center"
                     android:layout_weight="1"
@@ -306,6 +306,36 @@
                     android:fontFamily="@font/poppin_regular"
                     android:textColor="#080808"
                     android:text="@string/privacy_policy"/>
+            </LinearLayout>
+            <LinearLayout
+                android:paddingTop="@dimen/margin_20dp"
+                android:paddingBottom="@dimen/margin_20dp"
+                android:paddingLeft="@dimen/margin_20dp"
+                android:paddingRight="@dimen/margin_20dp"
+                android:layout_marginStart="@dimen/margin_10dp"
+                android:layout_marginEnd="@dimen/margin_10dp"
+                android:layout_marginTop="@dimen/margin_15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/guideline"
+                android:orientation="horizontal"
+                android:elevation="@dimen/padding_3"
+                android:background="@drawable/circle_white2">
+                <ImageView
+
+                    android:layout_width="@dimen/margin_20dp"
+                    android:layout_height="@dimen/margin_20dp"
+                    android:src="@drawable/guideline"/>
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/margin_15"
+                    android:fontFamily="@font/poppin_regular"
+                    android:textColor="#080808"
+                    android:text="@string/guidelines"/>
             </LinearLayout>
             <LinearLayout
                 android:paddingTop="@dimen/margin_20dp"

@@ -1755,6 +1755,7 @@ class HomeFragment : Fragment() {
                 edtCoin.requestFocus()
                 edtCoin.error = getString(R.string.please_coin)
             }else{
+                FCSharedPreferances.getSharedPreferance(context).paymenT_TYPE ="home"
                 dialog.cancel()
                 generateToken(edtCoin.text.toString().trim())
             }

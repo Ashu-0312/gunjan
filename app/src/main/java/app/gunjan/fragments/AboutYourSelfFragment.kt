@@ -63,7 +63,7 @@ class AboutYourSelfFragment : Fragment() {
         Continue!!.setOnClickListener {
             if (about!!.text.toString().trim() == "") {
                 Toast.makeText(context, getString(R.string.about), Toast.LENGTH_LONG).show()
-            }else if (about!!.text.toString().length<200){
+            }else if (about!!.text.toString().length<100){
                 Toast.makeText(context, getString(R.string.about_limit), Toast.LENGTH_LONG).show()
             } else {
                 val myDialog = ProjectUtill.showProgressDialog(context)

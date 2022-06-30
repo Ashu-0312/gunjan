@@ -26,50 +26,6 @@ class ContactUsActivity : AppCompatActivity() {
     private fun initData() {
         back.setOnClickListener { finish() }
 
-        val myDialog = ProjectUtill.showProgressDialog(this@ContactUsActivity)
-        WebServiceRequest.getInstance().getHelplineDetails(
-            this,
-            object : Callback<GetHelplineNumberResponse> {
-                override fun onResponse(
-                    call: Call<GetHelplineNumberResponse>,
-                    response: Response<GetHelplineNumberResponse>
-                ) {
-                    myDialog.dismiss()
-                    if (response != null) {
-                        if (response.isSuccessful) {
-                            if (response.body()!!.code == 1) {
-                                helpNumber.text = getString(R.string.call_us)+": "+response.body()!!.data.mobile
-                            } else {
-                                ProjectUtill.printMessage(
-                                    this@ContactUsActivity.window.decorView,
-                                    response.body()?.message
-                                )
-                            }
-                        } else {
-                            ProjectUtill.printErrorMessage(
-                                this@ContactUsActivity.window.decorView,
-                                ""
-                            )
-                        }
-                    } else {
-                        ProjectUtill.printErrorMessage(
-                            this@ContactUsActivity.window.decorView,
-                            ""
-                        )
-                    }
-                }
-
-                override fun onFailure(
-                    call: Call<GetHelplineNumberResponse>,
-                    t: Throwable
-                ) {
-                    ProjectUtill.printErrorMessage(
-                        this@ContactUsActivity.window.decorView,
-                        ""
-                    )
-                }
-            })
-
         Submit.setOnClickListener {
             if (subject.text.toString().trim() == "") {
                 Toast.makeText(this, getString(R.string.please_subject), Toast.LENGTH_LONG).show()

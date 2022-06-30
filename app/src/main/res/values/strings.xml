@@ -104,7 +104,7 @@
     <string name="pincode">Please Enter PinCode</string>
     <string name="choose_pic">Please choose profile pic</string>
     <string name="about">Please enter about yourself</string>
-    <string name="about_limit">About yourself must be 200 characters</string>
+    <string name="about_limit">About yourself must be 100 characters</string>
     <string name="enter_dob">Please enter date of birth</string>
     <string name="select_gender">Please select gender</string>
     <string name="select_interest">Please select interest</string>
@@ -261,8 +261,11 @@
     <string name="faq_page_under_reward_page">FAQ</string>
     <string name="faq_desc">Coins are a virtual item that you can use to reward exemplary posts or comments. Support Gunjan and encourage your favorite contributors to improve Gunjan.</string>
     <string name="create_community">Create Community</string>
-    <string name="please_coins">Please Add Coins</string>
+    <string name="please_coins">your balance is not sufficient,please add more coins.</string>
     <string name="select_language">Select Language</string>
     <string name="loading">Loading Please Wait...</string>
+    <string name="guidelines">Community Guidelines</string>
+    <string name="community">Community</string>
+    <string name="failed">Transaction Failed</string>
 
 </resources>

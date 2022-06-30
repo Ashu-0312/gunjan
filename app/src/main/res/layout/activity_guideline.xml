@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="false"
+    android:background="@color/white"
+    android:scrollbars="none"
+    tools:context=".activities.GuidelinesActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:background="@color/light_white"
+            android:paddingBottom="@dimen/margin_20dp"
+            android:paddingTop="@dimen/margin_10dp"
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_marginTop="@dimen/margin_15"
+                android:id="@+id/back"
+                android:layout_marginStart="@dimen/margin_15"
+                android:layout_width="@dimen/margin_20dp"
+                android:layout_height="@dimen/margin_20dp"
+                android:src="@drawable/back"
+                tools:ignore="RtlCompat" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10dp"
+                android:fontFamily="@font/popinbold"
+                android:gravity="center"
+                android:text="@string/guidelines"
+                android:textColor="@color/pink"
+                android:textSize="@dimen/text_17sp" />
+
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_below="@id/back"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/text_30sp"
+                android:layout_marginBottom="@dimen/margin_20dp"
+                android:src="@drawable/guideline" />
+        </RelativeLayout>
+        <TextView
+            android:layout_below="@id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppin_regular"
+            android:textColor="@color/black"
+            android:layout_margin="@dimen/margin_15"
+            android:textSize="@dimen/text_13sp"
+            android:id="@+id/content"/>
+    </RelativeLayout>
+</ScrollView>

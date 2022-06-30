@@ -5,6 +5,7 @@ import android.os.Bundle
 import app.gunjan.R
 import app.gunjan.entity.PrivacyPolicyResponse
 import app.gunjan.entity.TermsResponse
+import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import kotlinx.android.synthetic.main.activity_tc.*
@@ -26,7 +27,7 @@ class TcActivity : AppCompatActivity() {
 
         val myDialog = ProjectUtill.showProgressDialog(this@TcActivity)
         WebServiceRequest.getInstance().termAndConditions(
-            "en",
+            FCSharedPreferances.getSharedPreferance(this).savE_LANG,
             object : Callback<TermsResponse> {
                 override fun onResponse(
                     call: Call<TermsResponse>,

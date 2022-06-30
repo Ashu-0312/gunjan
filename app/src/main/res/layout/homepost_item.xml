@@ -239,35 +239,7 @@
         android:background="@color/txt_color" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_weight="1"
-            android:id="@+id/total_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_20dp"
-            android:layout_marginTop="@dimen/padding_5"
-            android:layout_marginEnd="@dimen/margin_10dp"
-            android:fontFamily="@font/poppin_medium"
-            android:text="@string/_0_comments"
-            android:textAllCaps="false"
-            android:textColor="@color/pink"
-            android:textSize="@dimen/text_13sp" />
-        <TextView
-            android:visibility="gone"
-            android:id="@+id/total_coins"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_10dp"
-            android:layout_marginTop="@dimen/padding_5"
-            android:layout_marginEnd="@dimen/margin_20dp"
-            android:fontFamily="@font/poppin_medium"
-            android:textColor="@color/pink"
-            android:textSize="@dimen/text_13sp" />
-    </LinearLayout>
-    <LinearLayout
+        android:layout_marginTop="@dimen/margin_10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_15"
@@ -285,14 +257,14 @@
             <ImageView
                 android:layout_width="@dimen/margin_20dp"
                 android:layout_height="@dimen/margin_20dp"
-                android:src="@drawable/message_not_selected" />
+                android:src="@drawable/message_grey" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/padding_3"
+                android:layout_marginStart="@dimen/padding_5"
                 android:fontFamily="@font/poppin_medium"
-                android:text="@string/comment"
+                android:id="@+id/total_comment"
                 android:textColor="@color/txt_color"
                 android:textSize="@dimen/text_12sp" />
         </LinearLayout>
@@ -305,6 +277,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/total_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -312,8 +285,7 @@
                 android:fontFamily="@font/poppin_medium"
                 android:gravity="center"
                 android:text="0"
-                android:id="@+id/total_like"
-                android:textColor="@color/pink"
+                android:textColor="@color/txt_color"
                 android:textSize="@dimen/text_12sp" />
 
             <ImageView
@@ -353,7 +325,7 @@
                 android:gravity="center"
                 android:text="0"
                 android:id="@+id/total_dislike"
-                android:textColor="@color/blue"
+                android:textColor="@color/txt_color"
                 android:textSize="@dimen/text_12sp" />
         </LinearLayout>
 
