@@ -1,6 +1,7 @@
 package app.gunjan.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
+import app.gunjan.activities.MyCommunitesActivity
 import app.gunjan.entity.NotificationListResponse
 import java.text.SimpleDateFormat
 import java.util.*
@@ -40,6 +42,12 @@ class NotificationListAdapter(
             Log.i("DATE", "" + formatted)
             holder.time!!.text = formatted.toString()
         }catch (e:Exception){}
+
+        holder.itemView!!.setOnClickListener {
+            if (data[position].body.contains("community request")){
+                context!!.startActivity(Intent(context,MyCommunitesActivity::class.java))
+            }
+        }
     }
 
     override fun getItemCount(): Int {

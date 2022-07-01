@@ -21,6 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.gunjan.R
 import app.gunjan.activities.HomeActivity
 import app.gunjan.activities.PostListResponse
+import app.gunjan.activities.SearchAddCommunityActivity
 import app.gunjan.adapters.*
 import app.gunjan.entity.*
 import app.gunjan.utill.FCSharedPreferances
@@ -40,11 +41,11 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class HomeFragment : Fragment() {
-    var coinDialog:Dialog?=null
+    var coinDialog: Dialog? = null
     var totalCoins: TextView? = null
     var idd: String? = null
-    var dialogCommentReply:Dialog? = null
-    var dialogComment:Dialog? = null
+    var dialogCommentReply: Dialog? = null
+    var dialogComment: Dialog? = null
     private var page: Int? = 1
     var swipeRefresh: SwipeRefreshLayout? = null
     var progressBar: ProgressBar? = null
@@ -149,9 +150,10 @@ class HomeFragment : Fragment() {
         }
 
         submit!!.setOnClickListener {
-            if (FCSharedPreferances.getSharedPreferance(context).iS_ACTIVE.equals("false")){
-                Toast.makeText(context, getString(R.string.blocked_cummunity), Toast.LENGTH_LONG).show()
-            }else {
+            if (FCSharedPreferances.getSharedPreferance(context).iS_ACTIVE.equals("false")) {
+                Toast.makeText(context, getString(R.string.blocked_cummunity), Toast.LENGTH_LONG)
+                    .show()
+            } else {
                 if (discusssValue!!.text.toString().trim() == "") {
                     discusssValue!!.requestFocus()
                     discusssValue!!.error = getString(R.string.please_discuss)
@@ -226,14 +228,15 @@ class HomeFragment : Fragment() {
             page = 1
             postList.clear()
             postsAdapter!!.notifyDataSetChanged()
-            postListSwipeApi("1",type!!)
+            postListSwipeApi("1", type!!)
             swipeRefresh!!.isRefreshing = false
         })
 
         invite!!.setOnClickListener {
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
-            val shareBodyText = userName+" inviting you to join "+name+".\n"+"Please download this app:\nhttps://play.google.com/store/apps/details?id=app.gunjan"
+            val shareBodyText =
+                userName + " inviting you to join " + name + ".\n" + "Please download this app:\nhttps://play.google.com/store/apps/details?id=app.gunjan"
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here")
             sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText)
             startActivity(sharingIntent)
@@ -462,7 +465,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun postListSwipeApi(page: String,type: String) {
+    private fun postListSwipeApi(page: String, type: String) {
         isLoading = true
         context?.let {
             WebServiceRequest.getInstance().postList(
@@ -842,7 +845,7 @@ class HomeFragment : Fragment() {
                                         page = 1
                                         postList.clear()
                                         postsAdapter!!.notifyDataSetChanged()
-                                        postListSwipeApi("1",type!!)
+                                        postListSwipeApi("1", type!!)
                                     } else {
                                         ProjectUtill.printMessage(
                                             activity!!.window.decorView,
@@ -971,7 +974,8 @@ class HomeFragment : Fragment() {
         yes.setOnClickListener {
             if (Status.equals("1")) {
                 if (edtReason.text.toString().trim() == "") {
-                    Toast.makeText(context, getString(R.string.please_reason), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, getString(R.string.please_reason), Toast.LENGTH_LONG)
+                        .show()
                 } else {
                     dialog.cancel()
                     val myDialog = ProjectUtill.showProgressDialog(context)
@@ -1122,7 +1126,7 @@ class HomeFragment : Fragment() {
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.WRAP_CONTENT
         )
-       // dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+        // dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
         dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
         close = dialog.findViewById(R.id.close)
         cPic = dialog.findViewById(R.id.community_pic)
@@ -1188,7 +1192,7 @@ class HomeFragment : Fragment() {
                                             page = 1
                                             postList.clear()
                                             postsAdapter!!.notifyDataSetChanged()
-                                            postListSwipeApi("1",type!!)
+                                            postListSwipeApi("1", type!!)
                                         } else {
                                             ProjectUtill.printMessage(
                                                 (context as Activity).window.decorView,
@@ -1231,7 +1235,7 @@ class HomeFragment : Fragment() {
             page = 1
             postList.clear()
             postsAdapter!!.notifyDataSetChanged()
-            postListSwipeApi("1",type!!)
+            postListSwipeApi("1", type!!)
         }
 
         dialogComment!!.show()
@@ -1249,7 +1253,7 @@ class HomeFragment : Fragment() {
                 page = 1
                 postList.clear()
                 postsAdapter!!.notifyDataSetChanged()
-                postListSwipeApi("1",type!!)
+                postListSwipeApi("1", type!!)
                 true
             } else false
         }
@@ -1270,11 +1274,11 @@ class HomeFragment : Fragment() {
         )
         dialogCommentReply!!.window!!.attributes.windowAnimations = R.style.DialogAnimation2
         dialogCommentReply!!.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-        close =  dialogCommentReply!!.findViewById(R.id.close)
-        addComment =  dialogCommentReply!!.findViewById(R.id.add)
-        edtComment =  dialogCommentReply!!.findViewById(R.id.edt_comment)
-        blankData3 =  dialogCommentReply!!.findViewById(R.id.blank_data2)
-        replyRecycler =  dialogCommentReply!!.findViewById(R.id.reply_recycler)
+        close = dialogCommentReply!!.findViewById(R.id.close)
+        addComment = dialogCommentReply!!.findViewById(R.id.add)
+        edtComment = dialogCommentReply!!.findViewById(R.id.edt_comment)
+        blankData3 = dialogCommentReply!!.findViewById(R.id.blank_data2)
+        replyRecycler = dialogCommentReply!!.findViewById(R.id.reply_recycler)
         commentId = id
         getReplyCommentList(commentId!!)
         addComment!!.setOnClickListener {
@@ -1543,6 +1547,14 @@ class HomeFragment : Fragment() {
                         if (response != null) {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
+                                    if (response.body()!!.data.active_community_details == null) {
+                                        startActivity(
+                                            Intent(
+                                                context,
+                                                SearchAddCommunityActivity::class.java
+                                            )
+                                        )
+                                    }
                                     try {
                                         Glide.with(context!!)
                                             .load(response.body()!!.data.active_community_details.image)
@@ -1556,7 +1568,8 @@ class HomeFragment : Fragment() {
                                             response.body()!!.data.user.first_name + " " + response.body()!!.data.user.last_name
                                         description =
                                             response.body()!!.data.active_community_details.about
-                                        FCSharedPreferances.getSharedPreferance(context).communitY_NAME = response.body()!!.data.active_community_details.title
+                                        FCSharedPreferances.getSharedPreferance(context).communitY_NAME =
+                                            response.body()!!.data.active_community_details.title
                                     } catch (e: Exception) {
                                     }
                                 } else {
@@ -1632,13 +1645,15 @@ class HomeFragment : Fragment() {
             progressBar.visibility = View.GONE
             layout.visibility = View.GONE
             imageView.visibility = View.VISIBLE
-            context?.let { Glide.with(it).load(media).placeholder(R.drawable.user_avatar).into(imageView) }
+            context?.let {
+                Glide.with(it).load(media).placeholder(R.drawable.user_avatar).into(imageView)
+            }
         } else {
             progressBar.visibility = View.VISIBLE
             frameLayout.visibility = View.VISIBLE
             videoView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
-            val wm =requireActivity()!!.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            val wm = requireActivity()!!.getSystemService(Context.WINDOW_SERVICE) as WindowManager
             val display = wm.defaultDisplay
             val width = display.width
             val height = display.height
@@ -1674,11 +1689,11 @@ class HomeFragment : Fragment() {
         dialog.show()
     }
 
-    fun coinsDialog(id:String) {
+    fun coinsDialog(id: String) {
         var coinsRecycler: RecyclerView? = null
         var addCoins: CardView? = null
         var close: LinearLayout? = null
-         coinDialog = context?.let { Dialog(it) }
+        coinDialog = context?.let { Dialog(it) }
         // Include dialog.xml file
         coinDialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
         coinDialog!!.setContentView(R.layout.reward_dialog)
@@ -1721,8 +1736,8 @@ class HomeFragment : Fragment() {
         coinList.add("95")
         coinList.add("100")
 
-        var coinsAdapter = CoinsAdapter(context,coinList,this@HomeFragment)
-        coinsRecycler!!.layoutManager = GridLayoutManager(context,4)
+        var coinsAdapter = CoinsAdapter(context, coinList, this@HomeFragment)
+        coinsRecycler!!.layoutManager = GridLayoutManager(context, 4)
         coinsRecycler!!.adapter = coinsAdapter
 
         close!!.setOnClickListener { coinDialog!!.cancel() }
@@ -1751,11 +1766,11 @@ class HomeFragment : Fragment() {
         edtCoin = dialog.findViewById(R.id.edt_coin)
 
         done!!.setOnClickListener {
-            if (edtCoin.text.toString().trim() == ""){
+            if (edtCoin.text.toString().trim() == "") {
                 edtCoin.requestFocus()
                 edtCoin.error = getString(R.string.please_coin)
-            }else{
-                FCSharedPreferances.getSharedPreferance(context).paymenT_TYPE ="home"
+            } else {
+                FCSharedPreferances.getSharedPreferance(context).paymenT_TYPE = "home"
                 dialog.cancel()
                 generateToken(edtCoin.text.toString().trim())
             }
@@ -1763,11 +1778,12 @@ class HomeFragment : Fragment() {
 
         dialog.show()
     }
-    fun donateCoins(coin:String){
+
+    fun donateCoins(coin: String) {
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let { it1 ->
             WebServiceRequest.getInstance().addPostCoin(
-                it1,coin,idd!!,
+                it1, coin, idd!!,
                 object : Callback<DonateCoinResponse> {
                     override fun onResponse(
                         call: Call<DonateCoinResponse>,
@@ -1778,13 +1794,14 @@ class HomeFragment : Fragment() {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
                                     coinDialog!!.cancel()
-                                    FCSharedPreferances.getSharedPreferance(context).totaL_COINS = response.body()!!.data.total_available_coins.toString()
+                                    FCSharedPreferances.getSharedPreferance(context).totaL_COINS =
+                                        response.body()!!.data.total_available_coins.toString()
                                     isLastPage = false
                                     isLoading = false
                                     page = 1
                                     postList.clear()
                                     postsAdapter!!.notifyDataSetChanged()
-                                    postListSwipeApi("1",type!!)
+                                    postListSwipeApi("1", type!!)
                                 } else {
                                     ProjectUtill.printMessage(
                                         (context as Activity).window.decorView,
@@ -1819,11 +1836,11 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun generateToken(amount:String){
+    fun generateToken(amount: String) {
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let {
             WebServiceRequest.getInstance().generateCashFreeToken(
-                it,amount, "INR", "Test Transaction",
+                it, amount, "INR", "Test Transaction",
                 object : Callback<PaymentTokenGenerateResponse> {
                     override fun onResponse(
                         call: Call<PaymentTokenGenerateResponse>,
@@ -1839,14 +1856,21 @@ class HomeFragment : Fragment() {
                                         Toast.LENGTH_LONG
                                     ).show()
                                     var params: HashMap<String, String> = HashMap()
-                                    params[CFPaymentService.PARAM_APP_ID] = "22061307922ac43c73853febd0316022"
-                                    params[CFPaymentService.PARAM_ORDER_ID] = response.body()!!.data.data.orderId
-                                    params[CFPaymentService.PARAM_ORDER_AMOUNT] = response.body()!!.data.data.orderAmount
+                                    params[CFPaymentService.PARAM_APP_ID] =
+                                        "22061307922ac43c73853febd0316022"
+                                    params[CFPaymentService.PARAM_ORDER_ID] =
+                                        response.body()!!.data.data.orderId
+                                    params[CFPaymentService.PARAM_ORDER_AMOUNT] =
+                                        response.body()!!.data.data.orderAmount
                                     params[CFPaymentService.PARAM_ORDER_NOTE] = "Gunjan"
-                                    params[CFPaymentService.PARAM_CUSTOMER_NAME] = response.body()!!.data.data.customerName
-                                    params[CFPaymentService.PARAM_CUSTOMER_PHONE] = response.body()!!.data.data.customerPhone
-                                        params[CFPaymentService.PARAM_CUSTOMER_EMAIL] = response.body()!!.data.data.customerEmail
-                                    params[CFPaymentService.PARAM_ORDER_CURRENCY] = response.body()!!.data.data.orderCurrency
+                                    params[CFPaymentService.PARAM_CUSTOMER_NAME] =
+                                        response.body()!!.data.data.customerName
+                                    params[CFPaymentService.PARAM_CUSTOMER_PHONE] =
+                                        response.body()!!.data.data.customerPhone
+                                    params[CFPaymentService.PARAM_CUSTOMER_EMAIL] =
+                                        response.body()!!.data.data.customerEmail
+                                    params[CFPaymentService.PARAM_ORDER_CURRENCY] =
+                                        response.body()!!.data.data.orderCurrency
                                     CFPaymentService.getCFPaymentServiceInstance().doPayment(
                                         context as Activity,
                                         params,
@@ -1887,11 +1911,11 @@ class HomeFragment : Fragment() {
         }
     }
 
-     fun addCoins(amount: String) {
+    fun addCoins(amount: String) {
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let { it1 ->
             WebServiceRequest.getInstance().addCoin(
-                it1,amount,
+                it1, amount,
                 object : Callback<AddCoinResponse> {
                     override fun onResponse(
                         call: Call<AddCoinResponse>,
@@ -1901,8 +1925,10 @@ class HomeFragment : Fragment() {
                         if (response != null) {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
-                                    FCSharedPreferances.getSharedPreferance(context).totaL_COINS = response.body()!!.data.total_available_coins.toString()
-                                    totalCoins!!.text = response.body()!!.data.total_available_coins.toString()
+                                    FCSharedPreferances.getSharedPreferance(context).totaL_COINS =
+                                        response.body()!!.data.total_available_coins.toString()
+                                    totalCoins!!.text =
+                                        response.body()!!.data.total_available_coins.toString()
                                 } else {
                                     ProjectUtill.printMessage(
                                         (context as Activity).window.decorView,

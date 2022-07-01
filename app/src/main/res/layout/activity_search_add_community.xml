@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".activities.SetProfileActivity">
+
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_white"
+        android:paddingTop="@dimen/margin_10dp"
+        android:paddingBottom="@dimen/margin_20dp">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="@dimen/margin_20dp"
+            android:layout_height="@dimen/margin_20dp"
+            android:layout_marginStart="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_15"
+            android:src="@drawable/back"
+            tools:ignore="RtlCompat" />
+
+        <TextView
+            android:id="@+id/titleHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:fontFamily="@font/popinbold"
+            android:gravity="center"
+            android:text="@string/search_your_community"
+            android:textColor="@color/pink"
+            android:textSize="@dimen/text_17sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_marginEnd="@dimen/margin_15"
+            android:layout_marginBottom="@dimen/margin_10dp"
+            android:background="@drawable/edittext_bg"
+            android:elevation="3dp"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_5">
+
+            <EditText
+                android:id="@+id/search_edt"
+                android:imeOptions="actionDone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_10dp"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:fontFamily="@font/poppins_light"
+                android:hint="@string/search_your_community"
+                android:inputType="text"
+                android:maxLength="50"
+                android:maxLines="1"
+                android:paddingTop="@dimen/margin_10dp"
+                android:paddingRight="@dimen/margin_10dp"
+                android:paddingBottom="@dimen/margin_10dp"
+                android:textColor="@color/txt_color"
+                android:textColorHint="@color/txt_color"
+                android:textSize="@dimen/text_13sp"
+                tools:ignore="RtlCompat" />
+
+            <ImageView
+                android:id="@+id/search"
+                android:layout_width="@dimen/margin_25"
+                android:layout_height="@dimen/margin_25"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/padding_8"
+                android:layout_marginEnd="@dimen/margin_15"
+                android:src="@drawable/search" />
+        </LinearLayout>
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/swipe_refresh">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/community_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
+    <TextView
+        android:visibility="gone"
+        android:text="No Community"
+        android:textColor="@color/pink"
+        android:textSize="@dimen/margin_25"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:scaleType="fitXY"
+        android:fontFamily="@font/popinbold"
+        android:id="@+id/blank_data"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher_background"/>
+    <ProgressBar
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress_bar"
+        android:layout_alignParentBottom="true"
+        android:indeterminateTint="@color/pink"/>
+    <ImageView
+        android:id="@+id/add_community"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/margin_15"
+        android:src="@drawable/add_community" />
+</RelativeLayout>
