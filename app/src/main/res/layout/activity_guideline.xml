@@ -47,14 +47,18 @@
                 android:layout_marginBottom="@dimen/margin_20dp"
                 android:src="@drawable/guideline" />
         </RelativeLayout>
+
         <TextView
-            android:layout_below="@id/header"
+            android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/header"
+            android:layout_marginStart="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_15"
+            android:layout_marginEnd="@dimen/margin_15"
+            android:layout_marginBottom="@dimen/margin_15"
             android:fontFamily="@font/poppin_regular"
             android:textColor="@color/black"
-            android:layout_margin="@dimen/margin_15"
-            android:textSize="@dimen/text_13sp"
-            android:id="@+id/content"/>
+            android:textSize="@dimen/text_13sp" />
     </RelativeLayout>
 </ScrollView>

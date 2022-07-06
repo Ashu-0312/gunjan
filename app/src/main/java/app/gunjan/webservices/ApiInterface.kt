@@ -194,6 +194,11 @@ interface ApiInterface {
         @Query(Constants.Keys.language) language: String?,
     ): Call<TermsResponse>
 
+    @GET(Constants.Partial.communityGuideline)
+    fun communityGuideline(
+        @Query(Constants.Keys.language) language: String?,
+    ): Call<CommunityGuidelineResponse>
+
     @GET(Constants.Partial.privacyAndPolicy)
     fun privacyAndPolicy(
         @Query(Constants.Keys.language) language: String?,

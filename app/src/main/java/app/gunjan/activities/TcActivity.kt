@@ -2,6 +2,8 @@ package app.gunjan.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Html
+import androidx.core.text.HtmlCompat
 import app.gunjan.R
 import app.gunjan.entity.PrivacyPolicyResponse
 import app.gunjan.entity.TermsResponse
@@ -37,7 +39,7 @@ class TcActivity : AppCompatActivity() {
                     if (response != null) {
                         if (response.isSuccessful) {
                             if (response.body()!!.code == 1) {
-                                content.text = response.body()!!.data.termAndConditions
+                                content.text = HtmlCompat.fromHtml(response.body()!!.data.termAndConditions,HtmlCompat.FROM_HTML_MODE_LEGACY)
                             } else {
                                 ProjectUtill.printMessage(
                                     this@TcActivity.window.decorView,

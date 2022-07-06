@@ -2,6 +2,7 @@ package app.gunjan.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.text.HtmlCompat
 import app.gunjan.R
 import app.gunjan.entity.PrivacyPolicyResponse
 import app.gunjan.utill.FCSharedPreferances
@@ -34,7 +35,8 @@ class PrivacyPolicyActivity : AppCompatActivity() {
                     if (response != null) {
                         if (response.isSuccessful) {
                             if (response.body()!!.code == 1) {
-                                content.text = response.body()!!.data.privacyAndPolicy
+                                content.text = HtmlCompat.fromHtml(response.body()!!.data.privacyAndPolicy,
+                                    HtmlCompat.FROM_HTML_MODE_LEGACY)
                             } else {
                                 ProjectUtill.printMessage(
                                     this@PrivacyPolicyActivity.window.decorView,

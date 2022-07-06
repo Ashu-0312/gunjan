@@ -128,6 +128,17 @@ class WebServiceRequest private constructor() {
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
+    fun communityGuideline(
+        language: String,
+        registrationResponseCallback: Callback<CommunityGuidelineResponse>
+    ) {
+        val params = HashMap<String, String>()
+        params[Constants.Keys.language] = language
+        val registrationResponseCall: Call<CommunityGuidelineResponse> =
+            apiInterface.communityGuideline(language)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
     fun completeProfile(
         context: Context,
         profile_name: String,

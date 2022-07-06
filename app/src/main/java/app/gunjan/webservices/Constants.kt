@@ -6,6 +6,7 @@ class Constants {
         const val signup = "auth/signup"
         const val privacyAndPolicy = "auth/privacyAndPolicy"
         const val termAndConditions = "auth/termAndConditions"
+        const val communityGuideline = "auth/communityGuideline"
         const val verifyOtp = "auth/verifyOtp"
         const val resendOtp = "auth/resendOtp"
         const val login = "auth/login"

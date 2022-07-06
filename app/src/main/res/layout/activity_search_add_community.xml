@@ -108,8 +108,7 @@
         android:scaleType="fitXY"
         android:fontFamily="@font/popinbold"
         android:id="@+id/blank_data"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher_background"/>
+        android:layout_height="wrap_content"/>
     <ProgressBar
         android:visibility="gone"
         android:layout_width="match_parent"

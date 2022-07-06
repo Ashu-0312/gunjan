@@ -13,7 +13,7 @@
             android:layout_margin="@dimen/margin_15"
             android:layout_width="@dimen/margin_25"
             android:layout_height="@dimen/margin_25"
-            android:src="@drawable/back_white"
+            android:src="@drawable/back"
             android:id="@+id/back"
             android:elevation="1dp"/>
         <LinearLayout
