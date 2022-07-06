@@ -26,9 +26,11 @@ class AddInterestActivity : AppCompatActivity() {
     var isLoading = false
     var isLastPage = false
     private var layoutManager: GridLayoutManager? = null
-    private var interestAdapter:AddEditInterestAdapter?=null
+    private var interestAdapter: AddEditInterestAdapter? = null
     private var selectedList: ArrayList<ShowInterestModel> = ArrayList<ShowInterestModel>()
-    private var interestList: ArrayList<InterestListResponse.DataBean.InterestBean> = ArrayList<InterestListResponse.DataBean.InterestBean>()
+    private var interestList: ArrayList<InterestListResponse.DataBean.InterestBean> =
+        ArrayList<InterestListResponse.DataBean.InterestBean>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_interest)
@@ -41,9 +43,9 @@ class AddInterestActivity : AppCompatActivity() {
         Save.setOnClickListener {
             if (interestAdapter!!.getSelectedData()!!.size == 0) {
                 Toast.makeText(this, getString(R.string.select_interest), Toast.LENGTH_LONG).show()
-            }else{
+            } else {
                 Log.d("SELECTEDDATA", interestAdapter!!.getSelectedData().toString())
-                selectedList= interestAdapter!!.getSelectedData()!!
+                selectedList = interestAdapter!!.getSelectedData()!!
                 val intent = Intent()
                 intent.putExtra("selected_data", selectedList)
                 setResult(RESULT_OK, intent)
@@ -64,52 +66,47 @@ class AddInterestActivity : AppCompatActivity() {
             swipeRefresh!!.isRefreshing = false
         })
     }
+
     private fun interestListApi(page: String) {
         isLoading = true
         val myDialog = ProjectUtill.showProgressDialog(this)
-            WebServiceRequest.getInstance().getAllInterest(
-                this, page, "10",
-                object : Callback<InterestListResponse> {
-                    override fun onResponse(
-                        call: Call<InterestListResponse>,
-                        response: Response<InterestListResponse>,
-                    ) {
-                        isLoading = false
-                        myDialog.dismiss()
-                        if (response != null) {
-                            if (response.isSuccessful) {
-                                if (response.body()!!.code == 1) {
-                                    interestList.clear()
-                                    interestList.addAll(response.body()!!.data.interest)
-                                    val prevSize: Int = response.body()!!.data.interest.size
-                                    if (interestList.size == 0) {
-                                        blank_data!!.visibility = View.VISIBLE
-                                        interestRecycler!!.visibility = View.GONE
-                                    } else {
-                                        blank_data!!.visibility = View.GONE
-                                        interestRecycler!!.visibility = View.VISIBLE
-                                        if (response.body()!!.data.interest.size < 10) {
-                                            isLastPage = true
-                                        }
-                                        if (interestList.size == 10) {
-                                            interestAdapter!!.notifyDataSetChanged()
-                                        } else {
-                                            interestAdapter!!.notifyItemRangeChanged(
-                                                prevSize,
-                                                interestList.size
-                                            )
-                                        }
-                                    }
+        WebServiceRequest.getInstance().getAllInterest(
+            this, page, "10",
+            object : Callback<InterestListResponse> {
+                override fun onResponse(
+                    call: Call<InterestListResponse>,
+                    response: Response<InterestListResponse>,
+                ) {
+                    isLoading = false
+                    myDialog.dismiss()
+                    if (response != null) {
+                        if (response.isSuccessful) {
+                            if (response.body()!!.code == 1) {
+                                interestList.clear()
+                                interestList.addAll(response.body()!!.data.interest)
+                                val prevSize: Int = response.body()!!.data.interest.size
+                                if (interestList.size == 0) {
+                                    blank_data!!.visibility = View.VISIBLE
+                                    interestRecycler!!.visibility = View.GONE
                                 } else {
-                                    ProjectUtill.printMessage(
-                                        this@AddInterestActivity!!.window.decorView,
-                                        response.body()?.message
-                                    )
+                                    blank_data!!.visibility = View.GONE
+                                    interestRecycler!!.visibility = View.VISIBLE
+                                    if (response.body()!!.data.interest.size < 10) {
+                                        isLastPage = true
+                                    }
+                                    if (interestList.size == 10) {
+                                        interestAdapter!!.notifyDataSetChanged()
+                                    } else {
+                                        interestAdapter!!.notifyItemRangeChanged(
+                                            prevSize,
+                                            interestList.size
+                                        )
+                                    }
                                 }
                             } else {
-                                ProjectUtill.printErrorMessage(
+                                ProjectUtill.printMessage(
                                     this@AddInterestActivity!!.window.decorView,
-                                    ""
+                                    response.body()?.message
                                 )
                             }
                         } else {
@@ -118,65 +115,65 @@ class AddInterestActivity : AppCompatActivity() {
                                 ""
                             )
                         }
-                    }
-
-                    override fun onFailure(
-                        call: Call<InterestListResponse>,
-                        t: Throwable,
-                    ) {
-                        myDialog.dismiss()
+                    } else {
                         ProjectUtill.printErrorMessage(
                             this@AddInterestActivity!!.window.decorView,
                             ""
                         )
                     }
-                })
+                }
+
+                override fun onFailure(
+                    call: Call<InterestListResponse>,
+                    t: Throwable,
+                ) {
+                    myDialog.dismiss()
+                    ProjectUtill.printErrorMessage(
+                        this@AddInterestActivity!!.window.decorView,
+                        ""
+                    )
+                }
+            })
     }
 
     private fun interestListSwipeApi(page: String) {
         isLoading = true
-            WebServiceRequest.getInstance().getAllInterest(
-                this, page, "10",
-                object : Callback<InterestListResponse> {
-                    override fun onResponse(
-                        call: Call<InterestListResponse>,
-                        response: Response<InterestListResponse>,
-                    ) {
-                        isLoading = false
-                        if (response != null) {
-                            if (response.isSuccessful) {
-                                if (response.body()!!.code == 1) {
-                                    interestList.clear()
-                                    interestList.addAll(response.body()!!.data.interest)
-                                    val prevSize: Int = response.body()!!.data.interest.size
-                                    if (interestList.size == 0) {
-                                        blank_data!!.visibility = View.VISIBLE
-                                        interestRecycler!!.visibility = View.GONE
-                                    } else {
-                                        blank_data!!.visibility = View.GONE
-                                        interestRecycler!!.visibility = View.VISIBLE
-                                        if (response.body()!!.data.interest.size < 10) {
-                                            isLastPage = true
-                                        }
-                                        if (interestList.size == 10) {
-                                            interestAdapter!!.notifyDataSetChanged()
-                                        } else {
-                                            interestAdapter!!.notifyItemRangeChanged(
-                                                prevSize,
-                                                interestList.size
-                                            )
-                                        }
-                                    }
+        WebServiceRequest.getInstance().getAllInterest(
+            this, page, "10",
+            object : Callback<InterestListResponse> {
+                override fun onResponse(
+                    call: Call<InterestListResponse>,
+                    response: Response<InterestListResponse>,
+                ) {
+                    isLoading = false
+                    if (response != null) {
+                        if (response.isSuccessful) {
+                            if (response.body()!!.code == 1) {
+                                interestList.clear()
+                                interestList.addAll(response.body()!!.data.interest)
+                                val prevSize: Int = response.body()!!.data.interest.size
+                                if (interestList.size == 0) {
+                                    blank_data!!.visibility = View.VISIBLE
+                                    interestRecycler!!.visibility = View.GONE
                                 } else {
-                                    ProjectUtill.printMessage(
-                                        this@AddInterestActivity!!.window.decorView,
-                                        response.body()?.message
-                                    )
+                                    blank_data!!.visibility = View.GONE
+                                    interestRecycler!!.visibility = View.VISIBLE
+                                    if (response.body()!!.data.interest.size < 10) {
+                                        isLastPage = true
+                                    }
+                                    if (interestList.size == 10) {
+                                        interestAdapter!!.notifyDataSetChanged()
+                                    } else {
+                                        interestAdapter!!.notifyItemRangeChanged(
+                                            prevSize,
+                                            interestList.size
+                                        )
+                                    }
                                 }
                             } else {
-                                ProjectUtill.printErrorMessage(
+                                ProjectUtill.printMessage(
                                     this@AddInterestActivity!!.window.decorView,
-                                    ""
+                                    response.body()?.message
                                 )
                             }
                         } else {
@@ -185,65 +182,65 @@ class AddInterestActivity : AppCompatActivity() {
                                 ""
                             )
                         }
-                    }
-
-                    override fun onFailure(
-                        call: Call<InterestListResponse>,
-                        t: Throwable,
-                    ) {
+                    } else {
                         ProjectUtill.printErrorMessage(
                             this@AddInterestActivity!!.window.decorView,
                             ""
                         )
                     }
-                })
+                }
+
+                override fun onFailure(
+                    call: Call<InterestListResponse>,
+                    t: Throwable,
+                ) {
+                    ProjectUtill.printErrorMessage(
+                        this@AddInterestActivity!!.window.decorView,
+                        ""
+                    )
+                }
+            })
     }
 
     private fun interestListPaginationApi(page: String) {
         isLoading = true
         progress_bar!!.visibility = View.VISIBLE
-            WebServiceRequest.getInstance().getAllInterest(
-                this, page, "10",
-                object : Callback<InterestListResponse> {
-                    override fun onResponse(
-                        call: Call<InterestListResponse>,
-                        response: Response<InterestListResponse>,
-                    ) {
-                        isLoading = false
-                        progress_bar!!.visibility = View.GONE
-                        if (response != null) {
-                            if (response.isSuccessful) {
-                                if (response.body()!!.code == 1) {
-                                    interestList.addAll(response.body()!!.data.interest)
-                                    val prevSize: Int = response.body()!!.data.interest.size
-                                    if (interestList.size == 0) {
-                                        blank_data!!.visibility = View.VISIBLE
-                                        interestRecycler!!.visibility = View.GONE
-                                    } else {
-                                        blank_data!!.visibility = View.GONE
-                                        interestRecycler!!.visibility = View.VISIBLE
-                                        if (response.body()!!.data.interest.size < 10) {
-                                            isLastPage = true
-                                        }
-                                        if (interestList.size == 10) {
-                                            interestAdapter!!.notifyDataSetChanged()
-                                        } else {
-                                            interestAdapter!!.notifyItemRangeChanged(
-                                                prevSize,
-                                                interestList.size
-                                            )
-                                        }
-                                    }
+        WebServiceRequest.getInstance().getAllInterest(
+            this, page, "10",
+            object : Callback<InterestListResponse> {
+                override fun onResponse(
+                    call: Call<InterestListResponse>,
+                    response: Response<InterestListResponse>,
+                ) {
+                    isLoading = false
+                    progress_bar!!.visibility = View.GONE
+                    if (response != null) {
+                        if (response.isSuccessful) {
+                            if (response.body()!!.code == 1) {
+                                interestList.addAll(response.body()!!.data.interest)
+                                val prevSize: Int = response.body()!!.data.interest.size
+                                if (interestList.size == 0) {
+                                    blank_data!!.visibility = View.VISIBLE
+                                    interestRecycler!!.visibility = View.GONE
                                 } else {
-                                    ProjectUtill.printMessage(
-                                        this@AddInterestActivity!!.window.decorView,
-                                        response.body()?.message
-                                    )
+                                    blank_data!!.visibility = View.GONE
+                                    interestRecycler!!.visibility = View.VISIBLE
+                                    if (response.body()!!.data.interest.size < 10) {
+                                        isLastPage = true
+                                    }
+                                    if (interestList.size == 10) {
+                                        interestAdapter!!.notifyDataSetChanged()
+                                    } else {
+                                        interestAdapter!!.notifyItemRangeChanged(
+                                            prevSize,
+                                            interestList.size
+                                        )
+                                    }
                                 }
                             } else {
-                                ProjectUtill.printErrorMessage(
+                                ProjectUtill.printMessage(
                                     this@AddInterestActivity!!.window.decorView,
-                                    ""
+                                    response.body()?.message
                                 )
                             }
                         } else {
@@ -252,20 +249,26 @@ class AddInterestActivity : AppCompatActivity() {
                                 ""
                             )
                         }
-                    }
-
-                    override fun onFailure(
-                        call: Call<InterestListResponse>,
-                        t: Throwable,
-                    ) {
-                        progress_bar!!.visibility = View.GONE
+                    } else {
                         ProjectUtill.printErrorMessage(
                             this@AddInterestActivity!!.window.decorView,
                             ""
                         )
                     }
-                })
-        }
+                }
+
+                override fun onFailure(
+                    call: Call<InterestListResponse>,
+                    t: Throwable,
+                ) {
+                    progress_bar!!.visibility = View.GONE
+                    ProjectUtill.printErrorMessage(
+                        this@AddInterestActivity!!.window.decorView,
+                        ""
+                    )
+                }
+            })
+    }
 
     private fun initializeAdapter() {
         interestList.clear()
