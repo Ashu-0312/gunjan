@@ -71,7 +71,7 @@ class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
         getCategoryList()
         back.setOnClickListener { finish() }
 
-         community.addTextChangedListener(object : TextWatcher {
+        community.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(arg0: CharSequence, arg1: Int, arg2: Int, arg3: Int) {
                 // TODO Auto-generated method stub
             }
@@ -85,7 +85,8 @@ class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
 
             override fun afterTextChanged(s: Editable) {
                 // TODO Auto-generated method stub
-                nameCount.text = (50 - s.toString().length).toString() + "/50" + getString(R.string.fifty_char)
+                nameCount.text =
+                    (50 - s.toString().length).toString() + "/50" + getString(R.string.fifty_char)
             }
         })
 
@@ -103,7 +104,8 @@ class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
 
             override fun afterTextChanged(s: Editable) {
                 // TODO Auto-generated method stub
-                descCount.text = (250 - s.toString().length).toString() + "/250" + getString(R.string.twofifty_char)
+                descCount.text =
+                    (250 - s.toString().length).toString() + "/250" + getString(R.string.twofifty_char)
             }
         })
 
@@ -115,7 +117,7 @@ class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
                     val myDialog = ProjectUtill.showProgressDialog(this@AddCommunityActivity)
                     WebServiceRequest.getInstance().addCommunity(
                         this,
-                         community.text.toString().trim(),
+                        community.text.toString().trim(),
                         about.text.toString().trim(),
                         categoryId,
                         awsPicUrl,
@@ -131,7 +133,10 @@ class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
                                             FCSharedPreferances.getSharedPreferance(this@AddCommunityActivity).statuS_LOGIN =
                                                 "true"
                                             var intent =
-                                                Intent(this@AddCommunityActivity, HomeActivity::class.java)
+                                                Intent(
+                                                    this@AddCommunityActivity,
+                                                    HomeActivity::class.java
+                                                )
                                             intent.flags =
                                                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                             startActivity(intent)
@@ -203,232 +208,229 @@ class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
             }
         }
     }
-        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-            super.onActivityResult(requestCode, resultCode, data)
-            if (resultCode == Activity.RESULT_OK) {
-                when (requestCode) {
-                    0 -> {
-                        val bip = data!!.extras!!["data"] as Bitmap?
-                        Log.d("BitData", data!!.extras!!["data"].toString())
-                        save(bip!!)
-                    }
-                    1 -> {
-                        val selectedImage = data!!.data
-                        pathPic = ProjectUtill.getPath(this, selectedImage)
-                        progressdialog!!.show()
-                        uploadFile(File(pathPic), this, this)
-                    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                0 -> {
+                    val bip = data!!.extras!!["data"] as Bitmap?
+                    Log.d("BitData", data!!.extras!!["data"].toString())
+                    save(bip!!)
+                }
+                1 -> {
+                    val selectedImage = data!!.data
+                    pathPic = ProjectUtill.getPath(this, selectedImage)
+                    progressdialog!!.show()
+                    uploadFile(File(pathPic), this, this)
                 }
             }
         }
+    }
 
-        private fun save(bip: Bitmap) {
-            val root = externalCacheDir!!.absolutePath
-            val mkDir = File("$root/saveImage")
-            mkDir.mkdirs()
-            val generator = Random()
-            var n = 10000
-            n = generator.nextInt(n)
-            val imageName = "Image-$n.jpg"
-            val file = File(mkDir, imageName)
-            if (file.exists()) file.delete()
-            try {
-                val out = FileOutputStream(file)
-                bip.compress(Bitmap.CompressFormat.JPEG, 90, out)
-                pathPic = file.absolutePath
-                progressdialog!!.show()
-                uploadFile(File(pathPic), this, this)
-                out.flush()
-                out.close()
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-                Log.d("Exception", e.printStackTrace().toString())
-            }
+    private fun save(bip: Bitmap) {
+        val root = externalCacheDir!!.absolutePath
+        val mkDir = File("$root/saveImage")
+        mkDir.mkdirs()
+        val generator = Random()
+        var n = 10000
+        n = generator.nextInt(n)
+        val imageName = "Image-$n.jpg"
+        val file = File(mkDir, imageName)
+        if (file.exists()) file.delete()
+        try {
+            val out = FileOutputStream(file)
+            bip.compress(Bitmap.CompressFormat.JPEG, 90, out)
+            pathPic = file.absolutePath
+            progressdialog!!.show()
+            uploadFile(File(pathPic), this, this)
+            out.flush()
+            out.close()
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            Log.d("Exception", e.printStackTrace().toString())
         }
+    }
 
-        private fun checkPicturePermission(): Boolean {
-            return if (PermissionUtil.verifyPermissions(
-                    this,
-                    PermissionUtil.getCameraPermissions()
-                )
-            ) {
-                true
-            } else {
-                PermissionUtil.requestPermission(
-                    PermissionUtil.getCameraPermissions(),
-                    this
-                )
-                false
-            }
-        }
-
-        fun uploadFile(file: File, context: Context, listener: UploadFileListener) = Thread {
-            val credentials = BasicAWSCredentials(
-                "AKIA6LSDBEL3U2HOJWLW",
-                "LyHAItB0oo199ff+bEMIuyJk+hmRsmZtJR7arLNV"
-            )
-            val s3Client = AmazonS3Client(credentials, Region.getRegion(Regions.US_EAST_2))
-            s3Client.setObjectAcl(
-                "media-appsinvo",
-                "AKIA6LSDBEL3U2HOJWLW",
-                CannedAccessControlList.PublicRead
-            )
-            ThreadUtils.runOnUiThread {
-                // s3Client.setRegion(Region.getRegion(Regions.fromName("us-east-2")));
-                val transferUtility = TransferUtility.builder()
-                    .context(context)
-                    .awsConfiguration(AWSMobileClient.getInstance().configuration)
-                    .s3Client(s3Client)
-                    .build()
-
-                val uploadObserver = transferUtility.upload(
-                    file.name, getInputStream(file),
-                    UploadOptions.builder().bucket("media-appsinvo")
-                        .cannedAcl(CannedAccessControlList.PublicRead).build()
-                )
-
-                uploadObserver.setTransferListener(object : TransferListener {
-                    override fun onStateChanged(id: Int, state: TransferState) {
-                        if (TransferState.COMPLETED === state) {
-                            // Handle a completed download.
-                            listener.onSuccess(
-                                file.name,
-                                "https://s3.us-east-2.amazonaws.com/media-appsinvo/" + file.name
-                            )
-                        }
-                    }
-
-                    override fun onProgressChanged(
-                        id: Int,
-                        bytesCurrent: Long,
-                        bytesTotal: Long,
-                    ) {
-                        val percentDonef = bytesCurrent.toFloat() / bytesTotal.toFloat() * 100
-                        val percentDone = percentDonef.toInt()
-                    }
-
-                    override fun onError(id: Int, ex: Exception) {
-                        // Handle errors
-                        Log.d("Exception", ex.toString())
-                        listener.onFailure(ex.toString())
-                    }
-                })
-
-            }
-        }.start()
-
-        override fun onSuccess(localUrl: String?, awsUrl: String?) {
-            if (awsUrl != null) {
-                Glide.with(this).load(awsUrl).placeholder(R.drawable.user_avatar)
-                    .into(pic)
-                awsPicUrl = awsUrl
-            }
-            progressdialog!!.dismiss()
-        }
-
-        override fun onFailure(error: String?) {
-            progressdialog!!.dismiss()
-        }
-
-        private fun getInputStream(file: File): InputStream {
-            val bitmap = BitmapFactory.decodeFile(file.absolutePath, BitmapFactory.Options())
-            val bos = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 30, bos)
-            val bitmapdata = bos.toByteArray()
-            return ByteArrayInputStream(bitmapdata)
-        }
-
-        private fun validate(): Boolean {
-            if (community!!.text.toString().trim().equals("", ignoreCase = true)) {
-                community!!.requestFocus()
-                community!!.error = getString(R.string.please_community_name)
-                return false
-            } else if (about!!.text.toString().trim().equals("", ignoreCase = true)) {
-                about!!.requestFocus()
-                about!!.error = getString(R.string.about_community)
-                return false
-            } else if (categorySpinner!!.selectedItem.toString().trim().equals(getString(R.string.select_category))) {
-                Toast.makeText(this, getString(R.string.please_category), Toast.LENGTH_LONG).show()
-                return false
-            }
-            return true
-        }
-
-        fun getCategoryList() {
-            val myDialog = ProjectUtill.showProgressDialog(this@AddCommunityActivity)
-            WebServiceRequest.getInstance().categoryList(
+    private fun checkPicturePermission(): Boolean {
+        return if (PermissionUtil.verifyPermissions(
                 this,
-                object : Callback<CategoryListResponse> {
-                    override fun onResponse(
-                        call: Call<CategoryListResponse>,
-                        response: Response<CategoryListResponse>
-                    ) {
-                        myDialog.dismiss()
-                        if (response != null) {
-                            if (response.isSuccessful) {
-                                if (response.body()!!.code == 1) {
-                                    idList.clear()
-                                    idList.add("")
-                                    nameList.add(getString(R.string.select_category))
-                                    for (i in response.body()!!.data.category_list) {
-                                        idList.add(i.id.toString())
-                                        nameList.add(i.name)
-                                    }
-                                    val arrayAdapter1: ArrayAdapter<String> =
-                                        object : ArrayAdapter<String>(
-                                            this@AddCommunityActivity,
-                                            R.layout.spinner_layout, nameList
-                                        ) {
-                                            override fun isEnabled(position: Int): Boolean {
-                                                return position != 0
-                                            }
+                PermissionUtil.getCameraPermissions()
+            )
+        ) {
+            true
+        } else {
+            PermissionUtil.requestPermission(
+                PermissionUtil.getCameraPermissions(),
+                this
+            )
+            false
+        }
+    }
 
-                                            override fun getDropDownView(
-                                                position: Int, convertView: View?,
-                                                parent: ViewGroup,
-                                            ): View {
-                                                val view =
-                                                    super.getDropDownView(
-                                                        position,
-                                                        convertView,
-                                                        parent
-                                                    )
-                                                val tv = view as TextView
-                                                if (position == 0) { // Set the hint text color gray
-                                                    tv.setTextColor(Color.BLACK)
-                                                } else {
-                                                    tv.setTextColor(resources.getColor(R.color.txt_color))
-                                                }
-                                                return view
-                                            }
+    fun uploadFile(file: File, context: Context, listener: UploadFileListener) = Thread {
+        val credentials = BasicAWSCredentials(
+            "AKIA6LSDBEL3U2HOJWLW",
+            "LyHAItB0oo199ff+bEMIuyJk+hmRsmZtJR7arLNV"
+        )
+        val s3Client = AmazonS3Client(credentials, Region.getRegion(Regions.US_EAST_2))
+        s3Client.setObjectAcl(
+            "media-appsinvo",
+            "AKIA6LSDBEL3U2HOJWLW",
+            CannedAccessControlList.PublicRead
+        )
+        ThreadUtils.runOnUiThread {
+            // s3Client.setRegion(Region.getRegion(Regions.fromName("us-east-2")));
+            val transferUtility = TransferUtility.builder()
+                .context(context)
+                .awsConfiguration(AWSMobileClient.getInstance().configuration)
+                .s3Client(s3Client)
+                .build()
 
+            val uploadObserver = transferUtility.upload(
+                file.name, getInputStream(file),
+                UploadOptions.builder().bucket("media-appsinvo")
+                    .cannedAcl(CannedAccessControlList.PublicRead).build()
+            )
+
+            uploadObserver.setTransferListener(object : TransferListener {
+                override fun onStateChanged(id: Int, state: TransferState) {
+                    if (TransferState.COMPLETED === state) {
+                        // Handle a completed download.
+                        listener.onSuccess(
+                            file.name,
+                            "https://s3.us-east-2.amazonaws.com/media-appsinvo/" + file.name
+                        )
+                    }
+                }
+
+                override fun onProgressChanged(
+                    id: Int,
+                    bytesCurrent: Long,
+                    bytesTotal: Long,
+                ) {
+                    val percentDonef = bytesCurrent.toFloat() / bytesTotal.toFloat() * 100
+                    val percentDone = percentDonef.toInt()
+                }
+
+                override fun onError(id: Int, ex: Exception) {
+                    // Handle errors
+                    Log.d("Exception", ex.toString())
+                    listener.onFailure(ex.toString())
+                }
+            })
+
+        }
+    }.start()
+
+    override fun onSuccess(localUrl: String?, awsUrl: String?) {
+        if (awsUrl != null) {
+            Glide.with(this).load(awsUrl).placeholder(R.drawable.user_avatar)
+                .into(pic)
+            awsPicUrl = awsUrl
+        }
+        progressdialog!!.dismiss()
+    }
+
+    override fun onFailure(error: String?) {
+        progressdialog!!.dismiss()
+    }
+
+    private fun getInputStream(file: File): InputStream {
+        val bitmap = BitmapFactory.decodeFile(file.absolutePath, BitmapFactory.Options())
+        val bos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 30, bos)
+        val bitmapdata = bos.toByteArray()
+        return ByteArrayInputStream(bitmapdata)
+    }
+
+    private fun validate(): Boolean {
+        if (community!!.text.toString().trim().equals("", ignoreCase = true)) {
+            community!!.requestFocus()
+            community!!.error = getString(R.string.please_community_name)
+            return false
+        } else if (about!!.text.toString().trim().equals("", ignoreCase = true)) {
+            about!!.requestFocus()
+            about!!.error = getString(R.string.about_community)
+            return false
+        } else if (categorySpinner!!.selectedItem.toString().trim()
+                .equals(getString(R.string.select_category))
+        ) {
+            Toast.makeText(this, getString(R.string.please_category), Toast.LENGTH_LONG).show()
+            return false
+        }
+        return true
+    }
+
+    fun getCategoryList() {
+        val myDialog = ProjectUtill.showProgressDialog(this@AddCommunityActivity)
+        WebServiceRequest.getInstance().categoryList(
+            this,
+            object : Callback<CategoryListResponse> {
+                override fun onResponse(
+                    call: Call<CategoryListResponse>,
+                    response: Response<CategoryListResponse>
+                ) {
+                    myDialog.dismiss()
+                    if (response != null) {
+                        if (response.isSuccessful) {
+                            if (response.body()!!.code == 1) {
+                                idList.clear()
+                                idList.add("")
+                                nameList.add(getString(R.string.select_category))
+                                for (i in response.body()!!.data.category_list) {
+                                    idList.add(i.id.toString())
+                                    nameList.add(i.name)
+                                }
+                                val arrayAdapter1: ArrayAdapter<String> =
+                                    object : ArrayAdapter<String>(
+                                        this@AddCommunityActivity,
+                                        R.layout.spinner_layout, nameList
+                                    ) {
+                                        override fun isEnabled(position: Int): Boolean {
+                                            return position != 0
                                         }
-                                    categorySpinner!!.adapter = arrayAdapter1
-                                    categorySpinner!!.onItemSelectedListener = object :
-                                        AdapterView.OnItemSelectedListener {
-                                        override fun onItemSelected(
-                                            adapterView: AdapterView<*>?,
-                                            view: View,
-                                            i: Int,
-                                            l: Long,
-                                        ) {
-                                            if (i > 0) {
-                                               categoryId=idList[i].toString()
+
+                                        override fun getDropDownView(
+                                            position: Int, convertView: View?,
+                                            parent: ViewGroup,
+                                        ): View {
+                                            val view =
+                                                super.getDropDownView(
+                                                    position,
+                                                    convertView,
+                                                    parent
+                                                )
+                                            val tv = view as TextView
+                                            if (position == 0) { // Set the hint text color gray
+                                                tv.setTextColor(Color.BLACK)
+                                            } else {
+                                                tv.setTextColor(resources.getColor(R.color.txt_color))
                                             }
+                                            return view
                                         }
 
-                                        override fun onNothingSelected(adapterView: AdapterView<*>?) {}
                                     }
-                                } else {
-                                    ProjectUtill.printMessage(
-                                        this@AddCommunityActivity.window.decorView,
-                                        response.body()?.message
-                                    )
+                                categorySpinner!!.adapter = arrayAdapter1
+                                categorySpinner!!.onItemSelectedListener = object :
+                                    AdapterView.OnItemSelectedListener {
+                                    override fun onItemSelected(
+                                        adapterView: AdapterView<*>?,
+                                        view: View,
+                                        i: Int,
+                                        l: Long,
+                                    ) {
+                                        if (i > 0) {
+                                            categoryId = idList[i].toString()
+                                        }
+                                    }
+
+                                    override fun onNothingSelected(adapterView: AdapterView<*>?) {}
                                 }
                             } else {
-                                ProjectUtill.printErrorMessage(
+                                ProjectUtill.printMessage(
                                     this@AddCommunityActivity.window.decorView,
-                                    ""
+                                    response.body()?.message
                                 )
                             }
                         } else {
@@ -437,18 +439,24 @@ class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
                                 ""
                             )
                         }
-                    }
-
-                    override fun onFailure(
-                        call: Call<CategoryListResponse>,
-                        t: Throwable
-                    ) {
-                        myDialog.dismiss()
+                    } else {
                         ProjectUtill.printErrorMessage(
                             this@AddCommunityActivity.window.decorView,
                             ""
                         )
                     }
-                })
-        }
+                }
+
+                override fun onFailure(
+                    call: Call<CategoryListResponse>,
+                    t: Throwable
+                ) {
+                    myDialog.dismiss()
+                    ProjectUtill.printErrorMessage(
+                        this@AddCommunityActivity.window.decorView,
+                        ""
+                    )
+                }
+            })
     }
+}
