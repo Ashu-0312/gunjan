@@ -56,14 +56,15 @@ class AboutYourSelfFragment : Fragment() {
 
             override fun afterTextChanged(s: Editable) {
                 // TODO Auto-generated method stub
-                txtCount!!.text = (500 - s.toString().length).toString() + "/500" + getString(R.string.jf)
+                txtCount!!.text =
+                    (500 - s.toString().length).toString() + "/500" + getString(R.string.jf)
             }
         })
 
         Continue!!.setOnClickListener {
             if (about!!.text.toString().trim() == "") {
                 Toast.makeText(context, getString(R.string.about), Toast.LENGTH_LONG).show()
-            }else if (about!!.text.toString().length<100){
+            } else if (about!!.text.toString().length < 100) {
                 Toast.makeText(context, getString(R.string.about_limit), Toast.LENGTH_LONG).show()
             } else {
                 val myDialog = ProjectUtill.showProgressDialog(context)
@@ -116,7 +117,7 @@ class AboutYourSelfFragment : Fragment() {
         }
     }
 
-    private fun userDetails(){
+    private fun userDetails() {
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let { it1 ->
             WebServiceRequest.getInstance().userDetails(
