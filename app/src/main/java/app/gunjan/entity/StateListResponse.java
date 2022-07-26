@@ -5,14 +5,6 @@ import java.util.List;
 
 public class StateListResponse implements Serializable {
 
-    /**
-     * code : 1
-     * message : State list
-     * data : {"state_list":[{"name":"Andaman and Nicobar Islands","isoCode":"AN","countryCode":"IN","latitude":"11.74008670","longitude":"92.65864010"},{"name":"Andhra Pradesh","isoCode":"AP","countryCode":"IN","latitude":"15.91289980","longitude":"79.73998750"},{"name":"Arunachal Pradesh","isoCode":"AR","countryCode":"IN","latitude":"28.21799940","longitude":"94.72775280"},{"name":"Assam","isoCode":"AS","countryCode":"IN","latitude":"26.20060430","longitude":"92.93757390"},{"name":"Bihar","isoCode":"BR","countryCode":"IN","latitude":"25.09607420","longitude":"85.31311940"},{"name":"Chandigarh","isoCode":"CH","countryCode":"IN","latitude":"30.73331480","longitude":"76.77941790"},{"name":"Chhattisgarh","isoCode":"CT","countryCode":"IN","latitude":"21.27865670","longitude":"81.86614420"},{"name":"Dadra and Nagar Haveli and Daman and Diu","isoCode":"DH","countryCode":"IN","latitude":"20.39737360","longitude":"72.83279910"},{"name":"Delhi","isoCode":"DL","countryCode":"IN","latitude":"28.70405920","longitude":"77.10249020"},{"name":"Goa","isoCode":"GA","countryCode":"IN","latitude":"15.29932650","longitude":"74.12399600"},{"name":"Gujarat","isoCode":"GJ","countryCode":"IN","latitude":"22.25865200","longitude":"71.19238050"},{"name":"Haryana","isoCode":"HR","countryCode":"IN","latitude":"29.05877570","longitude":"76.08560100"},{"name":"Himachal Pradesh","isoCode":"HP","countryCode":"IN","latitude":"31.10482940","longitude":"77.17339010"},{"name":"Jammu and Kashmir","isoCode":"JK","countryCode":"IN","latitude":"33.27783900","longitude":"75.34121790"},{"name":"Jharkhand","isoCode":"JH","countryCode":"IN","latitude":"23.61018080","longitude":"85.27993540"},{"name":"Karnataka","isoCode":"KA","countryCode":"IN","latitude":"15.31727750","longitude":"75.71388840"},{"name":"Kerala","isoCode":"KL","countryCode":"IN","latitude":"10.85051590","longitude":"76.27108330"},{"name":"Ladakh","isoCode":"LA","countryCode":"IN","latitude":"34.22684750","longitude":"77.56194190"},{"name":"Lakshadweep","isoCode":"LD","countryCode":"IN","latitude":"10.32802650","longitude":"72.78463360"},{"name":"Madhya Pradesh","isoCode":"MP","countryCode":"IN","latitude":"22.97342290","longitude":"78.65689420"},{"name":"Maharashtra","isoCode":"MH","countryCode":"IN","latitude":"19.75147980","longitude":"75.71388840"},{"name":"Manipur","isoCode":"MN","countryCode":"IN","latitude":"24.66371730","longitude":"93.90626880"},{"name":"Meghalaya","isoCode":"ML","countryCode":"IN","latitude":"25.46703080","longitude":"91.36621600"},{"name":"Mizoram","isoCode":"MZ","countryCode":"IN","latitude":"23.16454300","longitude":"92.93757390"},{"name":"Nagaland","isoCode":"NL","countryCode":"IN","latitude":"26.15843540","longitude":"94.56244260"},{"name":"Odisha","isoCode":"OR","countryCode":"IN","latitude":"20.95166580","longitude":"85.09852360"},{"name":"Puducherry","isoCode":"PY","countryCode":"IN","latitude":"11.94159150","longitude":"79.80831330"},{"name":"Punjab","isoCode":"PB","countryCode":"IN","latitude":null,"longitude":null},{"name":"Rajasthan","isoCode":"RJ","countryCode":"IN","latitude":"27.02380360","longitude":"74.21793260"},{"name":"Sikkim","isoCode":"SK","countryCode":"IN","latitude":"27.53297180","longitude":"88.51221780"},{"name":"Tamil Nadu","isoCode":"TN","countryCode":"IN","latitude":"11.12712250","longitude":"78.65689420"},{"name":"Telangana","isoCode":"TG","countryCode":"IN","latitude":"18.11243720","longitude":"79.01929970"},{"name":"Tripura","isoCode":"TR","countryCode":"IN","latitude":"23.94084820","longitude":"91.98815270"},{"name":"Uttar Pradesh","isoCode":"UP","countryCode":"IN","latitude":"26.84670880","longitude":"80.94615920"},{"name":"Uttarakhand","isoCode":"UT","countryCode":"IN","latitude":"30.06675300","longitude":"79.01929970"},{"name":"West Bengal","isoCode":"WB","countryCode":"IN","latitude":"22.98675690","longitude":"87.85497550"}]}
-     */
-
-    private int code;
-
     public int getCode() {
         return code;
     }
@@ -37,6 +29,13 @@ public class StateListResponse implements Serializable {
         this.data = data;
     }
 
+    /**
+     * code : 1
+     * message : State list
+     * data : {"state_list":[{"id":1,"circleName":"Andhra Pradesh Circle","regionName":"Kurnool Region","divisionName":"Anantapur Division","officeName":"A Narayanapuram B.O","pincode":"515004","officeType":"BO","delivery":"Delivery","district":"ANANTHAPUR","stateName":"Andhra Pradesh"},{"id":6744,"circleName":"Andhra Pradesh Circle","regionName":"Vijayawada Region","divisionName":"Tadepalligudem Division","officeName":"Dhumantunigudem B.O","pincode":"534313","officeType":"BO","delivery":"Delivery","district":"WEST GODAVARI","stateName":"Arunachal Pradesh"}]}
+     */
+
+    private int code;
     private String message;
     private DataBean data;
 
@@ -52,59 +51,109 @@ public class StateListResponse implements Serializable {
         private List<StateListBean> state_list;
 
         public static class StateListBean implements Serializable {
-            public String getName() {
-                return name;
+            public int getId() {
+                return id;
             }
 
-            public void setName(String name) {
-                this.name = name;
+            public void setId(int id) {
+                this.id = id;
             }
 
-            public String getIsoCode() {
-                return isoCode;
+            public String getCircleName() {
+                return circleName;
             }
 
-            public void setIsoCode(String isoCode) {
-                this.isoCode = isoCode;
+            public void setCircleName(String circleName) {
+                this.circleName = circleName;
             }
 
-            public String getCountryCode() {
-                return countryCode;
+            public String getRegionName() {
+                return regionName;
             }
 
-            public void setCountryCode(String countryCode) {
-                this.countryCode = countryCode;
+            public void setRegionName(String regionName) {
+                this.regionName = regionName;
             }
 
-            public String getLatitude() {
-                return latitude;
+            public String getDivisionName() {
+                return divisionName;
             }
 
-            public void setLatitude(String latitude) {
-                this.latitude = latitude;
+            public void setDivisionName(String divisionName) {
+                this.divisionName = divisionName;
             }
 
-            public String getLongitude() {
-                return longitude;
+            public String getOfficeName() {
+                return officeName;
             }
 
-            public void setLongitude(String longitude) {
-                this.longitude = longitude;
+            public void setOfficeName(String officeName) {
+                this.officeName = officeName;
+            }
+
+            public String getPincode() {
+                return pincode;
+            }
+
+            public void setPincode(String pincode) {
+                this.pincode = pincode;
+            }
+
+            public String getOfficeType() {
+                return officeType;
+            }
+
+            public void setOfficeType(String officeType) {
+                this.officeType = officeType;
+            }
+
+            public String getDelivery() {
+                return delivery;
+            }
+
+            public void setDelivery(String delivery) {
+                this.delivery = delivery;
+            }
+
+            public String getDistrict() {
+                return district;
+            }
+
+            public void setDistrict(String district) {
+                this.district = district;
+            }
+
+            public String getStateName() {
+                return stateName;
+            }
+
+            public void setStateName(String stateName) {
+                this.stateName = stateName;
             }
 
             /**
-             * name : Andaman and Nicobar Islands
-             * isoCode : AN
-             * countryCode : IN
-             * latitude : 11.74008670
-             * longitude : 92.65864010
+             * id : 1
+             * circleName : Andhra Pradesh Circle
+             * regionName : Kurnool Region
+             * divisionName : Anantapur Division
+             * officeName : A Narayanapuram B.O
+             * pincode : 515004
+             * officeType : BO
+             * delivery : Delivery
+             * district : ANANTHAPUR
+             * stateName : Andhra Pradesh
              */
 
-            private String name;
-            private String isoCode;
-            private String countryCode;
-            private String latitude;
-            private String longitude;
+            private int id;
+            private String circleName;
+            private String regionName;
+            private String divisionName;
+            private String officeName;
+            private String pincode;
+            private String officeType;
+            private String delivery;
+            private String district;
+            private String stateName;
         }
     }
 }

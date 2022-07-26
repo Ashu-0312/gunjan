@@ -82,7 +82,6 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
     private var selectedInterestList: ArrayList<String> = ArrayList<String>()
     private var interestList: ArrayList<ShowInterestModel> = ArrayList<ShowInterestModel>()
     private var interestAdapter: ShowInterestAdapter? = null
-    private var stateList: java.util.ArrayList<String> = java.util.ArrayList<String>()
     private var stateNameList: java.util.ArrayList<String> = java.util.ArrayList<String>()
     private var cityList: java.util.ArrayList<String> = java.util.ArrayList<String>()
     private var pincodeList: java.util.ArrayList<String> = java.util.ArrayList<String>()
@@ -841,13 +840,10 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                     if (response != null) {
                         if (response.isSuccessful) {
                             if (response.body()!!.code == 1) {
-                                stateList.clear()
                                 stateNameList.clear()
-                                stateList.add("")
                                 stateNameList.add(getString(R.string.select_state))
                                 for (i in response.body()!!.data.state_list) {
-                                    stateList.add(i.isoCode)
-                                    stateNameList.add(i.name)
+                                    stateNameList.add(i.stateName)
                                 }
                                 val arrayAdapter1: ArrayAdapter<String> =
                                     object : ArrayAdapter<String>(
@@ -892,7 +888,7 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                                         l: Long,
                                     ) {
                                         stateValue = stateNameList[i].toString()
-                                        getCityList(stateList[i].toString())
+                                        getCityList(stateNameList[i].toString())
                                     }
 
                                     override fun onNothingSelected(adapterView: AdapterView<*>?) {}
@@ -946,7 +942,7 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
                                 cityList.clear()
                                 cityList.add(getString(R.string.select_city))
                                 for (i in response.body()!!.data.city_list) {
-                                    cityList.add(i.name)
+                                    cityList.add(i.district)
                                 }
                                 val arrayAdapter1: ArrayAdapter<String> =
                                     object : ArrayAdapter<String>(

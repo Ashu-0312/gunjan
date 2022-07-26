@@ -32,7 +32,7 @@ public class PincodeListResponse implements Serializable {
     /**
      * code : 1
      * message : success
-     * data : {"pincodes":[{"officeName":"Bhagalpur S.O","pincode":274602,"taluk":"NA","districtName":"Deoria","stateName":"UTTAR PRADESH"},{"officeName":"Bhagalpur B.O","pincode":722141,"taluk":"Kotalpur","districtName":"Bankura","stateName":"WEST BENGAL"},{"officeName":"Bhagalpur H.O","pincode":812001,"taluk":"Jagdishpur","districtName":"Bhagalpur","stateName":"BIHAR"},{"officeName":"Bhagalpur City S.O","pincode":812002,"taluk":"Jagdishpur","districtName":"Bhagalpur","stateName":"BIHAR"},{"officeName":"Jagdishpur S.O (Bhagalpur)","pincode":813105,"taluk":"Jagdishpur","districtName":"Bhagalpur","stateName":"BIHAR"},{"officeName":"Habibpur S.O (Bhagalpur)","pincode":813113,"taluk":"Jagdishpur","districtName":"Bhagalpur","stateName":"BIHAR"},{"officeName":"Sangrampur S.O (Bhagalpur)","pincode":813212,"taluk":"Sangrampur","districtName":"Bhagalpur","stateName":"BIHAR"},{"officeName":"Sultanganj S.O (Bhagalpur)","pincode":813213,"taluk":"Sultanganj","districtName":"Bhagalpur","stateName":"BIHAR"},{"officeName":"Bhagalpur Devgaon B.O","pincode":813221,"taluk":"Tarapur","districtName":"Munger","stateName":"BIHAR"},{"officeName":"Mathurapur S.O (Bhagalpur)","pincode":813222,"taluk":"Kahalgaon","districtName":"Bhagalpur","stateName":"BIHAR"},{"officeName":"Narayanpur S.O (Bhagalpur)","pincode":853203,"taluk":"Narayanpur","districtName":"Bhagalpur","stateName":"BIHAR"}]}
+     * data : {"pincodes":[{"id":4476,"circleName":"Andhra Pradesh Circle","regionName":"Vijayawada Region","divisionName":"Gudur Division","officeName":"Adurupalli B.O","pincode":"524342","officeType":"BO","delivery":"Delivery","district":"NELLORE","stateName":"Andhra Pradesh"}]}
      */
 
     private int code;
@@ -49,7 +49,40 @@ public class PincodeListResponse implements Serializable {
         }
 
         private List<PincodesBean> pincodes;
+
         public static class PincodesBean implements Serializable {
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getCircleName() {
+                return circleName;
+            }
+
+            public void setCircleName(String circleName) {
+                this.circleName = circleName;
+            }
+
+            public String getRegionName() {
+                return regionName;
+            }
+
+            public void setRegionName(String regionName) {
+                this.regionName = regionName;
+            }
+
+            public String getDivisionName() {
+                return divisionName;
+            }
+
+            public void setDivisionName(String divisionName) {
+                this.divisionName = divisionName;
+            }
+
             public String getOfficeName() {
                 return officeName;
             }
@@ -66,20 +99,28 @@ public class PincodeListResponse implements Serializable {
                 this.pincode = pincode;
             }
 
-            public String getTaluk() {
-                return taluk;
+            public String getOfficeType() {
+                return officeType;
             }
 
-            public void setTaluk(String taluk) {
-                this.taluk = taluk;
+            public void setOfficeType(String officeType) {
+                this.officeType = officeType;
             }
 
-            public String getDistrictName() {
-                return districtName;
+            public String getDelivery() {
+                return delivery;
             }
 
-            public void setDistrictName(String districtName) {
-                this.districtName = districtName;
+            public void setDelivery(String delivery) {
+                this.delivery = delivery;
+            }
+
+            public String getDistrict() {
+                return district;
+            }
+
+            public void setDistrict(String district) {
+                this.district = district;
             }
 
             public String getStateName() {
@@ -91,17 +132,27 @@ public class PincodeListResponse implements Serializable {
             }
 
             /**
-             * officeName : Bhagalpur S.O
-             * pincode : 274602
-             * taluk : NA
-             * districtName : Deoria
-             * stateName : UTTAR PRADESH
+             * id : 4476
+             * circleName : Andhra Pradesh Circle
+             * regionName : Vijayawada Region
+             * divisionName : Gudur Division
+             * officeName : Adurupalli B.O
+             * pincode : 524342
+             * officeType : BO
+             * delivery : Delivery
+             * district : NELLORE
+             * stateName : Andhra Pradesh
              */
 
+            private int id;
+            private String circleName;
+            private String regionName;
+            private String divisionName;
             private String officeName;
             private String pincode;
-            private String taluk;
-            private String districtName;
+            private String officeType;
+            private String delivery;
+            private String district;
             private String stateName;
         }
     }

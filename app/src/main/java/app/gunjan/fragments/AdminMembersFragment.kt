@@ -45,7 +45,6 @@ class AdminMembersFragment : Fragment(),ClientCreated {
     var memberAdapter: AdminMembersAdapter? = null
     private var listRecycler: RecyclerView? = null
     private var list: ArrayList<MemberListResponse.DataBean.MemberListBean> = ArrayList<MemberListResponse.DataBean.MemberListBean>()
-    private var stateList: ArrayList<String> = ArrayList<String>()
     private var stateNameList: ArrayList<String> = ArrayList<String>()
     private var cityList: ArrayList<String> = ArrayList<String>()
     private var filter: ImageView? = null
@@ -73,9 +72,6 @@ class AdminMembersFragment : Fragment(),ClientCreated {
         initializeAdapter()
         memberListApi("1","","")
 
-        stateList.add("Select State")
-        stateList.add("state1")
-        stateList.add("state2")
         cityList.add("Select City")
         cityList.add("city1")
         cityList.add("city2")
@@ -476,13 +472,10 @@ class AdminMembersFragment : Fragment(),ClientCreated {
                         if (response != null) {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
-                                    stateList.clear()
                                     stateNameList.clear()
-                                    stateList.add("")
                                     stateNameList.add("Select State")
                                     for (i in response.body()!!.data.state_list) {
-                                        stateList.add(i.isoCode)
-                                        stateNameList.add(i.name)
+                                        stateNameList.add(i.stateName)
                                     }
                                     val arrayAdapter1: ArrayAdapter<String> =
                                         object : ArrayAdapter<String>(
@@ -521,7 +514,7 @@ class AdminMembersFragment : Fragment(),ClientCreated {
                                             i: Int,
                                             l: Long,
                                         ) {
-                                            getCityList(stateList[i].toString())
+                                            getCityList(stateNameList[i].toString())
                                         }
 
                                         override fun onNothingSelected(adapterView: AdapterView<*>?) {}
@@ -602,7 +595,7 @@ class AdminMembersFragment : Fragment(),ClientCreated {
                                     cityList.clear()
                                     cityList.add("Select City")
                                     for (i in response.body()!!.data.city_list) {
-                                        cityList.add(i.name)
+                                        cityList.add(i.district)
                                     }
                                     val arrayAdapter1: ArrayAdapter<String> =
                                         object : ArrayAdapter<String>(

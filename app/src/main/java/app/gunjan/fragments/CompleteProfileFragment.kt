@@ -70,7 +70,6 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
     var pincodeLayout: LinearLayout? = null
     var pincodeLayout2: LinearLayout? = null
     var edtPincode: EditText? = null
-    private var stateList: ArrayList<String> = ArrayList<String>()
     private var stateNameList: ArrayList<String> = ArrayList<String>()
     private var cityList: ArrayList<String> = ArrayList<String>()
     private var pincodeList: ArrayList<String> = ArrayList<String>()
@@ -582,13 +581,10 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
                         if (response != null) {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
-                                    stateList.clear()
                                     stateNameList.clear()
-                                    stateList.add("")
                                     stateNameList.add(getString(R.string.select_state))
                                     for (i in response.body()!!.data.state_list) {
-                                        stateList.add(i.isoCode)
-                                        stateNameList.add(i.name)
+                                        stateNameList.add(i.stateName)
                                     }
                                     val arrayAdapter1: ArrayAdapter<String> =
                                         object : ArrayAdapter<String>(
@@ -635,7 +631,7 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
                                             l: Long,
                                         ) {
                                             stateValue=stateNameList[i].toString()
-                                            getCityList(stateList[i].toString())
+                                            getCityList(stateNameList[i].toString())
                                         }
 
                                         override fun onNothingSelected(adapterView: AdapterView<*>?) {}
@@ -691,7 +687,7 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
                                     cityList.clear()
                                     cityList.add(getString(R.string.select_city))
                                     for (i in response.body()!!.data.city_list) {
-                                        cityList.add(i.name)
+                                        cityList.add(i.district)
                                     }
                                     val arrayAdapter1: ArrayAdapter<String> =
                                         object : ArrayAdapter<String>(

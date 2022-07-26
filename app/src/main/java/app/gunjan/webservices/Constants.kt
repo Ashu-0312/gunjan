@@ -116,7 +116,7 @@ class Constants {
         const val user_id = "user_id"
         const val other_reason = "other_reason"
         const val partnerId = "partnerId"
-        const val state_code = "state_code"
+        const val state_code = "state"
         const val userId = "userId"
         const val badge_type = "badge_type"
         const val state = "state"
