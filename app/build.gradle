@@ -50,12 +50,16 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.google.firebase:firebase-messaging:23.0.6'
     implementation 'com.google.firebase:firebase-auth:21.0.6'
-    implementation 'com.google.firebase:firebase-core:21.0.0'
+    implementation 'com.google.firebase:firebase-core:21.1.0'
     implementation 'com.github.RaviKoradiya:ZoomableImageView:1.1.1'
     implementation 'com.artjimlop:altex-image-downloader:0.0.4'
 
     //cashfree payment gateway
     implementation 'com.cashfree.pg:android-sdk:1.7.24'
+
+    //crashlytics
+    implementation 'com.google.firebase:firebase-crashlytics:18.2.11'
+    implementation 'com.google.firebase:firebase-analytics:21.0.0'
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -72,4 +76,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
 }
+apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.gms.google-services'
