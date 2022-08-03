@@ -466,6 +466,9 @@ class HomePostsAdapter(
 
         holder.videoLayout!!.setOnClickListener {
             if (data[position].content_type=="video"){
+                holder.play!!.visibility = View.VISIBLE
+                holder.pause!!.visibility = View.GONE
+                holder.videoView!!.pause()
                 homeFragment!!.showMedia(
                     data[position].file,
                     data[position].content_type,

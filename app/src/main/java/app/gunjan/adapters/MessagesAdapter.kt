@@ -57,6 +57,7 @@ class MessagesAdapter(
                     Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 context!!.startActivity(intent)
             }else {
+                FCSharedPreferances.getSharedPreferance(context).otheR_ID = data[position].participants_details.id.toString()
                 var intent = Intent(context, ChatActivity::class.java)
                 intent.putExtra("pic",data[position].participants_details.image
                 )

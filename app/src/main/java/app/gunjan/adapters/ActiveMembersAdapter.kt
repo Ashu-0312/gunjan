@@ -132,6 +132,7 @@ class ActiveMembersAdapter(
                     Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 context!!.startActivity(intent)
             }else {
+                FCSharedPreferances.getSharedPreferance(context).otheR_ID = data[position].userId.toString()
                 var intent = Intent(context, ChatActivity::class.java)
                 intent.putExtra("pic",data[position].userDetails.image)
                 intent.putExtra("name",data[position].userDetails.first_name+" "+data[position].userDetails.last_name)

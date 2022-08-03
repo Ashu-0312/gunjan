@@ -5,8 +5,8 @@
     <string name="forgot_password">पासवर्ड भूल गए?</string>
     <string name="sign_in">दाखिल करना</string>
     <string name="by_signing_you_agree_with_our">साइन अप करके, आप हमारी नियम और शर्तें से सहमत हैं</string>
-    <string name="terms_amp_conditions">नियम और शर्तें</string>
-    <string name="privacy_policy">गोपनीयता नीति</string>
+    <string name="terms_amp_conditions">Terms &amp; Conditions</string>
+    <string name="privacy_policy">Privacy Policy</string>
     <string name="forgotpassword">पासवर्ड भूल गए</string>
     <string name="retrieve">अपना पासवर्ड पुनः प्राप्त करने के लिए कृपया अपना पंजीकृत मोबाइल नंबर दर्ज करें</string>
     <string name="submit">प्रकाशित करे</string>
@@ -264,7 +264,7 @@
     <string name="please_coins">कृपया सिक्के जोड़ें</string>
     <string name="select_language">भाषा चुने</string>
     <string name="loading">लोड हो रहा है कृपया प्रतीक्षा करें...</string>
-    <string name="guidelines">समुदाय दिशानिर्देश</string>
+    <string name="guidelines">Community Guidelines</string>
     <string name="community">समुदाय</string>
     <string name="failed">लेन - देन विफल</string>
 </resources>
