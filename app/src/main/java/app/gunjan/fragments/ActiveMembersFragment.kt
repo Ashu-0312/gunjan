@@ -192,7 +192,7 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let {
             WebServiceRequest.getInstance().getAllMemberList(
-                it, page, "10",state,city,"only active member","",
+                it, page, "10",state,city,"","",
                 object : Callback<MemberListResponse> {
                     override fun onResponse(
                         call: Call<MemberListResponse>,
@@ -263,7 +263,7 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
         isLoading = true
         context?.let {
             WebServiceRequest.getInstance().getAllMemberList(
-                it, page, "10","","","only active member","",
+                it, page, "10","","","","",
                 object : Callback<MemberListResponse> {
                     override fun onResponse(
                         call: Call<MemberListResponse>,
@@ -333,7 +333,7 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
         progress_bar!!.visibility = View.VISIBLE
         context?.let {
             WebServiceRequest.getInstance().getAllMemberList(
-                it, page, "10","","","only active member","",
+                it, page, "10","","","","",
                 object : Callback<MemberListResponse> {
                     override fun onResponse(
                         call: Call<MemberListResponse>,

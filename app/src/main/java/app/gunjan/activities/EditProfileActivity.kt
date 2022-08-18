@@ -506,7 +506,6 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
         return ByteArrayInputStream(bitmapdata)
     }
 
-
     fun getDate() {
         val c = Calendar.getInstance()
         mYear = c[Calendar.YEAR]
