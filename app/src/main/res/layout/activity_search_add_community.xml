@@ -123,5 +123,5 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/margin_15"
-        android:src="@drawable/add_community" />
+        android:src="@drawable/add_community_black" />
 </RelativeLayout>

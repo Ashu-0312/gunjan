@@ -64,7 +64,7 @@ class DonationReceivedFragment : Fragment() {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
                                     for (i in response.body()!!.data.donation_list.indices){
-                                        totalCoins = totalCoins!! +response.body()!!.data.donation_list[i].total_coins
+                                        totalCoins = totalCoins!! + response.body()!!.data.donation_list[i].total_coins.toInt()
                                     }
                                     totalCoin!!.text = totalCoins.toString()+" "+getString(R.string.coins)
                                     var donationAdapter = DonationReceiveAdapter(

@@ -267,5 +267,7 @@
     <string name="guidelines">Community Guidelines</string>
     <string name="community">Community</string>
     <string name="failed">Transaction Failed</string>
+    <string name="donater_name">Donater Name</string>
+    <string name="post_description">Post Description</string>
 
 </resources>

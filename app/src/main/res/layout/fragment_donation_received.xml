@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/popinbold"
-            android:text="@string/community_name"
+            android:text="@string/donater_name"
             android:textColor="@color/blue"/>
         <TextView
             android:layout_gravity="center"

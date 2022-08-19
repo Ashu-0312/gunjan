@@ -28,7 +28,7 @@ class DonationReceiveAdapter(
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         try {
-            holder.communityName!!.text = data[position].donor_community_details.title
+            holder.communityName!!.text = data[position].user_details.first_name+" "+data[position].user_details.last_name
             holder.coin!!.text = data[position].total_coins.toString()
         }catch (e:Exception){}
     }

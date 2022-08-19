@@ -267,4 +267,6 @@
     <string name="guidelines">Community Guidelines</string>
     <string name="community">समुदाय</string>
     <string name="failed">लेन - देन विफल</string>
+    <string name="donater_name">दाता का नाम</string>
+    <string name="post_description">पोस्ट विवरण</string>
 </resources>
