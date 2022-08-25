@@ -116,7 +116,7 @@ class ActiveMembersAdapter(
                         })
                 }
             }else{
-                Toast.makeText(context,"You are not admin of community.",Toast.LENGTH_LONG).show()
+                Toast.makeText(context,context!!.getString(R.string.not_community_admin),Toast.LENGTH_LONG).show()
             }
         }
         holder!!.itemView.setOnClickListener {

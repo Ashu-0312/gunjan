@@ -269,4 +269,6 @@
     <string name="failed">लेन - देन विफल</string>
     <string name="donater_name">दाता का नाम</string>
     <string name="post_description">पोस्ट विवरण</string>
+    <string name="make_admin">एडमिन बनाओ</string>
+    <string name="not_community_admin">आप समुदाय के व्यवस्थापक नहीं हैं।</string>
 </resources>

@@ -269,5 +269,7 @@
     <string name="failed">Transaction Failed</string>
     <string name="donater_name">Donater Name</string>
     <string name="post_description">Post Description</string>
+    <string name="make_admin">Make Admin</string>
+    <string name="not_community_admin">You are not admin of community.</string>
 
 </resources>

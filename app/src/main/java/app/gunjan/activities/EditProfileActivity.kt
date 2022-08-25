@@ -128,6 +128,21 @@ class EditProfileActivity : AppCompatActivity(), UploadFileListener {
             val intent = Intent(this@EditProfileActivity, AddInterestActivity::class.java)
             startActivityForResult(intent, 100)
         }
+
+        profileName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+            }
+
+            override fun afterTextChanged(editable: Editable) {
+                var result: String = editable.toString().replace(" ", "");
+                if (!editable.toString().equals(result)) {
+                    profileName.setText(result)
+                    profileName.setSelection(result.length)
+                }
+            }
+        })
+
         choosePic.setOnClickListener {
             if (checkPicturePermission()) {
                 val builder2 = AlertDialog.Builder(this)

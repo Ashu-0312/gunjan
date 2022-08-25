@@ -146,6 +146,8 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         delete_account!!.setOnClickListener { deleteAccountDialog() }
+
+        back.setOnClickListener { finish() }
     }
 
     fun deleteAccountDialog() {
