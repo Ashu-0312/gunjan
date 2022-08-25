@@ -1610,10 +1610,8 @@ class HomeFragment : Fragment() {
         type: String
     ) {
         val imageView: ZoomableImageView
-        val play: ImageView
         val layout: LinearLayout
         val downloadFile: LinearLayout
-        val pause: ImageView
         val progressBar: ProgressBar
         val frameLayout: FrameLayout
         val videoView: VideoView
@@ -1631,9 +1629,7 @@ class HomeFragment : Fragment() {
         dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation2
         dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
         imageView = dialog.findViewById(R.id.image)
-        play = dialog.findViewById(R.id.play)
         downloadFile = dialog.findViewById(R.id.download_file)
-        pause = dialog.findViewById(R.id.pause)
         progressBar = dialog.findViewById(R.id.progress_bar)
         frameLayout = dialog.findViewById(R.id.frame)
         videoView = dialog.findViewById(R.id.video_view_chat)
@@ -1661,24 +1657,12 @@ class HomeFragment : Fragment() {
             videoView.setVideoPath(media)
         }
         videoView.setOnCompletionListener {
-            play.visibility = View.VISIBLE
-            pause.visibility = View.GONE
+            videoView.pause()
         }
         videoView.setOnPreparedListener {
             progressBar.visibility = View.GONE
             layout.visibility = View.GONE
-            play.visibility = View.VISIBLE
-            pause.visibility = View.GONE
-        }
-        play.setOnClickListener {
-            play.visibility = View.GONE
-            pause.visibility = View.VISIBLE
             videoView.start()
-        }
-        pause.setOnClickListener {
-            play.visibility = View.VISIBLE
-            pause.visibility = View.GONE
-            videoView.pause()
         }
 
         downloadFile.setOnClickListener {

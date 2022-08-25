@@ -216,5 +216,13 @@
                 android:text="@string/privacy_policy"/>
         </LinearLayout>
         </LinearLayout>
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:elevation="@dimen/padding_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/myCoordinatorLayout"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="@dimen/margin_15"
+            android:layout_marginEnd="@dimen/margin_15"/>
     </RelativeLayout>
 </ScrollView>

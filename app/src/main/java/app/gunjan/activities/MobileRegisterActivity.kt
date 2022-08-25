@@ -1,24 +1,24 @@
 package app.gunjan.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
 import android.text.method.DigitsKeyListener
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import app.gunjan.R
 import app.gunjan.entity.SignupResponse
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_forgot_password.*
 import kotlinx.android.synthetic.main.activity_mobile_register.*
 import kotlinx.android.synthetic.main.activity_mobile_register.back
 import kotlinx.android.synthetic.main.activity_mobile_register.ccp
 import kotlinx.android.synthetic.main.activity_mobile_register.edtMobile
-import kotlinx.android.synthetic.main.activity_mobile_register.privacy
-import kotlinx.android.synthetic.main.activity_mobile_register.tc
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -82,21 +82,21 @@ class MobileRegisterActivity : AppCompatActivity() {
                                         )
                                         startActivity(intent)
                                     } else {
-                                        ProjectUtill.printMessage(
+                                        ProjectUtill.printMessage2(
                                             this@MobileRegisterActivity.window.decorView,
                                             response.body()?.message
                                         )
                                     }
                                 } else {
-                                    ProjectUtill.printErrorMessage(
+                                    ProjectUtill.printMessage2(
                                         this@MobileRegisterActivity.window.decorView,
-                                        ""
+                                        getString(R.string.check_internet)
                                     )
                                 }
                             } else {
-                                ProjectUtill.printErrorMessage(
+                                ProjectUtill.printMessage2(
                                     this@MobileRegisterActivity.window.decorView,
-                                    ""
+                                    getString(R.string.check_internet)
                                 )
                             }
                         }
@@ -106,9 +106,9 @@ class MobileRegisterActivity : AppCompatActivity() {
                             t: Throwable
                         ) {
                             myDialog.dismiss()
-                            ProjectUtill.printErrorMessage(
+                            ProjectUtill.printMessage2(
                                 this@MobileRegisterActivity.window.decorView,
-                                ""
+                                getString(R.string.check_internet)
                             )
                         }
                     })

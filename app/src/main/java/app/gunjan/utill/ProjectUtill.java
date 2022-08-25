@@ -152,6 +152,11 @@ public class ProjectUtill {
         Snackbar.make(view, R.string.check_internet, Snackbar.LENGTH_LONG).show();
     }
 
+    public static void printMessage2(View view, String message){
+        final View viewPos = view.findViewById(R.id.myCoordinatorLayout);
+        Snackbar.make(viewPos,message, Snackbar.LENGTH_LONG).show();
+    }
+
     public static void printMessage(View view, String message){
         Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
     }
