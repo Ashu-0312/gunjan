@@ -133,7 +133,7 @@
     <string name="settings">Settings</string>
     <string name="no_users">No Users</string>
     <string name="search_member_by_name_city_or_state">Search member by name,city or state</string>
-    <string name="and">and</string>
+    <string name="and">\u0020and\u0020</string>
     <string name="don_t_have_account_sign_up">"Don't" have account? Sign Up</string>
     <string name="connecting_people_come_together">Connecting people come together</string>
     <string name="please_register_your_mobile_number">Please register your mobile number</string>
@@ -218,7 +218,7 @@
     <string name="other">Other</string>
     <string name="active_members">Active Members</string>
     <string name="admin_members">Admin Members</string>
-    <string name="social_profile">Social Profile</string>
+    <string name="social_profile">Identity</string>
     <string name="follow">Follow</string>
     <string name="unfollow">Unfollow</string>
     <string name="message">Message</string>

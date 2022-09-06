@@ -199,14 +199,14 @@
         android:visibility="gone"
         android:id="@+id/video_layout"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="wrap_content">
 
         <VideoView
             android:visibility="gone"
             android:layout_gravity="center"
             android:id="@+id/media_video"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"/>
 
         <ImageView
             android:visibility="gone"

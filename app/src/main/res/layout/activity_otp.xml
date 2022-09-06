@@ -211,18 +211,19 @@
                     android:layout_height="wrap_content"
                     android:text="@string/next"/>
             </LinearLayout>
-            <TextView
-                android:layout_below="@+id/Verify"
-                android:id="@+id/resend"
-                android:layout_marginTop="@dimen/margin_10dp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="@dimen/margin_15"
-                android:fontFamily="@font/popinbold"
-                android:textColor="@color/blue"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/resend_code"/>
+
+        <TextView
+            android:id="@+id/resend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Verify"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:fontFamily="@font/popinbold"
+            android:gravity="center"
+            android:text="@string/resend_code"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/margin_15" />
         <LinearLayout
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
@@ -265,7 +266,7 @@
                 android:textSize="@dimen/text_12sp"
                 android:fontFamily="@font/poppins_light"
                 android:textColor="@color/txt_color"
-                android:text=" and "/>
+                android:text="@string/and"/>
             <TextView
                 android:id="@+id/privacy"
                 android:layout_gravity="center"

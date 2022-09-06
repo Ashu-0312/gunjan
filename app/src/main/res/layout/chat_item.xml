@@ -18,7 +18,6 @@
 
         <LinearLayout
             android:visibility="gone"
-            android:minWidth="120dp"
             android:id="@+id/leftLayout"
             android:background="@drawable/left_chat_bg"
             android:layout_width="wrap_content"
@@ -26,7 +25,6 @@
             android:orientation="vertical">
 
             <TextView
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet"
                 android:fontFamily="@font/poppin_regular"
                 android:id="@+id/left_message"
                 android:layout_marginRight="@dimen/margin_10dp"
@@ -40,7 +38,6 @@
             </TextView>
 
             <TextView
-                android:text="12:00pm"
                 android:id="@+id/leftTime"
                 android:fontFamily="@font/poppin_medium"
                 android:gravity="end"
@@ -59,27 +56,27 @@
             android:layout_margin="@dimen/padding_5"
             android:id="@+id/left_card"
             android:visibility="gone"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             app:cardCornerRadius="@dimen/margin_10dp">
             <ImageView
                 android:id="@+id/left_media_pic"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/logo"/>
         </androidx.cardview.widget.CardView>
         <FrameLayout
             android:visibility="gone"
             android:id="@+id/left_video_frame"
-            android:layout_width="120dp"
-            android:layout_height="120dp">
+            android:layout_width="140dp"
+            android:layout_height="140dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/left_video_card"
                 android:visibility="gone"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 app:cardCornerRadius="@dimen/margin_10dp">
 
                 <VideoView
@@ -129,22 +126,10 @@
         <LinearLayout
             android:visibility="gone"
             android:id="@+id/rightLayout"
-            android:minWidth="120dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@drawable/right_chat_bg">
-            <TextView
-                android:fontFamily="@font/popinbold"
-                android:id="@+id/right_user"
-                android:layout_marginRight="@dimen/margin_10dp"
-                android:layout_marginLeft="@dimen/margin_10dp"
-                android:layout_marginTop="@dimen/padding_5"
-                android:layout_marginBottom="@dimen/padding_5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_12sp"
-                android:textColor="@color/white"/>
             <TextView
                 android:fontFamily="@font/poppin_regular"
                 android:id="@+id/right_message"
@@ -176,28 +161,28 @@
             android:layout_margin="@dimen/padding_5"
             android:id="@+id/right_card"
             android:visibility="gone"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             app:cardCornerRadius="@dimen/margin_10dp">
             <ImageView
                 android:visibility="gone"
                 android:id="@+id/right_media_pic"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/logo"/>
         </androidx.cardview.widget.CardView>
         <FrameLayout
             android:visibility="gone"
             android:id="@+id/right_video_frame"
-            android:layout_width="120dp"
-            android:layout_height="120dp">
+            android:layout_width="140dp"
+            android:layout_height="140dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/right_video_card"
                 android:visibility="gone"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 app:cardCornerRadius="@dimen/margin_10dp">
 
                 <VideoView

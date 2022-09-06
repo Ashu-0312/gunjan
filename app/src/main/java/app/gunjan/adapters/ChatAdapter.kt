@@ -368,7 +368,6 @@ class ChatAdapter(
         var leftTime: TextView? = null
         var rightMessage: TextView? = null
         var rightTime: TextView? = null
-        var rightUser: TextView? = null
         var leftProgress: ProgressBar? = null
         var rightProgress: ProgressBar? = null
         var leftCard: CardView? = null
@@ -384,7 +383,6 @@ class ChatAdapter(
             leftTime = itemView.findViewById(R.id.leftTime)
             rightMessage = itemView.findViewById(R.id.right_message)
             rightTime = itemView.findViewById(R.id.rightTime)
-            rightUser = itemView.findViewById(R.id.right_user)
             leftVideo = itemView.findViewById(R.id.left_media_video)
             rightVideo = itemView.findViewById(R.id.right_media_video)
             leftImage = itemView.findViewById(R.id.left_media_pic)

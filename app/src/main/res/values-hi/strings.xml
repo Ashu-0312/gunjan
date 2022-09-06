@@ -5,8 +5,8 @@
     <string name="forgot_password">पासवर्ड भूल गए?</string>
     <string name="sign_in">दाखिल करना</string>
     <string name="by_signing_you_agree_with_our">साइन अप करके, आप हमारी नियम और शर्तें से सहमत हैं</string>
-    <string name="terms_amp_conditions">Terms &amp; Conditions</string>
-    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_amp_conditions">शर्तें &amp; स्थितियाँ</string>
+    <string name="privacy_policy">गोपनीयता नीति</string>
     <string name="forgotpassword">पासवर्ड भूल गए</string>
     <string name="retrieve">अपना पासवर्ड पुनः प्राप्त करने के लिए कृपया अपना पंजीकृत मोबाइल नंबर दर्ज करें</string>
     <string name="submit">प्रकाशित करे</string>
@@ -133,9 +133,9 @@
     <string name="settings">सेटिंग</string>
     <string name="no_users">कोई सदस्य नहीं मिला</string>
     <string name="search_member_by_name_city_or_state">नाम, शहर या राज्य के आधार पर सदस्य खोजें</string>
-    <string name="and">और</string>
+    <string name="and">\u0020और\u0020</string>
     <string name="don_t_have_account_sign_up">नया खाता बनाने के लिए साइन अप करें </string>
-    <string name="connecting_people_come_together">Connecting people come together</string>
+    <string name="connecting_people_come_together">कनेक्टिंग लोग एक साथ आते हैं</string>
     <string name="please_register_your_mobile_number">कृपया अपना मोबाइल नंबर रजिस्टर करें</string>
     <string name="resend_code">कोड फिर से भेजें</string>
     <string name="select_state">राज्य चुनें</string>
@@ -218,7 +218,7 @@
     <string name="other">अन्य</string>
     <string name="active_members">सक्रिय सदस्य</string>
     <string name="admin_members">पदाधिकारी सदस्य</string>
-    <string name="social_profile">सामाजिक प्रोफ़ाइल</string>
+    <string name="social_profile">पहचान</string>
     <string name="follow">अनुसरण </string>
     <string name="unfollow">परित्याग</string>
     <string name="message">संदेश</string>

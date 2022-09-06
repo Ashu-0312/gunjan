@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:fillViewport="true"
     android:layout_height="match_parent"
-    tools:context=".activities.LoginActivity">
+    tools:context=".activities.MobileRegisterActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -204,7 +204,7 @@
                 android:textSize="@dimen/text_12sp"
                 android:fontFamily="@font/poppins_light"
                 android:textColor="@color/txt_color"
-                android:text=" and "/>
+                android:text="@string/and"/>
             <TextView
                 android:id="@+id/privacy"
                 android:layout_gravity="center"

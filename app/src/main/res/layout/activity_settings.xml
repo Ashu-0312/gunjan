@@ -235,7 +235,7 @@
 
                     android:layout_width="@dimen/margin_20dp"
                     android:layout_height="@dimen/margin_20dp"
-                    android:src="@drawable/swipe"/>
+                    android:src="@drawable/leave_community"/>
                 <TextView
                     android:layout_gravity="center"
                     android:layout_weight="1"
@@ -355,7 +355,7 @@
 
                     android:layout_width="@dimen/margin_20dp"
                     android:layout_height="@dimen/margin_20dp"
-                    android:src="@drawable/setting"/>
+                    android:src="@drawable/blocked_user"/>
                 <TextView
                     android:layout_gravity="center"
                     android:layout_weight="1"
@@ -415,7 +415,7 @@
 
                     android:layout_width="@dimen/margin_20dp"
                     android:layout_height="@dimen/margin_20dp"
-                    android:src="@drawable/contact_us"/>
+                    android:src="@drawable/contact"/>
                 <TextView
                     android:layout_gravity="center"
                     android:layout_weight="1"
@@ -446,7 +446,7 @@
 
                     android:layout_width="@dimen/margin_20dp"
                     android:layout_height="@dimen/margin_20dp"
-                    android:src="@drawable/privacy"/>
+                    android:src="@drawable/language"/>
                 <TextView
                     android:layout_gravity="center"
                     android:layout_weight="1"
@@ -477,7 +477,7 @@
 
                     android:layout_width="@dimen/margin_20dp"
                     android:layout_height="@dimen/margin_20dp"
-                    android:src="@drawable/contact_us"/>
+                    android:src="@drawable/social_media"/>
                 <TextView
                     android:layout_gravity="center"
                     android:layout_weight="1"

@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import app.gunjan.R
 import app.gunjan.utill.FCSharedPreferances
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 class SplashActivity : AppCompatActivity() {
@@ -30,14 +31,16 @@ class SplashActivity : AppCompatActivity() {
         handler = Handler(Looper.getMainLooper())
         handler!!.postDelayed(Runnable {
             if (FCSharedPreferances.getSharedPreferance(this@SplashActivity).savE_LANG.equals("")){
-                setLocale("en")
+                setLocale("hi")
+                txt.text = "कनेक्टिंग लोग एक साथ आते हैं"
             }else if (FCSharedPreferances.getSharedPreferance(this@SplashActivity).savE_LANG.equals("en")){
+                txt.text = "Connecting people come together"
                 setLocale("en")
             }else{
+                txt.text = "कनेक्टिंग लोग एक साथ आते हैं"
                 setLocale("hi")
             }
-            FCSharedPreferances.getSharedPreferance(this@SplashActivity).status =
-                ""
+            FCSharedPreferances.getSharedPreferance(this@SplashActivity).status = ""
             if (FCSharedPreferances.getSharedPreferance(this@SplashActivity).statuS_LOGIN.equals("true")) {
                 if (FCSharedPreferances.getSharedPreferance(this).notificatioN_TYPE.equals("post coin")){
                     FCSharedPreferances.getSharedPreferance(this).notificatioN_TYPE=""
