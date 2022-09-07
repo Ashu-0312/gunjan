@@ -28,6 +28,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun initHandler() {
         FCSharedPreferances.getSharedPreferance(this).totaL_COINS = ""
+        FCSharedPreferances.getSharedPreferance(this).tokeN_STATUS = "true"
         handler = Handler(Looper.getMainLooper())
         handler!!.postDelayed(Runnable {
             if (FCSharedPreferances.getSharedPreferance(this@SplashActivity).savE_LANG.equals("")){

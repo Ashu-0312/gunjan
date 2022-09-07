@@ -162,6 +162,19 @@ class HomeActivity : AppCompatActivity() {
             account_icon.setImageDrawable(resources.getDrawable(R.drawable.profile_not_selected))
             fragment = HomeFragment()
             loadFragment(fragment!!)
+            if (FCSharedPreferances.getSharedPreferance(this).tokeN_STATUS == "false"){
+                FCSharedPreferances.getSharedPreferance(this@HomeActivity).statuS_LOGIN = "false"
+                FCSharedPreferances.getSharedPreferance(this@HomeActivity).tokeN_STATUS = "true"
+                FCSharedPreferances.getSharedPreferance(this@HomeActivity).token =
+                    ""
+                var intent = Intent(
+                    this@HomeActivity,
+                    LoginActivity::class.java
+                )
+                intent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            }
         }
 
         member.setOnClickListener {

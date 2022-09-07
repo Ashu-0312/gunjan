@@ -54,6 +54,7 @@ class SettingsActivity : AppCompatActivity() {
                                     if (response.body()!!.code == 1) {
                                         FCSharedPreferances.getSharedPreferance(this@SettingsActivity).statuS_LOGIN =
                                             "false"
+                                        FCSharedPreferances.getSharedPreferance(this@SettingsActivity).tokeN_STATUS = "true"
                                         FCSharedPreferances.getSharedPreferance(this@SettingsActivity).token =
                                             ""
                                         var intent = Intent(
@@ -68,6 +69,18 @@ class SettingsActivity : AppCompatActivity() {
                                             this@SettingsActivity!!.window.decorView,
                                             response.body()?.message
                                         )
+                                        FCSharedPreferances.getSharedPreferance(this@SettingsActivity).statuS_LOGIN =
+                                            "false"
+                                        FCSharedPreferances.getSharedPreferance(this@SettingsActivity).tokeN_STATUS = "true"
+                                        FCSharedPreferances.getSharedPreferance(this@SettingsActivity).token =
+                                            ""
+                                        var intent = Intent(
+                                            this@SettingsActivity,
+                                            LoginActivity::class.java
+                                        )
+                                        intent.flags =
+                                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        startActivity(intent)
                                     }
                                 } else {
                                     ProjectUtill.printErrorMessage(

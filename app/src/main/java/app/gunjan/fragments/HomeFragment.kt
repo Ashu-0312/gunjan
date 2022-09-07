@@ -1581,6 +1581,7 @@ class HomeFragment : Fragment() {
                                         (context as Activity).window.decorView,
                                         response.body()?.message
                                     )
+                                    FCSharedPreferances.getSharedPreferance(context).tokeN_STATUS = "false"
                                 }
                             } else {
                                 ProjectUtill.printErrorMessage(
