@@ -225,7 +225,7 @@ class CompleteProfileFragment : Fragment(), UploadFileListener {
 
             override fun afterTextChanged(editable: Editable) {
                 var result: String = editable.toString().replace(" ", "");
-                if (!editable.toString().equals(result)) {
+                if (editable.toString() != result) {
                     profileName!!.setText(result)
                     profileName!!.setSelection(result.length)
                 }

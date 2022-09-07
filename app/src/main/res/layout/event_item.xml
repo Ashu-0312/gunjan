@@ -133,8 +133,7 @@
         android:id="@+id/pic_layout"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/dummy"/>
+        android:src="@drawable/logo"/>
     <FrameLayout
         android:layout_marginTop="@dimen/margin_10dp"
         android:visibility="gone"

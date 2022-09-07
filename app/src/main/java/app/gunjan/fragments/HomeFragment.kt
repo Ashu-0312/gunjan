@@ -235,8 +235,12 @@ class HomeFragment : Fragment() {
         invite!!.setOnClickListener {
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
-            val shareBodyText =
-                userName + " inviting you to join " + name + ".\n" + "Please download this app:\nhttps://play.google.com/store/apps/details?id=app.gunjan"
+            var shareBodyText =""
+            if (FCSharedPreferances.getSharedPreferance(context).savE_LANG.equals("en")){
+                shareBodyText = "Gunjan App is now live. Click on the below link to join the community\n\nhttps://play.google.com/store/apps/details?id=app.gunjan"
+            }else{
+                shareBodyText = "Gunjan App अब लाइव है। कम्युनिटी में जुड़ने के लिए निचे दिए गए लिंक पर क्लिक करे\n\nhttps://play.google.com/store/apps/details?id=app.gunjan"
+            }
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here")
             sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText)
             startActivity(sharingIntent)
