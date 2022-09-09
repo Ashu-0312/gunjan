@@ -39,7 +39,8 @@ class TcActivity : AppCompatActivity() {
                     if (response != null) {
                         if (response.isSuccessful) {
                             if (response.body()!!.code == 1) {
-                                content.text = HtmlCompat.fromHtml(response.body()!!.data.termAndConditions,HtmlCompat.FROM_HTML_MODE_LEGACY)
+                                content.text = HtmlCompat.fromHtml(response.body()!!.data.termAndConditions,
+                                    HtmlCompat.FROM_HTML_MODE_LEGACY)
                             } else {
                                 ProjectUtill.printMessage(
                                     this@TcActivity.window.decorView,
