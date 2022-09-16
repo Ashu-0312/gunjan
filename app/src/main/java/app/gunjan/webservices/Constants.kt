@@ -67,6 +67,7 @@ class Constants {
         const val getAllDonationList = "post/getAllDonationList"
         const val generateCashFreeToken = "user/generateCashFreeToken"
         const val getFAQs = "auth/getFAQs"
+        const val uploadFile = "user/uploadFile"
     }
 
     object Keys {

@@ -2,12 +2,9 @@ package app.gunjan.activities
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.ProgressDialog
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -25,27 +22,14 @@ import androidx.core.content.ContextCompat
 import app.gunjan.R
 import app.gunjan.entity.AddCommunityResponse
 import app.gunjan.entity.CategoryListResponse
-import app.gunjan.entity.PrivacyPolicyResponse
+import app.gunjan.entity.UploadS3FileResponse
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.PermissionUtil
 import app.gunjan.utill.ProjectUtill
-import app.gunjan.utill.UploadFileListener
 import app.gunjan.webservices.WebServiceRequest
-import com.amazonaws.auth.BasicAWSCredentials
-import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
-import com.amazonaws.mobile.client.AWSMobileClient
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
-import com.amazonaws.mobileconnectors.s3.transferutility.UploadOptions
-import com.amazonaws.regions.Region
-import com.amazonaws.regions.Regions
-import com.amazonaws.services.s3.AmazonS3Client
-import com.amazonaws.services.s3.model.CannedAccessControlList
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_add_community.*
 import kotlinx.android.synthetic.main.activity_add_community.back
-import kotlinx.android.synthetic.main.activity_privacy_policy.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,13 +37,12 @@ import java.io.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
+class AddCommunityActivity : AppCompatActivity(){
     private var pathPic = ""
     private var awsPicUrl = ""
     private var categoryId = ""
     private var nameList: ArrayList<String> = ArrayList<String>()
     private val idList: ArrayList<String> = ArrayList<String>()
-    private var progressdialog: ProgressDialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_community)
@@ -67,7 +50,6 @@ class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
     }
 
     private fun initData() {
-        progressdialog = ProgressDialog(this, R.style.MyAlertDialogStyle)
         getCategoryList()
         back.setOnClickListener { finish() }
 
@@ -221,8 +203,7 @@ class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
                 1 -> {
                     val selectedImage = data!!.data
                     pathPic = ProjectUtill.getPath(this, selectedImage)
-                    progressdialog!!.show()
-                    uploadFile(File(pathPic), this, this)
+                    uploadFile()
                 }
             }
         }
@@ -242,8 +223,7 @@ class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
             val out = FileOutputStream(file)
             bip.compress(Bitmap.CompressFormat.JPEG, 90, out)
             pathPic = file.absolutePath
-            progressdialog!!.show()
-            uploadFile(File(pathPic), this, this)
+            uploadFile()
             out.flush()
             out.close()
         } catch (e: java.lang.Exception) {
@@ -268,80 +248,57 @@ class AddCommunityActivity : AppCompatActivity(), UploadFileListener {
         }
     }
 
-    fun uploadFile(file: File, context: Context, listener: UploadFileListener) = Thread {
-        val credentials = BasicAWSCredentials(
-            "AKIA6LSDBEL3U2HOJWLW",
-            "LyHAItB0oo199ff+bEMIuyJk+hmRsmZtJR7arLNV"
-        )
-        val s3Client = AmazonS3Client(credentials, Region.getRegion(Regions.US_EAST_2))
-        s3Client.setObjectAcl(
-            "media-appsinvo",
-            "AKIA6LSDBEL3U2HOJWLW",
-            CannedAccessControlList.PublicRead
-        )
-        ThreadUtils.runOnUiThread {
-            // s3Client.setRegion(Region.getRegion(Regions.fromName("us-east-2")));
-            val transferUtility = TransferUtility.builder()
-                .context(context)
-                .awsConfiguration(AWSMobileClient.getInstance().configuration)
-                .s3Client(s3Client)
-                .build()
-
-            val uploadObserver = transferUtility.upload(
-                file.name, getInputStream(file),
-                UploadOptions.builder().bucket("media-appsinvo")
-                    .cannedAcl(CannedAccessControlList.PublicRead).build()
-            )
-
-            uploadObserver.setTransferListener(object : TransferListener {
-                override fun onStateChanged(id: Int, state: TransferState) {
-                    if (TransferState.COMPLETED === state) {
-                        // Handle a completed download.
-                        listener.onSuccess(
-                            file.name,
-                            "https://s3.us-east-2.amazonaws.com/media-appsinvo/" + file.name
+    private fun uploadFile() {
+        val myDialog = ProjectUtill.showProgressDialog(this)
+        WebServiceRequest.getInstance().uploadFile(
+            File(pathPic),
+            object : Callback<UploadS3FileResponse> {
+                override fun onResponse(
+                    call: Call<UploadS3FileResponse>,
+                    response: Response<UploadS3FileResponse>
+                ) {
+                    myDialog.dismiss()
+                    if (response != null) {
+                        if (response.isSuccessful) {
+                            if (response.body()!!.code == 1) {
+                                try {
+                                    awsPicUrl = response.body()!!.data.path_data.path
+                                    Glide.with(this@AddCommunityActivity)
+                                        .load(awsPicUrl)
+                                        .placeholder(R.drawable.user_avatar)
+                                        .into(pic!!)
+                                }catch (e: Exception) {}
+                            } else {
+                                ProjectUtill.printMessage(
+                                    this@AddCommunityActivity.window.decorView,
+                                    response.body()?.message
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                this@AddCommunityActivity.window.decorView,
+                                ""
+                            )
+                        }
+                    } else {
+                        ProjectUtill.printErrorMessage(
+                            this@AddCommunityActivity.window.decorView,
+                            ""
                         )
                     }
                 }
 
-                override fun onProgressChanged(
-                    id: Int,
-                    bytesCurrent: Long,
-                    bytesTotal: Long,
+                override fun onFailure(
+                    call: Call<UploadS3FileResponse>,
+                    t: Throwable
                 ) {
-                    val percentDonef = bytesCurrent.toFloat() / bytesTotal.toFloat() * 100
-                    val percentDone = percentDonef.toInt()
-                }
-
-                override fun onError(id: Int, ex: Exception) {
-                    // Handle errors
-                    Log.d("Exception", ex.toString())
-                    listener.onFailure(ex.toString())
+                    myDialog.dismiss()
+                    ProjectUtill.printErrorMessage(
+                        this@AddCommunityActivity.window.decorView,
+                        ""
+                    )
                 }
             })
-
-        }
-    }.start()
-
-    override fun onSuccess(localUrl: String?, awsUrl: String?) {
-        if (awsUrl != null) {
-            Glide.with(this).load(awsUrl).placeholder(R.drawable.user_avatar)
-                .into(pic)
-            awsPicUrl = awsUrl
-        }
-        progressdialog!!.dismiss()
-    }
-
-    override fun onFailure(error: String?) {
-        progressdialog!!.dismiss()
-    }
-
-    private fun getInputStream(file: File): InputStream {
-        val bitmap = BitmapFactory.decodeFile(file.absolutePath, BitmapFactory.Options())
-        val bos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 30, bos)
-        val bitmapdata = bos.toByteArray()
-        return ByteArrayInputStream(bitmapdata)
     }
 
     private fun validate(): Boolean {

@@ -5,10 +5,13 @@ import app.gunjan.activities.PostListResponse
 import app.gunjan.entity.*
 import app.gunjan.fragments.DonationFragment
 import app.gunjan.utill.FCSharedPreferances
+import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
+import java.io.File
+import java.net.URLConnection
 
 class WebServiceRequest private constructor() {
     private val apiInterface =
@@ -27,8 +30,9 @@ class WebServiceRequest private constructor() {
         }
     }
 
-    fun toRequestBody(value: String): RequestBody {
-        return RequestBody.create(MultipartBody.FORM, value)
+    fun toRequestBody(value: File): RequestBody? {
+        val mimeType = URLConnection.guessContentTypeFromName(value.name)
+        return RequestBody.create(MediaType.parse(mimeType), value)
     }
 
     fun login(
@@ -496,6 +500,20 @@ class WebServiceRequest private constructor() {
         val registrationResponseCall: Call<PaymentTokenGenerateResponse> =
             apiInterface.generateCashFreeToken(params, headers)
         registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
+    fun uploadFile(
+        file: File,
+        callback: Callback<UploadS3FileResponse>
+    ) {
+        val requestFile: RequestBody = webServiceRequest?.toRequestBody(File(file.toString()))!!
+        val body = MultipartBody.Part.createFormData(
+            Constants.Keys.file,
+            File(file.toString()).name,
+            requestFile
+        )
+        val call: Call<UploadS3FileResponse> = apiInterface.uploadFile(body)
+        call.enqueue(callback)
     }
 
     fun likeDislikePost(

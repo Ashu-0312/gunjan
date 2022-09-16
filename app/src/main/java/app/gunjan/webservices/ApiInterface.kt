@@ -2,6 +2,7 @@ package app.gunjan.webservices
 
 import app.gunjan.activities.PostListResponse
 import app.gunjan.entity.*
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
 import java.util.*
@@ -135,6 +136,12 @@ interface ApiInterface {
         @Body params: java.util.HashMap<String, String>,
         @HeaderMap headers: Map<String, String>
     ): Call<PaymentTokenGenerateResponse>
+
+    @Multipart
+    @POST(Constants.Partial.uploadFile)
+    fun uploadFile(
+        @Part file: MultipartBody.Part
+    ): Call<UploadS3FileResponse>
 
     @PUT(Constants.Partial.addAboutYourself)
     fun addAboutYourself(

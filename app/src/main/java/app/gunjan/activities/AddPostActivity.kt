@@ -1,10 +1,8 @@
 package app.gunjan.activities
 
 import android.app.*
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.hardware.display.DisplayManager
 import android.media.MediaPlayer
 import android.net.Uri
@@ -19,22 +17,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
 import app.gunjan.R
 import app.gunjan.entity.AddPostResponse
+import app.gunjan.entity.UploadS3FileResponse
 import app.gunjan.utill.PermissionUtil
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.utill.ProjectUtill.getPath
-import app.gunjan.utill.UploadFileListener
 import app.gunjan.webservices.WebServiceRequest
-import com.amazonaws.auth.BasicAWSCredentials
-import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils
-import com.amazonaws.mobile.client.AWSMobileClient
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
-import com.amazonaws.mobileconnectors.s3.transferutility.UploadOptions
-import com.amazonaws.regions.Region
-import com.amazonaws.regions.Regions
-import com.amazonaws.services.s3.AmazonS3Client
-import com.amazonaws.services.s3.model.CannedAccessControlList
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_add_post.*
 import retrofit2.Call
@@ -44,7 +31,7 @@ import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AddPostActivity : AppCompatActivity(), UploadFileListener {
+class AddPostActivity : AppCompatActivity() {
     private var dob = ""
     private  var status:String? = null
     private var mYear = 0
@@ -63,7 +50,6 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
     var format:String? = ""
     var timeValue:String? = ""
     var timeValue2:String? = ""
-    var progressdialog: ProgressDialog? = null
     private var awsPicUrl = ""
     private var awsPicUrl2 = ""
     private var animShow: Animation? = null
@@ -76,8 +62,6 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
     }
 
     private fun initData() {
-        progressdialog = ProgressDialog(this, R.style.MyAlertDialogStyle)
-        progressdialog!!.setCancelable(false)
         animShow = AnimationUtils.loadAnimation(this, R.anim.move_right_in_activity)
         back.setOnClickListener { finish() }
 
@@ -648,9 +632,7 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
                 1 -> {
                     val selectedImage = data!!.data
                     pathPic = getPath(this, selectedImage)
-                    progressdialog!!.setCancelable(false)
-                    progressdialog!!.show()
-                    uploadFile(File(pathPic), this, this)
+                    uploadFile()
                 }
                 0 -> {
                     val selectedImage1 = data!!.data
@@ -662,17 +644,13 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
                     if (duration / 1000 > 20) {
                         Toast.makeText(this, R.string.bigger_video, Toast.LENGTH_SHORT).show()
                     } else {
-                        progressdialog!!.setCancelable(false)
-                        progressdialog!!.show()
-                        uploadVideoFile(File(pathPic), this, this)
+                        uploadFile()
                     }
                 }
                 3 -> {
                     val vid = data!!.data
                     pathPic = getPath(this, vid)
-                    progressdialog!!.setCancelable(false)
-                    progressdialog!!.show()
-                    uploadVideoFile(File(pathPic), this, this)
+                    uploadFile()
                 }
                 4 -> {
                     val bip = data!!.extras!!["data"] as Bitmap?
@@ -697,9 +675,7 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
             bip.compress(Bitmap.CompressFormat.PNG, 100, out)
             pathPic = file.absolutePath
             Log.d("BitData", pathPic)
-            progressdialog!!.setCancelable(false)
-            progressdialog!!.show()
-            uploadFile(File(pathPic), this, this)
+            uploadFile()
             out.flush()
             out.close()
         } catch (e: java.lang.Exception) {
@@ -708,186 +684,102 @@ class AddPostActivity : AppCompatActivity(), UploadFileListener {
         }
     }
 
-    fun uploadFile(file: File, context: Context, listener: UploadFileListener) = Thread {
-        val credentials = BasicAWSCredentials(
-            "AKIA6LSDBEL3U2HOJWLW",
-            "LyHAItB0oo199ff+bEMIuyJk+hmRsmZtJR7arLNV"
-        )
-        val s3Client = AmazonS3Client(credentials, Region.getRegion(Regions.US_EAST_2))
-        s3Client.setObjectAcl(
-            "media-appsinvo",
-            "AKIA6LSDBEL3U2HOJWLW",
-            CannedAccessControlList.PublicRead
-        )
-        ThreadUtils.runOnUiThread {
-            // s3Client.setRegion(Region.getRegion(Regions.fromName("us-east-2")));
-            val transferUtility = TransferUtility.builder()
-                .context(context)
-                .awsConfiguration(AWSMobileClient.getInstance().configuration)
-                .s3Client(s3Client)
-                .build()
-
-            val uploadObserver = transferUtility.upload(
-                file.name, getInputStream(file),
-                UploadOptions.builder().bucket("media-appsinvo")
-                    .cannedAcl(CannedAccessControlList.PublicRead).build()
-            )
-
-            uploadObserver.setTransferListener(object : TransferListener {
-                override fun onStateChanged(id: Int, state: TransferState) {
-                    if (TransferState.COMPLETED === state) {
-                        // Handle a completed download.
-                        listener.onSuccess(
-                            file.name,
-                            "https://s3.us-east-2.amazonaws.com/media-appsinvo/" + file.name
+    private fun uploadFile() {
+        val myDialog = ProjectUtill.showProgressDialog(this)
+        WebServiceRequest.getInstance().uploadFile(
+            File(pathPic),
+            object : Callback<UploadS3FileResponse> {
+                override fun onResponse(
+                    call: Call<UploadS3FileResponse>,
+                    response: Response<UploadS3FileResponse>
+                ) {
+                    myDialog.dismiss()
+                    if (response != null) {
+                        if (response.isSuccessful) {
+                            if (response.body()!!.code == 1) {
+                                try {
+                                    if (feedType == "disccusion") {
+                                        awsPicUrl = response.body()!!.data.path_data.path
+                                        if (type == "image") {
+                                            addMedia.visibility = View.GONE
+                                            videoFrame.visibility = View.GONE
+                                            videoView.visibility = View.GONE
+                                            play.visibility = View.GONE
+                                            pause.visibility = View.GONE
+                                            postPic.visibility = View.VISIBLE
+                                            Glide.with(this@AddPostActivity).load(awsPicUrl).placeholder(R.drawable.logo)
+                                                .into(postPic)
+                                        } else if (type == "video") {
+                                            addMedia.visibility = View.GONE
+                                            postPic.visibility = View.GONE
+                                            videoFrame.visibility = View.VISIBLE
+                                            videoView.visibility = View.VISIBLE
+                                            val display =
+                                                getSystemService<DisplayManager>()?.getDisplay(Display.DEFAULT_DISPLAY)
+                                            val width = display!!.width
+                                            val height = display!!.height
+                                            videoView.layoutParams = FrameLayout.LayoutParams(width, height)
+                                            val video = Uri.parse(awsPicUrl)
+                                            videoView.setVideoURI(video)
+                                        }
+                                    } else {
+                                        awsPicUrl2 = response.body()!!.data.path_data.path
+                                        if (type == "image") {
+                                            eaddMedia.visibility = View.GONE
+                                            evideoFrame.visibility = View.GONE
+                                            evideoView.visibility = View.GONE
+                                            eplay.visibility = View.GONE
+                                            epause.visibility = View.GONE
+                                            epostPic.visibility = View.VISIBLE
+                                            Glide.with(this@AddPostActivity).load(awsPicUrl2).placeholder(R.drawable.logo)
+                                                .into(epostPic)
+                                        } else if (type == "video") {
+                                            eaddMedia.visibility = View.GONE
+                                            epostPic.visibility = View.GONE
+                                            evideoFrame.visibility = View.VISIBLE
+                                            evideoView.visibility = View.VISIBLE
+                                            val display =
+                                                getSystemService<DisplayManager>()?.getDisplay(Display.DEFAULT_DISPLAY)
+                                            val width = display!!.width
+                                            val height = display!!.height
+                                            evideoView.layoutParams = FrameLayout.LayoutParams(width, height)
+                                            val video = Uri.parse(awsPicUrl2)
+                                            evideoView.setVideoURI(video)
+                                        }
+                                    }
+                                }catch (e: Exception) {}
+                            } else {
+                                ProjectUtill.printMessage(
+                                    this@AddPostActivity.window.decorView,
+                                    response.body()?.message
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                this@AddPostActivity.window.decorView,
+                                ""
+                            )
+                        }
+                    } else {
+                        ProjectUtill.printErrorMessage(
+                            this@AddPostActivity.window.decorView,
+                            ""
                         )
                     }
                 }
 
-                override fun onProgressChanged(
-                    id: Int,
-                    bytesCurrent: Long,
-                    bytesTotal: Long,
+                override fun onFailure(
+                    call: Call<UploadS3FileResponse>,
+                    t: Throwable
                 ) {
-                    val percentDonef = bytesCurrent.toFloat() / bytesTotal.toFloat() * 100
-                    val percentDone = percentDonef.toInt()
-                }
-
-                override fun onError(id: Int, ex: Exception) {
-                    // Handle errors
-                    Log.d("Exception", ex.toString())
-                    listener.onFailure(ex.toString())
+                    myDialog.dismiss()
+                    ProjectUtill.printErrorMessage(
+                        this@AddPostActivity.window.decorView,
+                        ""
+                    )
                 }
             })
-
-        }
-    }.start()
-
-    override fun onSuccess(localUrl: String?, awsUrl: String?) {
-        if (awsUrl != null) {
-            Log.d("BitData", awsUrl)
-            if (feedType == "disccusion") {
-                awsPicUrl = awsUrl
-                if (type == "image") {
-                    addMedia.visibility = View.GONE
-                    videoFrame.visibility = View.GONE
-                    videoView.visibility = View.GONE
-                    play.visibility = View.GONE
-                    pause.visibility = View.GONE
-                    postPic.visibility = View.VISIBLE
-                    Glide.with(this).load(awsPicUrl).placeholder(R.drawable.logo)
-                        .into(postPic)
-                } else if (type == "video") {
-                    addMedia.visibility = View.GONE
-                    postPic.visibility = View.GONE
-                    videoFrame.visibility = View.VISIBLE
-                    videoView.visibility = View.VISIBLE
-                    val display =
-                        getSystemService<DisplayManager>()?.getDisplay(Display.DEFAULT_DISPLAY)
-                    val width = display!!.width
-                    val height = display!!.height
-                    videoView.layoutParams = FrameLayout.LayoutParams(width, height)
-                    val video = Uri.parse(awsPicUrl)
-                    videoView.setVideoURI(video)
-                }
-            } else {
-                awsPicUrl2 = awsUrl
-                if (type == "image") {
-                    eaddMedia.visibility = View.GONE
-                    evideoFrame.visibility = View.GONE
-                    evideoView.visibility = View.GONE
-                    eplay.visibility = View.GONE
-                    epause.visibility = View.GONE
-                    epostPic.visibility = View.VISIBLE
-                    Glide.with(this).load(awsPicUrl2).placeholder(R.drawable.logo)
-                        .into(epostPic)
-                } else if (type == "video") {
-                    eaddMedia.visibility = View.GONE
-                    epostPic.visibility = View.GONE
-                    evideoFrame.visibility = View.VISIBLE
-                    evideoView.visibility = View.VISIBLE
-                    val display =
-                        getSystemService<DisplayManager>()?.getDisplay(Display.DEFAULT_DISPLAY)
-                    val width = display!!.width
-                    val height = display!!.height
-                    evideoView.layoutParams = FrameLayout.LayoutParams(width, height)
-                    val video = Uri.parse(awsPicUrl2)
-                    evideoView.setVideoURI(video)
-                }
-            }
-            Log.d("BitData", "Success")
-        }
-        progressdialog!!.dismiss()
     }
-
-    override fun onFailure(error: String?) {
-        progressdialog!!.dismiss()
-        Log.d("BitData", "Fail" + error)
-
-    }
-
-    private fun getInputStream(file: File): InputStream {
-        val bitmap = BitmapFactory.decodeFile(file.absolutePath, BitmapFactory.Options())
-        val bos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos)
-        val bitmapdata = bos.toByteArray()
-        return ByteArrayInputStream(bitmapdata)
-    }
-
-    fun uploadVideoFile(file: File, context: Context, listener: UploadFileListener) = Thread {
-        val credentials = BasicAWSCredentials(
-            "AKIA6LSDBEL3U2HOJWLW",
-            "LyHAItB0oo199ff+bEMIuyJk+hmRsmZtJR7arLNV"
-        )
-        val s3Client = AmazonS3Client(credentials, Region.getRegion(Regions.US_EAST_2))
-        s3Client.setObjectAcl(
-            "media-appsinvo",
-            "AKIA6LSDBEL3U2HOJWLW",
-            CannedAccessControlList.PublicRead
-        )
-        ThreadUtils.runOnUiThread {
-            // s3Client.setRegion(Region.getRegion(Regions.fromName("us-east-2")));
-            val transferUtility = TransferUtility.builder()
-                .context(context)
-                .awsConfiguration(AWSMobileClient.getInstance().configuration)
-                .s3Client(s3Client)
-                .build()
-            val uploadObserver = transferUtility.upload(
-                "media-appsinvo",
-                file.name,
-                file,
-                CannedAccessControlList.PublicRead
-            )
-
-            uploadObserver.setTransferListener(object : TransferListener {
-                override fun onStateChanged(id: Int, state: TransferState) {
-                    if (TransferState.COMPLETED === state) {
-                        // Handle a completed download.
-                        listener.onSuccess(
-                            file.name,
-                            "https://s3.us-east-2.amazonaws.com/media-appsinvo/" + file.name
-                        )
-                    }
-                }
-
-                override fun onProgressChanged(
-                    id: Int,
-                    bytesCurrent: Long,
-                    bytesTotal: Long,
-                ) {
-                    val percentDonef = bytesCurrent.toFloat() / bytesTotal.toFloat() * 100
-                    val percentDone = percentDonef.toInt()
-                }
-
-                override fun onError(id: Int, ex: Exception) {
-                    // Handle errors
-                    Log.d("Exception", ex.toString())
-                    listener.onFailure(ex.toString())
-                }
-            })
-
-        }
-    }.start()
 
     fun isDateAfter(startDate: String?, endDate: String?): Boolean {
         return try {
