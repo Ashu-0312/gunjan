@@ -2,7 +2,7 @@ package app.gunjan.webservices
 
 class Constants {
     object Partial {
-        const val BASE_URL = "http://3.143.37.165:3030/api/"
+        const val BASE_URL = "http://52.66.123.214:3030/api/"
         const val signup = "auth/signup"
         const val privacyAndPolicy = "auth/privacyAndPolicy"
         const val termAndConditions = "auth/termAndConditions"

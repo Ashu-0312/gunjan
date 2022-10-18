@@ -624,7 +624,6 @@ class EditProfileActivity : AppCompatActivity(){
             })
     }
 
-
     private fun uploadFile() {
         val myDialog = ProjectUtill.showProgressDialog(this)
         WebServiceRequest.getInstance().uploadFile(
@@ -677,7 +676,6 @@ class EditProfileActivity : AppCompatActivity(){
                 }
             })
     }
-
 
     private fun validate(): Boolean {
         if (profileName!!.text.toString().trim().equals("", ignoreCase = true)) {
