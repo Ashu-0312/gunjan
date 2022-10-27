@@ -32,7 +32,7 @@ class OtpActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-        mobileTxt.text=intent.getStringExtra("code")+" "+intent.getStringExtra("mobile")
+        mobileTxt.text = intent.getStringExtra("code") + " " + intent.getStringExtra("mobile")
         val txtTimer = object : CountDownTimer(61000, 1000) {
             override fun onTick(l: Long) {
                 if (l >= 61000) {
@@ -69,9 +69,9 @@ class OtpActivity : AppCompatActivity() {
                 Toast.makeText(this@OtpActivity, getString(R.string.enter_otp), Toast.LENGTH_SHORT)
                     .show()
             } else {
-                if (intent.getStringExtra("type").equals("other")){
+                if (intent.getStringExtra("type").equals("other")) {
                     verifyOtpApi("other")
-                }else if (intent.getStringExtra("type").equals("edit")){
+                } else if (intent.getStringExtra("type").equals("edit")) {
                     verifyOtpApi("edit_mobile")
                 }
             }
@@ -201,11 +201,14 @@ class OtpActivity : AppCompatActivity() {
         })
     }
 
-    private fun verifyOtpApi(type:String) {
+    private fun verifyOtpApi(type: String) {
         val myDialog = ProjectUtill.showProgressDialog(this@OtpActivity)
         WebServiceRequest.getInstance().verifyOtp(
             this,
-            "en",intent.getStringExtra("mobile").toString(),intent.getStringExtra("code").toString(),"android",
+            "en",
+            intent.getStringExtra("mobile").toString(),
+            intent.getStringExtra("code").toString(),
+            "android",
             otp1.text.toString().trim() + otp2.text.toString()
                 .trim() + otp3.text.toString()
                 .trim() + otp4.text.toString().trim(),
@@ -224,24 +227,28 @@ class OtpActivity : AppCompatActivity() {
                                         response.body()!!.data.token
                                     FCSharedPreferances.getSharedPreferance(this@OtpActivity).useR_ID =
                                         response.body()!!.data.user.id.toString()
-                                   /* FCSharedPreferances.getSharedPreferance(this@OtpActivity).savE_LANG =
-                                        response.body()!!.data.user.language*/
+                                    /* FCSharedPreferances.getSharedPreferance(this@OtpActivity).savE_LANG =
+                                         response.body()!!.data.user.language*/
                                     if (response.body()!!.data.user.profile_stage.equals("5")) {
                                         FCSharedPreferances.getSharedPreferance(this@OtpActivity).statuS_LOGIN =
                                             "true"
-                                        var intent = Intent(this@OtpActivity, HomeActivity::class.java)
-                                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        var intent =
+                                            Intent(this@OtpActivity, HomeActivity::class.java)
+                                        intent.flags =
+                                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                         startActivity(intent)
                                     } else {
                                         FCSharedPreferances.getSharedPreferance(this@OtpActivity).profilE_STAGE =
                                             response.body()!!.data.user.profile_stage
                                         var intent = Intent(
                                             this@OtpActivity,
-                                            SetProfileActivity::class.java)
-                                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                            SetProfileActivity::class.java
+                                        )
+                                        intent.flags =
+                                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                         startActivity(intent)
                                     }
-                                } else if (type == "edit_mobile"){
+                                } else if (type == "edit_mobile") {
                                     var intent = Intent(this@OtpActivity, HomeActivity::class.java)
                                     intent.flags =
                                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
