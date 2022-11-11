@@ -29,7 +29,7 @@ class TcActivity : AppCompatActivity() {
 
         val myDialog = ProjectUtill.showProgressDialog(this@TcActivity)
         WebServiceRequest.getInstance().termAndConditions(
-            FCSharedPreferances.getSharedPreferance(this).savE_LANG,
+            "en",
             object : Callback<TermsResponse> {
                 override fun onResponse(
                     call: Call<TermsResponse>,

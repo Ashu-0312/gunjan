@@ -25,7 +25,7 @@ class PrivacyPolicyActivity : AppCompatActivity() {
 
         val myDialog = ProjectUtill.showProgressDialog(this@PrivacyPolicyActivity)
         WebServiceRequest.getInstance().privacyPolicy(
-            FCSharedPreferances.getSharedPreferance(this).savE_LANG,
+            "en",
             object : Callback<PrivacyPolicyResponse> {
                 override fun onResponse(
                     call: Call<PrivacyPolicyResponse>,

@@ -30,7 +30,7 @@ class GuidelinesActivity : AppCompatActivity() {
 
         val myDialog = ProjectUtill.showProgressDialog(this@GuidelinesActivity)
         WebServiceRequest.getInstance().communityGuideline(
-            FCSharedPreferances.getSharedPreferance(this).savE_LANG,
+            "en",
             object : Callback<CommunityGuidelineResponse> {
                 override fun onResponse(
                     call: Call<CommunityGuidelineResponse>,
