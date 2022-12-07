@@ -26,6 +26,7 @@ import app.gunjan.adapters.*
 import app.gunjan.entity.*
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
+import app.gunjan.utill.RecyclerItemClickListener
 import app.gunjan.webservices.WebServiceRequest
 import com.artjimlop.altex.AltexImageDownloader
 import com.bumptech.glide.Glide
@@ -40,7 +41,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(),RecyclerItemClickListener {
     var coinDialog: Dialog? = null
     var totalCoins: TextView? = null
     var idd: String? = null
@@ -1949,6 +1950,12 @@ class HomeFragment : Fragment() {
                         )
                     }
                 })
+        }
+    }
+
+    override fun onItemClick(parentPos: Int, childPos: Int, data: Any, type: String) {
+        if (type == "reason_layout"){
+            showReasonLayout(childPos.toString())
         }
     }
 }

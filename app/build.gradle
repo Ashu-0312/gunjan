@@ -12,8 +12,8 @@ android {
         applicationId "app.gunjan"
         minSdkVersion 19
         targetSdkVersion 32
-        versionCode 5
-        versionName "1.5"
+        versionCode 6
+        versionName "1.6"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

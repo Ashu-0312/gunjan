@@ -13,15 +13,16 @@ import app.gunjan.R
 import app.gunjan.entity.ReasonListResponse
 import app.gunjan.fragments.HomeFragment
 import app.gunjan.utill.FCSharedPreferances
+import app.gunjan.utill.RecyclerItemClickListener
 import java.util.*
 
 class ReasonList2Adapter(
     var context: Context?,
     data: MutableList<ReasonListResponse.DataBean.ReasonListBean>,
-    homeFragment: HomeFragment
+    listener: RecyclerItemClickListener
 ) : RecyclerView.Adapter<ReasonList2Adapter.ViewHolder>() {
     private var data: MutableList<ReasonListResponse.DataBean.ReasonListBean> = data
-    private var homeFragment: HomeFragment=homeFragment
+    private var listener: RecyclerItemClickListener=listener
     var selectedPosition = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -44,11 +45,11 @@ class ReasonList2Adapter(
             if (data[position].reason.equals("Other")){
                 selectedPosition = position
                 notifyDataSetChanged()
-                homeFragment.showReasonLayout("1")
+                listener.onItemClick(position,1,data[position],"reason_dialog")
             }else{
                 selectedPosition = position
                 notifyDataSetChanged()
-                homeFragment.showReasonLayout("2")
+                listener.onItemClick(position,2,data[position],"reason_dialog")
             }
         }
     }

@@ -11,20 +11,17 @@ import android.view.Window
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
 import app.gunjan.adapters.OthersTabAdapter
+import app.gunjan.adapters.ReasonList2Adapter
 import app.gunjan.adapters.ReasonListAdapter
-import app.gunjan.entity.FollowUserResponse
-import app.gunjan.entity.OtherUserDetailsResponse
-import app.gunjan.entity.UnfollowUserResponse
+import app.gunjan.entity.*
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
+import app.gunjan.utill.RecyclerItemClickListener
 import app.gunjan.webservices.WebServiceRequest
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
@@ -37,12 +34,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class OthersProfileActivity : AppCompatActivity() {
+class OthersProfileActivity : AppCompatActivity(),RecyclerItemClickListener {
     private var animShow: Animation? = null
     private var reasonList: ArrayList<String> = ArrayList<String>()
     private var reasonLayout: LinearLayout? = null
     private var id:String?=""
     private var pic:String?=""
+    private var Status: String? = "2"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_others_profile)
@@ -108,6 +106,213 @@ class OthersProfileActivity : AppCompatActivity() {
                 unfollowUserApi()
             }
         }
+
+        reportUser.setOnClickListener {
+           reportDialog(FCSharedPreferances.getSharedPreferance(this).otheR_ID)
+        }
+    }
+
+    fun reportDialog(userId: String) {
+        var yes: LinearLayout? = null
+        var no: LinearLayout? = null
+        var close: ImageView? = null
+        var edtReason: EditText? = null
+        var reasonRecycler: RecyclerView? = null
+        val dialog = Dialog(this)
+        // Include dialog.xml file
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog!!.setContentView(R.layout.report_dialog)
+        dialog!!.setCancelable(true)
+        val window = dialog.window
+        window!!.setGravity(Gravity.CENTER)
+        window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        yes = dialog.findViewById(R.id.yes)
+        no = dialog.findViewById(R.id.no)
+        reasonRecycler = dialog.findViewById(R.id.reason_recycler)
+        close = dialog.findViewById(R.id.close)
+        edtReason = dialog.findViewById(R.id.reason_edt)
+        reasonLayout = dialog.findViewById(R.id.reasonLayout)
+
+        val myDialog = ProjectUtill.showProgressDialog(this)
+            WebServiceRequest.getInstance().reasonList(
+                this,
+                object : Callback<ReasonListResponse> {
+                    override fun onResponse(
+                        call: Call<ReasonListResponse>,
+                        response: Response<ReasonListResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    var reasonAdapter = ReasonList2Adapter(
+                                        this@OthersProfileActivity,
+                                        response.body()!!.data.reason_list,
+                                        this@OthersProfileActivity
+                                    )
+                                    var layoutManager: LinearLayoutManager? =
+                                        LinearLayoutManager(this@OthersProfileActivity)
+                                    reasonRecycler!!.layoutManager = layoutManager
+                                    reasonRecycler!!.adapter = reasonAdapter
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        this@OthersProfileActivity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    this@OthersProfileActivity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                this@OthersProfileActivity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<ReasonListResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            this@OthersProfileActivity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
+
+        yes.setOnClickListener {
+            if (Status.equals("1")) {
+                if (edtReason.text.toString().trim() == "") {
+                    Toast.makeText(this, getString(R.string.please_reason), Toast.LENGTH_LONG)
+                        .show()
+                } else {
+                    dialog.cancel()
+                    val myDialog = ProjectUtill.showProgressDialog(this)
+                        WebServiceRequest.getInstance().reportUser(
+                            this,
+                            userId,
+                            FCSharedPreferances.getSharedPreferance(this).reasoN_ID,
+                            edtReason.text.toString().toString(),
+                            object : Callback<ReportReasonResponse> {
+                                override fun onResponse(
+                                    call: Call<ReportReasonResponse>,
+                                    response: Response<ReportReasonResponse>
+                                ) {
+                                    myDialog.dismiss()
+                                    if (response != null) {
+                                        if (response.isSuccessful) {
+                                            if (response.body()!!.code == 1) {
+                                                Toast.makeText(
+                                                    this@OthersProfileActivity,
+                                                    "" + response.body()!!.message,
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                                Status = "2"
+                                            } else {
+                                                ProjectUtill.printMessage(
+                                                    this@OthersProfileActivity!!.window.decorView,
+                                                    response.body()?.message
+                                                )
+                                            }
+                                        } else {
+                                            ProjectUtill.printErrorMessage(
+                                                this@OthersProfileActivity!!.window.decorView,
+                                                ""
+                                            )
+                                        }
+                                    } else {
+                                        ProjectUtill.printErrorMessage(
+                                            this@OthersProfileActivity!!.window.decorView,
+                                            ""
+                                        )
+                                    }
+                                }
+
+                                override fun onFailure(
+                                    call: Call<ReportReasonResponse>,
+                                    t: Throwable
+                                ) {
+                                    myDialog.dismiss()
+                                    ProjectUtill.printErrorMessage(
+                                        this@OthersProfileActivity!!.window.decorView,
+                                        ""
+                                    )
+                                }
+                            })
+                }
+            } else {
+                dialog.cancel()
+                val myDialog = ProjectUtill.showProgressDialog(this)
+                    WebServiceRequest.getInstance().reportUser(
+                        this, userId, FCSharedPreferances.getSharedPreferance(this).reasoN_ID, "",
+                        object : Callback<ReportReasonResponse> {
+                            override fun onResponse(
+                                call: Call<ReportReasonResponse>,
+                                response: Response<ReportReasonResponse>
+                            ) {
+                                myDialog.dismiss()
+                                if (response != null) {
+                                    if (response.isSuccessful) {
+                                        if (response.body()!!.code == 1) {
+                                            Toast.makeText(
+                                                this@OthersProfileActivity,
+                                                "" + response.body()!!.message,
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                            Status = "2"
+                                        } else {
+                                            ProjectUtill.printMessage(
+                                                this@OthersProfileActivity!!.window.decorView,
+                                                response.body()?.message
+                                            )
+                                        }
+                                    } else {
+                                        ProjectUtill.printErrorMessage(
+                                            this@OthersProfileActivity!!.window.decorView,
+                                            ""
+                                        )
+                                    }
+                                } else {
+                                    ProjectUtill.printErrorMessage(
+                                        this@OthersProfileActivity!!.window.decorView,
+                                        ""
+                                    )
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<ReportReasonResponse>,
+                                t: Throwable
+                            ) {
+                                myDialog.dismiss()
+                                ProjectUtill.printErrorMessage(
+                                    this@OthersProfileActivity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        })
+            }
+        }
+
+        no.setOnClickListener {
+            dialog.cancel()
+        }
+
+        close.setOnClickListener {
+            dialog.cancel()
+        }
+        dialog.show()
     }
 
     private fun userDetails() {
@@ -278,114 +483,6 @@ class OthersProfileActivity : AppCompatActivity() {
             })
     }
 
-    fun blockDialog() {
-        var yes: LinearLayout? = null
-        var no: LinearLayout? = null
-        var close: ImageView? = null
-        val dialog = Dialog(this)
-        // Include dialog.xml file
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.block_dialog)
-        dialog!!.setCancelable(true)
-        val window = dialog.window
-        window!!.setGravity(Gravity.CENTER)
-        window.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT
-        )
-        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
-        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-        yes = dialog.findViewById(R.id.yes)
-        no = dialog.findViewById(R.id.no)
-        close = dialog.findViewById(R.id.close)
-        yes.setOnClickListener { dialog.cancel() }
-
-        no.setOnClickListener {
-            dialog.cancel()
-        }
-
-        close.setOnClickListener {
-            dialog.cancel()
-        }
-        dialog.show()
-    }
-
-    fun reportDialog() {
-        var yes: LinearLayout? = null
-        var no: LinearLayout? = null
-        var close: ImageView? = null
-        var reasonRecycler: RecyclerView? = null
-        val dialog = Dialog(this)
-        // Include dialog.xml file
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.report_dialog)
-        dialog!!.setCancelable(true)
-        val window = dialog.window
-        window!!.setGravity(Gravity.CENTER)
-        window.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT
-        )
-        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
-        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-        yes = dialog.findViewById(R.id.yes)
-        no = dialog.findViewById(R.id.no)
-        reasonRecycler = dialog.findViewById(R.id.reason_recycler)
-        close = dialog.findViewById(R.id.close)
-        reasonLayout = dialog.findViewById(R.id.reasonLayout)
-        var reasonAdapter = ReasonListAdapter(
-            this, reasonList
-        )
-        var layoutManager: LinearLayoutManager? = LinearLayoutManager(this)
-        reasonRecycler!!.layoutManager = layoutManager
-        reasonRecycler!!.adapter = reasonAdapter
-        yes.setOnClickListener { dialog.cancel() }
-
-        no.setOnClickListener {
-            dialog.cancel()
-        }
-
-        close.setOnClickListener {
-            dialog.cancel()
-        }
-        dialog.show()
-    }
-
-    fun postreportDialog() {
-        var close: ImageView? = null
-        var report: RelativeLayout? = null
-        var copyPost: RelativeLayout? = null
-        var block: RelativeLayout? = null
-        val dialog = Dialog(this)
-        // Include dialog.xml file
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.postreport_dialog)
-        dialog!!.setCancelable(true)
-        val window = dialog.window
-        window!!.setGravity(Gravity.CENTER)
-        window.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT
-        )
-        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
-        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-        close = dialog.findViewById(R.id.close)
-        report = dialog.findViewById(R.id.report)
-        copyPost = dialog.findViewById(R.id.copy_post)
-        block = dialog.findViewById(R.id.block)
-
-        close.setOnClickListener {
-            dialog.cancel()
-        }
-
-        report.setOnClickListener { reportDialog() }
-
-        block.setOnClickListener {
-            blockDialog()
-        }
-        dialog.show()
-    }
-
     fun showReasonLayout(status: String) {
         if (status == "1") {
             reasonLayout!!.visibility = View.VISIBLE
@@ -393,6 +490,10 @@ class OthersProfileActivity : AppCompatActivity() {
         } else {
             reasonLayout!!.visibility = View.GONE
         }
+    }
+
+    override fun onItemClick(parentPos: Int, childPos: Int, data: Any, type: String) {
+
     }
 
 }
