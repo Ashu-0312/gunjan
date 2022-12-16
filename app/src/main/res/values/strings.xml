@@ -88,6 +88,7 @@
     <string name="copy_post">Copy Post</string>
     <string name="block_user">Block User</string>
     <string name="block">Do you want to block this user?</string>
+    <string name="blockk">Block</string>
     <string name="cancel">Cancel</string>
     <string name="blocked_user_list">Blocked User List</string>
     <string name="unblock">Unblock</string>
@@ -271,5 +272,5 @@
     <string name="post_description">Post Description</string>
     <string name="make_admin">Make Admin</string>
     <string name="not_community_admin">You are not admin of community.</string>
-
+    <string name="report">Report</string>
 </resources>

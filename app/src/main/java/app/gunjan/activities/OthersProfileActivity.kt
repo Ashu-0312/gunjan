@@ -110,6 +110,10 @@ class OthersProfileActivity : AppCompatActivity(),RecyclerItemClickListener {
         reportUser.setOnClickListener {
            reportDialog(FCSharedPreferances.getSharedPreferance(this).otheR_ID)
         }
+
+        blockUser.setOnClickListener {
+            blockDialog(FCSharedPreferances.getSharedPreferance(this).otheR_ID)
+        }
     }
 
     fun reportDialog(userId: String) {
@@ -303,6 +307,87 @@ class OthersProfileActivity : AppCompatActivity(),RecyclerItemClickListener {
                             }
                         })
             }
+        }
+
+        no.setOnClickListener {
+            dialog.cancel()
+        }
+
+        close.setOnClickListener {
+            dialog.cancel()
+        }
+        dialog.show()
+    }
+
+    fun blockDialog(userId: String) {
+        var yes: LinearLayout? = null
+        var no: LinearLayout? = null
+        var close: ImageView? = null
+        val dialog = Dialog(this)
+        // Include dialog.xml file
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog!!.setContentView(R.layout.block_dialog)
+        dialog!!.setCancelable(true)
+        val window = dialog.window
+        window!!.setGravity(Gravity.CENTER)
+        window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        yes = dialog.findViewById(R.id.yes)
+        no = dialog.findViewById(R.id.no)
+        close = dialog.findViewById(R.id.close)
+        yes.setOnClickListener {
+            dialog.cancel()
+            val myDialog = ProjectUtill.showProgressDialog(this)
+                WebServiceRequest.getInstance().blockUnblockUser(
+                    this, userId, "0",
+                    object : Callback<BlockUnblockUserResponse> {
+                        override fun onResponse(
+                            call: Call<BlockUnblockUserResponse>,
+                            response: Response<BlockUnblockUserResponse>
+                        ) {
+                            myDialog.dismiss()
+                            if (response != null) {
+                                if (response.isSuccessful) {
+                                    if (response.body()!!.code == 1) {
+                                        val intent = Intent(this@OthersProfileActivity, HomeActivity::class.java)
+                                        intent.flags =
+                                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        startActivity(intent)
+                                    } else {
+                                        ProjectUtill.printMessage(
+                                            this@OthersProfileActivity!!.window.decorView,
+                                            response.body()?.message
+                                        )
+                                    }
+                                } else {
+                                    ProjectUtill.printErrorMessage(
+                                        this@OthersProfileActivity!!.window.decorView,
+                                        ""
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    this@OthersProfileActivity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<BlockUnblockUserResponse>,
+                            t: Throwable
+                        ) {
+                            myDialog.dismiss()
+                            ProjectUtill.printErrorMessage(
+                                this@OthersProfileActivity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    })
         }
 
         no.setOnClickListener {

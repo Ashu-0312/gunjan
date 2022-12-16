@@ -95,12 +95,53 @@
                     android:src="@drawable/user_avatar"
                     app:civ_border_color="@color/pink"
                     app:civ_border_width="@dimen/padding_2" />
-                     <ImageView
-                         android:layout_width="35dp"
-                         android:layout_height="35dp"
-                         android:src="@drawable/report_user"
+                     <LinearLayout
+                         android:minWidth="58dp"
+                         android:layout_marginEnd="@dimen/padding_5"
                          android:layout_alignParentEnd="true"
-                         android:id="@+id/reportUser"/>
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:orientation="horizontal"
+                         android:id="@+id/blockUser">
+                         <ImageView
+                             android:layout_gravity="center"
+                             android:layout_width="@dimen/margin_15"
+                             android:layout_height="@dimen/margin_15"
+                             android:src="@drawable/block"/>
+                         <TextView
+                             android:layout_marginTop="@dimen/padding_3"
+                             android:layout_marginStart="@dimen/padding_3"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:text="@string/blockk"
+                             android:textSize="@dimen/text_12sp"
+                             android:fontFamily="@font/poppin_regular"
+                             android:textColor="@color/pink"/>
+                     </LinearLayout>
+                     <LinearLayout
+                         android:layout_below="@id/blockUser"
+                         android:layout_marginTop="@dimen/padding_5"
+                         android:layout_marginEnd="@dimen/padding_5"
+                         android:layout_alignParentEnd="true"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:orientation="horizontal"
+                         android:id="@+id/reportUser">
+                         <ImageView
+                             android:layout_gravity="center"
+                             android:layout_width="@dimen/margin_15"
+                             android:layout_height="@dimen/margin_15"
+                             android:src="@drawable/report_user"/>
+                         <TextView
+                             android:layout_marginTop="@dimen/padding_3"
+                             android:layout_marginStart="@dimen/padding_3"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:text="@string/report"
+                             android:textSize="@dimen/text_12sp"
+                             android:fontFamily="@font/poppin_regular"
+                             android:textColor="@color/pink"/>
+                     </LinearLayout>
                  </RelativeLayout>
 
                 <TextView

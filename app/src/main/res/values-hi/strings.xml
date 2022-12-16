@@ -84,10 +84,12 @@
     <string name="add_members">सदस्यों को जोड़ें</string>
     <string name="add">जोड़ें</string>
     <string name="report_user">उपयोगकर्ता को रिपोर्ट करें</string>
+    <string name="report">रिपोर्ट</string>
     <string name="please_enter_reason">कृपया कारण दर्ज करें</string>
     <string name="copy_post">पोस्ट कॉपी करे</string>
     <string name="block_user">प्रतिबंधित सदस्य</string>
     <string name="block">क्या आप इस सदस्य को ब्लॉक करना चाहते हैं?</string>
+    <string name="blockk">ब्लॉक</string>
     <string name="cancel">निरस्त करे</string>
     <string name="blocked_user_list">प्रतिबंध सदस्यों की सूची</string>
     <string name="unblock">प्रतिबंधित सदस्यों की सूची</string>
