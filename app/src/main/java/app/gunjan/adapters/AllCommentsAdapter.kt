@@ -143,10 +143,14 @@ class AllCommentsAdapter(
             }
         }
 
-        holder.deleteComment!!.setOnLongClickListener {
+        holder.reportComment?.setOnClickListener {
+            homeFragment!!.deleteCommentDialog(data[position].id.toString(),data[position].commented_by.id.toString())
+        }
+
+       /* holder.deleteComment!!.setOnLongClickListener {
             homeFragment!!.deleteCommentDialog(data[position].id.toString())
              true
-        }
+        }*/
 
         holder.reply!!.setOnClickListener {
             homeFragment!!.commentsReplyDialog(data[position].id.toString())
@@ -166,6 +170,7 @@ class AllCommentsAdapter(
         var totaldisLike: TextView? =null
         var like: ImageView? =null
         var dislike: ImageView? =null
+        var reportComment: ImageView? =null
         var deleteComment: LinearLayout? =null
         init {
             pic=itemView.findViewById(R.id.user_pic)
@@ -177,6 +182,7 @@ class AllCommentsAdapter(
             dislike=itemView.findViewById(R.id.dislike)
             deleteComment=itemView.findViewById(R.id.delete_comment)
             reply=itemView.findViewById(R.id.reply)
+            reportComment=itemView.findViewById(R.id.report_comment)
         }
     }
 

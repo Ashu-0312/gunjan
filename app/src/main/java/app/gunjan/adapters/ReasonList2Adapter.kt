@@ -45,11 +45,11 @@ class ReasonList2Adapter(
             if (data[position].reason.equals("Other")){
                 selectedPosition = position
                 notifyDataSetChanged()
-                listener.onItemClick(position,1,data[position],"reason_dialog")
+                listener.onItemClick(position,1,data[position],"reason_layout")
             }else{
                 selectedPosition = position
                 notifyDataSetChanged()
-                listener.onItemClick(position,2,data[position],"reason_dialog")
+                listener.onItemClick(position,2,data[position],"reason_layout")
             }
         }
     }

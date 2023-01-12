@@ -895,7 +895,8 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
         dialog.show()
     }
 
-    fun reportDialog(userId: String) {
+    fun reportDialog(userId: String,type:String) {
+        var title: TextView? = null
         var yes: LinearLayout? = null
         var no: LinearLayout? = null
         var close: ImageView? = null
@@ -920,6 +921,13 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
         close = dialog.findViewById(R.id.close)
         edtReason = dialog.findViewById(R.id.reason_edt)
         reasonLayout = dialog.findViewById(R.id.reasonLayout)
+        title = dialog.findViewById(R.id.title)
+
+        if (type == "user"){
+            title?.text = getString(R.string.report_user)
+        }else{
+            title?.text = getString(R.string.report_comment)
+        }
 
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let { it1 ->
@@ -977,10 +985,72 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
         }
 
         yes.setOnClickListener {
-            if (Status.equals("1")) {
-                if (edtReason.text.toString().trim() == "") {
-                    Toast.makeText(context, getString(R.string.please_reason), Toast.LENGTH_LONG)
-                        .show()
+            if (type=="user") {
+                if (Status.equals("1")) {
+                    if (edtReason.text.toString().trim() == "") {
+                        Toast.makeText(
+                            context,
+                            getString(R.string.please_reason),
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+                    } else {
+                        dialog.cancel()
+                        val myDialog = ProjectUtill.showProgressDialog(context)
+                        context?.let { it1 ->
+                            WebServiceRequest.getInstance().reportUser(
+                                it1,
+                                userId,
+                                FCSharedPreferances.getSharedPreferance(context).reasoN_ID,
+                                edtReason.text.toString().toString(),
+                                object : Callback<ReportReasonResponse> {
+                                    override fun onResponse(
+                                        call: Call<ReportReasonResponse>,
+                                        response: Response<ReportReasonResponse>
+                                    ) {
+                                        myDialog.dismiss()
+                                        if (response != null) {
+                                            if (response.isSuccessful) {
+                                                if (response.body()!!.code == 1) {
+                                                    Toast.makeText(
+                                                        context,
+                                                        "" + response.body()!!.message,
+                                                        Toast.LENGTH_LONG
+                                                    ).show()
+                                                    Status = "2"
+                                                } else {
+                                                    ProjectUtill.printMessage(
+                                                        activity!!.window.decorView,
+                                                        response.body()?.message
+                                                    )
+                                                }
+                                            } else {
+                                                ProjectUtill.printErrorMessage(
+                                                    activity!!.window.decorView,
+                                                    ""
+                                                )
+                                            }
+                                        } else {
+                                            ProjectUtill.printErrorMessage(
+                                                activity!!.window.decorView,
+                                                ""
+                                            )
+                                        }
+                                    }
+
+                                    override fun onFailure(
+                                        call: Call<ReportReasonResponse>,
+                                        t: Throwable
+                                    ) {
+                                        myDialog.dismiss()
+                                        ProjectUtill.printErrorMessage(
+                                            activity!!.window.decorView,
+                                            ""
+                                        )
+                                    }
+                                })
+                        }
+                    }
                 } else {
                     dialog.cancel()
                     val myDialog = ProjectUtill.showProgressDialog(context)
@@ -989,7 +1059,7 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
                             it1,
                             userId,
                             FCSharedPreferances.getSharedPreferance(context).reasoN_ID,
-                            edtReason.text.toString().toString(),
+                            "",
                             object : Callback<ReportReasonResponse> {
                                 override fun onResponse(
                                     call: Call<ReportReasonResponse>,
@@ -1038,31 +1108,108 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
                             })
                     }
                 }
-            } else {
-                dialog.cancel()
-                val myDialog = ProjectUtill.showProgressDialog(context)
-                context?.let { it1 ->
-                    WebServiceRequest.getInstance().reportUser(
-                        it1, userId, FCSharedPreferances.getSharedPreferance(context).reasoN_ID, "",
-                        object : Callback<ReportReasonResponse> {
-                            override fun onResponse(
-                                call: Call<ReportReasonResponse>,
-                                response: Response<ReportReasonResponse>
-                            ) {
-                                myDialog.dismiss()
-                                if (response != null) {
-                                    if (response.isSuccessful) {
-                                        if (response.body()!!.code == 1) {
-                                            Toast.makeText(
-                                                context,
-                                                "" + response.body()!!.message,
-                                                Toast.LENGTH_LONG
-                                            ).show()
-                                            Status = "2"
+            }else{
+                if (Status.equals("1")) {
+                    if (edtReason.text.toString().trim() == "") {
+                        Toast.makeText(
+                            context,
+                            getString(R.string.please_reason),
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+                    } else {
+                        dialog.cancel()
+                        val myDialog = ProjectUtill.showProgressDialog(context)
+                        context?.let { it1 ->
+                            WebServiceRequest.getInstance().reportComment(
+                                it1,
+                                userId!!,
+                                FCSharedPreferances.getSharedPreferance(context).reasoN_ID,
+                                edtReason.text.toString().toString(),
+                                object : Callback<ReportCommentRes> {
+                                    override fun onResponse(
+                                        call: Call<ReportCommentRes>,
+                                        response: Response<ReportCommentRes>
+                                    ) {
+                                        myDialog.dismiss()
+                                        if (response != null) {
+                                            if (response.isSuccessful) {
+                                                if (response.body()!!.code == 1) {
+                                                    Toast.makeText(
+                                                        context,
+                                                        "" + response.body()!!.message,
+                                                        Toast.LENGTH_LONG
+                                                    ).show()
+                                                    Status = "2"
+                                                    getCommentList(postId!!)
+                                                } else {
+                                                    ProjectUtill.printMessage(
+                                                        activity!!.window.decorView,
+                                                        response.body()?.message
+                                                    )
+                                                }
+                                            } else {
+                                                ProjectUtill.printErrorMessage(
+                                                    activity!!.window.decorView,
+                                                    ""
+                                                )
+                                            }
                                         } else {
-                                            ProjectUtill.printMessage(
+                                            ProjectUtill.printErrorMessage(
                                                 activity!!.window.decorView,
-                                                response.body()?.message
+                                                ""
+                                            )
+                                        }
+                                    }
+
+                                    override fun onFailure(
+                                        call: Call<ReportCommentRes>,
+                                        t: Throwable
+                                    ) {
+                                        myDialog.dismiss()
+                                        ProjectUtill.printErrorMessage(
+                                            activity!!.window.decorView,
+                                            ""
+                                        )
+                                    }
+                                })
+                        }
+                    }
+                } else {
+                    dialog.cancel()
+                    val myDialog = ProjectUtill.showProgressDialog(context)
+                    context?.let { it1 ->
+                        WebServiceRequest.getInstance().reportComment(
+                            it1,
+                            userId!!,
+                            FCSharedPreferances.getSharedPreferance(context).reasoN_ID,
+                            "",
+                            object : Callback<ReportCommentRes> {
+                                override fun onResponse(
+                                    call: Call<ReportCommentRes>,
+                                    response: Response<ReportCommentRes>
+                                ) {
+                                    myDialog.dismiss()
+                                    if (response != null) {
+                                        if (response.isSuccessful) {
+                                            if (response.body()!!.code == 1) {
+                                                Toast.makeText(
+                                                    context,
+                                                    "" + response.body()!!.message,
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                                Status = "2"
+                                                getCommentList(postId!!)
+                                            } else {
+                                                ProjectUtill.printMessage(
+                                                    activity!!.window.decorView,
+                                                    response.body()?.message
+                                                )
+                                            }
+                                        } else {
+                                            ProjectUtill.printErrorMessage(
+                                                activity!!.window.decorView,
+                                                ""
                                             )
                                         }
                                     } else {
@@ -1071,25 +1218,20 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
                                             ""
                                         )
                                     }
-                                } else {
+                                }
+
+                                override fun onFailure(
+                                    call: Call<ReportCommentRes>,
+                                    t: Throwable
+                                ) {
+                                    myDialog.dismiss()
                                     ProjectUtill.printErrorMessage(
                                         activity!!.window.decorView,
                                         ""
                                     )
                                 }
-                            }
-
-                            override fun onFailure(
-                                call: Call<ReportReasonResponse>,
-                                t: Throwable
-                            ) {
-                                myDialog.dismiss()
-                                ProjectUtill.printErrorMessage(
-                                    activity!!.window.decorView,
-                                    ""
-                                )
-                            }
-                        })
+                            })
+                    }
                 }
             }
         }
@@ -1470,9 +1612,9 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
         }
     }
 
-    fun deleteCommentDialog(commentId: String) {
-        var close: ImageView? = null
+    fun deleteCommentDialog(commentId: String,userId:String) {
         var delete: RelativeLayout? = null
+        var report: RelativeLayout? = null
         val dialog = context?.let { Dialog(it) }
         // Include dialog.xml file
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -1487,6 +1629,15 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
         dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
         dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
         delete = dialog.findViewById(R.id.delete_comment)
+        report = dialog.findViewById(R.id.report_comment)
+
+        if (FCSharedPreferances.getSharedPreferance(context).useR_ID.equals(userId)){
+            delete.visibility = View.VISIBLE
+            report.visibility = View.GONE
+        }else{
+            delete.visibility = View.GONE
+            report.visibility = View.VISIBLE
+        }
 
         delete!!.setOnClickListener {
             dialog.cancel()
@@ -1536,6 +1687,11 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
                         }
                     })
             }
+        }
+
+        report?.setOnClickListener {
+            dialog.cancel()
+           reportDialog(commentId,"comment")
         }
         dialog.show()
     }

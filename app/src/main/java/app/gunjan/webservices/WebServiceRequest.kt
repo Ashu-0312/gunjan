@@ -632,6 +632,24 @@ class WebServiceRequest private constructor() {
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
+    fun reportComment(
+        context: Context,
+        commentId: String,
+        reasonId: String,
+        other_reason: String,
+        registrationResponseCallback: Callback<ReportCommentRes>
+    ) {
+        val headers = HashMap<String, String>()
+        headers[Constants.Keys.token] = FCSharedPreferances.getSharedPreferance(context).token
+        val params = HashMap<String, String>()
+        params[Constants.Keys.commentId] = commentId
+        params[Constants.Keys.reasonId] = reasonId
+        params[Constants.Keys.other_reason] = other_reason
+        val registrationResponseCall: Call<ReportCommentRes> =
+            apiInterface.reportComment(params, headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
     fun makeAdmin(
         context: Context,
         member_id: String,

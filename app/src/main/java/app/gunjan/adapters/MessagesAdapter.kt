@@ -16,7 +16,6 @@ import app.gunjan.entity.GroupListResponse
 import app.gunjan.utill.FCSharedPreferances
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlin.collections.ArrayList
 
 class MessagesAdapter(
     var context: Context?,
@@ -34,6 +33,9 @@ class MessagesAdapter(
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         try {
+            if (data[position].status.equals("block")){
+                holder.itemView.layoutParams = RecyclerView.LayoutParams(0, 0)
+            }
             context?.let {
                 Glide.with(it).load(data[position].participants_details.image)
                     .placeholder(R.drawable.user_avatar).into(

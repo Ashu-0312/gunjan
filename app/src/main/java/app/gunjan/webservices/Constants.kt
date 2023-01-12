@@ -45,6 +45,7 @@ class Constants {
         const val getAllBlockedMemberList = "community/getAllBlockedMemberList"
         const val getAllReportReason = "user/getAllReportReason"
         const val reportUser = "user/reportUser"
+        const val reportComment = "post/reportComment"
         const val getOtherUserDetails = "user/getOtherUserDetails"
         const val getUnreadNotificationCount = "notification/getUnreadNotificationCount"
         const val followUser = "user/followUser"
@@ -142,5 +143,6 @@ class Constants {
         const val orderAmount = "orderAmount"
         const val orderCurrency = "orderCurrency"
         const val orderNote = "orderNote"
+        const val report_reason = "report_reason"
     }
 }

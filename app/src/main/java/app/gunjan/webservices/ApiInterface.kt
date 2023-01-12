@@ -407,6 +407,12 @@ interface ApiInterface {
         @HeaderMap headers: Map<String, String>
     ): Call<AcceptRejectRequestResponse>
 
+    @PATCH(Constants.Partial.reportComment)
+    fun reportComment(
+        @Body params: java.util.HashMap<String, String>,
+        @HeaderMap headers: Map<String, String>
+    ): Call<ReportCommentRes>
+
     @PATCH(Constants.Partial.makeAdmin)
     fun makeAdmin(
         @Body params: java.util.HashMap<String, String>,

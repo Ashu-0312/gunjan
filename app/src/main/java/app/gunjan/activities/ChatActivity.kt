@@ -24,6 +24,7 @@ import app.gunjan.R
 import app.gunjan.adapters.ChatAdapter
 import app.gunjan.adapters.MemberListAdapter
 import app.gunjan.entity.AddMemberinGroupResponse
+import app.gunjan.entity.BlockUnblockUserResponse
 import app.gunjan.entity.MemberListResponse
 import app.gunjan.twilio.*
 import app.gunjan.utill.FCSharedPreferances
@@ -50,17 +51,19 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
     private var layoutManager: LinearLayoutManager? = null
     var progressDialog: ProgressDialog? = null
     private var pathPic = ""
-    private var chatType:String? = null
+    private var chatType: String? = null
     var chatAdapter: ChatAdapter? = null
     private var otherId: String? = null
     private var channelId: String? = null
-    private var memberAdapter: MemberListAdapter?=null
-    private var blankData: TextView?=null
-    private var progressBar: ProgressBar?=null
+    private var memberAdapter: MemberListAdapter? = null
+    private var blankData: TextView? = null
+    private var progressBar: ProgressBar? = null
     private var memberRecycler: RecyclerView? = null
     private val quickstartChatManager: QuickstartChatManager = QuickstartChatManager()
     var list: List<Message>? = null
-    var memberList: ArrayList<MemberListResponse.DataBean.MemberListBean> = ArrayList<MemberListResponse.DataBean.MemberListBean>()
+    var memberList: ArrayList<MemberListResponse.DataBean.MemberListBean> =
+        ArrayList<MemberListResponse.DataBean.MemberListBean>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
@@ -78,12 +81,15 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
                     userPic
                 )
 
-            if (chatType.equals("group_chat")){
-                addGroup.visibility=View.VISIBLE
-            }else{
-                addGroup.visibility=View.GONE
+            if (chatType.equals("group_chat")) {
+                addGroup.visibility = View.VISIBLE
+                blockUser.visibility = View.GONE
+            } else {
+                addGroup.visibility = View.GONE
+                blockUser.visibility = View.VISIBLE
             }
-        } catch (e: Exception) { }
+        } catch (e: Exception) {
+        }
         progressDialog = ProgressDialog(this@ChatActivity, R.style.MyAlertDialogStyle)
         progressDialog!!.setCancelable(false)
         progressDialog!!.show()
@@ -118,6 +124,8 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
             startActivity(Intent(this, OthersProfileActivity::class.java))
         }
 
+        blockUser.setOnClickListener { blockDialog(otherId!!) }
+
         back.setOnClickListener { finish() }
 
         send.setOnClickListener {
@@ -133,9 +141,9 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
         }
 
         addGroup.setOnClickListener {
-            if (FCSharedPreferances.getSharedPreferance(this).iS_ADMIN=="true") {
+            if (FCSharedPreferances.getSharedPreferance(this).iS_ADMIN == "true") {
                 memberListDialog()
-            }else{
+            } else {
                 Toast.makeText(this, getString(R.string.not_admin), Toast.LENGTH_LONG).show()
             }
         }
@@ -186,7 +194,7 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
     ) {
         if (success) {
             var myId: String? = ""
-            if (chatType=="individual_chat") {
+            if (chatType == "individual_chat") {
                 if (otherId!!.toInt() > FCSharedPreferances.getSharedPreferance(this@ChatActivity).useR_ID.toInt()
                 ) myId =
                     FCSharedPreferances.getSharedPreferance(this@ChatActivity).useR_ID.toString() + "_" + otherId else myId =
@@ -194,8 +202,8 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
                         this@ChatActivity
                     ).useR_ID
                 quickstartChatManager.loadChannels(myId, otherId, chatType)
-            }else{
-                myId=channelId
+            } else {
+                myId = channelId
                 quickstartChatManager.loadChannels(myId, otherId, chatType)
             }
 
@@ -257,7 +265,7 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
         }
 
         capturePic.setOnClickListener {
-            if (checkPicturePermission()){
+            if (checkPicturePermission()) {
                 val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 startActivityForResult(takePicture, 0)
                 dialog.cancel()
@@ -329,7 +337,7 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
                         }
                     }
                 }
-                3-> {
+                3 -> {
                     val vid = data!!.data
                     pathPic = ProjectUtill.getPath(this, vid)
                     progressDialog!!.show()
@@ -474,7 +482,7 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
         isLoading = true
         val myDialog = ProjectUtill.showProgressDialog(this)
         WebServiceRequest.getInstance().getAllMemberList(
-            this, page, "10","","","only active member","",
+            this, page, "10", "", "", "only active member", "",
             object : Callback<MemberListResponse> {
                 override fun onResponse(
                     call: Call<MemberListResponse>,
@@ -543,7 +551,7 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
         isLoading = true
         progressBar!!.visibility = View.VISIBLE
         WebServiceRequest.getInstance().getAllMemberList(
-            this, page, "10","","","only active member","",
+            this, page, "10", "", "", "only active member", "",
             object : Callback<MemberListResponse> {
                 override fun onResponse(
                     call: Call<MemberListResponse>,
@@ -639,6 +647,7 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
                 }
             }
         }
+
     fun downloadPdfAndShow(media: Message.Media, type: String) {
         val imageView: ImageView
         val play: ImageView
@@ -732,6 +741,92 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
                 Logger.show("sssssssss", s)
             }
         })
+        dialog.show()
+    }
+
+    fun blockDialog(userId: String) {
+        var yes: LinearLayout? = null
+        var no: LinearLayout? = null
+        var close: ImageView? = null
+        val dialog = Dialog(this)
+        // Include dialog.xml file
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog!!.setContentView(R.layout.block_dialog)
+        dialog!!.setCancelable(true)
+        val window = dialog.window
+        window!!.setGravity(Gravity.CENTER)
+        window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        yes = dialog.findViewById(R.id.yes)
+        no = dialog.findViewById(R.id.no)
+        close = dialog.findViewById(R.id.close)
+        yes.setOnClickListener {
+            dialog.cancel()
+            val myDialog = ProjectUtill.showProgressDialog(this)
+                WebServiceRequest.getInstance().blockUnblockUser(
+                    this, userId, "0",
+                    object : Callback<BlockUnblockUserResponse> {
+                        override fun onResponse(
+                            call: Call<BlockUnblockUserResponse>,
+                            response: Response<BlockUnblockUserResponse>
+                        ) {
+                            myDialog.dismiss()
+                            if (response != null) {
+                                if (response.isSuccessful) {
+                                    if (response.body()!!.code == 1) {
+                                        Toast.makeText(
+                                            this@ChatActivity,
+                                            "" + response.body()!!.message,
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                        val intent = Intent(this@ChatActivity, HomeActivity::class.java)
+                                        intent.flags =
+                                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        startActivity(intent)
+                                    } else {
+                                        ProjectUtill.printMessage(
+                                            this@ChatActivity!!.window.decorView,
+                                            response.body()?.message
+                                        )
+                                    }
+                                } else {
+                                    ProjectUtill.printErrorMessage(
+                                        this@ChatActivity!!.window.decorView,
+                                        ""
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    this@ChatActivity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<BlockUnblockUserResponse>,
+                            t: Throwable
+                        ) {
+                            myDialog.dismiss()
+                            ProjectUtill.printErrorMessage(
+                                this@ChatActivity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    })
+        }
+
+        no.setOnClickListener {
+            dialog.cancel()
+        }
+
+        close.setOnClickListener {
+            dialog.cancel()
+        }
         dialog.show()
     }
 }
