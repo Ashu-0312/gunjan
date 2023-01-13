@@ -274,5 +274,5 @@
     <string name="make_admin">एडमिन बनाओ</string>
     <string name="not_community_admin">आप समुदाय के व्यवस्थापक नहीं हैं।</string>
     <string name="report_comment">रिपोर्ट टिप्पणी</string>
-
+    <string name="report_post">रिपोर्ट पोस्ट</string>
 </resources>

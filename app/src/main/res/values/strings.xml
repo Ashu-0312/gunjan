@@ -274,4 +274,5 @@
     <string name="not_community_admin">You are not admin of community.</string>
     <string name="report">Report</string>
     <string name="report_comment">Report Comment</string>
+    <string name="report_post">Report Post</string>
 </resources>

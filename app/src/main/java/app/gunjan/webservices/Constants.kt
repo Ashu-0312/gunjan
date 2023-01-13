@@ -46,6 +46,7 @@ class Constants {
         const val getAllReportReason = "user/getAllReportReason"
         const val reportUser = "user/reportUser"
         const val reportComment = "post/reportComment"
+        const val reportPost = "post/reportPost"
         const val getOtherUserDetails = "user/getOtherUserDetails"
         const val getUnreadNotificationCount = "notification/getUnreadNotificationCount"
         const val followUser = "user/followUser"

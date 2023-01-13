@@ -924,7 +924,7 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
         title = dialog.findViewById(R.id.title)
 
         if (type == "user"){
-            title?.text = getString(R.string.report_user)
+            title?.text = getString(R.string.report_post)
         }else{
             title?.text = getString(R.string.report_comment)
         }
@@ -998,26 +998,27 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
                         dialog.cancel()
                         val myDialog = ProjectUtill.showProgressDialog(context)
                         context?.let { it1 ->
-                            WebServiceRequest.getInstance().reportUser(
+                            WebServiceRequest.getInstance().reportPost(
                                 it1,
                                 userId,
                                 FCSharedPreferances.getSharedPreferance(context).reasoN_ID,
                                 edtReason.text.toString().toString(),
-                                object : Callback<ReportReasonResponse> {
+                                object : Callback<ReportCommentRes> {
                                     override fun onResponse(
-                                        call: Call<ReportReasonResponse>,
-                                        response: Response<ReportReasonResponse>
+                                        call: Call<ReportCommentRes>,
+                                        response: Response<ReportCommentRes>
                                     ) {
                                         myDialog.dismiss()
                                         if (response != null) {
                                             if (response.isSuccessful) {
                                                 if (response.body()!!.code == 1) {
-                                                    Toast.makeText(
-                                                        context,
-                                                        "" + response.body()!!.message,
-                                                        Toast.LENGTH_LONG
-                                                    ).show()
                                                     Status = "2"
+                                                    isLastPage = false
+                                                    isLoading = false
+                                                    page = 1
+                                                    postList.clear()
+                                                    postsAdapter!!.notifyDataSetChanged()
+                                                    postListSwipeApi("1", type!!)
                                                 } else {
                                                     ProjectUtill.printMessage(
                                                         activity!!.window.decorView,
@@ -1039,7 +1040,7 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
                                     }
 
                                     override fun onFailure(
-                                        call: Call<ReportReasonResponse>,
+                                        call: Call<ReportCommentRes>,
                                         t: Throwable
                                     ) {
                                         myDialog.dismiss()
@@ -1055,26 +1056,27 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
                     dialog.cancel()
                     val myDialog = ProjectUtill.showProgressDialog(context)
                     context?.let { it1 ->
-                        WebServiceRequest.getInstance().reportUser(
+                        WebServiceRequest.getInstance().reportPost(
                             it1,
                             userId,
                             FCSharedPreferances.getSharedPreferance(context).reasoN_ID,
                             "",
-                            object : Callback<ReportReasonResponse> {
+                            object : Callback<ReportCommentRes> {
                                 override fun onResponse(
-                                    call: Call<ReportReasonResponse>,
-                                    response: Response<ReportReasonResponse>
+                                    call: Call<ReportCommentRes>,
+                                    response: Response<ReportCommentRes>
                                 ) {
                                     myDialog.dismiss()
                                     if (response != null) {
                                         if (response.isSuccessful) {
                                             if (response.body()!!.code == 1) {
-                                                Toast.makeText(
-                                                    context,
-                                                    "" + response.body()!!.message,
-                                                    Toast.LENGTH_LONG
-                                                ).show()
                                                 Status = "2"
+                                                isLastPage = false
+                                                isLoading = false
+                                                page = 1
+                                                postList.clear()
+                                                postsAdapter!!.notifyDataSetChanged()
+                                                postListSwipeApi("1", type!!)
                                             } else {
                                                 ProjectUtill.printMessage(
                                                     activity!!.window.decorView,
@@ -1096,7 +1098,7 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
                                 }
 
                                 override fun onFailure(
-                                    call: Call<ReportReasonResponse>,
+                                    call: Call<ReportCommentRes>,
                                     t: Throwable
                                 ) {
                                     myDialog.dismiss()

@@ -349,23 +349,35 @@ class SettingsActivity : AppCompatActivity() {
         close.setOnClickListener { dialog.cancel() }
         english.setOnClickListener {
             dialog.cancel()
-            val myDialog = ProjectUtill.showProgressDialog(this)
-            WebServiceRequest.getInstance().updateDeviceToken(
-                this, FCSharedPreferances.getSharedPreferance(this@SettingsActivity).devicE_ID, "android","en",
-                object : Callback<UpdateDeviceTokenResponse> {
-                    override fun onResponse(
-                        call: Call<UpdateDeviceTokenResponse>,
-                        response: Response<UpdateDeviceTokenResponse>
-                    ) {
-                        myDialog.dismiss()
-                        if (response != null) {
-                            if (response.isSuccessful) {
-                                if (response.body()!!.code == 1) {
-                                    setLocale("en")
+            if (FCSharedPreferances.getSharedPreferance(this).devicE_ID.equals("")){
+                setLocale("en")
+            }else {
+                val myDialog = ProjectUtill.showProgressDialog(this)
+                WebServiceRequest.getInstance().updateDeviceToken(
+                    this,
+                    FCSharedPreferances.getSharedPreferance(this@SettingsActivity).devicE_ID,
+                    "android",
+                    "en",
+                    object : Callback<UpdateDeviceTokenResponse> {
+                        override fun onResponse(
+                            call: Call<UpdateDeviceTokenResponse>,
+                            response: Response<UpdateDeviceTokenResponse>
+                        ) {
+                            myDialog.dismiss()
+                            if (response != null) {
+                                if (response.isSuccessful) {
+                                    if (response.body()!!.code == 1) {
+                                        setLocale("en")
+                                    } else {
+                                        ProjectUtill.printMessage(
+                                            this@SettingsActivity!!.window.decorView,
+                                            response.body()?.message
+                                        )
+                                    }
                                 } else {
-                                    ProjectUtill.printMessage(
+                                    ProjectUtill.printErrorMessage(
                                         this@SettingsActivity!!.window.decorView,
-                                        response.body()?.message
+                                        ""
                                     )
                                 }
                             } else {
@@ -374,45 +386,52 @@ class SettingsActivity : AppCompatActivity() {
                                     ""
                                 )
                             }
-                        } else {
+                        }
+
+                        override fun onFailure(
+                            call: Call<UpdateDeviceTokenResponse>,
+                            t: Throwable
+                        ) {
+                            myDialog.dismiss()
                             ProjectUtill.printErrorMessage(
                                 this@SettingsActivity!!.window.decorView,
                                 ""
                             )
                         }
-                    }
-
-                    override fun onFailure(
-                        call: Call<UpdateDeviceTokenResponse>,
-                        t: Throwable
-                    ) {
-                        myDialog.dismiss()
-                        ProjectUtill.printErrorMessage(
-                            this@SettingsActivity!!.window.decorView,
-                            ""
-                        )
-                    }
-                })
+                    })
+            }
         }
         hindi.setOnClickListener {
             dialog.cancel()
-            val myDialog = ProjectUtill.showProgressDialog(this)
-            WebServiceRequest.getInstance().updateDeviceToken(
-                this, FCSharedPreferances.getSharedPreferance(this@SettingsActivity).devicE_ID, "android","en",
-                object : Callback<UpdateDeviceTokenResponse> {
-                    override fun onResponse(
-                        call: Call<UpdateDeviceTokenResponse>,
-                        response: Response<UpdateDeviceTokenResponse>
-                    ) {
-                        myDialog.dismiss()
-                        if (response != null) {
-                            if (response.isSuccessful) {
-                                if (response.body()!!.code == 1) {
-                                    setLocale("hi")
+            if (FCSharedPreferances.getSharedPreferance(this).devicE_ID.equals("")){
+                setLocale("hi")
+            }else {
+                val myDialog = ProjectUtill.showProgressDialog(this)
+                WebServiceRequest.getInstance().updateDeviceToken(
+                    this,
+                    FCSharedPreferances.getSharedPreferance(this@SettingsActivity).devicE_ID,
+                    "android",
+                    "en",
+                    object : Callback<UpdateDeviceTokenResponse> {
+                        override fun onResponse(
+                            call: Call<UpdateDeviceTokenResponse>,
+                            response: Response<UpdateDeviceTokenResponse>
+                        ) {
+                            myDialog.dismiss()
+                            if (response != null) {
+                                if (response.isSuccessful) {
+                                    if (response.body()!!.code == 1) {
+                                        setLocale("hi")
+                                    } else {
+                                        ProjectUtill.printMessage(
+                                            this@SettingsActivity!!.window.decorView,
+                                            response.body()?.message
+                                        )
+                                    }
                                 } else {
-                                    ProjectUtill.printMessage(
+                                    ProjectUtill.printErrorMessage(
                                         this@SettingsActivity!!.window.decorView,
-                                        response.body()?.message
+                                        ""
                                     )
                                 }
                             } else {
@@ -421,25 +440,20 @@ class SettingsActivity : AppCompatActivity() {
                                     ""
                                 )
                             }
-                        } else {
+                        }
+
+                        override fun onFailure(
+                            call: Call<UpdateDeviceTokenResponse>,
+                            t: Throwable
+                        ) {
+                            myDialog.dismiss()
                             ProjectUtill.printErrorMessage(
                                 this@SettingsActivity!!.window.decorView,
                                 ""
                             )
                         }
-                    }
-
-                    override fun onFailure(
-                        call: Call<UpdateDeviceTokenResponse>,
-                        t: Throwable
-                    ) {
-                        myDialog.dismiss()
-                        ProjectUtill.printErrorMessage(
-                            this@SettingsActivity!!.window.decorView,
-                            ""
-                        )
-                    }
-                })
+                    })
+            }
         }
         dialog.show()
     }

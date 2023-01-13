@@ -229,7 +229,7 @@ class HomePostsAdapter(
                             copyText(holder.description!!.text.toString().trim())
                         }
                         R.id.report -> {
-                            homeFragment!!.reportDialog(data[position].created_by.id.toString(),"user")
+                            homeFragment!!.reportDialog(data[position].id.toString(),"user")
                         }
                     }
 
