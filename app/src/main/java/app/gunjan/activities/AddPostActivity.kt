@@ -175,11 +175,7 @@ class AddPostActivity : AppCompatActivity() {
                                     if (response != null) {
                                         if (response.isSuccessful) {
                                             if (response.body()!!.code == 1) {
-                                                Toast.makeText(
-                                                    this@AddPostActivity,
-                                                    "" + response.body()!!.message,
-                                                    Toast.LENGTH_LONG
-                                                ).show()
+
                                                 var intent = Intent(
                                                     this@AddPostActivity,
                                                     HomeActivity::class.java
@@ -238,11 +234,7 @@ class AddPostActivity : AppCompatActivity() {
                                     if (response != null) {
                                         if (response.isSuccessful) {
                                             if (response.body()!!.code == 1) {
-                                                Toast.makeText(
-                                                    this@AddPostActivity,
-                                                    "" + response.body()!!.message,
-                                                    Toast.LENGTH_LONG
-                                                ).show()
+
                                                 var intent = Intent(
                                                     this@AddPostActivity,
                                                     HomeActivity::class.java
@@ -314,11 +306,7 @@ class AddPostActivity : AppCompatActivity() {
                                 if (response != null) {
                                     if (response.isSuccessful) {
                                         if (response.body()!!.code == 1) {
-                                            Toast.makeText(
-                                                this@AddPostActivity,
-                                                "" + response.body()!!.message,
-                                                Toast.LENGTH_LONG
-                                            ).show()
+
                                             var intent = Intent(
                                                 this@AddPostActivity,
                                                 HomeActivity::class.java

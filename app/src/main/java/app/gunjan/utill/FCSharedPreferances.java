@@ -46,7 +46,7 @@ public class FCSharedPreferances {
     }
 
     public String getSAVE_LANG(){
-        return sharedPreferences.getString(SAVE_LANG,"");
+        return sharedPreferences.getString(SAVE_LANG,"hi");
     }
 
     public void setSAVE_LANG(String save_lang){

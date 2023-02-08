@@ -43,6 +43,10 @@ class AddInterestActivity : AppCompatActivity() {
         Save.setOnClickListener {
             if (interestAdapter!!.getSelectedData()!!.size == 0) {
                 Toast.makeText(this, getString(R.string.select_interest), Toast.LENGTH_LONG).show()
+            } else if (interestAdapter!!.getSelectedData()!!.size < 2) {
+                Toast.makeText(this, getString(R.string.min_interest), Toast.LENGTH_LONG).show()
+            } else if (interestAdapter!!.getSelectedData()!!.size > 6) {
+                Toast.makeText(this, getString(R.string.max_interest), Toast.LENGTH_LONG).show()
             } else {
                 Log.d("SELECTEDDATA", interestAdapter!!.getSelectedData().toString())
                 selectedList = interestAdapter!!.getSelectedData()!!

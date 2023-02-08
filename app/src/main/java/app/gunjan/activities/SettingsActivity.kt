@@ -1,26 +1,26 @@
 package app.gunjan.activities
 
+import android.app.Activity
 import android.app.Dialog
-import android.app.ProgressDialog
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.Window
 import android.view.WindowManager
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import app.gunjan.R
-import app.gunjan.entity.DeleteAccountResponse
-import app.gunjan.entity.LogoutResponse
-import app.gunjan.entity.UpdateDeviceTokenResponse
-import app.gunjan.entity.UserDetailsResponse
+import app.gunjan.entity.*
+import app.gunjan.fragments.HomeFragment
+import app.gunjan.fragments.ProfileFragment
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import com.bumptech.glide.Glide
+import com.cashfree.pg.CFPaymentService
 import kotlinx.android.synthetic.main.activity_settings.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,8 +28,6 @@ import retrofit2.Response
 import java.util.*
 
 class SettingsActivity : AppCompatActivity() {
-    private var myLocale:Locale?=null
-    private var currentLang:String?=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
@@ -158,9 +156,49 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(Intent(this, EditProfileActivity::class.java))
         }
 
+        editProfilee!!.setOnClickListener {
+            startActivity(Intent(this, EditProfileActivity::class.java))
+        }
+
         delete_account!!.setOnClickListener { deleteAccountDialog() }
 
         back.setOnClickListener { finish() }
+
+        addCoin.setOnClickListener {
+            addCoinsDialog()
+        }
+    }
+
+    fun addCoinsDialog() {
+        var done: LinearLayout? = null
+        var edtCoin: EditText? = null
+        val dialog = Dialog(this)
+        // Include dialog.xml file
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog!!.setContentView(R.layout.addcoin_dialog)
+        dialog!!.setCancelable(true)
+        val window = dialog.window
+        window!!.setGravity(Gravity.CENTER)
+        window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        done = dialog.findViewById(R.id.done)
+        edtCoin = dialog.findViewById(R.id.edt_coin)
+
+        done!!.setOnClickListener {
+            if (edtCoin.text.toString().trim() == ""){
+                edtCoin.requestFocus()
+                edtCoin.error = getString(R.string.please_coin)
+            }else{
+                FCSharedPreferances.getSharedPreferance(this).paymenT_TYPE ="profile"
+                dialog.cancel()
+                generateToken(edtCoin.text.toString().trim())
+            }
+        }
+
+        dialog.show()
     }
 
     fun deleteAccountDialog() {
@@ -197,6 +235,219 @@ class SettingsActivity : AppCompatActivity() {
 
         }
         dialog.show()
+    }
+
+    fun languageDialog() {
+        val english: RelativeLayout
+        val hindi: RelativeLayout
+        val close: ImageView
+        val dialog = Dialog(this@SettingsActivity)
+        // Include dialog.xml file
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.language_dialog)
+        dialog.setCancelable(true)
+        val window = dialog.window
+        window!!.setGravity(Gravity.CENTER)
+        window.setLayout(
+            WindowManager.LayoutParams.FILL_PARENT,
+            WindowManager.LayoutParams.FILL_PARENT
+        )
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        english = dialog.findViewById(R.id.rl_layout)
+        hindi = dialog.findViewById(R.id.rl_layout1)
+        close = dialog.findViewById(R.id.close)
+        close.setOnClickListener { dialog.cancel() }
+        english.setOnClickListener {
+            dialog.cancel()
+            if (FCSharedPreferances.getSharedPreferance(this).devicE_ID.equals("")){
+                FCSharedPreferances.getSharedPreferance(this@SettingsActivity).savE_LANG =
+                    "en"
+                val intent = Intent(this@SettingsActivity, HomeActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
+            }else {
+                val myDialog = ProjectUtill.showProgressDialog(this)
+                WebServiceRequest.getInstance().updateDeviceToken(
+                    this,
+                    FCSharedPreferances.getSharedPreferance(this@SettingsActivity).devicE_ID,
+                    "android",
+                    "en",
+                    object : Callback<UpdateDeviceTokenResponse> {
+                        override fun onResponse(
+                            call: Call<UpdateDeviceTokenResponse>,
+                            response: Response<UpdateDeviceTokenResponse>
+                        ) {
+                            myDialog.dismiss()
+                            if (response != null) {
+                                if (response.isSuccessful) {
+                                    if (response.body()!!.code == 1) {
+                                        FCSharedPreferances.getSharedPreferance(this@SettingsActivity).savE_LANG =
+                                            "en"
+                                        val intent = Intent(this@SettingsActivity, HomeActivity::class.java)
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                        startActivity(intent)
+                                    } else {
+                                        ProjectUtill.printMessage(
+                                            this@SettingsActivity!!.window.decorView,
+                                            response.body()?.message
+                                        )
+                                    }
+                                } else {
+                                    ProjectUtill.printErrorMessage(
+                                        this@SettingsActivity!!.window.decorView,
+                                        ""
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    this@SettingsActivity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<UpdateDeviceTokenResponse>,
+                            t: Throwable
+                        ) {
+                            myDialog.dismiss()
+                            ProjectUtill.printErrorMessage(
+                                this@SettingsActivity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    })
+            }
+        }
+        hindi.setOnClickListener {
+            dialog.cancel()
+            if (FCSharedPreferances.getSharedPreferance(this).devicE_ID.equals("")){
+                FCSharedPreferances.getSharedPreferance(this@SettingsActivity).savE_LANG =
+                    "hi"
+                val intent = Intent(this@SettingsActivity, HomeActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
+            }else {
+                val myDialog = ProjectUtill.showProgressDialog(this)
+                WebServiceRequest.getInstance().updateDeviceToken(
+                    this,
+                    FCSharedPreferances.getSharedPreferance(this@SettingsActivity).devicE_ID,
+                    "android",
+                    "en",
+                    object : Callback<UpdateDeviceTokenResponse> {
+                        override fun onResponse(
+                            call: Call<UpdateDeviceTokenResponse>,
+                            response: Response<UpdateDeviceTokenResponse>
+                        ) {
+                            myDialog.dismiss()
+                            if (response != null) {
+                                if (response.isSuccessful) {
+                                    if (response.body()!!.code == 1) {
+                                        FCSharedPreferances.getSharedPreferance(this@SettingsActivity).savE_LANG =
+                                            "hi"
+                                        val intent = Intent(this@SettingsActivity, HomeActivity::class.java)
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                        startActivity(intent)
+                                    } else {
+                                        ProjectUtill.printMessage(
+                                            this@SettingsActivity!!.window.decorView,
+                                            response.body()?.message
+                                        )
+                                    }
+                                } else {
+                                    ProjectUtill.printErrorMessage(
+                                        this@SettingsActivity!!.window.decorView,
+                                        ""
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    this@SettingsActivity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<UpdateDeviceTokenResponse>,
+                            t: Throwable
+                        ) {
+                            myDialog.dismiss()
+                            ProjectUtill.printErrorMessage(
+                                this@SettingsActivity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    })
+            }
+        }
+        dialog.show()
+    }
+
+    fun generateToken(amount:String){
+        val myDialog = ProjectUtill.showProgressDialog(this)
+            WebServiceRequest.getInstance().generateCashFreeToken(
+                this,amount, "INR", "Test Transaction",
+                object : Callback<PaymentTokenGenerateResponse> {
+                    override fun onResponse(
+                        call: Call<PaymentTokenGenerateResponse>,
+                        response: Response<PaymentTokenGenerateResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    Toast.makeText(
+                                        this@SettingsActivity,
+                                        "" + response.body()!!.message,
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                    var params: HashMap<String, String> = HashMap()
+                                    params[CFPaymentService.PARAM_APP_ID] = "22061307922ac43c73853febd0316022"
+                                    params[CFPaymentService.PARAM_ORDER_ID] = response.body()!!.data.data.orderId
+                                    params[CFPaymentService.PARAM_ORDER_AMOUNT] = response.body()!!.data.data.orderAmount
+                                    params[CFPaymentService.PARAM_ORDER_NOTE] = "Gunjan"
+                                    params[CFPaymentService.PARAM_CUSTOMER_NAME] = response.body()!!.data.data.customerName
+                                    params[CFPaymentService.PARAM_CUSTOMER_PHONE] = response.body()!!.data.data.customerPhone
+                                    params[CFPaymentService.PARAM_CUSTOMER_EMAIL] = response.body()!!.data.data.customerEmail
+                                    params[CFPaymentService.PARAM_ORDER_CURRENCY] = response.body()!!.data.data.orderCurrency
+                                    CFPaymentService.getCFPaymentServiceInstance().doPayment(
+                                        this@SettingsActivity,
+                                        params,
+                                        response.body()!!.data.data.tokenData,
+                                        "PROD"
+                                    )
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        this@SettingsActivity!!.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    this@SettingsActivity!!.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                this@SettingsActivity!!.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<PaymentTokenGenerateResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            this@SettingsActivity!!.window.decorView,
+                            ""
+                        )
+                    }
+                })
     }
 
     private fun userDetails(){
@@ -314,147 +565,69 @@ class SettingsActivity : AppCompatActivity() {
                 })
     }
 
-    fun setLocale(localeName: String?) {
-        myLocale = Locale(localeName)
-        val res = resources
-        val dm = res.displayMetrics
-        val conf = res.configuration
-        conf.locale = myLocale
-        res.updateConfiguration(conf, dm)
-        FCSharedPreferances.getSharedPreferance(this@SettingsActivity).setSAVE_LANG(localeName)
-        val refresh = Intent(this, HomeActivity::class.java)
-        refresh.putExtra(currentLang, localeName)
-        startActivity(refresh)
+    fun addCoins(amount: String) {
+        val myDialog = ProjectUtill.showProgressDialog(this)
+            WebServiceRequest.getInstance().addCoin(
+                this,amount,
+                object : Callback<AddCoinResponse> {
+                    override fun onResponse(
+                        call: Call<AddCoinResponse>,
+                        response: Response<AddCoinResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    FCSharedPreferances.getSharedPreferance(this@SettingsActivity).totaL_COINS = response.body()!!.data.total_available_coins.toString()
+                                    coins!!.text = response.body()!!.data.total_available_coins.toString()
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        this@SettingsActivity.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    this@SettingsActivity.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                this@SettingsActivity.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<AddCoinResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                            this@SettingsActivity.window.decorView,
+                            ""
+                        )
+                    }
+                })
     }
 
-    fun languageDialog() {
-        val english: RelativeLayout
-        val hindi: RelativeLayout
-        val close: ImageView
-        val dialog = Dialog(this@SettingsActivity)
-        // Include dialog.xml file
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.language_dialog)
-        dialog.setCancelable(true)
-        val window = dialog.window
-        window!!.setGravity(Gravity.CENTER)
-        window.setLayout(
-            WindowManager.LayoutParams.FILL_PARENT,
-            WindowManager.LayoutParams.FILL_PARENT
-        )
-        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-        english = dialog.findViewById(R.id.rl_layout)
-        hindi = dialog.findViewById(R.id.rl_layout1)
-        close = dialog.findViewById(R.id.close)
-        close.setOnClickListener { dialog.cancel() }
-        english.setOnClickListener {
-            dialog.cancel()
-            if (FCSharedPreferances.getSharedPreferance(this).devicE_ID.equals("")){
-                setLocale("en")
-            }else {
-                val myDialog = ProjectUtill.showProgressDialog(this)
-                WebServiceRequest.getInstance().updateDeviceToken(
-                    this,
-                    FCSharedPreferances.getSharedPreferance(this@SettingsActivity).devicE_ID,
-                    "android",
-                    "en",
-                    object : Callback<UpdateDeviceTokenResponse> {
-                        override fun onResponse(
-                            call: Call<UpdateDeviceTokenResponse>,
-                            response: Response<UpdateDeviceTokenResponse>
-                        ) {
-                            myDialog.dismiss()
-                            if (response != null) {
-                                if (response.isSuccessful) {
-                                    if (response.body()!!.code == 1) {
-                                        setLocale("en")
-                                    } else {
-                                        ProjectUtill.printMessage(
-                                            this@SettingsActivity!!.window.decorView,
-                                            response.body()?.message
-                                        )
-                                    }
-                                } else {
-                                    ProjectUtill.printErrorMessage(
-                                        this@SettingsActivity!!.window.decorView,
-                                        ""
-                                    )
-                                }
-                            } else {
-                                ProjectUtill.printErrorMessage(
-                                    this@SettingsActivity!!.window.decorView,
-                                    ""
-                                )
-                            }
-                        }
-
-                        override fun onFailure(
-                            call: Call<UpdateDeviceTokenResponse>,
-                            t: Throwable
-                        ) {
-                            myDialog.dismiss()
-                            ProjectUtill.printErrorMessage(
-                                this@SettingsActivity!!.window.decorView,
-                                ""
-                            )
-                        }
-                    })
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        //Same request code for all payment APIs.
+        Log.d(ContentValues.TAG, "ReqCode : " + CFPaymentService.REQ_CODE)
+        Log.d(ContentValues.TAG, "API Response : ")
+        //Prints all extras. Replace with app logic.
+        if (data != null) {
+            val bundle = data.extras
+            if (bundle != null) {
+                if (bundle.getString("txStatus").toString() == "CANCELLED" || bundle.getString("txStatus").toString() == "FAILED"){
+                    Toast.makeText(this,getString(R.string.failed),Toast.LENGTH_LONG).show()
+                }else{
+                    addCoins(bundle.getString("orderAmount").toString())
+                }
             }
         }
-        hindi.setOnClickListener {
-            dialog.cancel()
-            if (FCSharedPreferances.getSharedPreferance(this).devicE_ID.equals("")){
-                setLocale("hi")
-            }else {
-                val myDialog = ProjectUtill.showProgressDialog(this)
-                WebServiceRequest.getInstance().updateDeviceToken(
-                    this,
-                    FCSharedPreferances.getSharedPreferance(this@SettingsActivity).devicE_ID,
-                    "android",
-                    "en",
-                    object : Callback<UpdateDeviceTokenResponse> {
-                        override fun onResponse(
-                            call: Call<UpdateDeviceTokenResponse>,
-                            response: Response<UpdateDeviceTokenResponse>
-                        ) {
-                            myDialog.dismiss()
-                            if (response != null) {
-                                if (response.isSuccessful) {
-                                    if (response.body()!!.code == 1) {
-                                        setLocale("hi")
-                                    } else {
-                                        ProjectUtill.printMessage(
-                                            this@SettingsActivity!!.window.decorView,
-                                            response.body()?.message
-                                        )
-                                    }
-                                } else {
-                                    ProjectUtill.printErrorMessage(
-                                        this@SettingsActivity!!.window.decorView,
-                                        ""
-                                    )
-                                }
-                            } else {
-                                ProjectUtill.printErrorMessage(
-                                    this@SettingsActivity!!.window.decorView,
-                                    ""
-                                )
-                            }
-                        }
-
-                        override fun onFailure(
-                            call: Call<UpdateDeviceTokenResponse>,
-                            t: Throwable
-                        ) {
-                            myDialog.dismiss()
-                            ProjectUtill.printErrorMessage(
-                                this@SettingsActivity!!.window.decorView,
-                                ""
-                            )
-                        }
-                    })
-            }
-        }
-        dialog.show()
     }
 }

@@ -42,7 +42,7 @@ class ReasonList2Adapter(
 
         holder.itemView!!.setOnClickListener {
             FCSharedPreferances.getSharedPreferance(context).reasoN_ID=data[position].id.toString()
-            if (data[position].reason.equals("Other")){
+            if (data[position].reason.equals("Other") || data[position].reason.equals("अन्य")){
                 selectedPosition = position
                 notifyDataSetChanged()
                 listener.onItemClick(position,1,data[position],"reason_layout")

@@ -33,6 +33,8 @@ import retrofit2.Response
 
 class ActiveMembersFragment : Fragment(),ClientCreated {
     private var page: Int? = 1
+    private var cityValue: String? = ""
+    private var stateValue: String? = ""
     var chatClient: ChatClient? = null
     var swipeRefresh: SwipeRefreshLayout? = null
     var progressBar: ProgressBar? = null
@@ -520,6 +522,7 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
                                             i: Int,
                                             l: Long,
                                         ) {
+                                            stateValue = stateNameList[i].toString()
                                             getCityList(stateNameList[i].toString())
                                         }
 
@@ -563,15 +566,13 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
         apply.setOnClickListener {
             if (stateSpinner!!.selectedItem.toString().trim() == getString(R.string.select_state)){
                 Toast.makeText(context,getString(R.string.please_state),Toast.LENGTH_LONG).show()
-            }else if (citySpinner!!.selectedItem.toString().trim() == getString(R.string.select_city)){
-                Toast.makeText(context,getString(R.string.please_city),Toast.LENGTH_LONG).show()
             }else {
                 dialog.cancel()
                 initializeAdapter()
                 memberListApi(
                     "1",
-                    citySpinner!!.selectedItem.toString(),
-                    stateSpinner!!.selectedItem.toString()
+                    cityValue!!,
+                    stateValue!!
                 )
             }
         }
@@ -641,6 +642,7 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
                                             l: Long,
                                         ) {
                                             if (i > 0) {
+                                                cityValue = cityList[i]
                                             }
                                         }
 

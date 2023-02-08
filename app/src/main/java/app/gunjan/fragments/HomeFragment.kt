@@ -157,8 +157,7 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
             } else {
                 if (discusssValue!!.text.toString().trim() == "") {
                     discusssValue!!.requestFocus()
-                    discusssValue!!.error = getString(R.string.please_discuss)
-                    //  Toast.makeText(context,"Please enter start discussing value",Toast.LENGTH_LONG).show()
+                    discusssValue!!.error = getString(R.string.write_about_post)
                 } else {
                     val myDialog = ProjectUtill.showProgressDialog(context)
                     context?.let { it1 ->
@@ -325,93 +324,128 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
                                     try {
                                         totalMembers!!.text =
                                             response.body()!!.data.total_members.toString()
-                                        if (response.body()!!.data.member_list.size == 0) {
-                                            memberFrame!!.visibility = View.GONE
-                                        } else if (response.body()!!.data.member_list.size == 1) {
-                                            memberFrame!!.visibility = View.VISIBLE
-                                            Glide.with(context!!)
-                                                .load(response.body()!!.data.member_list[0].image)
-                                                .placeholder(
-                                                    R.drawable.user_avatar
-                                                ).into(image1!!)
-                                        } else if (response.body()!!.data.member_list.size == 2) {
-                                            memberFrame!!.visibility = View.VISIBLE
-                                            Glide.with(context!!)
-                                                .load(response.body()!!.data.member_list[0].image)
-                                                .placeholder(
-                                                    R.drawable.user_avatar
-                                                ).into(image1!!)
-                                            Glide.with(context!!)
-                                                .load(response.body()!!.data.member_list[1].image)
-                                                .placeholder(
-                                                    R.drawable.user_avatar
-                                                ).into(image2!!)
-                                        } else if (response.body()!!.data.member_list.size == 3) {
-                                            memberFrame!!.visibility = View.VISIBLE
-                                            Glide.with(context!!)
-                                                .load(response.body()!!.data.member_list[0].image)
-                                                .placeholder(
-                                                    R.drawable.user_avatar
-                                                ).into(image1!!)
-                                            Glide.with(context!!)
-                                                .load(response.body()!!.data.member_list[1].image)
-                                                .placeholder(
-                                                    R.drawable.user_avatar
-                                                ).into(image2!!)
-                                            Glide.with(context!!)
-                                                .load(response.body()!!.data.member_list[2].image)
-                                                .placeholder(
-                                                    R.drawable.user_avatar
-                                                ).into(image3!!)
-                                        } else if (response.body()!!.data.member_list.size == 4) {
-                                            memberFrame!!.visibility = View.VISIBLE
-                                            Glide.with(context!!)
-                                                .load(response.body()!!.data.member_list[0].image)
-                                                .placeholder(
-                                                    R.drawable.user_avatar
-                                                ).into(image1!!)
-                                            Glide.with(context!!)
-                                                .load(response.body()!!.data.member_list[1].image)
-                                                .placeholder(
-                                                    R.drawable.user_avatar
-                                                ).into(image2!!)
-                                            Glide.with(context!!)
-                                                .load(response.body()!!.data.member_list[2].image)
-                                                .placeholder(
-                                                    R.drawable.user_avatar
-                                                ).into(image3!!)
-                                            Glide.with(context!!)
-                                                .load(response.body()!!.data.member_list[3].image)
-                                                .placeholder(
-                                                    R.drawable.user_avatar
-                                                ).into(image4!!)
-                                        } else if (response.body()!!.data.member_list.size == 5) {
-                                            memberFrame!!.visibility = View.VISIBLE
-                                            Glide.with(context!!)
-                                                .load(response.body()!!.data.member_list[0].image)
-                                                .placeholder(
-                                                    R.drawable.user_avatar
-                                                ).into(image1!!)
-                                            Glide.with(context!!)
-                                                .load(response.body()!!.data.member_list[1].image)
-                                                .placeholder(
-                                                    R.drawable.user_avatar
-                                                ).into(image2!!)
-                                            Glide.with(context!!)
-                                                .load(response.body()!!.data.member_list[2].image)
-                                                .placeholder(
-                                                    R.drawable.user_avatar
-                                                ).into(image3!!)
-                                            Glide.with(context!!)
-                                                .load(response.body()!!.data.member_list[3].image)
-                                                .placeholder(
-                                                    R.drawable.user_avatar
-                                                ).into(image4!!)
-                                            Glide.with(context!!)
-                                                .load(response.body()!!.data.member_list[4].image)
-                                                .placeholder(
-                                                    R.drawable.user_avatar
-                                                ).into(image5!!)
+                                        when (response.body()!!.data.member_list.size) {
+                                            0 -> {
+                                                memberFrame!!.visibility = View.GONE
+                                            }
+                                            1 -> {
+                                                memberFrame!!.visibility = View.VISIBLE
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[0].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image1!!)
+                                            }
+                                            2 -> {
+                                                memberFrame!!.visibility = View.VISIBLE
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[0].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image1!!)
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[1].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image2!!)
+                                            }
+                                            3 -> {
+                                                memberFrame!!.visibility = View.VISIBLE
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[0].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image1!!)
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[1].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image2!!)
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[2].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image3!!)
+                                            }
+                                            4 -> {
+                                                memberFrame!!.visibility = View.VISIBLE
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[0].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image1!!)
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[1].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image2!!)
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[2].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image3!!)
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[3].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image4!!)
+                                            }
+                                            5 -> {
+                                                memberFrame!!.visibility = View.VISIBLE
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[0].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image1!!)
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[1].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image2!!)
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[2].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image3!!)
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[3].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image4!!)
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[4].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image5!!)
+                                            }
+                                            else -> {
+                                                memberFrame!!.visibility = View.VISIBLE
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[0].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image1!!)
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[1].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image2!!)
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[2].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image3!!)
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[3].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image4!!)
+                                                Glide.with(context!!)
+                                                    .load(response.body()!!.data.member_list[4].image)
+                                                    .placeholder(
+                                                        R.drawable.user_avatar
+                                                    ).into(image5!!)
+                                            }
                                         }
                                     } catch (e: Exception) {
                                     }

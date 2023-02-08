@@ -18,7 +18,7 @@
             android:layout_marginEnd="@dimen/margin_25"
             android:layout_marginBottom="@dimen/margin_25"
             android:layout_marginTop="100dp"
-            android:elevation="4dp"
+            android:elevation="@dimen/padding_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -37,7 +37,28 @@
                 android:text="0"
                 android:textColor="@color/black2"
                 android:textSize="14sp" />
+            <ImageView
+                android:id="@+id/addCoin"
+                android:layout_gravity="center"
+                android:layout_width="@dimen/text_30sp"
+                android:layout_height="@dimen/text_30sp"
+                android:src="@drawable/add_community"/>
         </LinearLayout>
+        <TextView
+            android:id="@+id/editProfilee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            android:layout_marginStart="@dimen/margin_25"
+            android:layout_marginEnd="@dimen/margin_25"
+            android:layout_marginBottom="@dimen/margin_25"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="@string/edit_profile"
+            android:textColor="@color/pink"
+            android:elevation="@dimen/padding_2"
+            android:layout_alignParentEnd="true"
+            android:textSize="@dimen/margin_15" />
         <RelativeLayout
             android:id="@+id/header"
             android:layout_width="match_parent"

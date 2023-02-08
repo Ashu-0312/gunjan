@@ -482,7 +482,7 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
         isLoading = true
         val myDialog = ProjectUtill.showProgressDialog(this)
         WebServiceRequest.getInstance().getAllMemberList(
-            this, page, "10", "", "", "only active member", "",
+            this, page, "10", "", "", "", "",
             object : Callback<MemberListResponse> {
                 override fun onResponse(
                     call: Call<MemberListResponse>,
@@ -551,7 +551,7 @@ class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManager
         isLoading = true
         progressBar!!.visibility = View.VISIBLE
         WebServiceRequest.getInstance().getAllMemberList(
-            this, page, "10", "", "", "only active member", "",
+            this, page, "10", "", "", "", "",
             object : Callback<MemberListResponse> {
                 override fun onResponse(
                     call: Call<MemberListResponse>,

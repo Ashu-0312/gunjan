@@ -36,7 +36,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.system.exitProcess
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : BaseActivity() {
     var fragment: Fragment? = null
     var myLocale: Locale? = null
     override fun onCreate(savedInstanceState: Bundle?) {

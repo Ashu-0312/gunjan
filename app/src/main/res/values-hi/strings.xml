@@ -275,4 +275,9 @@
     <string name="not_community_admin">आप समुदाय के व्यवस्थापक नहीं हैं।</string>
     <string name="report_comment">रिपोर्ट टिप्पणी</string>
     <string name="report_post">रिपोर्ट पोस्ट</string>
+    <string name="logo_coomunity">कृपया अपने समुदाय का लोगो दर्ज करें</string>
+    <string name="min_interest">कृपया कम से कम 2 रुचियां चुनें</string>
+    <string name="max_interest">कृपया अधिकतम 6 रुचियों का चयन करें</string>
+
+
 </resources>

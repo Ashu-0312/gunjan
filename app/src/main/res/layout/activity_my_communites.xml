@@ -33,6 +33,17 @@
             android:text="@string/my_communities"
             android:textColor="@color/pink"
             android:textSize="@dimen/text_17sp" />
+
+        <ImageView
+            android:layout_marginTop="@dimen/padding_2"
+            android:elevation="1dp"
+            android:id="@+id/addCommunity"
+            android:layout_marginStart="@dimen/margin_15"
+            android:layout_marginEnd="@dimen/padding_5"
+            android:layout_alignParentEnd="true"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/add_community_black"/>
     </RelativeLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -66,15 +77,4 @@ android:layout_height="wrap_content"
 android:id="@+id/progress_bar"
 android:layout_alignParentBottom="true"
 android:indeterminateTint="@color/pink"/>
-    <ImageView
-        android:elevation="1dp"
-        android:id="@+id/addCommunity"
-        android:layout_marginBottom="@dimen/margin_20dp"
-        android:layout_marginStart="@dimen/margin_15"
-        android:layout_marginEnd="@dimen/margin_15"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:src="@drawable/add_community_black"/>
 </RelativeLayout>

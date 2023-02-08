@@ -32,8 +32,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class AdminMembersFragment : Fragment(),ClientCreated {
+class AdminMembersFragment : Fragment(), ClientCreated {
     private var page: Int? = 1
+    private var cityValue: String? = ""
+    private var stateValue: String? = ""
     var swipeRefresh: SwipeRefreshLayout? = null
     var progressBar: ProgressBar? = null
     var chatClient: ChatClient? = null
@@ -44,7 +46,8 @@ class AdminMembersFragment : Fragment(),ClientCreated {
     private var layoutManager: LinearLayoutManager? = null
     var memberAdapter: AdminMembersAdapter? = null
     private var listRecycler: RecyclerView? = null
-    private var list: ArrayList<MemberListResponse.DataBean.MemberListBean> = ArrayList<MemberListResponse.DataBean.MemberListBean>()
+    private var list: ArrayList<MemberListResponse.DataBean.MemberListBean> =
+        ArrayList<MemberListResponse.DataBean.MemberListBean>()
     private var stateNameList: ArrayList<String> = ArrayList<String>()
     private var cityList: ArrayList<String> = ArrayList<String>()
     private var filter: ImageView? = null
@@ -61,8 +64,8 @@ class AdminMembersFragment : Fragment(),ClientCreated {
         swipeRefresh = view.findViewById(R.id.swipe_refresh)
         progressBar = view.findViewById(R.id.progress_bar)
         blankData = view.findViewById(R.id.blank_data)
-        searchEdt=view.findViewById(R.id.search_edt)
-        search=view.findViewById(R.id.search)
+        searchEdt = view.findViewById(R.id.search_edt)
+        search = view.findViewById(R.id.search)
         initData()
         return view
     }
@@ -70,7 +73,7 @@ class AdminMembersFragment : Fragment(),ClientCreated {
     private fun initData() {
         createChatClient(FCSharedPreferances.getSharedPreferance(context).chaT_TOKEN)
         initializeAdapter()
-        memberListApi("1","","")
+        memberListApi("1", "", "")
 
         cityList.add("Select City")
         cityList.add("city1")
@@ -90,24 +93,24 @@ class AdminMembersFragment : Fragment(),ClientCreated {
             memberListSwipeApi("1")
             swipe_refresh!!.isRefreshing = false
         })
-           searchEdt!!.addTextChangedListener(object : TextWatcher {
+        searchEdt!!.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
             }
 
             override fun afterTextChanged(editable: Editable) {
                 if (searchEdt!!.text.toString().trim().isEmpty()) {
-                    memberListSearchApi(page.toString(),searchEdt!!.text.toString().trim())
+                    memberListSearchApi(page.toString(), searchEdt!!.text.toString().trim())
                 }
             }
         })
 
         searchEdt!!.onDone {
-            memberListSearchApi(page.toString(),searchEdt!!.text.toString().trim())
+            memberListSearchApi(page.toString(), searchEdt!!.text.toString().trim())
         }
 
         search!!.setOnClickListener {
-            memberListSearchApi(page.toString(),searchEdt!!.text.toString().trim())
+            memberListSearchApi(page.toString(), searchEdt!!.text.toString().trim())
         }
     }
 
@@ -121,11 +124,11 @@ class AdminMembersFragment : Fragment(),ClientCreated {
         }
     }
 
-    private fun memberListSearchApi(page: String,value:String) {
+    private fun memberListSearchApi(page: String, value: String) {
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let {
             WebServiceRequest.getInstance().getAllMemberList(
-                it, page, "10","","","only admin member",value!!,
+                it, page, "10", "", "", "only admin member", value!!,
                 object : Callback<MemberListResponse> {
                     override fun onResponse(
                         call: Call<MemberListResponse>,
@@ -191,12 +194,12 @@ class AdminMembersFragment : Fragment(),ClientCreated {
         }
     }
 
-    private fun memberListApi(page: String,city:String,state:String) {
+    private fun memberListApi(page: String, city: String, state: String) {
         isLoading = true
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let {
             WebServiceRequest.getInstance().getAllMemberList(
-                it, page, "10",state,city,"only admin member","",
+                it, page, "10", state, city, "only admin member", "",
                 object : Callback<MemberListResponse> {
                     override fun onResponse(
                         call: Call<MemberListResponse>,
@@ -267,7 +270,7 @@ class AdminMembersFragment : Fragment(),ClientCreated {
         isLoading = true
         context?.let {
             WebServiceRequest.getInstance().getAllMemberList(
-                it, page, "10","","","only admin member","",
+                it, page, "10", "", "", "only admin member", "",
                 object : Callback<MemberListResponse> {
                     override fun onResponse(
                         call: Call<MemberListResponse>,
@@ -337,7 +340,7 @@ class AdminMembersFragment : Fragment(),ClientCreated {
         progress_bar!!.visibility = View.VISIBLE
         context?.let {
             WebServiceRequest.getInstance().getAllMemberList(
-                it, page, "10","","","only admin member","",
+                it, page, "10", "", "", "only admin member", "",
                 object : Callback<MemberListResponse> {
                     override fun onResponse(
                         call: Call<MemberListResponse>,
@@ -514,6 +517,7 @@ class AdminMembersFragment : Fragment(),ClientCreated {
                                             i: Int,
                                             l: Long,
                                         ) {
+                                            stateValue = stateNameList[i].toString()
                                             getCityList(stateNameList[i].toString())
                                         }
 
@@ -555,17 +559,15 @@ class AdminMembersFragment : Fragment(),ClientCreated {
         close.setOnClickListener { dialog.cancel() }
 
         apply.setOnClickListener {
-            if (stateSpinner!!.selectedItem.toString().trim() == "Select State"){
-                Toast.makeText(context,"Please select state",Toast.LENGTH_LONG).show()
-            }else  if (citySpinner!!.selectedItem.toString().trim() == "Select City"){
-                Toast.makeText(context,"Please select city",Toast.LENGTH_LONG).show()
-            }else {
+            if (stateSpinner!!.selectedItem.toString().trim() == getString(R.string.select_state)) {
+                Toast.makeText(context, getString(R.string.please_state), Toast.LENGTH_LONG).show()
+            } else {
                 dialog.cancel()
                 initializeAdapter()
                 memberListApi(
                     "1",
-                    citySpinner!!.selectedItem.toString(),
-                    stateSpinner!!.selectedItem.toString()
+                    cityValue!!,
+                    stateValue!!
                 )
             }
         }
@@ -593,7 +595,7 @@ class AdminMembersFragment : Fragment(),ClientCreated {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
                                     cityList.clear()
-                                    cityList.add("Select City")
+                                    cityList.add(getString(R.string.select_city))
                                     for (i in response.body()!!.data.city_list) {
                                         cityList.add(i.district)
                                     }
@@ -635,6 +637,7 @@ class AdminMembersFragment : Fragment(),ClientCreated {
                                             l: Long,
                                         ) {
                                             if (i > 0) {
+                                                cityValue = cityList[i]
                                             }
                                         }
 
@@ -681,19 +684,26 @@ class AdminMembersFragment : Fragment(),ClientCreated {
                 if (list[p].userId!!.toInt() > FCSharedPreferances.getSharedPreferance(context).useR_ID.toInt()
                 ) myId =
                     FCSharedPreferances.getSharedPreferance(context).useR_ID.toString() + "_" + list[p].userId else myId =
-                    "" + list[p].userId + "_" + FCSharedPreferances.getSharedPreferance(context
+                    "" + list[p].userId + "_" + FCSharedPreferances.getSharedPreferance(
+                        context
                     ).useR_ID
-                Task1(memberAdapter,chatClient).execute(p.toString(), myId, list[p].userId.toString())
+                Task1(memberAdapter, chatClient).execute(
+                    p.toString(),
+                    myId,
+                    list[p].userId.toString()
+                )
             }
         }
     }
+
     override fun clientCreated(chatClient: ChatClient?, success: Boolean, exception: Exception?) {
         this.chatClient = chatClient
     }
 
-    class Task1(chatAdapterr: AdminMembersAdapter?, chatClient: ChatClient?) : AsyncTask<String?, String?, String?>() {
-        var chatAdapter: AdminMembersAdapter? =chatAdapterr
-        var chatClient: ChatClient?=chatClient
+    class Task1(chatAdapterr: AdminMembersAdapter?, chatClient: ChatClient?) :
+        AsyncTask<String?, String?, String?>() {
+        var chatAdapter: AdminMembersAdapter? = chatAdapterr
+        var chatClient: ChatClient? = chatClient
         override fun doInBackground(vararg params: String?): String? {
             chatClient!!.channels.getChannel(params[1], object : CallbackListener<Channel>() {
                 override fun onSuccess(channel: Channel) {

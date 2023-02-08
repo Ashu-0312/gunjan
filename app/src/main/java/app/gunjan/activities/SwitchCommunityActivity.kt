@@ -1,5 +1,6 @@
 package app.gunjan.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -291,5 +292,9 @@ class SwitchCommunityActivity : AppCompatActivity() {
         communityList.clear()
         communitiesAdapter!!.notifyDataSetChanged()
         communityListSwipeApi("1")
+        val intent = Intent(this@SwitchCommunityActivity, HomeActivity::class.java)
+        intent.flags =
+            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 }

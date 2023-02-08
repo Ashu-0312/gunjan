@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/popinbold"
-            android:text="@string/add_members"
+            android:text="@string/members"
             android:textColor="@color/black2"
             android:textSize="@dimen/text_18sp" />
 

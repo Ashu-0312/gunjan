@@ -93,7 +93,7 @@ class AddCommunityActivity : AppCompatActivity(){
 
         Submit.setOnClickListener {
             if (awsPicUrl.toString().trim() == "") {
-                Toast.makeText(this, getString(R.string.choose_pic), Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.logo_coomunity), Toast.LENGTH_LONG).show()
             } else {
                 if (validate()) {
                     val myDialog = ProjectUtill.showProgressDialog(this@AddCommunityActivity)
