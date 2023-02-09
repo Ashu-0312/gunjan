@@ -37,7 +37,7 @@ import java.io.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class AddCommunityActivity : AppCompatActivity(){
+class AddCommunityActivity : BaseActivity(){
     private var pathPic = ""
     private var awsPicUrl = ""
     private var categoryId = ""

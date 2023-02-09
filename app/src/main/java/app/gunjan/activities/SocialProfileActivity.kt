@@ -17,7 +17,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class SocialProfileActivity : AppCompatActivity() {
+class SocialProfileActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_social_profile)

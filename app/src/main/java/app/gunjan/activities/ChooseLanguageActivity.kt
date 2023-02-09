@@ -8,7 +8,7 @@ import app.gunjan.utill.FCSharedPreferances
 import kotlinx.android.synthetic.main.activity_choose_language.*
 import java.util.*
 
-class ChooseLanguageActivity : AppCompatActivity() {
+class ChooseLanguageActivity : BaseActivity() {
     private var myLocale:Locale?=null
     private var currentLang:String?=""
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,24 +21,19 @@ class ChooseLanguageActivity : AppCompatActivity() {
         back.setOnClickListener { finish() }
 
         rl_layout.setOnClickListener {
-            setLocale("en")
+            FCSharedPreferances.getSharedPreferance(this@ChooseLanguageActivity).savE_LANG =
+                "en"
+            val intent = Intent(this@ChooseLanguageActivity, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
         }
 
         rl_layout1.setOnClickListener {
-            setLocale("hi")
+            FCSharedPreferances.getSharedPreferance(this@ChooseLanguageActivity).savE_LANG =
+                "hi"
+            val intent = Intent(this@ChooseLanguageActivity, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
         }
-    }
-    fun setLocale(localeName: String?) {
-        myLocale = Locale(localeName)
-        val res = resources
-        val dm = res.displayMetrics
-        val conf = res.configuration
-        conf.locale = myLocale
-        res.updateConfiguration(conf, dm)
-        FCSharedPreferances.getSharedPreferance(this@ChooseLanguageActivity).savE_LANG = localeName
-        val refresh = Intent(this, LoginActivity::class.java)
-        refresh.putExtra(currentLang, localeName)
-        startActivity(refresh)
-        finish()
     }
 }

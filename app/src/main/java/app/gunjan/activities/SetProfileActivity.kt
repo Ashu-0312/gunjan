@@ -13,7 +13,7 @@ import app.gunjan.utill.FCSharedPreferances
 import kotlinx.android.synthetic.main.activity_set_profile.*
 import kotlinx.android.synthetic.main.activity_set_profile.back
 
-class SetProfileActivity : AppCompatActivity() {
+class SetProfileActivity : BaseActivity() {
     private var fragment:Fragment?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {

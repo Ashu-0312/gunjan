@@ -21,7 +21,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class AddInterestActivity : AppCompatActivity() {
+class AddInterestActivity : BaseActivity() {
     private var page: Int? = 1
     var isLoading = false
     var isLastPage = false

@@ -43,7 +43,7 @@ import retrofit2.Response
 import java.io.*
 import java.util.*
 
-class ChatActivity : AppCompatActivity(), MessagesFetched, QuickstartChatManagerListener,
+class ChatActivity : BaseActivity(), MessagesFetched, QuickstartChatManagerListener,
     ClientCreated, ChannelCreated, TokenResponseListener {
     private var page: Int? = 1
     var isLoading = false

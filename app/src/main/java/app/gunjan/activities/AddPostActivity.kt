@@ -31,7 +31,7 @@ import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AddPostActivity : AppCompatActivity() {
+class AddPostActivity : BaseActivity() {
     private var dob = ""
     private  var status:String? = null
     private var mYear = 0

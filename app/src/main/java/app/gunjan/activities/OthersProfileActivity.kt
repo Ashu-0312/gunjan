@@ -34,7 +34,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class OthersProfileActivity : AppCompatActivity(),RecyclerItemClickListener {
+class OthersProfileActivity : BaseActivity(),RecyclerItemClickListener {
     private var animShow: Animation? = null
     private var reasonList: ArrayList<String> = ArrayList<String>()
     private var reasonLayout: LinearLayout? = null

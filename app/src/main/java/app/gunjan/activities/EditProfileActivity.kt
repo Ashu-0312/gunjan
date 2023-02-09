@@ -47,7 +47,7 @@ import java.io.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class EditProfileActivity : AppCompatActivity(){
+class EditProfileActivity : BaseActivity(){
     private var pathPic = ""
     private var statusPin = ""
     private var awsPicUrl = ""

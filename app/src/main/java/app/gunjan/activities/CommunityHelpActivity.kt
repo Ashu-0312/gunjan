@@ -8,7 +8,7 @@ import app.gunjan.adapters.FollowerFollowingTabAdapter
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_community_help.*
 
-class CommunityHelpActivity : AppCompatActivity() {
+class CommunityHelpActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_community_help)

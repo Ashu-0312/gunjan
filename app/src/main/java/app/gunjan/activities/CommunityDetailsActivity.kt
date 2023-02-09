@@ -16,7 +16,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CommunityDetailsActivity : AppCompatActivity() {
+class CommunityDetailsActivity : BaseActivity() {
     private var communityId:String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -38,7 +38,6 @@ import kotlin.system.exitProcess
 
 class HomeActivity : BaseActivity() {
     var fragment: Fragment? = null
-    var myLocale: Locale? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -64,7 +63,6 @@ class HomeActivity : BaseActivity() {
                           if (response != null) {
                               if (response.isSuccessful) {
                                   if (response.body()!!.code == 1) {
-                                      setLocale(FCSharedPreferances.getSharedPreferance(this@HomeActivity).savE_LANG)
                                       FCSharedPreferances.getSharedPreferance(this@HomeActivity).devicE_ID =
                                           task.result!!
                                       initChatClient()
@@ -378,16 +376,6 @@ class HomeActivity : BaseActivity() {
                 Logger.show("success: errorInfo", errorInfo.message)
             }
         })
-    }
-
-    fun setLocale(localeName: String) {
-        myLocale = Locale(localeName)
-        val res = resources
-        val dm = res.displayMetrics
-        val conf = res.configuration
-        conf.locale = myLocale
-        res.updateConfiguration(conf, dm)
-        FCSharedPreferances.getSharedPreferance(this@HomeActivity).savE_LANG = localeName
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -8,7 +8,7 @@ import app.gunjan.adapters.MembersTabAdapter
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_follow_follower.*
 
-class FollowFollowerActivity : AppCompatActivity() {
+class FollowFollowerActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_follow_follower)

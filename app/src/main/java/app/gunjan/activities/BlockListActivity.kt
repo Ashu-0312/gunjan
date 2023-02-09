@@ -21,7 +21,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class BlockListActivity : AppCompatActivity() {
+class BlockListActivity : BaseActivity() {
     private var page: Int? = 1
     var isLoading = false
     var isLastPage = false
