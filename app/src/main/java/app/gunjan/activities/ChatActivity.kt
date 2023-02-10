@@ -765,8 +765,11 @@ class ChatActivity : BaseActivity(), MessagesFetched, QuickstartChatManagerListe
         no = dialog.findViewById(R.id.no)
         close = dialog.findViewById(R.id.close)
         yes.setOnClickListener {
-            dialog.cancel()
-            val myDialog = ProjectUtill.showProgressDialog(this)
+            if (userId.equals("")){
+                dialog.cancel()
+            }else {
+                dialog.cancel()
+                val myDialog = ProjectUtill.showProgressDialog(this)
                 WebServiceRequest.getInstance().blockUnblockUser(
                     this, userId, "0",
                     object : Callback<BlockUnblockUserResponse> {
@@ -783,7 +786,8 @@ class ChatActivity : BaseActivity(), MessagesFetched, QuickstartChatManagerListe
                                             "" + response.body()!!.message,
                                             Toast.LENGTH_LONG
                                         ).show()
-                                        val intent = Intent(this@ChatActivity, HomeActivity::class.java)
+                                        val intent =
+                                            Intent(this@ChatActivity, HomeActivity::class.java)
                                         intent.flags =
                                             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                         startActivity(intent)
@@ -818,6 +822,7 @@ class ChatActivity : BaseActivity(), MessagesFetched, QuickstartChatManagerListe
                             )
                         }
                     })
+            }
         }
 
         no.setOnClickListener {

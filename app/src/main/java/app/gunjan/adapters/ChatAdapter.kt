@@ -47,6 +47,8 @@ class ChatAdapter(
                 holder.rightTime!!.visibility = View.GONE
                 holder.rightCard!!.visibility = View.GONE
                 holder.rightImage!!.visibility = View.GONE
+                holder.block2!!.visibility = View.GONE
+                holder.block!!.visibility = View.GONE
 
                 holder.leftFrame!!.visibility = View.GONE
                 holder.leftVideo!!.visibility = View.GONE
@@ -176,6 +178,7 @@ class ChatAdapter(
                     holder.rightLayout!!.visibility = View.VISIBLE
                     holder.rightMessage!!.visibility = View.VISIBLE
                     holder.rightTime!!.visibility = View.VISIBLE
+                    holder.block2!!.visibility = View.VISIBLE
                     holder.rightMessage!!.text = data!![position].messageBody
                     holder.rightTime!!.text = ProjectUtill.DateFormate(data!![position].dateCreatedAsDate.toString())
                    // holder.rightUser!!.text=data!![position].member.attributes.jsonObject!!.get("username").toString()
@@ -203,6 +206,8 @@ class ChatAdapter(
                 holder.leftTime!!.visibility = View.GONE
                 holder.leftCard!!.visibility = View.GONE
                 holder.leftImage!!.visibility = View.GONE
+                holder.block!!.visibility = View.GONE
+                holder.block2!!.visibility = View.GONE
                 if (data!![position].hasMedia()) {
                     if (data!![position].media.type.equals("video/mp4", ignoreCase = true)) {
                         holder.leftFrame!!.visibility = View.VISIBLE
@@ -320,6 +325,8 @@ class ChatAdapter(
                     holder.leftLayout!!.visibility = View.VISIBLE
                     holder.leftMessage!!.visibility = View.VISIBLE
                     holder.leftTime!!.visibility = View.VISIBLE
+                    holder.leftTime!!.visibility = View.VISIBLE
+                    holder.block!!.visibility = View.VISIBLE
                     holder.leftMessage!!.text = data!![position].messageBody
                     holder.leftTime!!.text = ProjectUtill.DateFormate(data!![position].dateCreatedAsDate.toString())
                 }
@@ -344,6 +351,14 @@ class ChatAdapter(
                     }, 1000)
                 }
             }
+        }
+
+        holder.block?.setOnClickListener {
+            (context as ChatActivity).blockDialog("")
+        }
+
+        holder.block2?.setOnClickListener {
+            (context as ChatActivity).blockDialog("")
         }
     }
 
@@ -374,6 +389,8 @@ class ChatAdapter(
         var rightCard: CardView? = null
         var leftvideoCard: CardView? = null
         var rightvideoCard: CardView? = null
+        var block: ImageView? = null
+        var block2: ImageView? = null
         init {
             leftLayout = itemView.findViewById(R.id.leftLayout)
             leftProgress = itemView.findViewById(R.id.left_progress_bar)
@@ -397,6 +414,8 @@ class ChatAdapter(
             rightCard = itemView.findViewById(R.id.right_card)
             leftvideoCard = itemView.findViewById(R.id.left_video_card)
             rightvideoCard = itemView.findViewById(R.id.right_video_card)
+            block = itemView.findViewById(R.id.block)
+            block2 = itemView.findViewById(R.id.block2)
         }
     }
 
