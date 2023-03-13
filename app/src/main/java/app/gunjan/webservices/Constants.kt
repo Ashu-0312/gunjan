@@ -144,6 +144,5 @@ class Constants {
         const val orderAmount = "orderAmount"
         const val orderCurrency = "orderCurrency"
         const val orderNote = "orderNote"
-        const val report_reason = "report_reason"
     }
 }

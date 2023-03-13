@@ -2,16 +2,15 @@ package app.gunjan.fragments
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -33,15 +32,12 @@ import com.bumptech.glide.Glide
 import com.cashfree.pg.CFPaymentService
 import com.ravikoradiya.zoomableimageview.ZoomableImageView
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.activity_add_post.*
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_notification.*
-import kotlinx.android.synthetic.main.activity_privacy_policy.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeFragment : Fragment(),RecyclerItemClickListener {
+class HomeFragment : Fragment(), RecyclerItemClickListener {
     var coinDialog: Dialog? = null
     var totalCoins: TextView? = null
     var idd: String? = null
@@ -71,10 +67,10 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
     var blankData3: TextView? = null
     var nestedScroll: NestedScrollView? = null
     private var postList: ArrayList<PostListResponse.DataBean.PostBean> =
-        ArrayList<PostListResponse.DataBean.PostBean>()
+        ArrayList()
     private var animShow: Animation? = null
-    private var list: ArrayList<String> = ArrayList<String>()
-    private var coinList: ArrayList<String> = ArrayList<String>()
+    private var list: ArrayList<String> = ArrayList()
+    private var coinList: ArrayList<String> = ArrayList()
     private var postRecycler: RecyclerView? = null
     private var reasonLayout: LinearLayout? = null
     private var communityPic: CircleImageView? = null
@@ -141,7 +137,7 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
         totalMember!!.setOnClickListener {
             FCSharedPreferances.getSharedPreferance(context).status =
                 "members"
-            var intent = Intent(
+            val intent = Intent(
                 context,
                 HomeActivity::class.java
             )
@@ -180,7 +176,7 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
                                     if (response != null) {
                                         if (response.isSuccessful) {
                                             if (response.body()!!.code == 1) {
-                                                var intent =
+                                                val intent =
                                                     Intent(context, HomeActivity::class.java)
                                                 intent.flags =
                                                     Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -235,11 +231,13 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
         invite!!.setOnClickListener {
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
-            var shareBodyText =""
-            if (FCSharedPreferances.getSharedPreferance(context).savE_LANG.equals("en")){
-                shareBodyText = "Gunjan App is now live. Click on the below link to join the community\n\nhttps://play.google.com/store/apps/details?id=app.gunjan"
-            }else{
-                shareBodyText = "Gunjan App अब लाइव है। कम्युनिटी में जुड़ने के लिए निचे दिए गए लिंक पर क्लिक करे\n\nhttps://play.google.com/store/apps/details?id=app.gunjan"
+            var shareBodyText = ""
+            if (FCSharedPreferances.getSharedPreferance(context).savE_LANG.equals("en")) {
+                shareBodyText =
+                    "Gunjan App is now live. Click on the below link to join the community\n\nhttp://www.example.com/gizmos"
+            } else {
+                shareBodyText =
+                    "Gunjan App अब लाइव है। कम्युनिटी में जुड़ने के लिए निचे दिए गए लिंक पर क्लिक करे\n\nhttp://www.example.com/gizmos"
             }
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here")
             sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText)
@@ -247,40 +245,53 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
         }
 
         discuss!!.setOnClickListener {
-            discuss!!.background = resources.getDrawable(R.drawable.pink_border2)
-            trending!!.background = resources.getDrawable(R.drawable.edittext_bg)
-            announce!!.background = resources.getDrawable(R.drawable.edittext_bg)
-            event!!.background = resources.getDrawable(R.drawable.edittext_bg)
+            discuss!!.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.pink_border2)
+            trending!!.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.edittext_bg)
+            announce!!.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.edittext_bg)
+            event!!.background = ContextCompat.getDrawable(requireContext(), R.drawable.edittext_bg)
             type = "discussion"
             initializeAdapter()
             postListApi("1", type!!)
         }
 
         trending!!.setOnClickListener {
-            trending!!.background = resources.getDrawable(R.drawable.pink_border2)
-            discuss!!.background = resources.getDrawable(R.drawable.edittext_bg)
-            announce!!.background = resources.getDrawable(R.drawable.edittext_bg)
-            event!!.background = resources.getDrawable(R.drawable.edittext_bg)
+            trending!!.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.pink_border2)
+            discuss!!.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.edittext_bg)
+            announce!!.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.edittext_bg)
+            event!!.background = ContextCompat.getDrawable(requireContext(), R.drawable.edittext_bg)
             type = "trending"
             initializeAdapter()
             postListApi("1", type!!)
         }
 
         announce!!.setOnClickListener {
-            announce!!.background = resources.getDrawable(R.drawable.pink_border2)
-            discuss!!.background = resources.getDrawable(R.drawable.edittext_bg)
-            trending!!.background = resources.getDrawable(R.drawable.edittext_bg)
-            event!!.background = resources.getDrawable(R.drawable.edittext_bg)
+            announce!!.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.pink_border2)
+            discuss!!.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.edittext_bg)
+            trending!!.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.edittext_bg)
+            event!!.background = ContextCompat.getDrawable(requireContext(), R.drawable.edittext_bg)
             type = "announcement"
             initializeAdapter()
             postListApi("1", type!!)
         }
 
         event!!.setOnClickListener {
-            event!!.background = resources.getDrawable(R.drawable.pink_border2)
-            trending!!.background = resources.getDrawable(R.drawable.edittext_bg)
-            announce!!.background = resources.getDrawable(R.drawable.edittext_bg)
-            discuss!!.background = resources.getDrawable(R.drawable.edittext_bg)
+            event!!.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.pink_border2)
+            trending!!.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.edittext_bg)
+            announce!!.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.edittext_bg)
+            discuss!!.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.edittext_bg)
             type = "event"
             initializeAdapter()
             postListApi("1", type!!)
@@ -840,14 +851,14 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
     }
 
     fun blockDialog(userId: String) {
-        var yes: LinearLayout? = null
-        var no: LinearLayout? = null
-        var close: ImageView? = null
+        val yes: LinearLayout?
+        val no: LinearLayout?
+        val close: ImageView?
         val dialog = context?.let { Dialog(it) }
         // Include dialog.xml file
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.block_dialog)
-        dialog!!.setCancelable(true)
+        dialog.setContentView(R.layout.block_dialog)
+        dialog.setCancelable(true)
         val window = dialog.window
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
@@ -929,18 +940,18 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
         dialog.show()
     }
 
-    fun reportDialog(userId: String,type:String) {
-        var title: TextView? = null
-        var yes: LinearLayout? = null
-        var no: LinearLayout? = null
-        var close: ImageView? = null
-        var edtReason: EditText? = null
-        var reasonRecycler: RecyclerView? = null
+    fun reportDialog(userId: String, type: String) {
+        val title: TextView?
+        val yes: LinearLayout?
+        val no: LinearLayout?
+        val close: ImageView?
+        val edtReason: EditText?
+        val reasonRecycler: RecyclerView?
         val dialog = context?.let { Dialog(it) }
         // Include dialog.xml file
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.report_dialog)
-        dialog!!.setCancelable(true)
+        dialog.setContentView(R.layout.report_dialog)
+        dialog.setCancelable(true)
         val window = dialog.window
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
@@ -957,9 +968,9 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
         reasonLayout = dialog.findViewById(R.id.reasonLayout)
         title = dialog.findViewById(R.id.title)
 
-        if (type == "user"){
+        if (type == "user") {
             title?.text = getString(R.string.report_post)
-        }else{
+        } else {
             title?.text = getString(R.string.report_comment)
         }
 
@@ -976,15 +987,15 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
                         if (response != null) {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
-                                    var reasonAdapter = ReasonList2Adapter(
+                                    val reasonAdapter = ReasonList2Adapter(
                                         context,
                                         response.body()!!.data.reason_list,
                                         this@HomeFragment
                                     )
-                                    var layoutManager: LinearLayoutManager? =
+                                    val layoutManager =
                                         LinearLayoutManager(context)
-                                    reasonRecycler!!.layoutManager = layoutManager
-                                    reasonRecycler!!.adapter = reasonAdapter
+                                    reasonRecycler.layoutManager = layoutManager
+                                    reasonRecycler.adapter = reasonAdapter
                                 } else {
                                     ProjectUtill.printMessage(
                                         activity!!.window.decorView,
@@ -1019,7 +1030,7 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
         }
 
         yes.setOnClickListener {
-            if (type=="user") {
+            if (type == "user") {
                 if (Status.equals("1")) {
                     if (edtReason.text.toString().trim() == "") {
                         Toast.makeText(
@@ -1052,7 +1063,7 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
                                                     page = 1
                                                     postList.clear()
                                                     postsAdapter!!.notifyDataSetChanged()
-                                                    postListSwipeApi("1", type!!)
+                                                    postListSwipeApi("1", type)
                                                 } else {
                                                     ProjectUtill.printMessage(
                                                         activity!!.window.decorView,
@@ -1144,7 +1155,7 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
                             })
                     }
                 }
-            }else{
+            } else {
                 if (Status.equals("1")) {
                     if (edtReason.text.toString().trim() == "") {
                         Toast.makeText(
@@ -1159,7 +1170,7 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
                         context?.let { it1 ->
                             WebServiceRequest.getInstance().reportComment(
                                 it1,
-                                userId!!,
+                                userId,
                                 FCSharedPreferances.getSharedPreferance(context).reasoN_ID,
                                 edtReason.text.toString().toString(),
                                 object : Callback<ReportCommentRes> {
@@ -1217,7 +1228,7 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
                     context?.let { it1 ->
                         WebServiceRequest.getInstance().reportComment(
                             it1,
-                            userId!!,
+                            userId,
                             FCSharedPreferances.getSharedPreferance(context).reasoN_ID,
                             "",
                             object : Callback<ReportCommentRes> {
@@ -1293,16 +1304,16 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
     }
 
     fun communityDescriptionDialog() {
-        var close: ImageView? = null
-        var cPic: CircleImageView? = null
-        var cName: TextView? = null
-        var cDescription: TextView? = null
+        val close: ImageView?
+        val cPic: CircleImageView?
+        val cName: TextView?
+        val cDescription: TextView?
         val dialog = context?.let { Dialog(it) }
         // Include dialog.xml file
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.communitydescription_dialog)
-        dialog!!.setCanceledOnTouchOutside(true)
-        dialog!!.setCancelable(true)
+        dialog.setContentView(R.layout.communitydescription_dialog)
+        dialog.setCanceledOnTouchOutside(true)
+        dialog.setCancelable(true)
         val window = dialog.window
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
@@ -1525,7 +1536,7 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
     private fun getCommentList(postId: String) {
         context?.let { it1 ->
             WebServiceRequest.getInstance().commentList(
-                it1, postId!!,
+                it1, postId,
                 object : Callback<CommentListResponse> {
                     override fun onResponse(
                         call: Call<CommentListResponse>,
@@ -1540,11 +1551,11 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
                                     } else {
                                         commentRecycler!!.visibility = View.VISIBLE
                                         blankData2!!.visibility = View.GONE
-                                        var commentsAdapter = AllCommentsAdapter(
+                                        val commentsAdapter = AllCommentsAdapter(
                                             context,
                                             response.body()!!.data.comments, this@HomeFragment
                                         )
-                                        var layoutManager = LinearLayoutManager(
+                                        val layoutManager = LinearLayoutManager(
                                             context,
                                             LinearLayoutManager.VERTICAL,
                                             true
@@ -1588,7 +1599,7 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
     private fun getReplyCommentList(commentId: String) {
         context?.let { it1 ->
             WebServiceRequest.getInstance().replyCommentList(
-                it1, commentId!!,
+                it1, commentId,
                 object : Callback<ReplyListResponse> {
                     override fun onResponse(
                         call: Call<ReplyListResponse>,
@@ -1603,11 +1614,11 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
                                     } else {
                                         replyRecycler!!.visibility = View.VISIBLE
                                         blankData3!!.visibility = View.GONE
-                                        var replyAdapter = AllCommentsReplysAdapter(
+                                        val replyAdapter = AllCommentsReplysAdapter(
                                             context,
                                             response.body()!!.data.reply_list, this@HomeFragment
                                         )
-                                        var layoutManager = LinearLayoutManager(
+                                        val layoutManager = LinearLayoutManager(
                                             context,
                                             LinearLayoutManager.VERTICAL,
                                             true
@@ -1648,14 +1659,14 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
         }
     }
 
-    fun deleteCommentDialog(commentId: String,userId:String) {
-        var delete: RelativeLayout? = null
-        var report: RelativeLayout? = null
+    fun deleteCommentDialog(commentId: String, userId: String) {
+        val delete: RelativeLayout?
+        val report: RelativeLayout?
         val dialog = context?.let { Dialog(it) }
         // Include dialog.xml file
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.deletecomment_dialog)
-        dialog!!.setCancelable(true)
+        dialog.setContentView(R.layout.deletecomment_dialog)
+        dialog.setCancelable(true)
         val window = dialog.window
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
@@ -1667,10 +1678,10 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
         delete = dialog.findViewById(R.id.delete_comment)
         report = dialog.findViewById(R.id.report_comment)
 
-        if (FCSharedPreferances.getSharedPreferance(context).useR_ID.equals(userId)){
+        if (FCSharedPreferances.getSharedPreferance(context).useR_ID.equals(userId)) {
             delete.visibility = View.VISIBLE
             report.visibility = View.GONE
-        }else{
+        } else {
             delete.visibility = View.GONE
             report.visibility = View.VISIBLE
         }
@@ -1727,7 +1738,7 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
 
         report?.setOnClickListener {
             dialog.cancel()
-           reportDialog(commentId,"comment")
+            reportDialog(commentId, "comment")
         }
         dialog.show()
     }
@@ -1774,7 +1785,8 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
                                         (context as Activity).window.decorView,
                                         response.body()?.message
                                     )
-                                    FCSharedPreferances.getSharedPreferance(context).tokeN_STATUS = "false"
+                                    FCSharedPreferances.getSharedPreferance(context).tokeN_STATUS =
+                                        "false"
                                 }
                             } else {
                                 ProjectUtill.printErrorMessage(
@@ -1847,7 +1859,7 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
             frameLayout.visibility = View.VISIBLE
             videoView.visibility = View.VISIBLE
             imageView.visibility = View.GONE
-            val wm = requireActivity()!!.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            val wm = requireActivity().getSystemService(Context.WINDOW_SERVICE) as WindowManager
             val display = wm.defaultDisplay
             val width = display.width
             val height = display.height
@@ -1872,9 +1884,9 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
     }
 
     fun coinsDialog(id: String) {
-        var coinsRecycler: RecyclerView? = null
-        var addCoins: CardView? = null
-        var close: LinearLayout? = null
+        val coinsRecycler: RecyclerView?
+        val addCoins: CardView?
+        val close: LinearLayout?
         coinDialog = context?.let { Dialog(it) }
         // Include dialog.xml file
         coinDialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -1918,9 +1930,9 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
         coinList.add("95")
         coinList.add("100")
 
-        var coinsAdapter = CoinsAdapter(context, coinList, this@HomeFragment)
-        coinsRecycler!!.layoutManager = GridLayoutManager(context, 4)
-        coinsRecycler!!.adapter = coinsAdapter
+        val coinsAdapter = CoinsAdapter(context, coinList, this@HomeFragment)
+        coinsRecycler.layoutManager = GridLayoutManager(context, 4)
+        coinsRecycler.adapter = coinsAdapter
 
         close!!.setOnClickListener { coinDialog!!.cancel() }
 
@@ -1930,13 +1942,13 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
     }
 
     fun addCoinsDialog() {
-        var done: LinearLayout? = null
-        var edtCoin: EditText? = null
+        val done: LinearLayout?
+        val edtCoin: EditText?
         val dialog = context?.let { Dialog(it) }
         // Include dialog.xml file
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.addcoin_dialog)
-        dialog!!.setCancelable(true)
+        dialog.setContentView(R.layout.addcoin_dialog)
+        dialog.setCancelable(true)
         val window = dialog.window
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
@@ -2037,7 +2049,7 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
                                         "" + response.body()!!.message,
                                         Toast.LENGTH_LONG
                                     ).show()
-                                    var params: HashMap<String, String> = HashMap()
+                                    val params: HashMap<String, String> = HashMap()
                                     params[CFPaymentService.PARAM_APP_ID] =
                                         "22061307922ac43c73853febd0316022"
                                     params[CFPaymentService.PARAM_ORDER_ID] =
@@ -2146,7 +2158,7 @@ class HomeFragment : Fragment(),RecyclerItemClickListener {
     }
 
     override fun onItemClick(parentPos: Int, childPos: Int, data: Any, type: String) {
-        if (type == "reason_layout"){
+        if (type == "reason_layout") {
             showReasonLayout(childPos.toString())
         }
     }

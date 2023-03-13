@@ -43,7 +43,7 @@ class HomePostsAdapter(
     homeFragment: HomeFragment
 ) : RecyclerView.Adapter<HomePostsAdapter.ViewHolder>() {
     private var data: ArrayList<PostListResponse.DataBean.PostBean> = data
-    private var  homeFragment: HomeFragment=homeFragment
+    private var homeFragment: HomeFragment = homeFragment
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val listItem: View = layoutInflater.inflate(R.layout.homepost_item, parent, false)
@@ -53,18 +53,20 @@ class HomePostsAdapter(
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         try {
-            holder.name!!.text=data[position].created_by.first_name+" "+data[position].created_by.last_name
-            holder.totalComment!!.text=data[position].total_comment.toString()
-            holder.totalLike!!.text=data[position].total_like.toString()
-            holder.totaldisLike!!.text=data[position].total_unlike.toString()
+            holder.name!!.text =
+                data[position].created_by.first_name + " " + data[position].created_by.last_name
+            holder.totalComment!!.text = data[position].total_comment.toString()
+            holder.totalLike!!.text = data[position].total_like.toString()
+            holder.totaldisLike!!.text = data[position].total_unlike.toString()
 
-            if (data[position].isJoinedThisEvent){
+            if (data[position].isJoinedThisEvent) {
                 holder.joinTxt!!.text = context!!.getString(R.string.joined)
-            }else{
+            } else {
                 holder.joinTxt!!.text = context!!.getString(R.string.join_event)
             }
 
-            holder.totalUsers!!.text = data[position].total_joined_member+" "+context!!.getString(R.string._0_users_joined)
+            holder.totalUsers!!.text =
+                data[position].total_joined_member + " " + context!!.getString(R.string._0_users_joined)
 
 
             val input = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
@@ -79,16 +81,17 @@ class HomePostsAdapter(
             val formatted = output.format(d)
             Log.i("DATE", "" + formatted)
 
-            holder.postTime!!.text=convertTimeToText(formatted)
+            holder.postTime!!.text = convertTimeToText(formatted)
             context?.let {
-                Glide.with(it).load(data[position].created_by.image).placeholder(R.drawable.user_avatar)
+                Glide.with(it).load(data[position].created_by.image)
+                    .placeholder(R.drawable.user_avatar)
                     .into(holder.profile!!)
             }
 
-            if (data[position].feed_type=="event"){
-                holder.eventLayout!!.visibility=View.VISIBLE
-                holder.joinedLayout!!.visibility=View.VISIBLE
-                holder.joinLayout!!.visibility=View.VISIBLE
+            if (data[position].feed_type == "event") {
+                holder.eventLayout!!.visibility = View.VISIBLE
+                holder.joinedLayout!!.visibility = View.VISIBLE
+                holder.joinLayout!!.visibility = View.VISIBLE
                 var format = SimpleDateFormat("yyyy-MM-dd")
                 val date1 = format.parse(data[position].start_date)
                 val date2 = format.format(date1)
@@ -133,10 +136,10 @@ class HomePostsAdapter(
                 } catch (e: ParseException) {
                     e.printStackTrace()
                 }
-            }else{
-                holder.eventLayout!!.visibility=View.GONE
-                holder.joinedLayout!!.visibility=View.GONE
-                holder.joinLayout!!.visibility=View.GONE
+            } else {
+                holder.eventLayout!!.visibility = View.GONE
+                holder.joinedLayout!!.visibility = View.GONE
+                holder.joinLayout!!.visibility = View.GONE
             }
 
             if (data[position].content_type == "image") {
@@ -168,7 +171,8 @@ class HomePostsAdapter(
                 holder.videoView!!.visibility = View.GONE
                 holder.description!!.text = data[position].description
             }
-        }catch (e: Exception){}
+        } catch (e: Exception) {
+        }
         holder.showMore!!.setOnClickListener(View.OnClickListener {
             if (holder.showMore!!.text.toString() == context!!.getString(R.string.showmore)) {
                 holder.description!!.maxLines = Int.MAX_VALUE //your TextView
@@ -182,11 +186,13 @@ class HomePostsAdapter(
         holder.share!!.setOnClickListener {
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
-            var shareBodyText =""
-            if (FCSharedPreferances.getSharedPreferance(context).savE_LANG.equals("en")){
-                shareBodyText = "Gunjan App is now live. Click on the below link to join the community\n\nhttps://play.google.com/store/apps/details?id=app.gunjan"
-            }else{
-                shareBodyText = "Gunjan App अब लाइव है। कम्युनिटी में जुड़ने के लिए निचे दिए गए लिंक पर क्लिक करे\n\nhttps://play.google.com/store/apps/details?id=app.gunjan"
+            var shareBodyText = ""
+            if (FCSharedPreferances.getSharedPreferance(context).savE_LANG.equals("en")) {
+                shareBodyText =
+                    "Gunjan App is now live. Click on the below link to join the community\n\nhttp://www.example.com/gizmos"
+            } else {
+                shareBodyText =
+                    "Gunjan App अब लाइव है। कम्युनिटी में जुड़ने के लिए निचे दिए गए लिंक पर क्लिक करे\n\nhttp://www.example.com/gizmos"
             }
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here")
             sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText)
@@ -197,9 +203,10 @@ class HomePostsAdapter(
 
             if (data[position].created_by.id.toString() == FCSharedPreferances.getSharedPreferance(
                     context
-                ).useR_ID) {
+                ).useR_ID
+            ) {
                 val popup = PopupMenu(context, holder.menu)
-                //inflating menu from xml resource
+
                 //inflating menu from xml resource
                 popup.inflate(R.menu.options_menu2)
                 popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
@@ -223,13 +230,13 @@ class HomePostsAdapter(
 
                     when (item!!.itemId) {
                         R.id.block -> {
-                            homeFragment!!.blockDialog(data[position].created_by.id.toString())
+                            homeFragment.blockDialog(data[position].created_by.id.toString())
                         }
                         R.id.copy -> {
                             copyText(holder.description!!.text.toString().trim())
                         }
                         R.id.report -> {
-                            homeFragment!!.reportDialog(data[position].id.toString(),"user")
+                            homeFragment.reportDialog(data[position].id.toString(), "user")
                         }
                     }
 
@@ -241,15 +248,18 @@ class HomePostsAdapter(
         }
 
         holder.profile!!.setOnClickListener {
-            if(data[position].created_by.id.toString()!=FCSharedPreferances.getSharedPreferance(
+            if (data[position].created_by.id.toString() != FCSharedPreferances.getSharedPreferance(
                     context
-                ).useR_ID) {
-                FCSharedPreferances.getSharedPreferance(context).otheR_ID=data[position].created_by.id.toString()
+                ).useR_ID
+            ) {
+                FCSharedPreferances.getSharedPreferance(context).otheR_ID =
+                    data[position].created_by.id.toString()
                 context!!.startActivity(Intent(context, OthersProfileActivity::class.java))
-            }else{
+            } else {
                 FCSharedPreferances.getSharedPreferance(context).status =
                     "edit"
-                FCSharedPreferances.getSharedPreferance(context).otheR_ID=data[position].created_by.id.toString()
+                FCSharedPreferances.getSharedPreferance(context).otheR_ID =
+                    data[position].created_by.id.toString()
                 var intent = Intent(
                     context,
                     HomeActivity::class.java
@@ -400,8 +410,8 @@ class HomePostsAdapter(
         }
 
         holder.joinedLayout!!.setOnClickListener {
-            var intent = Intent(context,JoinedEventUserListActivity::class.java)
-            intent.putExtra("id",data[position].id.toString())
+            var intent = Intent(context, JoinedEventUserListActivity::class.java)
+            intent.putExtra("id", data[position].id.toString())
             context!!.startActivity(intent)
         }
 
@@ -420,9 +430,13 @@ class HomePostsAdapter(
                                 if (response != null) {
                                     if (response.isSuccessful) {
                                         if (response.body()!!.code == 1) {
-                                            holder.joinTxt!!.text = context!!.getString(R.string.joined)
-                                            data[position].isJoinedThisEvent=true
-                                            holder.totalUsers!!.text = response.body()!!.data.total_member+" "+context!!.getString(R.string._0_users_joined)
+                                            holder.joinTxt!!.text =
+                                                context!!.getString(R.string.joined)
+                                            data[position].isJoinedThisEvent = true
+                                            holder.totalUsers!!.text =
+                                                response.body()!!.data.total_member + " " + context!!.getString(
+                                                    R.string._0_users_joined
+                                                )
                                         } else {
                                             ProjectUtill.printMessage(
                                                 (context as Activity).window.decorView,
@@ -459,18 +473,18 @@ class HomePostsAdapter(
         }
 
         holder.picLayout!!.setOnClickListener {
-            if (data[position].content_type=="image"){
+            if (data[position].content_type == "image") {
                 homeFragment!!.showMedia(
                     data[position].file,
                     data[position].content_type,
                 )
-            }else{
-                Log.d("","")
+            } else {
+                Log.d("", "")
             }
         }
 
         holder.videoLayout!!.setOnClickListener {
-            if (data[position].content_type=="video"){
+            if (data[position].content_type == "video") {
                 holder.play!!.visibility = View.VISIBLE
                 holder.pause!!.visibility = View.GONE
                 holder.videoView!!.pause()
@@ -478,8 +492,8 @@ class HomePostsAdapter(
                     data[position].file,
                     data[position].content_type,
                 )
-            }else{
-                Log.d("","")
+            } else {
+                Log.d("", "")
             }
         }
     }
@@ -498,27 +512,30 @@ class HomePostsAdapter(
             )
             val oldDate: Date = dateFormat.parse(dataDate)
             val nowTime = Date()
-            val dateDiff = nowTime.time - oldDate.time-19800000
+            val dateDiff = nowTime.time - oldDate.time - 19800000
             val second: Long = TimeUnit.MILLISECONDS.toSeconds(dateDiff)
             val minute: Long = TimeUnit.MILLISECONDS.toMinutes(dateDiff)
             val hour: Long = TimeUnit.MILLISECONDS.toHours(dateDiff)
             val day: Long = TimeUnit.MILLISECONDS.toDays(dateDiff)
             if (second < 60) {
-                convTime = second.toString()+ " "+context!!.getString(R.string.seconds)+" "+suffix
+                convTime =
+                    second.toString() + " " + context!!.getString(R.string.seconds) + " " + suffix
             } else if (minute < 60) {
-                convTime = minute.toString()+ " "+context!!.getString(R.string.minutes)+" "+suffix
+                convTime =
+                    minute.toString() + " " + context!!.getString(R.string.minutes) + " " + suffix
             } else if (hour < 24) {
-                convTime = hour.toString()+ " "+context!!.getString(R.string.hours)+" "+suffix
+                convTime =
+                    hour.toString() + " " + context!!.getString(R.string.hours) + " " + suffix
             } else if (day >= 7) {
                 convTime = if (day > 360) {
-                    (day / 360).toString() + " "+context!!.getString(R.string.years)+" "+ suffix
+                    (day / 360).toString() + " " + context!!.getString(R.string.years) + " " + suffix
                 } else if (day > 30) {
-                    (day / 30).toString() + " "+context!!.getString(R.string.months)+" "+ suffix
+                    (day / 30).toString() + " " + context!!.getString(R.string.months) + " " + suffix
                 } else {
-                    (day / 7).toString() + " "+context!!.getString(R.string.weeks)+" "+ suffix
+                    (day / 7).toString() + " " + context!!.getString(R.string.weeks) + " " + suffix
                 }
             } else if (day < 7) {
-                convTime = day.toString() + " "+context!!.getString(R.string.days)+" "+ suffix
+                convTime = day.toString() + " " + context!!.getString(R.string.days) + " " + suffix
             }
         } catch (e: ParseException) {
             e.printStackTrace()
@@ -528,59 +545,60 @@ class HomePostsAdapter(
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var description: TextView? =null
-        var showMore: TextView? =null
-        var postTime: TextView? =null
-        var name: TextView? =null
-        var totalComment: TextView? =null
-        var totalLike: TextView? =null
-        var totaldisLike: TextView? =null
-        var like: ImageView? =null
-        var dislike: ImageView? =null
-        var share: LinearLayout? =null
-        var menu: ImageView? =null
-        var profile: CircleImageView? =null
-        var txtLayout: LinearLayout? =null
-        var picLayout: ImageView? =null
-        var videoLayout: FrameLayout? =null
-        var videoView: VideoView? =null
-        var play: ImageView? =null
-        var pause: ImageView? =null
-        var progressBar: ProgressBar? =null
-        var commentLayout: LinearLayout? =null
-        var commentLayout2: LinearLayout? =null
-        var eventLayout: LinearLayout? =null
-        var joinLayout: LinearLayout? =null
-        var joinedLayout: LinearLayout? =null
+        var description: TextView? = null
+        var showMore: TextView? = null
+        var postTime: TextView? = null
+        var name: TextView? = null
+        var totalComment: TextView? = null
+        var totalLike: TextView? = null
+        var totaldisLike: TextView? = null
+        var like: ImageView? = null
+        var dislike: ImageView? = null
+        var share: LinearLayout? = null
+        var menu: ImageView? = null
+        var profile: CircleImageView? = null
+        var txtLayout: LinearLayout? = null
+        var picLayout: ImageView? = null
+        var videoLayout: FrameLayout? = null
+        var videoView: VideoView? = null
+        var play: ImageView? = null
+        var pause: ImageView? = null
+        var progressBar: ProgressBar? = null
+        var commentLayout: LinearLayout? = null
+        var commentLayout2: LinearLayout? = null
+        var eventLayout: LinearLayout? = null
+        var joinLayout: LinearLayout? = null
+        var joinedLayout: LinearLayout? = null
         var day: TextView? = null
         var month: TextView? = null
         var time: TextView? = null
         var totalUsers: TextView? = null
         var joinTxt: TextView? = null
         var reward: ImageView? = null
+
         init {
-            description=itemView.findViewById(R.id.description)
-            showMore=itemView.findViewById(R.id.show_more)
-            share=itemView.findViewById(R.id.share)
-            menu=itemView.findViewById(R.id.menu)
-            profile=itemView.findViewById(R.id.user_profile)
-            txtLayout=itemView.findViewById(R.id.txt_layout)
-            picLayout=itemView.findViewById(R.id.pic_layout)
-            videoLayout=itemView.findViewById(R.id.video_layout)
-            videoView=itemView.findViewById(R.id.media_video)
-            play=itemView.findViewById(R.id.play)
-            pause=itemView.findViewById(R.id.pause)
-            progressBar=itemView.findViewById(R.id.progress_bar)
-            name=itemView.findViewById(R.id.name)
-            totalComment=itemView.findViewById(R.id.total_comment)
-            totalLike=itemView.findViewById(R.id.total_like)
-            totaldisLike=itemView.findViewById(R.id.total_dislike)
-            like=itemView.findViewById(R.id.like)
-            dislike=itemView.findViewById(R.id.dislike)
-            commentLayout=itemView.findViewById(R.id.comment_layout)
-            commentLayout2=itemView.findViewById(R.id.comment_layout2)
-            eventLayout=itemView.findViewById(R.id.event_layout)
-            postTime=itemView.findViewById(R.id.time)
+            description = itemView.findViewById(R.id.description)
+            showMore = itemView.findViewById(R.id.show_more)
+            share = itemView.findViewById(R.id.share)
+            menu = itemView.findViewById(R.id.menu)
+            profile = itemView.findViewById(R.id.user_profile)
+            txtLayout = itemView.findViewById(R.id.txt_layout)
+            picLayout = itemView.findViewById(R.id.pic_layout)
+            videoLayout = itemView.findViewById(R.id.video_layout)
+            videoView = itemView.findViewById(R.id.media_video)
+            play = itemView.findViewById(R.id.play)
+            pause = itemView.findViewById(R.id.pause)
+            progressBar = itemView.findViewById(R.id.progress_bar)
+            name = itemView.findViewById(R.id.name)
+            totalComment = itemView.findViewById(R.id.total_comment)
+            totalLike = itemView.findViewById(R.id.total_like)
+            totaldisLike = itemView.findViewById(R.id.total_dislike)
+            like = itemView.findViewById(R.id.like)
+            dislike = itemView.findViewById(R.id.dislike)
+            commentLayout = itemView.findViewById(R.id.comment_layout)
+            commentLayout2 = itemView.findViewById(R.id.comment_layout2)
+            eventLayout = itemView.findViewById(R.id.event_layout)
+            postTime = itemView.findViewById(R.id.time)
             day = itemView.findViewById(R.id.activity_day)
             month = itemView.findViewById(R.id.activity_month)
             time = itemView.findViewById(R.id.activity_time)
@@ -592,7 +610,7 @@ class HomePostsAdapter(
         }
     }
 
-    fun copyText(text:String){
+    fun copyText(text: String) {
         val myClipboard = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val myClip: ClipData = ClipData.newPlainText("Label", text)
         myClipboard.setPrimaryClip(myClip)

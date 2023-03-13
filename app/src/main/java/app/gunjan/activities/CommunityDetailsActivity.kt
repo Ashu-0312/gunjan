@@ -1,23 +1,20 @@
 package app.gunjan.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import app.gunjan.R
 import app.gunjan.entity.CommunityDetailsResponse
-import app.gunjan.entity.PrivacyPolicyResponse
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_community_details.*
 import kotlinx.android.synthetic.main.activity_community_details.back
-import kotlinx.android.synthetic.main.activity_privacy_policy.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class CommunityDetailsActivity : BaseActivity() {
-    private var communityId:String?=null
+    private var communityId: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_community_details)
@@ -25,13 +22,14 @@ class CommunityDetailsActivity : BaseActivity() {
     }
 
     private fun initData() {
-        communityId=intent.getStringExtra("id").toString()
+        //if (intent.hasExtra("id"))
+        communityId = intent.getStringExtra("id").toString()
         getDetails()
         back.setOnClickListener { finish() }
 
         Leave.setOnClickListener {
-            var intent=Intent(this,LeaveCommunityActivity::class.java)
-            intent.putExtra("community_id",communityId)
+            val intent = Intent(this, LeaveCommunityActivity::class.java)
+            intent.putExtra("community_id", communityId)
             startActivity(intent)
         }
     }
@@ -39,7 +37,7 @@ class CommunityDetailsActivity : BaseActivity() {
     private fun getDetails() {
         val myDialog = ProjectUtill.showProgressDialog(this@CommunityDetailsActivity)
         WebServiceRequest.getInstance().getCommunityDetails(
-            this,communityId!!,
+            this, communityId!!,
             object : Callback<CommunityDetailsResponse> {
                 override fun onResponse(
                     call: Call<CommunityDetailsResponse>,
@@ -49,7 +47,9 @@ class CommunityDetailsActivity : BaseActivity() {
                     if (response != null) {
                         if (response.isSuccessful) {
                             if (response.body()!!.code == 1) {
-                                Glide.with(this@CommunityDetailsActivity).load(response.body()!!.data.community_details.image).placeholder(R.drawable.user_avatar).into(Pic)
+                                Glide.with(this@CommunityDetailsActivity)
+                                    .load(response.body()!!.data.community_details.image)
+                                    .placeholder(R.drawable.user_avatar).into(Pic)
                                 Title.text = response.body()!!.data.community_details.title
                                 About.text = response.body()!!.data.community_details.about
                             } else {
