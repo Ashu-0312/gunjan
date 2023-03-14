@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".activities.SetProfileActivity">
+    tools:context=".activities.SearchAddCommunityActivity">
 
 
     <RelativeLayout
@@ -116,12 +116,30 @@
         android:id="@+id/progress_bar"
         android:layout_alignParentBottom="true"
         android:indeterminateTint="@color/pink"/>
-    <ImageView
+    <LinearLayout
         android:id="@+id/add_community"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/margin_15"
-        android:src="@drawable/add_community_black" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/padding_2"
+            android:layout_marginEnd="@dimen/padding_3"
+            android:fontFamily="@font/popinbold"
+            android:text="@string/create_community"
+            android:textColor="#211F1F"
+            android:textSize="@dimen/text_16sp" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:src="@drawable/add_community_black" />
+    </LinearLayout>
 </RelativeLayout>

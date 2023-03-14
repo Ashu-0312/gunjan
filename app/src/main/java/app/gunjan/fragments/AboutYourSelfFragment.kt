@@ -57,14 +57,14 @@ class AboutYourSelfFragment : Fragment() {
             override fun afterTextChanged(s: Editable) {
                 // TODO Auto-generated method stub
                 txtCount!!.text =
-                    (500 - s.toString().length).toString() + "/500" + getString(R.string.jf)
+                    (100 - s.toString().length).toString() + "/100" + getString(R.string.jf)
             }
         })
 
         Continue!!.setOnClickListener {
             if (about!!.text.toString().trim() == "") {
                 Toast.makeText(context, getString(R.string.about), Toast.LENGTH_LONG).show()
-            } else if (about!!.text.toString().length < 100) {
+            } else if (about!!.text.toString().length < 50) {
                 Toast.makeText(context, getString(R.string.about_limit), Toast.LENGTH_LONG).show()
             } else {
                 val myDialog = ProjectUtill.showProgressDialog(context)

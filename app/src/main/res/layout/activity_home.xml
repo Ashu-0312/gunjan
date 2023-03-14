@@ -41,6 +41,7 @@
         android:elevation="1dp"
         android:src="@drawable/notification" />
     <FrameLayout
+        android:layout_above="@id/addCommunity"
         android:layout_below="@id/logo"
         android:id="@+id/frame_container"
         android:layout_width="match_parent"

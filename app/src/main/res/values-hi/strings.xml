@@ -106,7 +106,7 @@
     <string name="pincode">कृपया पिनकोड दर्ज करें</string>
     <string name="choose_pic">कृपया प्रोफाइल फोटो अपलोड करें</string>
     <string name="about">कृपया अपने बारे में बताइए</string>
-    <string name="about_limit">अपने बारे में 100 शब्दों में बताइए</string>
+    <string name="about_limit">अपने बारे में 50 शब्दों में बताइए</string>
     <string name="enter_dob">कृपया जन्म तिथि दर्ज करें</string>
     <string name="select_gender">कृपया लिंग चुनें</string>
     <string name="select_interest">कृपया रुचि का चयन करें</string>
@@ -149,7 +149,7 @@
     <string name="camera">कैमरा</string>
     <string name="photo_verification">फोटो सत्यापन</string>
     <string name="upload_photo_for">पहचान के लिए फोटो अपलोड करें</string>
-    <string name="jf">(अधिकतम 500 अक्षर )</string>
+    <string name="jf">(अधिकतम 100 अक्षर )</string>
     <string name="check_internet">कृपया अपने इंटरनेट कनेक्शन की जाँच करें</string>
     <string name="search_your_community">अपनी पसंद का कम्युनिटी/समुदाय खोजें</string>
     <string name="fifty_char">(अधिकतम 50 अक्षर )</string>

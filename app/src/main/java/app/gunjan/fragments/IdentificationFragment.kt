@@ -219,7 +219,7 @@ class IdentificationFragment : Fragment(){
                                     context?.let {
                                         Glide.with(it)
                                             .load(awsPicUrl)
-                                            .placeholder(R.drawable.user_avatar)
+                                            .placeholder(R.drawable.placeholder)
                                             .into(idPic!!)
                                     }
                                 }catch (e: Exception) {}
@@ -275,7 +275,7 @@ class IdentificationFragment : Fragment(){
                                             layout2!!.visibility = View.GONE
                                             layout!!.visibility = View.VISIBLE
                                             awsPicUrl= response.body()!!.data.user.identification_file
-                                            Glide.with(context!!).load(response.body()!!.data.user.identification_file).placeholder(R.drawable.user_avatar).into(idPic!!)
+                                            Glide.with(context!!).load(response.body()!!.data.user.identification_file).placeholder(R.drawable.placeholder).into(idPic!!)
                                         }
                                     }catch (e:Exception){}
                                 } else {

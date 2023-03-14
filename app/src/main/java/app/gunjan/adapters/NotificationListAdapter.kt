@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
 import app.gunjan.activities.MyCommunitesActivity
 import app.gunjan.entity.NotificationListResponse
+import app.gunjan.utill.ProjectUtill
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -32,15 +33,34 @@ class NotificationListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         try {
             holder.title!!.text=data[position].body
+            val c = Calendar.getInstance().time
+            println("Current time => $c")
+            var format = SimpleDateFormat("yyyy-MM-dd")
+            val date1 = format.parse(data[position].createdAt)
+            val date2 = format.format(date1)
+            format =
+                if (date2.endsWith("01") && !date2.endsWith("11")) SimpleDateFormat("MMM d'st', yyyy") else if (date2.endsWith(
+                        "02"
+                    ) && !date2.endsWith("12")
+                ) SimpleDateFormat("MMM d'nd', yyyy") else if (date2.endsWith("03") && !date2.endsWith(
+                        "13"
+                    )
+                ) SimpleDateFormat(" MMM d'rd', yyyy") else SimpleDateFormat("MMM d'th', yyyy")
+            val yourDate = format.format(date1)
             val input = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-            val output = SimpleDateFormat("HH:mm a")
+            input.timeZone = TimeZone.getTimeZone("GMT")
+            val output = SimpleDateFormat("HH:mm")
 
             var d: Date? = null
             d = input.parse(data[position].createdAt)
 
             val formatted = output.format(d)
-            Log.i("DATE", "" + formatted)
-            holder.time!!.text = formatted.toString()
+
+            holder.time!!.text = "$yourDate " + ProjectUtill.getFormatedDateTime(
+                "$formatted:00",
+                "HH:mm:ss",
+                "hh:mm a"
+            )
         }catch (e:Exception){}
 
         holder.itemView!!.setOnClickListener {

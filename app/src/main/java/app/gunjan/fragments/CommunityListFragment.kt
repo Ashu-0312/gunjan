@@ -27,7 +27,7 @@ import retrofit2.Response
 
 class CommunityListFragment : Fragment() {
     private var communityRecycler:RecyclerView?=null
-    private var addCommunity:ImageView?=null
+    private var addCommunity:LinearLayout?=null
     private var page: Int? = 1
     var isLoading = false
     var isLastPage = false

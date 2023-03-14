@@ -27,7 +27,6 @@
 
             <EditText
                 android:id="@+id/search_edt"
-                android:imeOptions="actionDone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -37,6 +36,7 @@
                 android:background="@null"
                 android:fontFamily="@font/poppins_light"
                 android:hint="@string/search_your_community"
+                android:imeOptions="actionDone"
                 android:inputType="text"
                 android:maxLength="50"
                 android:maxLines="1"
@@ -57,42 +57,65 @@
                 android:layout_marginEnd="@dimen/margin_15"
                 android:src="@drawable/search" />
         </LinearLayout>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/swipe_refresh">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/community_recycler"
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none" />
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/community_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
-<TextView
-    android:visibility="gone"
-    android:text="No Community"
-    android:textColor="@color/pink"
-    android:textSize="@dimen/margin_25"
-    android:layout_centerInParent="true"
-    android:layout_width="wrap_content"
-    android:scaleType="fitXY"
-    android:fontFamily="@font/popinbold"
-    android:id="@+id/blank_data"
-    android:layout_height="wrap_content"
-    android:src="@drawable/ic_launcher_background"/>
+
+    <TextView
+        android:id="@+id/blank_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:fontFamily="@font/popinbold"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_launcher_background"
+        android:text="No Community"
+        android:textColor="@color/pink"
+        android:textSize="@dimen/margin_25"
+        android:visibility="gone" />
+
     <ProgressBar
-        android:visibility="gone"
+        android:id="@+id/progress_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/progress_bar"
         android:layout_alignParentBottom="true"
-        android:indeterminateTint="@color/pink"/>
-    <ImageView
+        android:indeterminateTint="@color/pink"
+        android:visibility="gone" />
+
+    <LinearLayout
         android:id="@+id/add_community"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/margin_15"
-        android:src="@drawable/add_community_black" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/padding_2"
+            android:layout_marginEnd="@dimen/padding_3"
+            android:fontFamily="@font/popinbold"
+            android:text="@string/create_community"
+            android:textColor="#211F1F"
+            android:textSize="@dimen/text_16sp" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:src="@drawable/add_community_black" />
+    </LinearLayout>
 </RelativeLayout>

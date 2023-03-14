@@ -100,7 +100,7 @@ class EditProfileActivity : BaseActivity(){
             override fun afterTextChanged(s: Editable) {
                 // TODO Auto-generated method stub
                 text_count.text =
-                    (500 - s.toString().length).toString() + "/500" + getString(R.string.jf)
+                    (100 - s.toString().length).toString() + "/100" + getString(R.string.jf)
             }
         })
 

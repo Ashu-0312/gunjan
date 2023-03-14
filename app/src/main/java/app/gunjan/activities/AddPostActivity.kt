@@ -695,7 +695,7 @@ class AddPostActivity : BaseActivity() {
                                             play.visibility = View.GONE
                                             pause.visibility = View.GONE
                                             postPic.visibility = View.VISIBLE
-                                            Glide.with(this@AddPostActivity).load(awsPicUrl).placeholder(R.drawable.logo)
+                                            Glide.with(this@AddPostActivity).load(awsPicUrl).placeholder(R.drawable.placeholder)
                                                 .into(postPic)
                                         } else if (type == "video") {
                                             addMedia.visibility = View.GONE
@@ -719,7 +719,7 @@ class AddPostActivity : BaseActivity() {
                                             eplay.visibility = View.GONE
                                             epause.visibility = View.GONE
                                             epostPic.visibility = View.VISIBLE
-                                            Glide.with(this@AddPostActivity).load(awsPicUrl2).placeholder(R.drawable.logo)
+                                            Glide.with(this@AddPostActivity).load(awsPicUrl2).placeholder(R.drawable.placeholder)
                                                 .into(epostPic)
                                         } else if (type == "video") {
                                             eaddMedia.visibility = View.GONE

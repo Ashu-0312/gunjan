@@ -152,7 +152,7 @@ class ChatAdapter(
                                     fos!!.close()
                                     //  Toast.makeText(context, "success"+someFile.getPath(), Toast.LENGTH_SHORT).show();
                                     Glide.with(context!!).load(someFile.path)
-                                        .placeholder(R.drawable.logo).into(holder.rightImage!!)
+                                        .placeholder(R.drawable.placeholder).into(holder.rightImage!!)
                                 } catch (fileNotFoundException: FileNotFoundException) {
                                     fileNotFoundException.printStackTrace()
                                 } catch (ioException: IOException) {

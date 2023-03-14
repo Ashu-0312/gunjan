@@ -30,8 +30,11 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import app.gunjan.R;
@@ -249,5 +252,24 @@ public class ProjectUtill {
                 cursor.close();
         }
         return null;
+    }
+
+    public static String getFormatedDateTime(
+            String dateStr,
+            String strReadFormat,
+            String strWriteFormat
+    ) {
+        String formattedDate = dateStr;
+        DateFormat readFormat = new SimpleDateFormat(strReadFormat, Locale.getDefault());
+        DateFormat writeFormat = new SimpleDateFormat(strWriteFormat, Locale.getDefault());
+        Date date = null;
+        try {
+            date = readFormat.parse(dateStr);
+        } catch (ParseException e) {
+        }
+        if (date != null) {
+            formattedDate = writeFormat.format(date);
+        }
+        return formattedDate;
     }
 }
