@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
 import app.gunjan.activities.MyCommunitesActivity
+import app.gunjan.activities.RequestListActivity
 import app.gunjan.entity.NotificationListResponse
 import app.gunjan.utill.ProjectUtill
 import java.text.SimpleDateFormat
@@ -21,7 +22,7 @@ import kotlin.collections.ArrayList
 class NotificationListAdapter(
     var context: Context?,
     data: ArrayList<NotificationListResponse.DataBean.NotificationBean>,
-) :RecyclerView.Adapter<NotificationListAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<NotificationListAdapter.ViewHolder>() {
     private var data: ArrayList<NotificationListResponse.DataBean.NotificationBean> = data
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -32,7 +33,7 @@ class NotificationListAdapter(
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         try {
-            holder.title!!.text=data[position].body
+            holder.title!!.text = data[position].body
             val c = Calendar.getInstance().time
             println("Current time => $c")
             var format = SimpleDateFormat("yyyy-MM-dd")
@@ -61,11 +62,16 @@ class NotificationListAdapter(
                 "HH:mm:ss",
                 "hh:mm a"
             )
-        }catch (e:Exception){}
+        } catch (e: Exception) {
+        }
 
         holder.itemView!!.setOnClickListener {
-            if (data[position].body.contains("community request")){
-                context!!.startActivity(Intent(context,MyCommunitesActivity::class.java))
+            if (data[position].body.contains("sent a request")) {
+                if (data[position].requestId != null) {
+                    val intent = Intent(context, RequestListActivity::class.java)
+                    intent.putExtra("community_id", data[position].requestId)
+                    context!!.startActivity(intent)
+                }
             }
         }
     }
@@ -75,11 +81,12 @@ class NotificationListAdapter(
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var title: TextView? =null
-        var time: TextView? =null
+        var title: TextView? = null
+        var time: TextView? = null
+
         init {
-            title=itemView.findViewById(R.id.title)
-            time=itemView.findViewById(R.id.time)
+            title = itemView.findViewById(R.id.title)
+            time = itemView.findViewById(R.id.time)
         }
     }
 

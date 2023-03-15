@@ -145,6 +145,16 @@ public class NotificationListResponse implements Serializable {
              */
 
             private int id;
+
+            public String getRequestId() {
+                return requestId;
+            }
+
+            public void setRequestId(String requestId) {
+                this.requestId = requestId;
+            }
+
+            private String requestId;
             private int userId;
             private String title;
             private String device_token;
