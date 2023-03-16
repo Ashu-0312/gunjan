@@ -66,7 +66,7 @@ class NotificationListAdapter(
         }
 
         holder.itemView!!.setOnClickListener {
-            if (data[position].body.contains("sent a request")) {
+            if (data[position].notification_type.equals("community request")) {
                 if (data[position].requestId != null) {
                     val intent = Intent(context, RequestListActivity::class.java)
                     intent.putExtra("community_id", data[position].requestId)
