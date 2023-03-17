@@ -1,9 +1,11 @@
 package app.gunjan.activities
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import app.gunjan.R
 import app.gunjan.entity.CommunityDetailsResponse
+import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import com.bumptech.glide.Glide
@@ -22,8 +24,21 @@ class CommunityDetailsActivity : BaseActivity() {
     }
 
     private fun initData() {
-        //if (intent.hasExtra("id"))
-        communityId = intent.getStringExtra("id").toString()
+        if (intent.hasExtra("id")) {
+            communityId = intent.getStringExtra("id").toString()
+        } else {
+            if (FCSharedPreferances.getSharedPreferance(this).statuS_LOGIN.equals("true")) {
+                val appLinkAction: String? = intent?.action
+                val appLinkData: Uri? = intent?.data
+                if (Intent.ACTION_VIEW == appLinkAction && appLinkData != null) {
+                    communityId = appLinkData.getQueryParameter("cid")
+                }
+            }else{
+                val intent = Intent(this@CommunityDetailsActivity, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            }
+        }
         getDetails()
         back.setOnClickListener { finish() }
 

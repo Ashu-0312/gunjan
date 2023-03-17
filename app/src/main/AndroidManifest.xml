@@ -67,14 +67,22 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+
                 <data
-                    android:host="www.example.com"
-                    android:scheme="https" />
+                    android:scheme="http"
+                    android:host="www.gunjan.app"
+                    android:path="/details" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
-                    android:host="www.example.com"
-                    android:pathPrefix="/gizmos"
-                    android:scheme="http" />
+                    android:scheme="https"
+                    android:host="www.gunjan.app"
+                    android:path="/details" />
             </intent-filter>
         </activity>
         <activity

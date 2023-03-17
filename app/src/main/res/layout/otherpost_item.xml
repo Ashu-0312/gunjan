@@ -191,9 +191,9 @@
         android:visibility="gone"
         android:layout_marginTop="@dimen/margin_10dp"
         android:id="@+id/pic_layout"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="270dp"
         android:src="@drawable/logo"/>
     <FrameLayout
         android:layout_marginTop="@dimen/margin_10dp"
