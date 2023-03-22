@@ -2,12 +2,10 @@ package app.gunjan.activities
 
 import android.app.Dialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
 import android.view.Window
 import android.view.WindowManager
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import app.gunjan.R
@@ -17,7 +15,6 @@ import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.activity_community_details.*
 import kotlinx.android.synthetic.main.activity_leave_community.*
 import kotlinx.android.synthetic.main.activity_leave_community.About
 import kotlinx.android.synthetic.main.activity_leave_community.Leave
@@ -48,14 +45,14 @@ class LeaveCommunityActivity : BaseActivity() {
         }
     }
 
-    fun leaveCommunityDialog() {
-        var yes: LinearLayout? = null
-        var no: LinearLayout? = null
+    private fun leaveCommunityDialog() {
+        val yes: LinearLayout?
+        val no: LinearLayout?
         val dialog = Dialog(this)
         // Include dialog.xml file
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.leave_dialog)
-        dialog!!.setCancelable(true)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.leave_dialog)
+        dialog.setCancelable(true)
         val window = dialog.window
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
@@ -142,7 +139,7 @@ class LeaveCommunityActivity : BaseActivity() {
                               Toast.makeText(this@LeaveCommunityActivity,""+response.body()!!.message,Toast.LENGTH_LONG).show()
                                 FCSharedPreferances.getSharedPreferance(this@LeaveCommunityActivity).status =
                                     "edit"
-                                var intent = Intent(
+                                val intent = Intent(
                                     this@LeaveCommunityActivity,
                                     HomeActivity::class.java
                                 )

@@ -1,19 +1,13 @@
 package app.gunjan.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.text.HtmlCompat
 import app.gunjan.R
 import app.gunjan.entity.CommunityGuidelineResponse
-import app.gunjan.entity.TermsResponse
-import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
-import kotlinx.android.synthetic.main.activity_guideline.*
-import kotlinx.android.synthetic.main.activity_privacy_policy.*
 import kotlinx.android.synthetic.main.activity_privacy_policy.back
 import kotlinx.android.synthetic.main.activity_privacy_policy.content
-import kotlinx.android.synthetic.main.activity_tc.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

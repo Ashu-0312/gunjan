@@ -3,8 +3,8 @@ package app.gunjan.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import app.gunjan.R
 import app.gunjan.entity.OtherUserDetailsResponse
 import app.gunjan.utill.FCSharedPreferances
@@ -40,7 +40,9 @@ class SocialProfileActivity : BaseActivity() {
                     i.data = Uri.parse(url)
                     startActivity(i)
                 }
-            }catch (e: Exception){}
+            }catch (e: Exception){
+                Log.d("ERROR",e.printStackTrace().toString())
+            }
         }
 
         youtubeName.setOnClickListener {
@@ -56,7 +58,9 @@ class SocialProfileActivity : BaseActivity() {
                     i.data = Uri.parse(url)
                     startActivity(i)
                 }
-            }catch (e: Exception){}
+            }catch (e: Exception){
+                Log.d("ERROR",e.printStackTrace().toString())
+            }
         }
 
         fbLayout.setOnClickListener {
@@ -72,7 +76,9 @@ class SocialProfileActivity : BaseActivity() {
                     i.data = Uri.parse(url)
                     startActivity(i)
                 }
-            }catch (e: Exception){}
+            }catch (e: Exception){
+                Log.d("ERROR",e.printStackTrace().toString())
+            }
         }
 
         fbName.setOnClickListener {
@@ -88,7 +94,9 @@ class SocialProfileActivity : BaseActivity() {
                     i.data = Uri.parse(url)
                     startActivity(i)
                 }
-            }catch (e: Exception){}
+            }catch (e: Exception){
+                Log.d("ERROR",e.printStackTrace().toString())
+            }
         }
 
         instaLayout.setOnClickListener {
@@ -104,7 +112,9 @@ class SocialProfileActivity : BaseActivity() {
                     i.data = Uri.parse(url)
                     startActivity(i)
                 }
-            }catch (e: Exception){}
+            }catch (e: Exception){
+                Log.d("ERROR",e.printStackTrace().toString())
+            }
         }
 
         instaName.setOnClickListener {
@@ -120,7 +130,9 @@ class SocialProfileActivity : BaseActivity() {
                     i.data = Uri.parse(url)
                     startActivity(i)
                 }
-            }catch (e: Exception){}
+            }catch (e: Exception){
+                Log.d("ERROR",e.printStackTrace().toString())
+            }
         }
 
         linkedInLayout.setOnClickListener {
@@ -136,7 +148,9 @@ class SocialProfileActivity : BaseActivity() {
                     i.data = Uri.parse(url)
                     startActivity(i)
                 }
-            }catch (e: Exception){}
+            }catch (e: Exception){
+                Log.d("ERROR",e.printStackTrace().toString())
+            }
         }
 
         linkedInName.setOnClickListener {
@@ -152,7 +166,9 @@ class SocialProfileActivity : BaseActivity() {
                     i.data = Uri.parse(url)
                     startActivity(i)
                 }
-            }catch (e: Exception){}
+            }catch (e: Exception){
+                Log.d("ERROR",e.printStackTrace().toString())
+            }
         }
 
         userDetails()
@@ -209,6 +225,7 @@ class SocialProfileActivity : BaseActivity() {
                                     linkedInName.text =
                                         response.body()!!.data.user.social_media_details.linkedin
                                 } catch (e: Exception) {
+                                    Log.d("ERROR",e.printStackTrace().toString())
                                 }
                             } else {
                                 ProjectUtill.printMessage(

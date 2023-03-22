@@ -1,10 +1,8 @@
 package app.gunjan.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import app.gunjan.R
 import app.gunjan.adapters.DonationHelpTabAdapter
-import app.gunjan.adapters.FollowerFollowingTabAdapter
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_community_help.*
 

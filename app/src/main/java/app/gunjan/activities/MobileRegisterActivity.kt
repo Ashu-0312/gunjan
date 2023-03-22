@@ -4,17 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.text.method.DigitsKeyListener
-import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import app.gunjan.R
 import app.gunjan.entity.SignupResponse
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_edit_profile.*
-import kotlinx.android.synthetic.main.activity_forgot_password.*
 import kotlinx.android.synthetic.main.activity_mobile_register.*
 import kotlinx.android.synthetic.main.activity_mobile_register.back
 import kotlinx.android.synthetic.main.activity_mobile_register.ccp
@@ -63,7 +58,7 @@ class MobileRegisterActivity : BaseActivity() {
                                             "" + response.body()!!.message,
                                             Toast.LENGTH_LONG
                                         ).show()
-                                        var intent =
+                                        val intent =
                                             Intent(
                                                 this@MobileRegisterActivity,
                                                 OtpActivity::class.java

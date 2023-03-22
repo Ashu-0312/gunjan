@@ -1,16 +1,11 @@
 package app.gunjan.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Html
 import androidx.core.text.HtmlCompat
 import app.gunjan.R
-import app.gunjan.entity.PrivacyPolicyResponse
 import app.gunjan.entity.TermsResponse
-import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
-import kotlinx.android.synthetic.main.activity_tc.*
 import kotlinx.android.synthetic.main.activity_tc.back
 import kotlinx.android.synthetic.main.activity_tc.content
 import retrofit2.Call

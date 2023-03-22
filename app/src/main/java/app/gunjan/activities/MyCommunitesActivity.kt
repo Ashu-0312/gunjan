@@ -1,7 +1,6 @@
 package app.gunjan.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,15 +11,12 @@ import app.gunjan.adapters.MyCommunitiesAdapter
 import app.gunjan.entity.CommunityListResponse
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
-import kotlinx.android.synthetic.main.activity_add_interest.*
-import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_my_communites.*
 import kotlinx.android.synthetic.main.activity_my_communites.addCommunity
 import kotlinx.android.synthetic.main.activity_my_communites.back
 import kotlinx.android.synthetic.main.activity_my_communites.blank_data
 import kotlinx.android.synthetic.main.activity_my_communites.progress_bar
 import kotlinx.android.synthetic.main.activity_my_communites.swipe_refresh
-import kotlinx.android.synthetic.main.activity_request_list.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,7 +28,7 @@ class MyCommunitesActivity : BaseActivity() {
     private var layoutManager: LinearLayoutManager? = null
     var communitiesAdapter: MyCommunitiesAdapter? = null
     private var communityList: ArrayList<CommunityListResponse.DataBean.CommunityListBean> =
-        ArrayList<CommunityListResponse.DataBean.CommunityListBean>()
+        ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,19 +96,19 @@ class MyCommunitesActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@MyCommunitesActivity!!.window.decorView,
+                                    this@MyCommunitesActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@MyCommunitesActivity!!.window.decorView,
+                                this@MyCommunitesActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@MyCommunitesActivity!!.window.decorView,
+                            this@MyCommunitesActivity.window.decorView,
                             ""
                         )
                     }
@@ -124,7 +120,7 @@ class MyCommunitesActivity : BaseActivity() {
                 ) {
                     myDialog.dismiss()
                     ProjectUtill.printErrorMessage(
-                        this@MyCommunitesActivity!!.window.decorView,
+                        this@MyCommunitesActivity.window.decorView,
                         ""
                     )
                 }
@@ -167,19 +163,19 @@ class MyCommunitesActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@MyCommunitesActivity!!.window.decorView,
+                                    this@MyCommunitesActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@MyCommunitesActivity!!.window.decorView,
+                                this@MyCommunitesActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@MyCommunitesActivity!!.window.decorView,
+                            this@MyCommunitesActivity.window.decorView,
                             ""
                         )
                     }
@@ -190,7 +186,7 @@ class MyCommunitesActivity : BaseActivity() {
                     t: Throwable,
                 ) {
                     ProjectUtill.printErrorMessage(
-                        this@MyCommunitesActivity!!.window.decorView,
+                        this@MyCommunitesActivity.window.decorView,
                         ""
                     )
                 }
@@ -234,19 +230,19 @@ class MyCommunitesActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@MyCommunitesActivity!!.window.decorView,
+                                    this@MyCommunitesActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@MyCommunitesActivity!!.window.decorView,
+                                this@MyCommunitesActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@MyCommunitesActivity!!.window.decorView,
+                            this@MyCommunitesActivity.window.decorView,
                             ""
                         )
                     }
@@ -258,7 +254,7 @@ class MyCommunitesActivity : BaseActivity() {
                 ) {
                     progress_bar!!.visibility = View.GONE
                     ProjectUtill.printErrorMessage(
-                        this@MyCommunitesActivity!!.window.decorView,
+                        this@MyCommunitesActivity.window.decorView,
                         ""
                     )
                 }

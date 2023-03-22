@@ -1,6 +1,5 @@
 package app.gunjan.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,8 +12,6 @@ import app.gunjan.webservices.WebServiceRequest
 import kotlinx.android.synthetic.main.activity_joined_event_user_list.*
 import kotlinx.android.synthetic.main.activity_joined_event_user_list.back
 import kotlinx.android.synthetic.main.activity_joined_event_user_list.swipe_refresh
-import kotlinx.android.synthetic.main.activity_notification.*
-import kotlinx.android.synthetic.main.activity_privacy_policy.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -56,7 +53,7 @@ class JoinedEventUserListActivity : BaseActivity() {
                                 }else {
                                     userRecycler.visibility=View.VISIBLE
                                     blankData.visibility=View.GONE
-                                    var listAdapter = JoinedEventUsersAdapter(
+                                    val listAdapter = JoinedEventUsersAdapter(
                                         this@JoinedEventUserListActivity,
                                         response.body()!!.data.member_list
                                     )
@@ -114,7 +111,7 @@ class JoinedEventUserListActivity : BaseActivity() {
                                 }else {
                                     userRecycler.visibility=View.VISIBLE
                                     blankData.visibility=View.GONE
-                                    var listAdapter = JoinedEventUsersAdapter(
+                                    val listAdapter = JoinedEventUsersAdapter(
                                         this@JoinedEventUserListActivity,
                                         response.body()!!.data.member_list
                                     )

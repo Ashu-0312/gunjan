@@ -1,18 +1,14 @@
 package app.gunjan.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
 import android.text.method.DigitsKeyListener
-import android.widget.Toast
 import app.gunjan.R
 import app.gunjan.entity.LoginResponse
-import app.gunjan.entity.SignupResponse
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
-import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.ccp
 import kotlinx.android.synthetic.main.activity_login.edtMobile
@@ -66,7 +62,7 @@ class LoginActivity : BaseActivity() {
                                 if (response.isSuccessful) {
                                     if (response.body()!!.code == 1) {
                                         FCSharedPreferances.getSharedPreferance(this@LoginActivity).token=""
-                                        var intent =
+                                        val intent =
                                             Intent(
                                                 this@LoginActivity,
                                                 OtpActivity::class.java

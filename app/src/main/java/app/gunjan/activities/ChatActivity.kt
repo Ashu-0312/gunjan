@@ -16,14 +16,12 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.gunjan.R
 import app.gunjan.adapters.ChatAdapter
 import app.gunjan.adapters.MemberListAdapter
-import app.gunjan.entity.AddMemberinGroupResponse
 import app.gunjan.entity.BlockUnblockUserResponse
 import app.gunjan.entity.MemberListResponse
 import app.gunjan.twilio.*
@@ -32,7 +30,6 @@ import app.gunjan.utill.PermissionUtil
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import com.bumptech.glide.Glide
-import com.google.gson.Gson
 import com.twilio.chat.*
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_chat.back
@@ -49,10 +46,10 @@ class ChatActivity : BaseActivity(), MessagesFetched, QuickstartChatManagerListe
     var isLoading = false
     var isLastPage = false
     private var layoutManager: LinearLayoutManager? = null
-    var progressDialog: ProgressDialog? = null
+    private var progressDialog: ProgressDialog? = null
     private var pathPic = ""
     private var chatType: String? = null
-    var chatAdapter: ChatAdapter? = null
+    private var chatAdapter: ChatAdapter? = null
     private var otherId: String? = null
     private var channelId: String? = null
     private var memberAdapter: MemberListAdapter? = null
@@ -89,6 +86,7 @@ class ChatActivity : BaseActivity(), MessagesFetched, QuickstartChatManagerListe
                 blockUser.visibility = View.VISIBLE
             }
         } catch (e: Exception) {
+            Log.d("ERROR",e.printStackTrace().toString())
         }
         progressDialog = ProgressDialog(this@ChatActivity, R.style.MyAlertDialogStyle)
         progressDialog!!.setCancelable(false)
@@ -193,7 +191,7 @@ class ChatActivity : BaseActivity(), MessagesFetched, QuickstartChatManagerListe
         exception: java.lang.Exception?,
     ) {
         if (success) {
-            var myId: String? = ""
+            val myId: String?
             if (chatType == "individual_chat") {
                 if (otherId!!.toInt() > FCSharedPreferances.getSharedPreferance(this@ChatActivity).useR_ID.toInt()
                 ) myId =
@@ -225,16 +223,16 @@ class ChatActivity : BaseActivity(), MessagesFetched, QuickstartChatManagerListe
     }
 
     fun chooseMediaDialog() {
-        var close: ImageView? = null
-        var gallery: RelativeLayout? = null
+        val close: ImageView?
+        val gallery: RelativeLayout
         val capturePic: RelativeLayout
         val video: RelativeLayout
         val captureVideo: RelativeLayout
         val dialog = Dialog(this)
         // Include dialog.xml file
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.selectfile_dialog)
-        dialog!!.setCancelable(true)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.selectfile_dialog)
+        dialog.setCancelable(true)
         val window = dialog.window
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
@@ -299,7 +297,7 @@ class ChatActivity : BaseActivity(), MessagesFetched, QuickstartChatManagerListe
             when (requestCode) {
                 0 -> {
                     val bip = data!!.extras!!["data"] as Bitmap?
-                    Log.d("BitData", data!!.extras!!["data"].toString())
+                    Log.d("BitData", data.extras!!["data"].toString())
                     save(bip!!)
                 }
                 1 -> {
@@ -398,14 +396,14 @@ class ChatActivity : BaseActivity(), MessagesFetched, QuickstartChatManagerListe
         }
     }
 
-    fun memberListDialog() {
-        var close: ImageView? = null
-        var add: LinearLayout? = null
+    private fun memberListDialog() {
+        val close: ImageView?
+        val add: LinearLayout?
         val dialog = Dialog(this)
         // Include dialog.xml file
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.addgroup_dialog)
-        dialog!!.setCancelable(true)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.addgroup_dialog)
+        dialog.setCancelable(true)
         val window = dialog.window
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
@@ -516,19 +514,19 @@ class ChatActivity : BaseActivity(), MessagesFetched, QuickstartChatManagerListe
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@ChatActivity!!.window.decorView,
+                                    this@ChatActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@ChatActivity!!.window.decorView,
+                                this@ChatActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@ChatActivity!!.window.decorView,
+                            this@ChatActivity.window.decorView,
                             ""
                         )
                     }
@@ -540,7 +538,7 @@ class ChatActivity : BaseActivity(), MessagesFetched, QuickstartChatManagerListe
                 ) {
                     myDialog.dismiss()
                     ProjectUtill.printErrorMessage(
-                        this@ChatActivity!!.window.decorView,
+                        this@ChatActivity.window.decorView,
                         ""
                     )
                 }
@@ -584,19 +582,19 @@ class ChatActivity : BaseActivity(), MessagesFetched, QuickstartChatManagerListe
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@ChatActivity!!.window.decorView,
+                                    this@ChatActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@ChatActivity!!.window.decorView,
+                                this@ChatActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@ChatActivity!!.window.decorView,
+                            this@ChatActivity.window.decorView,
                             ""
                         )
                     }
@@ -608,7 +606,7 @@ class ChatActivity : BaseActivity(), MessagesFetched, QuickstartChatManagerListe
                 ) {
                     progress_bar!!.visibility = View.GONE
                     ProjectUtill.printErrorMessage(
-                        this@ChatActivity!!.window.decorView,
+                        this@ChatActivity.window.decorView,
                         ""
                     )
                 }
@@ -664,8 +662,8 @@ class ChatActivity : BaseActivity(), MessagesFetched, QuickstartChatManagerListe
         val window = dialog.window
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
-            WindowManager.LayoutParams.FILL_PARENT,
-            WindowManager.LayoutParams.FILL_PARENT
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
         )
         dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
         imageView = dialog.findViewById(R.id.image)
@@ -684,7 +682,7 @@ class ChatActivity : BaseActivity(), MessagesFetched, QuickstartChatManagerListe
                 val byteArray = out.toByteArray()
                 val someFile = File(getExternalFilesDir(null), media.fileName)
                 try {
-                    var fos: FileOutputStream? = null
+                    val fos: FileOutputStream?
                     fos = FileOutputStream(someFile)
                     fos.write(byteArray)
                     fos.flush()
@@ -745,14 +743,14 @@ class ChatActivity : BaseActivity(), MessagesFetched, QuickstartChatManagerListe
     }
 
     fun blockDialog(userId: String) {
-        var yes: LinearLayout? = null
-        var no: LinearLayout? = null
-        var close: ImageView? = null
+        val yes: LinearLayout?
+        val no: LinearLayout?
+        val close: ImageView?
         val dialog = Dialog(this)
         // Include dialog.xml file
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.block_dialog)
-        dialog!!.setCancelable(true)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.block_dialog)
+        dialog.setCancelable(true)
         val window = dialog.window
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
@@ -793,19 +791,19 @@ class ChatActivity : BaseActivity(), MessagesFetched, QuickstartChatManagerListe
                                         startActivity(intent)
                                     } else {
                                         ProjectUtill.printMessage(
-                                            this@ChatActivity!!.window.decorView,
+                                            this@ChatActivity.window.decorView,
                                             response.body()?.message
                                         )
                                     }
                                 } else {
                                     ProjectUtill.printErrorMessage(
-                                        this@ChatActivity!!.window.decorView,
+                                        this@ChatActivity.window.decorView,
                                         ""
                                     )
                                 }
                             } else {
                                 ProjectUtill.printErrorMessage(
-                                    this@ChatActivity!!.window.decorView,
+                                    this@ChatActivity.window.decorView,
                                     ""
                                 )
                             }
@@ -817,7 +815,7 @@ class ChatActivity : BaseActivity(), MessagesFetched, QuickstartChatManagerListe
                         ) {
                             myDialog.dismiss()
                             ProjectUtill.printErrorMessage(
-                                this@ChatActivity!!.window.decorView,
+                                this@ChatActivity.window.decorView,
                                 ""
                             )
                         }

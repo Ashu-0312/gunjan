@@ -1,16 +1,12 @@
 package app.gunjan.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import app.gunjan.R
 import app.gunjan.utill.FCSharedPreferances
 import kotlinx.android.synthetic.main.activity_choose_language.*
-import java.util.*
 
 class ChooseLanguageActivity : BaseActivity() {
-    private var myLocale:Locale?=null
-    private var currentLang:String?=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_language)

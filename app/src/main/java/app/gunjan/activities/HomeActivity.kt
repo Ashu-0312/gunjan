@@ -314,6 +314,8 @@ class HomeActivity : BaseActivity() {
                                     response.body()!!.data.user.total_available_coins.toString()
                                 FCSharedPreferances.getSharedPreferance(this@HomeActivity).useR_NAME =
                                     response.body()!!.data.user.first_name + " " + response.body()!!.data.user.last_name
+                                FCSharedPreferances.getSharedPreferance(this@HomeActivity).activE_COMMUNITY =
+                                    response.body()!!.data.user.active_community.toString()
                             } else {
                                 ProjectUtill.printMessage(
                                     this@HomeActivity.window.decorView,

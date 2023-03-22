@@ -2,13 +2,10 @@ package app.gunjan.activities
 
 import android.app.Dialog
 import android.content.Intent
-import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
 import android.widget.*
 import app.gunjan.R
-import app.gunjan.entity.PrivacyPolicyResponse
 import app.gunjan.entity.SendCommunityRequestResponse
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
@@ -17,7 +14,6 @@ import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_join_community.*
 import kotlinx.android.synthetic.main.activity_join_community.back
-import kotlinx.android.synthetic.main.activity_privacy_policy.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -85,15 +81,15 @@ class JoinCommunityActivity : BaseActivity() {
     }
 
     fun joinDialog() {
-        var apply: LinearLayout? = null
-        var pic: CircleImageView? = null
-        var title: TextView? = null
-        var close: ImageView? = null
+        val apply: LinearLayout?
+        val pic: CircleImageView?
+        val title: TextView?
+        val close: ImageView?
         val dialog = Dialog(this)
         // Include dialog.xml file
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.joincommunity_dialog)
-        dialog!!.setCancelable(true)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.joincommunity_dialog)
+        dialog.setCancelable(true)
         val window = dialog.window
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
@@ -113,7 +109,7 @@ class JoinCommunityActivity : BaseActivity() {
         apply.setOnClickListener {
             dialog.cancel()
             FCSharedPreferances.getSharedPreferance(this@JoinCommunityActivity).statuS_LOGIN="true"
-            var intent = Intent(this,HomeActivity::class.java)
+            val intent = Intent(this,HomeActivity::class.java)
             intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }

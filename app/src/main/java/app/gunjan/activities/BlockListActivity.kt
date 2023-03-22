@@ -1,6 +1,5 @@
 package app.gunjan.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,7 +26,7 @@ class BlockListActivity : BaseActivity() {
     var isLastPage = false
     private var layoutManager: LinearLayoutManager? = null
     var blockedListAdapter: BlockedListAdapter?=null
-    private var blockList: ArrayList<BlockedUserListResponse.DataBean.MemberListBean> = ArrayList<BlockedUserListResponse.DataBean.MemberListBean>()
+    private var blockList: ArrayList<BlockedUserListResponse.DataBean.MemberListBean> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_block_list)
@@ -90,19 +89,19 @@ class BlockListActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@BlockListActivity!!.window.decorView,
+                                    this@BlockListActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@BlockListActivity!!.window.decorView,
+                                this@BlockListActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@BlockListActivity!!.window.decorView,
+                            this@BlockListActivity.window.decorView,
                             ""
                         )
                     }
@@ -114,7 +113,7 @@ class BlockListActivity : BaseActivity() {
                 ) {
                     myDialog.dismiss()
                     ProjectUtill.printErrorMessage(
-                        this@BlockListActivity!!.window.decorView,
+                        this@BlockListActivity.window.decorView,
                         ""
                     )
                 }
@@ -157,19 +156,19 @@ class BlockListActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@BlockListActivity!!.window.decorView,
+                                    this@BlockListActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@BlockListActivity!!.window.decorView,
+                                this@BlockListActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@BlockListActivity!!.window.decorView,
+                            this@BlockListActivity.window.decorView,
                             ""
                         )
                     }
@@ -180,7 +179,7 @@ class BlockListActivity : BaseActivity() {
                     t: Throwable,
                 ) {
                     ProjectUtill.printErrorMessage(
-                        this@BlockListActivity!!.window.decorView,
+                        this@BlockListActivity.window.decorView,
                         ""
                     )
                 }
@@ -224,19 +223,19 @@ class BlockListActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@BlockListActivity!!.window.decorView,
+                                    this@BlockListActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@BlockListActivity!!.window.decorView,
+                                this@BlockListActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@BlockListActivity!!.window.decorView,
+                            this@BlockListActivity.window.decorView,
                             ""
                         )
                     }
@@ -248,7 +247,7 @@ class BlockListActivity : BaseActivity() {
                 ) {
                     progress_bar.visibility=View.GONE
                     ProjectUtill.printErrorMessage(
-                        this@BlockListActivity!!.window.decorView,
+                        this@BlockListActivity.window.decorView,
                         ""
                     )
                 }

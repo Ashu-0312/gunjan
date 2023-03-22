@@ -1,7 +1,6 @@
 package app.gunjan.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.gunjan.R
 import app.gunjan.adapters.CommunitiesAdapter
-import app.gunjan.adapters.JoinedCommunitiesAdapter
 import app.gunjan.entity.CommunityListResponse
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
@@ -24,7 +22,7 @@ class SwitchCommunityActivity : BaseActivity() {
     var isLastPage = false
     private var layoutManager: LinearLayoutManager? = null
     var communitiesAdapter: CommunitiesAdapter?=null
-    private var communityList: ArrayList<CommunityListResponse.DataBean.CommunityListBean> = ArrayList<CommunityListResponse.DataBean.CommunityListBean>()
+    private var communityList: ArrayList<CommunityListResponse.DataBean.CommunityListBean> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_switch_community)
@@ -87,19 +85,19 @@ class SwitchCommunityActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@SwitchCommunityActivity!!.window.decorView,
+                                    this@SwitchCommunityActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@SwitchCommunityActivity!!.window.decorView,
+                                this@SwitchCommunityActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@SwitchCommunityActivity!!.window.decorView,
+                            this@SwitchCommunityActivity.window.decorView,
                             ""
                         )
                     }
@@ -111,7 +109,7 @@ class SwitchCommunityActivity : BaseActivity() {
                 ) {
                     myDialog.dismiss()
                     ProjectUtill.printErrorMessage(
-                        this@SwitchCommunityActivity!!.window.decorView,
+                        this@SwitchCommunityActivity.window.decorView,
                         ""
                     )
                 }
@@ -154,19 +152,19 @@ class SwitchCommunityActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@SwitchCommunityActivity!!.window.decorView,
+                                    this@SwitchCommunityActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@SwitchCommunityActivity!!.window.decorView,
+                                this@SwitchCommunityActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@SwitchCommunityActivity!!.window.decorView,
+                            this@SwitchCommunityActivity.window.decorView,
                             ""
                         )
                     }
@@ -177,7 +175,7 @@ class SwitchCommunityActivity : BaseActivity() {
                     t: Throwable,
                 ) {
                     ProjectUtill.printErrorMessage(
-                        this@SwitchCommunityActivity!!.window.decorView,
+                        this@SwitchCommunityActivity.window.decorView,
                         ""
                     )
                 }
@@ -221,19 +219,19 @@ class SwitchCommunityActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@SwitchCommunityActivity!!.window.decorView,
+                                    this@SwitchCommunityActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@SwitchCommunityActivity!!.window.decorView,
+                                this@SwitchCommunityActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@SwitchCommunityActivity!!.window.decorView,
+                            this@SwitchCommunityActivity.window.decorView,
                             ""
                         )
                     }
@@ -245,7 +243,7 @@ class SwitchCommunityActivity : BaseActivity() {
                 ) {
                     progress_bar!!.visibility = View.GONE
                     ProjectUtill.printErrorMessage(
-                        this@SwitchCommunityActivity!!.window.decorView,
+                        this@SwitchCommunityActivity.window.decorView,
                         ""
                     )
                 }

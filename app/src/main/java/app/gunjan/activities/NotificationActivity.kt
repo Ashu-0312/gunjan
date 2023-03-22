@@ -1,6 +1,5 @@
 package app.gunjan.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +23,7 @@ class NotificationActivity : BaseActivity() {
     private var layoutManager: LinearLayoutManager? = null
     var notificationAdapter: NotificationListAdapter? = null
     private var notificationList: ArrayList<NotificationListResponse.DataBean.NotificationBean> =
-        ArrayList<NotificationListResponse.DataBean.NotificationBean>()
+        ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,19 +87,19 @@ class NotificationActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@NotificationActivity!!.window.decorView,
+                                    this@NotificationActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@NotificationActivity!!.window.decorView,
+                                this@NotificationActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@NotificationActivity!!.window.decorView,
+                            this@NotificationActivity.window.decorView,
                             ""
                         )
                     }
@@ -112,7 +111,7 @@ class NotificationActivity : BaseActivity() {
                 ) {
                     myDialog.dismiss()
                     ProjectUtill.printErrorMessage(
-                        this@NotificationActivity!!.window.decorView,
+                        this@NotificationActivity.window.decorView,
                         ""
                     )
                 }
@@ -155,19 +154,19 @@ class NotificationActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@NotificationActivity!!.window.decorView,
+                                    this@NotificationActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@NotificationActivity!!.window.decorView,
+                                this@NotificationActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@NotificationActivity!!.window.decorView,
+                            this@NotificationActivity.window.decorView,
                             ""
                         )
                     }
@@ -178,7 +177,7 @@ class NotificationActivity : BaseActivity() {
                     t: Throwable,
                 ) {
                     ProjectUtill.printErrorMessage(
-                        this@NotificationActivity!!.window.decorView,
+                        this@NotificationActivity.window.decorView,
                         ""
                     )
                 }
@@ -222,19 +221,19 @@ class NotificationActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@NotificationActivity!!.window.decorView,
+                                    this@NotificationActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@NotificationActivity!!.window.decorView,
+                                this@NotificationActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@NotificationActivity!!.window.decorView,
+                            this@NotificationActivity.window.decorView,
                             ""
                         )
                     }
@@ -246,7 +245,7 @@ class NotificationActivity : BaseActivity() {
                 ) {
                     progress_bar!!.visibility = View.GONE
                     ProjectUtill.printErrorMessage(
-                        this@NotificationActivity!!.window.decorView,
+                        this@NotificationActivity.window.decorView,
                         ""
                     )
                 }

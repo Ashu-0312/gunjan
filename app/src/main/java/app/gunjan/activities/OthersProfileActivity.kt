@@ -1,9 +1,7 @@
 package app.gunjan.activities
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -17,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
 import app.gunjan.adapters.OthersTabAdapter
 import app.gunjan.adapters.ReasonList2Adapter
-import app.gunjan.adapters.ReasonListAdapter
 import app.gunjan.entity.*
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
@@ -29,14 +26,13 @@ import kotlinx.android.synthetic.main.activity_others_profile.*
 import kotlinx.android.synthetic.main.activity_others_profile.back
 import kotlinx.android.synthetic.main.activity_others_profile.userName
 import kotlinx.android.synthetic.main.activity_others_profile.userPic
-import kotlinx.android.synthetic.main.activity_social_profile.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class OthersProfileActivity : BaseActivity(),RecyclerItemClickListener {
     private var animShow: Animation? = null
-    private var reasonList: ArrayList<String> = ArrayList<String>()
+    private var reasonList: ArrayList<String> = ArrayList()
     private var reasonLayout: LinearLayout? = null
     private var id:String?=""
     private var pic:String?=""
@@ -90,7 +86,7 @@ class OthersProfileActivity : BaseActivity(),RecyclerItemClickListener {
         }
 
         Message.setOnClickListener {
-            var intent = Intent(this, ChatActivity::class.java)
+            val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra("pic",pic)
             intent.putExtra("name",userName!!.text.toString().trim())
             intent.putExtra("otherId",id)
@@ -116,17 +112,17 @@ class OthersProfileActivity : BaseActivity(),RecyclerItemClickListener {
         }
     }
 
-    fun reportDialog(userId: String) {
-        var yes: LinearLayout? = null
-        var no: LinearLayout? = null
-        var close: ImageView? = null
-        var edtReason: EditText? = null
-        var reasonRecycler: RecyclerView? = null
+    private fun reportDialog(userId: String) {
+        val yes: LinearLayout?
+        val no: LinearLayout?
+        val close: ImageView?
+        val edtReason: EditText?
+        val reasonRecycler: RecyclerView?
         val dialog = Dialog(this)
         // Include dialog.xml file
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.report_dialog)
-        dialog!!.setCancelable(true)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.report_dialog)
+        dialog.setCancelable(true)
         val window = dialog.window
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
@@ -154,30 +150,30 @@ class OthersProfileActivity : BaseActivity(),RecyclerItemClickListener {
                         if (response != null) {
                             if (response.isSuccessful) {
                                 if (response.body()!!.code == 1) {
-                                    var reasonAdapter = ReasonList2Adapter(
+                                    val reasonAdapter = ReasonList2Adapter(
                                         this@OthersProfileActivity,
                                         response.body()!!.data.reason_list,
                                         this@OthersProfileActivity
                                     )
-                                    var layoutManager: LinearLayoutManager? =
+                                    val layoutManager =
                                         LinearLayoutManager(this@OthersProfileActivity)
-                                    reasonRecycler!!.layoutManager = layoutManager
-                                    reasonRecycler!!.adapter = reasonAdapter
+                                    reasonRecycler.layoutManager = layoutManager
+                                    reasonRecycler.adapter = reasonAdapter
                                 } else {
                                     ProjectUtill.printMessage(
-                                        this@OthersProfileActivity!!.window.decorView,
+                                        this@OthersProfileActivity.window.decorView,
                                         response.body()?.message
                                     )
                                 }
                             } else {
                                 ProjectUtill.printErrorMessage(
-                                    this@OthersProfileActivity!!.window.decorView,
+                                    this@OthersProfileActivity.window.decorView,
                                     ""
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@OthersProfileActivity!!.window.decorView,
+                                this@OthersProfileActivity.window.decorView,
                                 ""
                             )
                         }
@@ -189,7 +185,7 @@ class OthersProfileActivity : BaseActivity(),RecyclerItemClickListener {
                     ) {
                         myDialog.dismiss()
                         ProjectUtill.printErrorMessage(
-                            this@OthersProfileActivity!!.window.decorView,
+                            this@OthersProfileActivity.window.decorView,
                             ""
                         )
                     }
@@ -207,7 +203,7 @@ class OthersProfileActivity : BaseActivity(),RecyclerItemClickListener {
                             this,
                             userId,
                             FCSharedPreferances.getSharedPreferance(this).reasoN_ID,
-                            edtReason.text.toString().toString(),
+                            edtReason.text.toString(),
                             object : Callback<ReportReasonResponse> {
                                 override fun onResponse(
                                     call: Call<ReportReasonResponse>,
@@ -225,19 +221,19 @@ class OthersProfileActivity : BaseActivity(),RecyclerItemClickListener {
                                                 Status = "2"
                                             } else {
                                                 ProjectUtill.printMessage(
-                                                    this@OthersProfileActivity!!.window.decorView,
+                                                    this@OthersProfileActivity.window.decorView,
                                                     response.body()?.message
                                                 )
                                             }
                                         } else {
                                             ProjectUtill.printErrorMessage(
-                                                this@OthersProfileActivity!!.window.decorView,
+                                                this@OthersProfileActivity.window.decorView,
                                                 ""
                                             )
                                         }
                                     } else {
                                         ProjectUtill.printErrorMessage(
-                                            this@OthersProfileActivity!!.window.decorView,
+                                            this@OthersProfileActivity.window.decorView,
                                             ""
                                         )
                                     }
@@ -249,7 +245,7 @@ class OthersProfileActivity : BaseActivity(),RecyclerItemClickListener {
                                 ) {
                                     myDialog.dismiss()
                                     ProjectUtill.printErrorMessage(
-                                        this@OthersProfileActivity!!.window.decorView,
+                                        this@OthersProfileActivity.window.decorView,
                                         ""
                                     )
                                 }
@@ -277,19 +273,19 @@ class OthersProfileActivity : BaseActivity(),RecyclerItemClickListener {
                                             Status = "2"
                                         } else {
                                             ProjectUtill.printMessage(
-                                                this@OthersProfileActivity!!.window.decorView,
+                                                this@OthersProfileActivity.window.decorView,
                                                 response.body()?.message
                                             )
                                         }
                                     } else {
                                         ProjectUtill.printErrorMessage(
-                                            this@OthersProfileActivity!!.window.decorView,
+                                            this@OthersProfileActivity.window.decorView,
                                             ""
                                         )
                                     }
                                 } else {
                                     ProjectUtill.printErrorMessage(
-                                        this@OthersProfileActivity!!.window.decorView,
+                                        this@OthersProfileActivity.window.decorView,
                                         ""
                                     )
                                 }
@@ -301,7 +297,7 @@ class OthersProfileActivity : BaseActivity(),RecyclerItemClickListener {
                             ) {
                                 myDialog.dismiss()
                                 ProjectUtill.printErrorMessage(
-                                    this@OthersProfileActivity!!.window.decorView,
+                                    this@OthersProfileActivity.window.decorView,
                                     ""
                                 )
                             }
@@ -319,15 +315,15 @@ class OthersProfileActivity : BaseActivity(),RecyclerItemClickListener {
         dialog.show()
     }
 
-    fun blockDialog(userId: String) {
-        var yes: LinearLayout? = null
-        var no: LinearLayout? = null
-        var close: ImageView? = null
+    private fun blockDialog(userId: String) {
+        val yes: LinearLayout?
+        val no: LinearLayout?
+        val close: ImageView?
         val dialog = Dialog(this)
         // Include dialog.xml file
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.block_dialog)
-        dialog!!.setCancelable(true)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.block_dialog)
+        dialog.setCancelable(true)
         val window = dialog.window
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
@@ -359,19 +355,19 @@ class OthersProfileActivity : BaseActivity(),RecyclerItemClickListener {
                                         startActivity(intent)
                                     } else {
                                         ProjectUtill.printMessage(
-                                            this@OthersProfileActivity!!.window.decorView,
+                                            this@OthersProfileActivity.window.decorView,
                                             response.body()?.message
                                         )
                                     }
                                 } else {
                                     ProjectUtill.printErrorMessage(
-                                        this@OthersProfileActivity!!.window.decorView,
+                                        this@OthersProfileActivity.window.decorView,
                                         ""
                                     )
                                 }
                             } else {
                                 ProjectUtill.printErrorMessage(
-                                    this@OthersProfileActivity!!.window.decorView,
+                                    this@OthersProfileActivity.window.decorView,
                                     ""
                                 )
                             }
@@ -383,7 +379,7 @@ class OthersProfileActivity : BaseActivity(),RecyclerItemClickListener {
                         ) {
                             myDialog.dismiss()
                             ProjectUtill.printErrorMessage(
-                                this@OthersProfileActivity!!.window.decorView,
+                                this@OthersProfileActivity.window.decorView,
                                 ""
                             )
                         }

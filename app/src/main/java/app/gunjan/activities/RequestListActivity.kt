@@ -1,15 +1,12 @@
 package app.gunjan.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import app.gunjan.R
 import app.gunjan.adapters.RequestListAdapter
-import app.gunjan.entity.InterestListResponse
 import app.gunjan.entity.RequestListResponse
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
@@ -27,7 +24,7 @@ class RequestListActivity : BaseActivity() {
     var isLastPage = false
     private var layoutManager: LinearLayoutManager? = null
     var requestListAdapter:RequestListAdapter?=null
-    private var requestList: ArrayList<RequestListResponse.DataBean.RequestListBean> = ArrayList<RequestListResponse.DataBean.RequestListBean>()
+    private var requestList: ArrayList<RequestListResponse.DataBean.RequestListBean> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request_list)
@@ -91,19 +88,19 @@ class RequestListActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@RequestListActivity!!.window.decorView,
+                                    this@RequestListActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@RequestListActivity!!.window.decorView,
+                                this@RequestListActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@RequestListActivity!!.window.decorView,
+                            this@RequestListActivity.window.decorView,
                             ""
                         )
                     }
@@ -115,7 +112,7 @@ class RequestListActivity : BaseActivity() {
                 ) {
                     myDialog.dismiss()
                     ProjectUtill.printErrorMessage(
-                        this@RequestListActivity!!.window.decorView,
+                        this@RequestListActivity.window.decorView,
                         ""
                     )
                 }
@@ -158,19 +155,19 @@ class RequestListActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@RequestListActivity!!.window.decorView,
+                                    this@RequestListActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@RequestListActivity!!.window.decorView,
+                                this@RequestListActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@RequestListActivity!!.window.decorView,
+                            this@RequestListActivity.window.decorView,
                             ""
                         )
                     }
@@ -181,7 +178,7 @@ class RequestListActivity : BaseActivity() {
                     t: Throwable,
                 ) {
                     ProjectUtill.printErrorMessage(
-                        this@RequestListActivity!!.window.decorView,
+                        this@RequestListActivity.window.decorView,
                         ""
                     )
                 }
@@ -225,19 +222,19 @@ class RequestListActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@RequestListActivity!!.window.decorView,
+                                    this@RequestListActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@RequestListActivity!!.window.decorView,
+                                this@RequestListActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@RequestListActivity!!.window.decorView,
+                            this@RequestListActivity.window.decorView,
                             ""
                         )
                     }
@@ -249,7 +246,7 @@ class RequestListActivity : BaseActivity() {
                 ) {
                     progress_bar!!.visibility = View.GONE
                     ProjectUtill.printErrorMessage(
-                        this@RequestListActivity!!.window.decorView,
+                        this@RequestListActivity.window.decorView,
                         ""
                     )
                 }

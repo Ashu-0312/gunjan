@@ -1,6 +1,5 @@
 package app.gunjan.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,7 +10,6 @@ import app.gunjan.adapters.JoinedCommunitiesAdapter
 import app.gunjan.entity.CommunityListResponse
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
-import kotlinx.android.synthetic.main.activity_joined_communites.*
 import kotlinx.android.synthetic.main.activity_joined_communites.back
 import kotlinx.android.synthetic.main.activity_joined_communites.blank_data
 import kotlinx.android.synthetic.main.activity_joined_communites.communityRecycler
@@ -27,7 +25,7 @@ class JoinedCommunitesActivity : BaseActivity() {
     var isLastPage = false
     private var layoutManager: LinearLayoutManager? = null
     var communitiesAdapter: JoinedCommunitiesAdapter?=null
-    private var communityList: ArrayList<CommunityListResponse.DataBean.CommunityListBean> = ArrayList<CommunityListResponse.DataBean.CommunityListBean>()
+    private var communityList: ArrayList<CommunityListResponse.DataBean.CommunityListBean> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_joined_communites)
@@ -90,19 +88,19 @@ class JoinedCommunitesActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@JoinedCommunitesActivity!!.window.decorView,
+                                    this@JoinedCommunitesActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@JoinedCommunitesActivity!!.window.decorView,
+                                this@JoinedCommunitesActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@JoinedCommunitesActivity!!.window.decorView,
+                            this@JoinedCommunitesActivity.window.decorView,
                             ""
                         )
                     }
@@ -114,7 +112,7 @@ class JoinedCommunitesActivity : BaseActivity() {
                 ) {
                     myDialog.dismiss()
                     ProjectUtill.printErrorMessage(
-                        this@JoinedCommunitesActivity!!.window.decorView,
+                        this@JoinedCommunitesActivity.window.decorView,
                         ""
                     )
                 }
@@ -157,19 +155,19 @@ class JoinedCommunitesActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@JoinedCommunitesActivity!!.window.decorView,
+                                    this@JoinedCommunitesActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@JoinedCommunitesActivity!!.window.decorView,
+                                this@JoinedCommunitesActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@JoinedCommunitesActivity!!.window.decorView,
+                            this@JoinedCommunitesActivity.window.decorView,
                             ""
                         )
                     }
@@ -180,7 +178,7 @@ class JoinedCommunitesActivity : BaseActivity() {
                     t: Throwable,
                 ) {
                     ProjectUtill.printErrorMessage(
-                        this@JoinedCommunitesActivity!!.window.decorView,
+                        this@JoinedCommunitesActivity.window.decorView,
                         ""
                     )
                 }
@@ -224,19 +222,19 @@ class JoinedCommunitesActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@JoinedCommunitesActivity!!.window.decorView,
+                                    this@JoinedCommunitesActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@JoinedCommunitesActivity!!.window.decorView,
+                                this@JoinedCommunitesActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@JoinedCommunitesActivity!!.window.decorView,
+                            this@JoinedCommunitesActivity.window.decorView,
                             ""
                         )
                     }
@@ -248,7 +246,7 @@ class JoinedCommunitesActivity : BaseActivity() {
                 ) {
                     progress_bar!!.visibility = View.GONE
                     ProjectUtill.printErrorMessage(
-                        this@JoinedCommunitesActivity!!.window.decorView,
+                        this@JoinedCommunitesActivity.window.decorView,
                         ""
                     )
                 }

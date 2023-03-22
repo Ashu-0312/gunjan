@@ -232,7 +232,7 @@ class OtpActivity : BaseActivity() {
                                     if (response.body()!!.data.user.profile_stage.equals("5")) {
                                         FCSharedPreferances.getSharedPreferance(this@OtpActivity).statuS_LOGIN =
                                             "true"
-                                        var intent =
+                                        val intent =
                                             Intent(this@OtpActivity, HomeActivity::class.java)
                                         intent.flags =
                                             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -240,7 +240,7 @@ class OtpActivity : BaseActivity() {
                                     } else {
                                         FCSharedPreferances.getSharedPreferance(this@OtpActivity).profilE_STAGE =
                                             response.body()!!.data.user.profile_stage
-                                        var intent = Intent(
+                                        val intent = Intent(
                                             this@OtpActivity,
                                             SetProfileActivity::class.java
                                         )
@@ -249,7 +249,7 @@ class OtpActivity : BaseActivity() {
                                         startActivity(intent)
                                     }
                                 } else if (type == "edit_mobile") {
-                                    var intent = Intent(this@OtpActivity, HomeActivity::class.java)
+                                    val intent = Intent(this@OtpActivity, HomeActivity::class.java)
                                     intent.flags =
                                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                     startActivity(intent)

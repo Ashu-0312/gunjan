@@ -2,6 +2,7 @@ package app.gunjan.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import app.gunjan.R
 import app.gunjan.entity.AddSocialMediaResponse
 import app.gunjan.entity.UserDetailsResponse
@@ -104,7 +105,9 @@ class AddMediaActivity : BaseActivity() {
                                     youtubeName.setText(response.body()!!.data.user.social_media_details.youtube)
                                     instaName.setText(response.body()!!.data.user.social_media_details.instagram)
                                     linkedInName.setText(response.body()!!.data.user.social_media_details.linkedin)
-                                } catch (e: Exception) {}
+                                } catch (e: Exception) {
+                                    Log.d("ERROR",e.printStackTrace().toString())
+                                }
                             } else {
                                 ProjectUtill.printMessage(
                                     this@AddMediaActivity.window.decorView,

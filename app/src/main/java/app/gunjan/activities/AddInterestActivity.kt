@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -27,9 +26,9 @@ class AddInterestActivity : BaseActivity() {
     var isLastPage = false
     private var layoutManager: GridLayoutManager? = null
     private var interestAdapter: AddEditInterestAdapter? = null
-    private var selectedList: ArrayList<ShowInterestModel> = ArrayList<ShowInterestModel>()
+    private var selectedList: ArrayList<ShowInterestModel> = ArrayList()
     private var interestList: ArrayList<InterestListResponse.DataBean.InterestBean> =
-        ArrayList<InterestListResponse.DataBean.InterestBean>()
+        ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,19 +108,19 @@ class AddInterestActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@AddInterestActivity!!.window.decorView,
+                                    this@AddInterestActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@AddInterestActivity!!.window.decorView,
+                                this@AddInterestActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@AddInterestActivity!!.window.decorView,
+                            this@AddInterestActivity.window.decorView,
                             ""
                         )
                     }
@@ -133,7 +132,7 @@ class AddInterestActivity : BaseActivity() {
                 ) {
                     myDialog.dismiss()
                     ProjectUtill.printErrorMessage(
-                        this@AddInterestActivity!!.window.decorView,
+                        this@AddInterestActivity.window.decorView,
                         ""
                     )
                 }
@@ -176,19 +175,19 @@ class AddInterestActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@AddInterestActivity!!.window.decorView,
+                                    this@AddInterestActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@AddInterestActivity!!.window.decorView,
+                                this@AddInterestActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@AddInterestActivity!!.window.decorView,
+                            this@AddInterestActivity.window.decorView,
                             ""
                         )
                     }
@@ -199,7 +198,7 @@ class AddInterestActivity : BaseActivity() {
                     t: Throwable,
                 ) {
                     ProjectUtill.printErrorMessage(
-                        this@AddInterestActivity!!.window.decorView,
+                        this@AddInterestActivity.window.decorView,
                         ""
                     )
                 }
@@ -243,19 +242,19 @@ class AddInterestActivity : BaseActivity() {
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@AddInterestActivity!!.window.decorView,
+                                    this@AddInterestActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@AddInterestActivity!!.window.decorView,
+                                this@AddInterestActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@AddInterestActivity!!.window.decorView,
+                            this@AddInterestActivity.window.decorView,
                             ""
                         )
                     }
@@ -267,7 +266,7 @@ class AddInterestActivity : BaseActivity() {
                 ) {
                     progress_bar!!.visibility = View.GONE
                     ProjectUtill.printErrorMessage(
-                        this@AddInterestActivity!!.window.decorView,
+                        this@AddInterestActivity.window.decorView,
                         ""
                     )
                 }

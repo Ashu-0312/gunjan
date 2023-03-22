@@ -1,8 +1,11 @@
 package app.gunjan.activities
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import app.gunjan.R
 import app.gunjan.entity.CommunityDetailsResponse
 import app.gunjan.utill.FCSharedPreferances
@@ -10,12 +13,12 @@ import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_community_details.*
-import kotlinx.android.synthetic.main.activity_community_details.back
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CommunityDetailsActivity : BaseActivity() {
+
+class CommunityDetailsActivity : AppCompatActivity() {
     private var communityId: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,22 +27,35 @@ class CommunityDetailsActivity : BaseActivity() {
     }
 
     private fun initData() {
-        if (intent.hasExtra("id")) {
-            communityId = intent.getStringExtra("id").toString()
-        } else {
-            if (FCSharedPreferances.getSharedPreferance(this).statuS_LOGIN.equals("true")) {
-                val appLinkAction: String? = intent?.action
-                val appLinkData: Uri? = intent?.data
-                if (Intent.ACTION_VIEW == appLinkAction && appLinkData != null) {
-                    communityId = appLinkData.getQueryParameter("cid")
+
+        val installed: Boolean = appInstalledOrNot("app.gunjan")
+        if (installed) {
+            if (intent.hasExtra("id")) {
+                Leave.visibility = View.VISIBLE
+                communityId = intent.getStringExtra("id").toString()
+                getDetails()
+            } else {
+                if (FCSharedPreferances.getSharedPreferance(this).statuS_LOGIN.equals("true")) {
+                    Leave.visibility = View.GONE
+                    val appLinkAction: String? = intent?.action
+                    val appLinkData: Uri? = intent?.data
+                    if (Intent.ACTION_VIEW == appLinkAction && appLinkData != null) {
+                        communityId = appLinkData.getQueryParameter("cid")
+                        getDetails()
+                    }
+                } else {
+                    val intent = Intent(this@CommunityDetailsActivity, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
                 }
-            }else{
-                val intent = Intent(this@CommunityDetailsActivity, LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
             }
+        } else {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("market://details?id=app.gunjan")
+            startActivity(intent)
         }
-        getDetails()
+
         back.setOnClickListener { finish() }
 
         Leave.setOnClickListener {
@@ -98,5 +114,17 @@ class CommunityDetailsActivity : BaseActivity() {
                     )
                 }
             })
+    }
+
+    private fun appInstalledOrNot(uri: String): Boolean {
+        val pm = packageManager
+        var app_installed = false
+        app_installed = try {
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES)
+            true
+        } catch (e: PackageManager.NameNotFoundException) {
+            false
+        }
+        return app_installed
     }
 }

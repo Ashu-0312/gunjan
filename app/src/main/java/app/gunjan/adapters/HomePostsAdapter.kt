@@ -173,7 +173,8 @@ class HomePostsAdapter(
             }
         } catch (e: Exception) {
         }
-        holder.showMore!!.setOnClickListener(View.OnClickListener {
+
+        holder.showMore!!.setOnClickListener {
             if (holder.showMore!!.text.toString() == context!!.getString(R.string.showmore)) {
                 holder.description!!.maxLines = Int.MAX_VALUE //your TextView
                 holder.showMore!!.text = context!!.getString(R.string.showless)
@@ -181,7 +182,7 @@ class HomePostsAdapter(
                 holder.description!!.maxLines = 4 //your TextView
                 holder.showMore!!.text = context!!.getString(R.string.showmore)
             }
-        })
+        }
 
         holder.share!!.setOnClickListener {
             val sharingIntent = Intent(Intent.ACTION_SEND)
@@ -189,10 +190,10 @@ class HomePostsAdapter(
             var shareBodyText = ""
             if (FCSharedPreferances.getSharedPreferance(context).savE_LANG.equals("en")) {
                 shareBodyText =
-                    "Gunjan App is now live. Click on the below link to join the community -\n\nhttp://www.gunjan.app/details?cid=${FCSharedPreferances.getSharedPreferance(context).activE_COMMUNITY}\n\nYou can also create your own digital community and invite member to join your community."
+                    "Gunjan App is now live. Click on the below link to join the community -\n\nhttps://play.google.com/store/apps/details?id=app.gunjan\n\nYou can also create your own digital community and invite member to join your community."
             } else {
                 shareBodyText =
-                    "Gunjan App अब लाइव है। संगठन / समुदाय में जुड़ने के लिए निचे दिए गए लिंक पर क्लिक करे -\n\nhttp://www.gunjan.app/details?cid=${FCSharedPreferances.getSharedPreferance(context).activE_COMMUNITY}\n\nआप अपना खुद का डिजिटल समुदाय भी बना सकते हैं और सदस्य को अपने समुदाय में शामिल होने के लिए आमंत्रित कर सकते हैं।"
+                    "Gunjan App अब लाइव है। संगठन / समुदाय में जुड़ने के लिए निचे दिए गए लिंक पर क्लिक करे -\n\nhttps://play.google.com/store/apps/details?id=app.gunjan\n\nआप अपना खुद का डिजिटल समुदाय भी बना सकते हैं और सदस्य को अपने समुदाय में शामिल होने के लिए आमंत्रित कर सकते हैं।"
             }
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here")
             sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText)
@@ -502,7 +503,7 @@ class HomePostsAdapter(
         return data!!.size
     }
 
-    fun convertTimeToText(dataDate: String?): String? {
+    private fun convertTimeToText(dataDate: String?): String? {
         var convTime: String? = null
         val prefix = ""
         val suffix = context!!.getString(R.string.ago)
@@ -610,7 +611,7 @@ class HomePostsAdapter(
         }
     }
 
-    fun copyText(text: String) {
+    private fun copyText(text: String) {
         val myClipboard = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val myClip: ClipData = ClipData.newPlainText("Label", text)
         myClipboard.setPrimaryClip(myClip)

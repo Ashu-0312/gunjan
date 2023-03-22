@@ -6,7 +6,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
@@ -41,8 +40,8 @@ class AddCommunityActivity : BaseActivity(){
     private var pathPic = ""
     private var awsPicUrl = ""
     private var categoryId = ""
-    private var nameList: ArrayList<String> = ArrayList<String>()
-    private val idList: ArrayList<String> = ArrayList<String>()
+    private var nameList: ArrayList<String> = ArrayList()
+    private val idList: ArrayList<String> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_community)
@@ -92,7 +91,7 @@ class AddCommunityActivity : BaseActivity(){
         })
 
         Submit.setOnClickListener {
-            if (awsPicUrl.toString().trim() == "") {
+            if (awsPicUrl == "") {
                 Toast.makeText(this, getString(R.string.logo_coomunity), Toast.LENGTH_LONG).show()
             } else {
                 if (validate()) {
@@ -114,7 +113,7 @@ class AddCommunityActivity : BaseActivity(){
                                         if (response.body()!!.code == 1) {
                                             FCSharedPreferances.getSharedPreferance(this@AddCommunityActivity).statuS_LOGIN =
                                                 "true"
-                                            var intent =
+                                            val intent =
                                                 Intent(
                                                     this@AddCommunityActivity,
                                                     HomeActivity::class.java
@@ -197,7 +196,7 @@ class AddCommunityActivity : BaseActivity(){
             when (requestCode) {
                 0 -> {
                     val bip = data!!.extras!!["data"] as Bitmap?
-                    Log.d("BitData", data!!.extras!!["data"].toString())
+                    Log.d("BitData", data.extras!!["data"].toString())
                     save(bip!!)
                 }
                 1 -> {
@@ -267,7 +266,9 @@ class AddCommunityActivity : BaseActivity(){
                                         .load(awsPicUrl)
                                         .placeholder(R.drawable.user_avatar)
                                         .into(pic!!)
-                                }catch (e: Exception) {}
+                                }catch (e: Exception) {
+                                    Log.d("ERROR",e.printStackTrace().toString())
+                                }
                             } else {
                                 ProjectUtill.printMessage(
                                     this@AddCommunityActivity.window.decorView,
@@ -310,8 +311,7 @@ class AddCommunityActivity : BaseActivity(){
             about!!.requestFocus()
             about!!.error = getString(R.string.about_community)
             return false
-        } else if (categorySpinner!!.selectedItem.toString().trim()
-                .equals(getString(R.string.select_category))
+        } else if (categorySpinner!!.selectedItem.toString().trim() == getString(R.string.select_category)
         ) {
             Toast.makeText(this, getString(R.string.please_category), Toast.LENGTH_LONG).show()
             return false
@@ -319,7 +319,7 @@ class AddCommunityActivity : BaseActivity(){
         return true
     }
 
-    fun getCategoryList() {
+    private fun getCategoryList() {
         val myDialog = ProjectUtill.showProgressDialog(this@AddCommunityActivity)
         WebServiceRequest.getInstance().categoryList(
             this,
@@ -362,7 +362,7 @@ class AddCommunityActivity : BaseActivity(){
                                             if (position == 0) { // Set the hint text color gray
                                                 tv.setTextColor(Color.BLACK)
                                             } else {
-                                                tv.setTextColor(resources.getColor(R.color.txt_color))
+                                                tv.setTextColor(ContextCompat.getColor(this@AddCommunityActivity,R.color.txt_color))
                                             }
                                             return view
                                         }
@@ -378,7 +378,7 @@ class AddCommunityActivity : BaseActivity(){
                                         l: Long,
                                     ) {
                                         if (i > 0) {
-                                            categoryId = idList[i].toString()
+                                            categoryId = idList[i]
                                         }
                                     }
 

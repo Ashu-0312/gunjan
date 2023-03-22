@@ -166,7 +166,7 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
-    fun addCoinsDialog() {
+    private fun addCoinsDialog() {
         val done: LinearLayout?
         val edtCoin: EditText?
         val dialog = Dialog(this)
@@ -198,7 +198,7 @@ class SettingsActivity : BaseActivity() {
         dialog.show()
     }
 
-    fun deleteAccountDialog() {
+    private fun deleteAccountDialog() {
         val yes: LinearLayout?
         val no: LinearLayout?
         val close: ImageView?
@@ -234,7 +234,7 @@ class SettingsActivity : BaseActivity() {
         dialog.show()
     }
 
-    fun languageDialog() {
+    private fun languageDialog() {
         val english: RelativeLayout
         val hindi: RelativeLayout
         val close: ImageView
@@ -383,7 +383,7 @@ class SettingsActivity : BaseActivity() {
         dialog.show()
     }
 
-    fun generateToken(amount: String) {
+    private fun generateToken(amount: String) {
         val myDialog = ProjectUtill.showProgressDialog(this)
         WebServiceRequest.getInstance().generateCashFreeToken(
             this, amount, "INR", "Test Transaction",
@@ -573,7 +573,7 @@ class SettingsActivity : BaseActivity() {
             })
     }
 
-    fun addCoins(amount: String) {
+    private fun addCoins(amount: String) {
         val myDialog = ProjectUtill.showProgressDialog(this)
         WebServiceRequest.getInstance().addCoin(
             this, amount,

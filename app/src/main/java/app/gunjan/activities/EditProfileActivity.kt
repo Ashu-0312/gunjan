@@ -4,11 +4,9 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.ProgressDialog
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
@@ -23,7 +21,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import app.gunjan.R
@@ -59,16 +56,15 @@ class EditProfileActivity : BaseActivity(){
     private var mDay: Int = 0
     private var dob = ""
     private val codee = "+91"
-    var yourDate: String? = null
     var fromDateValue: String? = null
     private var progressdialog: ProgressDialog? = null
-    private var genderList: ArrayList<String> = ArrayList<String>()
-    private var selectedInterestList: ArrayList<String> = ArrayList<String>()
-    private var interestList: ArrayList<ShowInterestModel> = ArrayList<ShowInterestModel>()
+    private var genderList: ArrayList<String> = ArrayList()
+    private var selectedInterestList: ArrayList<String> = ArrayList()
+    private var interestList: ArrayList<ShowInterestModel> = ArrayList()
     private var interestAdapter: ShowInterestAdapter? = null
-    private var stateNameList: java.util.ArrayList<String> = java.util.ArrayList<String>()
-    private var cityList: java.util.ArrayList<String> = java.util.ArrayList<String>()
-    private var pincodeList: java.util.ArrayList<String> = java.util.ArrayList<String>()
+    private var stateNameList: java.util.ArrayList<String> = ArrayList()
+    private var cityList: java.util.ArrayList<String> = ArrayList()
+    private var pincodeList: java.util.ArrayList<String> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
@@ -119,7 +115,7 @@ class EditProfileActivity : BaseActivity(){
             }
 
             override fun afterTextChanged(editable: Editable) {
-                var result: String = editable.toString().replace(" ", "");
+                val result: String = editable.toString().replace(" ", "")
                 if (editable.toString() != result) {
                     profileName.setText(result)
                     profileName.setSelection(result.length)
@@ -203,7 +199,7 @@ class EditProfileActivity : BaseActivity(){
                                                 FCSharedPreferances.getSharedPreferance(this@EditProfileActivity).status =
                                                     "edit"
                                                 if (response.body()!!.message.equals("OTP sent on given number")) {
-                                                    var intent = Intent(
+                                                    val intent = Intent(
                                                         this@EditProfileActivity,
                                                         OtpActivity::class.java
                                                     )
@@ -221,7 +217,7 @@ class EditProfileActivity : BaseActivity(){
                                                     )
                                                     startActivity(intent)
                                                 } else {
-                                                    var intent = Intent(
+                                                    val intent = Intent(
                                                         this@EditProfileActivity,
                                                         HomeActivity::class.java
                                                     )
@@ -295,7 +291,7 @@ class EditProfileActivity : BaseActivity(){
                                                 FCSharedPreferances.getSharedPreferance(this@EditProfileActivity).status =
                                                     "edit"
                                                 if (response.body()!!.message.equals("OTP sent on given number")) {
-                                                    var intent = Intent(
+                                                    val intent = Intent(
                                                         this@EditProfileActivity,
                                                         OtpActivity::class.java
                                                     )
@@ -313,7 +309,7 @@ class EditProfileActivity : BaseActivity(){
                                                     )
                                                     startActivity(intent)
                                                 } else {
-                                                    var intent = Intent(
+                                                    val intent = Intent(
                                                         this@EditProfileActivity,
                                                         HomeActivity::class.java
                                                     )
@@ -369,14 +365,14 @@ class EditProfileActivity : BaseActivity(){
                     interestAdapter = ShowInterestAdapter(
                         this@EditProfileActivity, interestList
                     )
-                    var layoutManager: GridLayoutManager? =
+                    val layoutManager: GridLayoutManager? =
                         GridLayoutManager(this@EditProfileActivity, 3)
                     interest_recycler!!.layoutManager = layoutManager
                     interest_recycler!!.adapter = interestAdapter
                 }
                 0 -> {
                     val bip = data!!.extras!!["data"] as Bitmap?
-                    Log.d("BitData", data!!.extras!!["data"].toString())
+                    Log.d("BitData", data.extras!!["data"].toString())
                     save(bip!!)
                 }
                 1 -> {
@@ -453,7 +449,7 @@ class EditProfileActivity : BaseActivity(){
                     if (today.before(dob)) {
                         yourAge--
                     }
-                    var age = yourAge
+                    val age = yourAge
                     if (age < 18) {
                         Toast.makeText(
                             this,
@@ -466,14 +462,15 @@ class EditProfileActivity : BaseActivity(){
 
                             edtDob!!.text = fromDateValue
                         } catch (e: Exception) {
+                            Log.d("ERROR",e.printStackTrace().toString())
                         }
                     }
                 }, mYear, mMonth, mDay
             )
         val c2 = Calendar.getInstance()
         c2[mYear, mMonth] = mDay
-        datePickerDialog!!.datePicker.maxDate = System.currentTimeMillis();
-        datePickerDialog!!.show()
+        datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
+        datePickerDialog.show()
     }
 
     private fun userDetails() {
@@ -580,7 +577,7 @@ class EditProfileActivity : BaseActivity(){
                                         interestAdapter = ShowInterestAdapter(
                                             this@EditProfileActivity, interestList
                                         )
-                                        var layoutManager: GridLayoutManager? =
+                                        val layoutManager: GridLayoutManager? =
                                             GridLayoutManager(this@EditProfileActivity, 3)
                                         interest_recycler!!.layoutManager = layoutManager
                                         interest_recycler!!.adapter = interestAdapter
@@ -590,6 +587,7 @@ class EditProfileActivity : BaseActivity(){
                                     pincodeValue = response.body()!!.data.user.pincode
                                     getStateList()
                                 } catch (e: Exception) {
+                                    Log.d("ERROR",e.printStackTrace().toString())
                                 }
                             } else {
                                 ProjectUtill.printMessage(
@@ -643,7 +641,9 @@ class EditProfileActivity : BaseActivity(){
                                         .load(awsPicUrl)
                                         .placeholder(R.drawable.user_avatar)
                                         .into(profilePic!!)
-                                }catch (e: Exception) {}
+                                }catch (e: Exception) {
+                                    Log.d("ERROR",e.printStackTrace().toString())
+                                }
                             } else {
                                 ProjectUtill.printMessage(
                                     this@EditProfileActivity.window.decorView,
@@ -860,27 +860,27 @@ class EditProfileActivity : BaseActivity(){
                                         i: Int,
                                         l: Long,
                                     ) {
-                                        stateValue = stateNameList[i].toString()
-                                        getCityList(stateNameList[i].toString())
+                                        stateValue = stateNameList[i]
+                                        getCityList(stateNameList[i])
                                     }
 
                                     override fun onNothingSelected(adapterView: AdapterView<*>?) {}
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@EditProfileActivity!!.window.decorView,
+                                    this@EditProfileActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@EditProfileActivity!!.window.decorView,
+                                this@EditProfileActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@EditProfileActivity!!.window.decorView,
+                            this@EditProfileActivity.window.decorView,
                             ""
                         )
                     }
@@ -892,7 +892,7 @@ class EditProfileActivity : BaseActivity(){
                 ) {
                     myDialog.dismiss()
                     ProjectUtill.printErrorMessage(
-                        this@EditProfileActivity!!.window.decorView,
+                        this@EditProfileActivity.window.decorView,
                         ""
                     )
                 }
@@ -960,8 +960,8 @@ class EditProfileActivity : BaseActivity(){
                                         l: Long,
                                     ) {
                                         if (i > 0) {
-                                            cityValue = cityList[i].toString()
-                                            getPincodeList(stateValue!!, cityList[i].toString())
+                                            cityValue = cityList[i]
+                                            getPincodeList(stateValue, cityList[i])
                                         }
                                     }
 
@@ -969,19 +969,19 @@ class EditProfileActivity : BaseActivity(){
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@EditProfileActivity!!.window.decorView,
+                                    this@EditProfileActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@EditProfileActivity!!.window.decorView,
+                                this@EditProfileActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@EditProfileActivity!!.window.decorView,
+                            this@EditProfileActivity.window.decorView,
                             ""
                         )
                     }
@@ -993,7 +993,7 @@ class EditProfileActivity : BaseActivity(){
                 ) {
                     myDialog.dismiss()
                     ProjectUtill.printErrorMessage(
-                        this@EditProfileActivity!!.window.decorView,
+                        this@EditProfileActivity.window.decorView,
                         ""
                     )
                 }
@@ -1029,7 +1029,7 @@ class EditProfileActivity : BaseActivity(){
                                 }
                                 val arrayAdapter1: ArrayAdapter<String> =
                                     object : ArrayAdapter<String>(
-                                        this@EditProfileActivity!!,
+                                        this@EditProfileActivity,
                                         R.layout.spinner_layout, pincodeList
                                     ) {
                                         override fun isEnabled(position: Int): Boolean {
@@ -1049,7 +1049,7 @@ class EditProfileActivity : BaseActivity(){
                                             if (position == 0) { // Set the hint text color gray
                                                 tv.setTextColor(Color.BLACK)
                                             } else {
-                                                tv.setTextColor(resources.getColor(R.color.txt_color))
+                                                tv.setTextColor(ContextCompat.getColor(this@EditProfileActivity,R.color.txt_color))
                                             }
                                             return view
                                         }
@@ -1071,26 +1071,26 @@ class EditProfileActivity : BaseActivity(){
                                         i: Int,
                                         l: Long,
                                     ) {
-                                        pincodeValue = pincodeList[i].toString()
+                                        pincodeValue = pincodeList[i]
                                     }
 
                                     override fun onNothingSelected(adapterView: AdapterView<*>?) {}
                                 }
                             } else {
                                 ProjectUtill.printMessage(
-                                    this@EditProfileActivity!!.window.decorView,
+                                    this@EditProfileActivity.window.decorView,
                                     response.body()?.message
                                 )
                             }
                         } else {
                             ProjectUtill.printErrorMessage(
-                                this@EditProfileActivity!!.window.decorView,
+                                this@EditProfileActivity.window.decorView,
                                 ""
                             )
                         }
                     } else {
                         ProjectUtill.printErrorMessage(
-                            this@EditProfileActivity!!.window.decorView,
+                            this@EditProfileActivity.window.decorView,
                             ""
                         )
                     }
@@ -1102,7 +1102,7 @@ class EditProfileActivity : BaseActivity(){
                 ) {
                     myDialog.dismiss()
                     ProjectUtill.printErrorMessage(
-                        this@EditProfileActivity!!.window.decorView,
+                        this@EditProfileActivity.window.decorView,
                         ""
                     )
                 }

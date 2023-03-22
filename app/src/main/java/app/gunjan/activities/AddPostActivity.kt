@@ -13,7 +13,7 @@ import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import app.gunjan.R
 import app.gunjan.entity.AddPostResponse
@@ -37,19 +37,18 @@ class AddPostActivity : BaseActivity() {
     private var mYear = 0
     private  var mMonth:Int = 0
     private  var mDay:Int = 0
-    var fromDateValue = ""
-    var yourDate:String? = null
-    var toDateValue:String? = ""
+    private var fromDateValue = ""
+    private var yourDate:String? = null
+    private var toDateValue:String? = ""
     private var pathPic = ""
-    var path: String? = null
     private var mHour = 0
     private  var mMinute:Int = 0
     private  var mSecond:Int = 0
-    var selectedStartTime: String? = null
-    var selectedEndTime: String? = null
-    var format:String? = ""
-    var timeValue:String? = ""
-    var timeValue2:String? = ""
+    private var selectedStartTime: String? = null
+    private var selectedEndTime: String? = null
+    private var format:String? = ""
+    private var timeValue:String? = ""
+    private var timeValue2:String? = ""
     private var awsPicUrl = ""
     private var awsPicUrl2 = ""
     private var animShow: Animation? = null
@@ -104,8 +103,8 @@ class AddPostActivity : BaseActivity() {
         textPost.setOnClickListener {
             awsPicUrl = ""
             type = "text"
-            textPost.background = resources.getDrawable(R.drawable.button_bg)
-            mediaPost.background = resources.getDrawable(R.drawable.unselected_bg)
+            textPost.background = ContextCompat.getDrawable(this,R.drawable.button_bg)
+            mediaPost.background = ContextCompat.getDrawable(this,R.drawable.unselected_bg)
             mediaLayout.visibility = View.GONE
             txtLayout.visibility = View.VISIBLE
             txtLayout!!.startAnimation(animShow)
@@ -113,8 +112,8 @@ class AddPostActivity : BaseActivity() {
 
         mediaPost.setOnClickListener {
             type = "image"
-            mediaPost.background = resources.getDrawable(R.drawable.button_bg)
-            textPost.background = resources.getDrawable(R.drawable.unselected_bg)
+            mediaPost.background = ContextCompat.getDrawable(this,R.drawable.button_bg)
+            textPost.background = ContextCompat.getDrawable(this,R.drawable.unselected_bg)
             txtLayout.visibility = View.VISIBLE
             addMedia.visibility = View.VISIBLE
             postPic.visibility = View.GONE
@@ -176,7 +175,7 @@ class AddPostActivity : BaseActivity() {
                                         if (response.isSuccessful) {
                                             if (response.body()!!.code == 1) {
 
-                                                var intent = Intent(
+                                                val intent = Intent(
                                                     this@AddPostActivity,
                                                     HomeActivity::class.java
                                                 )
@@ -235,7 +234,7 @@ class AddPostActivity : BaseActivity() {
                                         if (response.isSuccessful) {
                                             if (response.body()!!.code == 1) {
 
-                                                var intent = Intent(
+                                                val intent = Intent(
                                                     this@AddPostActivity,
                                                     HomeActivity::class.java
                                                 )
@@ -307,7 +306,7 @@ class AddPostActivity : BaseActivity() {
                                     if (response.isSuccessful) {
                                         if (response.body()!!.code == 1) {
 
-                                            var intent = Intent(
+                                            val intent = Intent(
                                                 this@AddPostActivity,
                                                 HomeActivity::class.java
                                             )
@@ -367,15 +366,7 @@ class AddPostActivity : BaseActivity() {
                     month = "0$month"
                 }
                 dob = "$year-$month-$date"
-                val today = Calendar.getInstance()
-                val dob = Calendar.getInstance()
-                dob[year, monthOfYear] = dayOfMonth
-                var yourAge = today[Calendar.YEAR] - dob[Calendar.YEAR]
-                dob.add(Calendar.YEAR, yourAge)
-                if (today.before(dob)) {
-                    yourAge--
-                }
-                val age = yourAge
+
                 if (status.equals("f", ignoreCase = true)) {
                     fromDateValue = "$year-$month-$date"
                     try {
@@ -393,6 +384,7 @@ class AddPostActivity : BaseActivity() {
                         yourDate = format.format(date1)
                         startDate.text = yourDate
                     } catch (e: java.lang.Exception) {
+                        Log.d("ERROR",e.printStackTrace().toString())
                     }
                     val isTrue: Boolean = isDateAfter(fromDateValue, toDateValue)
                     if (isTrue) {
@@ -411,6 +403,7 @@ class AddPostActivity : BaseActivity() {
                             yourDate = format.format(date1)
                             startDate.text = yourDate
                         } catch (e: java.lang.Exception) {
+                            Log.d("ERROR",e.printStackTrace().toString())
                         }
                     } else {
                         if (toDateValue.equals("", ignoreCase = true)) {
@@ -429,6 +422,7 @@ class AddPostActivity : BaseActivity() {
                                 yourDate = format.format(date1)
                                 startDate.text = yourDate
                             } catch (e: java.lang.Exception) {
+                                Log.d("ERROR",e.printStackTrace().toString())
                             }
                             startDate.text = yourDate
                         } else {
@@ -465,6 +459,7 @@ class AddPostActivity : BaseActivity() {
                                 val yourDate = format.format(date1)
                                 endDate.setText(yourDate)
                             } catch (e: java.lang.Exception) {
+                                Log.d("ERROR",e.printStackTrace().toString())
                             }
                         }
                     } else {
@@ -544,14 +539,14 @@ class AddPostActivity : BaseActivity() {
         val close: ImageView
         val dialog = Dialog(this)
         // Include dialog.xml file
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.selectfile_dialog)
         dialog.setCancelable(true)
         val window = dialog.window
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
-            WindowManager.LayoutParams.FILL_PARENT,
-            WindowManager.LayoutParams.FILL_PARENT
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
         )
         dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
         gallery = dialog.findViewById(R.id.gallery)
@@ -735,7 +730,9 @@ class AddPostActivity : BaseActivity() {
                                             evideoView.setVideoURI(video)
                                         }
                                     }
-                                }catch (e: Exception) {}
+                                }catch (e: Exception) {
+                                    Log.d("ERROR",e.printStackTrace().toString())
+                                }
                             } else {
                                 ProjectUtill.printMessage(
                                     this@AddPostActivity.window.decorView,
@@ -769,7 +766,7 @@ class AddPostActivity : BaseActivity() {
             })
     }
 
-    fun isDateAfter(startDate: String?, endDate: String?): Boolean {
+    private fun isDateAfter(startDate: String?, endDate: String?): Boolean {
         return try {
             val myFormatString = "yyyy-M-dd" // for example
             val df = SimpleDateFormat(myFormatString)
