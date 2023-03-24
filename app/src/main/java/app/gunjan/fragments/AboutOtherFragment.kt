@@ -11,8 +11,6 @@ import app.gunjan.entity.OtherUserDetailsResponse
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
-import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.activity_others_profile.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

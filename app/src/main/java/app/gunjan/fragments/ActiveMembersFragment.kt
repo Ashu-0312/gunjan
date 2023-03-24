@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,9 +25,7 @@ import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
 import com.twilio.chat.*
-import kotlinx.android.synthetic.main.activity_add_community.*
 import kotlinx.android.synthetic.main.activity_notification.*
-import kotlinx.android.synthetic.main.activity_tc.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,9 +47,9 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
     var citySpinner: Spinner? = null
     private var searchEdt: EditText? = null
     private var search: ImageView? = null
-    private var list: ArrayList<MemberListResponse.DataBean.MemberListBean> = ArrayList<MemberListResponse.DataBean.MemberListBean>()
-    private var stateNameList: ArrayList<String> = ArrayList<String>()
-    private var cityList: ArrayList<String> = ArrayList<String>()
+    private var list: ArrayList<MemberListResponse.DataBean.MemberListBean> = ArrayList()
+    private var stateNameList: ArrayList<String> = ArrayList()
+    private var cityList: ArrayList<String> = ArrayList()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -108,7 +107,7 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
         }
     }
 
-    fun EditText.onDone(callback: () -> Unit) {
+    private fun EditText.onDone(callback: () -> Unit) {
         setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 callback.invoke()
@@ -123,7 +122,7 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let {
             WebServiceRequest.getInstance().getAllMemberList(
-                it, page, "10","","","only active member",value!!,
+                it, page, "10","","","only active member",value,
                 object : Callback<MemberListResponse> {
                     override fun onResponse(
                         call: Call<MemberListResponse>,
@@ -444,15 +443,15 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
     }
 
     fun filterDialog() {
-        var reset: TextView? = null
-        var apply: LinearLayout? = null
-        var close: ImageView? = null
-        var stateSpinner: Spinner? = null
+        val reset: TextView?
+        val apply: LinearLayout?
+        val close: ImageView?
+        val stateSpinner: Spinner?
         val dialog = context?.let { Dialog(it) }
         // Include dialog.xml file
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog!!.setContentView(R.layout.filter_dialog)
-        dialog!!.setCancelable(true)
+        dialog.setContentView(R.layout.filter_dialog)
+        dialog.setCancelable(true)
         val window = dialog.window
         window!!.setGravity(Gravity.CENTER)
         window.setLayout(
@@ -513,8 +512,8 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
                                             }
 
                                         }
-                                    stateSpinner!!.adapter = arrayAdapter1
-                                    stateSpinner!!.onItemSelectedListener = object :
+                                    stateSpinner.adapter = arrayAdapter1
+                                    stateSpinner.onItemSelectedListener = object :
                                         AdapterView.OnItemSelectedListener {
                                         override fun onItemSelected(
                                             adapterView: AdapterView<*>?,
@@ -522,8 +521,8 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
                                             i: Int,
                                             l: Long,
                                         ) {
-                                            stateValue = stateNameList[i].toString()
-                                            getCityList(stateNameList[i].toString())
+                                            stateValue = stateNameList[i]
+                                            getCityList(stateNameList[i])
                                         }
 
                                         override fun onNothingSelected(adapterView: AdapterView<*>?) {}
@@ -626,7 +625,7 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
                                                 if (position == 0) { // Set the hint text color gray
                                                     tv.setTextColor(Color.BLACK)
                                                 } else {
-                                                    tv.setTextColor(resources.getColor(R.color.txt_color))
+                                                    tv.setTextColor(ContextCompat.getColor(context,R.color.txt_color))
                                                 }
                                                 return view
                                             }
@@ -686,7 +685,7 @@ class ActiveMembersFragment : Fragment(),ClientCreated {
         if (chatClient != null) {
             for (p in list.indices) {
                 var myId: String? = ""
-                if (list[p].userId!!.toInt() > FCSharedPreferances.getSharedPreferance(context).useR_ID.toInt()
+                if (list[p].userId > FCSharedPreferances.getSharedPreferance(context).useR_ID.toInt()
                 ) myId =
                     FCSharedPreferances.getSharedPreferance(context).useR_ID.toString() + "_" + list[p].userId else myId =
                     "" + list[p].userId + "_" + FCSharedPreferances.getSharedPreferance(context
