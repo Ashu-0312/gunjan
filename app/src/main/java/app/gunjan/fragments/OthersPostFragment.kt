@@ -563,6 +563,37 @@ class OthersPostFragment : Fragment() {
 
         dialog.show()
     }
+
+    fun toastDialog() {
+        val errorTxt: TextView?
+        val close: ImageView?
+        val dialog = context?.let { Dialog(it) }
+        // Include dialog.xml file
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.toast_dialog)
+        dialog.setCancelable(true)
+        val window = dialog.window
+        window!!.setGravity(Gravity.CENTER)
+        window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        close = dialog.findViewById(R.id.close)
+        errorTxt = dialog.findViewById(R.id.error_txt)
+
+        close.setOnClickListener {
+            dialog.cancel()
+        }
+
+        errorTxt.setOnClickListener {
+            dialog.cancel()
+            addCoinsDialog()
+        }
+
+        dialog.show()
+    }
+
     fun donateCoins(coin:String){
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let { it1 ->

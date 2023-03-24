@@ -8,15 +8,11 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
-
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import app.gunjan.R;
-import app.gunjan.activities.CommunityDetailsActivity;
 import app.gunjan.activities.CommunityHelpActivity;
 import app.gunjan.activities.SplashActivity;
 
@@ -62,7 +58,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }
             notificationManager.notify(0, notificationBuilder.build());
         }else {
-            Intent intent = new Intent( this , SplashActivity.class );
+            Intent intent = new Intent( this , SplashActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             PendingIntent resultIntent = PendingIntent.getActivity( this , 0, intent,
                     PendingIntent.FLAG_IMMUTABLE);

@@ -130,8 +130,8 @@ class HomeActivity : BaseActivity() {
             member_icon.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.member_not_selected))
             message_icon.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.message_not_selected))
             account_icon.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.profile_not_selected))
-            fragment = HomeFragment()
-            loadFragment(fragment!!)
+                fragment = HomeFragment()
+                loadFragment(fragment!!)
         }
 
         addCommunity.setOnClickListener {

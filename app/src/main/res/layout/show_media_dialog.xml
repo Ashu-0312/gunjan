@@ -13,10 +13,10 @@
         <com.ravikoradiya.zoomableimageview.ZoomableImageView
             android:visibility="gone"
             android:id="@+id/image"
-            android:scaleType="fitXY"
             android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="270dp"
+            android:adjustViewBounds="true"
+            android:layout_height="wrap_content"
             android:src="@drawable/user_avatar"/>
         <FrameLayout
             android:visibility="gone"

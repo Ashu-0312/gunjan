@@ -88,13 +88,9 @@ class OtherCoinsAdapter(
                     context
                 ).totaL_COINS.toInt() < data[position].toString().toInt())
             ) {
-                Toast.makeText(
-                    context,
-                    context!!.getString(R.string.please_coins),
-                    Toast.LENGTH_LONG
-                ).show()
+               fragment.toastDialog()
             } else {
-                fragment!!.donateCoins(data[position].toString())
+                fragment.donateCoins(data[position].toString())
             }
         }
     }

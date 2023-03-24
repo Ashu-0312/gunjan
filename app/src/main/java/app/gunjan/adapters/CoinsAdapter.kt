@@ -1,6 +1,5 @@
 package app.gunjan.adapters
 
-import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
@@ -8,18 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
-import app.gunjan.entity.DonateCoinResponse
 import app.gunjan.fragments.HomeFragment
 import app.gunjan.utill.FCSharedPreferances
-import app.gunjan.utill.ProjectUtill
-import app.gunjan.webservices.WebServiceRequest
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import kotlin.collections.ArrayList
 
 class CoinsAdapter(
@@ -87,13 +79,9 @@ class CoinsAdapter(
                     context
                 ).totaL_COINS.toInt() < data[position].toString().toInt())
             ) {
-                Toast.makeText(
-                    context,
-                    context!!.getString(R.string.please_coins),
-                    Toast.LENGTH_LONG
-                ).show()
+               fragment.toastDialog()
             } else {
-                fragment!!.donateCoins(data[position].toString())
+                fragment.donateCoins(data[position])
             }
         }
     }

@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
+import app.gunjan.activities.HomeActivity
 import app.gunjan.activities.MyCommunitesActivity
 import app.gunjan.activities.RequestListActivity
 import app.gunjan.entity.NotificationListResponse
@@ -72,6 +73,15 @@ class NotificationListAdapter(
                     intent.putExtra("community_id", data[position].requestId)
                     context!!.startActivity(intent)
                 }
+            } else if (data[position].notification_type.equals("disccusion") || data[position].notification_type.equals(
+                    "event"
+                )
+            ) {
+                val intent = Intent(context, HomeActivity::class.java)
+                intent.putExtra("post_id","736")
+                intent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                context!!.startActivity(intent)
             }
         }
     }

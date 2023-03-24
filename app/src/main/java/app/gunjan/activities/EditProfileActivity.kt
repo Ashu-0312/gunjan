@@ -51,6 +51,7 @@ class EditProfileActivity : BaseActivity(){
     private var cityValue = ""
     private var stateValue = ""
     private var pincodeValue = ""
+    private var genderValue = ""
     private var mYear = 0
     private var mMonth: Int = 0
     private var mDay: Int = 0
@@ -182,7 +183,7 @@ class EditProfileActivity : BaseActivity(){
                             Gson().toJson(selectedInterestList),
                             edtMobile.text.toString().trim(),
                             "+91",
-                            genderSpinner.selectedItem.toString(),
+                            genderValue,
                             about.text.toString().trim(),
                             stateValue,
                             cityValue,
@@ -274,7 +275,7 @@ class EditProfileActivity : BaseActivity(){
                             Gson().toJson(selectedInterestList),
                             edtMobile.text.toString().trim(),
                             "+91",
-                            genderSpinner.selectedItem.toString(),
+                            genderValue,
                             about.text.toString().trim(),
                             stateValue,
                             cityValue,
@@ -560,6 +561,7 @@ class EditProfileActivity : BaseActivity(){
                                             l: Long,
                                         ) {
                                             if (i > 0) {
+                                                 genderValue = genderList[i]
                                             }
                                         }
 
@@ -717,12 +719,7 @@ class EditProfileActivity : BaseActivity(){
             about.requestFocus()
             about.error = getString(R.string.about)
             return false
-        } else if (genderSpinner.selectedItem.toString()
-                .trim() == getString(R.string.gender_select)
-        ) {
-            Toast.makeText(this, getString(R.string.select_gender), Toast.LENGTH_LONG).show()
-            return false
-        } else if (stateSpinner!!.selectedItem.equals(getString(R.string.select_state))) {
+        }else if (stateSpinner!!.selectedItem.equals(getString(R.string.select_state))) {
             Toast.makeText(this, getString(R.string.please_state), Toast.LENGTH_LONG).show()
             return false
         } else if (citySpinner!!.selectedItem.equals(getString(R.string.select_city))) {
@@ -777,11 +774,6 @@ class EditProfileActivity : BaseActivity(){
         } else if (about.text.toString().trim().equals("", ignoreCase = true)) {
             about.requestFocus()
             about.error = getString(R.string.about)
-            return false
-        } else if (genderSpinner.selectedItem.toString()
-                .trim() == getString(R.string.gender_select)
-        ) {
-            Toast.makeText(this, getString(R.string.select_gender), Toast.LENGTH_LONG).show()
             return false
         } else if (stateSpinner!!.selectedItem.equals(getString(R.string.select_state))) {
             Toast.makeText(this, getString(R.string.please_state), Toast.LENGTH_LONG).show()

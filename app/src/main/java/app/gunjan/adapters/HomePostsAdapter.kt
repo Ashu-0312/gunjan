@@ -507,6 +507,15 @@ class HomePostsAdapter(
         }
     }
 
+    fun getItemPosition(postId: String?): Int {
+        for (i in 0 until data.size) {
+            if (data[i].id.toString() == postId) {
+                return i
+            }
+        }
+        return -1
+    }
+
     override fun getItemCount(): Int {
         return data!!.size
     }

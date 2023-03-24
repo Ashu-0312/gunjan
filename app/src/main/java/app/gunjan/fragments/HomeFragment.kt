@@ -37,7 +37,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeFragment : Fragment(), RecyclerItemClickListener {
+class HomeFragment() : Fragment(), RecyclerItemClickListener {
     var coinDialog: Dialog? = null
     var totalCoins: TextView? = null
     var idd: String? = null
@@ -131,7 +131,6 @@ class HomeFragment : Fragment(), RecyclerItemClickListener {
         userDetails()
         initializeAdapter()
         postListApi("1", type!!)
-
         communityPic!!.setOnClickListener { communityDescriptionDialog() }
 
         totalMember!!.setOnClickListener {
@@ -322,6 +321,17 @@ class HomeFragment : Fragment(), RecyclerItemClickListener {
                 }
             }
         })
+    }
+
+    private fun scrollToPosition() {
+        val position: Int = postsAdapter!!.getItemPosition("736")
+        if (position >= 0) {
+            var y = postRecycler?.getChildAt(position)!!.y
+            nestedScroll?.post(Runnable {
+                nestedScroll?.fling(0)
+                nestedScroll?.smoothScrollTo(0, y.toInt())
+            })
+        }
     }
 
     private fun postListApi(page: String, type: String) {
@@ -1976,6 +1986,36 @@ class HomeFragment : Fragment(), RecyclerItemClickListener {
                 dialog.cancel()
                 generateToken(edtCoin.text.toString().trim())
             }
+        }
+
+        dialog.show()
+    }
+
+    fun toastDialog() {
+        val errorTxt: TextView?
+        val close: ImageView?
+        val dialog = context?.let { Dialog(it) }
+        // Include dialog.xml file
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.toast_dialog)
+        dialog.setCancelable(true)
+        val window = dialog.window
+        window!!.setGravity(Gravity.CENTER)
+        window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        dialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+        close = dialog.findViewById(R.id.close)
+        errorTxt = dialog.findViewById(R.id.error_txt)
+
+        close.setOnClickListener {
+            dialog.cancel()
+        }
+
+        errorTxt.setOnClickListener {
+            dialog.cancel()
+            addCoinsDialog()
         }
 
         dialog.show()

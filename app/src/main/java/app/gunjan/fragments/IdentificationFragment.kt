@@ -215,6 +215,8 @@ class IdentificationFragment : Fragment(){
                         if (response.isSuccessful) {
                             if (response.body()!!.code == 1) {
                                 try {
+                                    layout2!!.visibility = View.GONE
+                                    layout!!.visibility = View.VISIBLE
                                     awsPicUrl = response.body()!!.data.path_data.path
                                     context?.let {
                                         Glide.with(it)
