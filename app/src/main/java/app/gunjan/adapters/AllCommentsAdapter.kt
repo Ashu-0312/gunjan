@@ -14,6 +14,7 @@ import app.gunjan.entity.CommentListResponse
 import app.gunjan.entity.LikeDislikeCommentResponse
 import app.gunjan.fragments.HomeFragment
 import app.gunjan.utill.ProjectUtill
+import app.gunjan.utill.RecyclerItemClickListener
 import app.gunjan.webservices.WebServiceRequest
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
@@ -24,10 +25,10 @@ import retrofit2.Response
 class AllCommentsAdapter(
     var context: Context?,
     data: MutableList<CommentListResponse.DataBean.CommentsBean>,
-    homeFragment: HomeFragment
+    listener: RecyclerItemClickListener
 ) :RecyclerView.Adapter<AllCommentsAdapter.ViewHolder>() {
     private var data: MutableList<CommentListResponse.DataBean.CommentsBean> = data
-    private var homeFragment: HomeFragment?=homeFragment
+    private var listener=listener
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val listItem: View = layoutInflater.inflate(R.layout.comment_item, parent, false)
@@ -144,16 +145,11 @@ class AllCommentsAdapter(
         }
 
         holder.reportComment?.setOnClickListener {
-            homeFragment!!.deleteCommentDialog(data[position].id.toString(),data[position].commented_by.id.toString())
+            listener.onItemClick(position,position,data[position],"delete")
         }
 
-       /* holder.deleteComment!!.setOnLongClickListener {
-            homeFragment!!.deleteCommentDialog(data[position].id.toString())
-             true
-        }*/
-
         holder.reply!!.setOnClickListener {
-            homeFragment!!.commentsReplyDialog(data[position].id.toString())
+           listener.onItemClick(position,position,data[position],"reply")
         }
     }
 

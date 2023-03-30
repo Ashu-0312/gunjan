@@ -23,6 +23,23 @@
         tools:ignore="LockedOrientationActivity"
         tools:replace="allowBackup">
         <activity
+            android:name=".activities.PostDetailsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/LoginTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="play.google.com"
+                    android:pathPattern="/postDetails"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".activities.SearchAddCommunityActivity"
             android:exported="false"
             android:screenOrientation="portrait"
@@ -62,7 +79,6 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme">
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -70,9 +86,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="https"
                     android:host="play.google.com"
-                    android:pathPattern="/details" />
+                    android:pathPattern="/details"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity
@@ -202,12 +218,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme">
             <intent-filter>
-
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <service

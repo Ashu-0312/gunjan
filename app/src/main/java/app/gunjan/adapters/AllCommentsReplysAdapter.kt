@@ -25,11 +25,9 @@ import retrofit2.Response
 
 class AllCommentsReplysAdapter(
     var context: Context?,
-    data: MutableList<ReplyListResponse.DataBean.ReplyListBean>,
-    homeFragment: HomeFragment
+    data: MutableList<ReplyListResponse.DataBean.ReplyListBean>
 ) :RecyclerView.Adapter<AllCommentsReplysAdapter.ViewHolder>() {
     private var data: MutableList<ReplyListResponse.DataBean.ReplyListBean> = data
-    private var homeFragment: HomeFragment?=homeFragment
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val listItem: View = layoutInflater.inflate(R.layout.commentreply_item, parent, false)

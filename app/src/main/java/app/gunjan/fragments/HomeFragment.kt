@@ -40,7 +40,7 @@ import retrofit2.Response
 class HomeFragment() : Fragment(), RecyclerItemClickListener {
     var coinDialog: Dialog? = null
     var totalCoins: TextView? = null
-    var idd: String? = null
+    private var idd: String? = null
     var dialogCommentReply: Dialog? = null
     var dialogComment: Dialog? = null
     private var page: Int? = 1
@@ -48,7 +48,7 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
     var progressBar: ProgressBar? = null
     var blankData: TextView? = null
     var totalMembers: TextView? = null
-    var totalMember: CardView? = null
+    private var totalMember: CardView? = null
     var isLoading = false
     var isLastPage = false
     private var layoutManager: LinearLayoutManager? = null
@@ -65,7 +65,7 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
     var replyRecycler: RecyclerView? = null
     var blankData2: TextView? = null
     var blankData3: TextView? = null
-    var nestedScroll: NestedScrollView? = null
+    private var nestedScroll: NestedScrollView? = null
     private var postList: ArrayList<PostListResponse.DataBean.PostBean> =
         ArrayList()
     private var animShow: Animation? = null
@@ -1311,7 +1311,7 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
         dialog.show()
     }
 
-    fun showReasonLayout(status: String) {
+    private fun showReasonLayout(status: String) {
         Status = status
         if (Status.equals("1")) {
             reasonLayout!!.visibility = View.VISIBLE
@@ -1321,7 +1321,7 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
         }
     }
 
-    fun communityDescriptionDialog() {
+    private fun communityDescriptionDialog() {
         val close: ImageView?
         val cPic: CircleImageView?
         val cName: TextView?
@@ -1471,7 +1471,7 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
         }
     }
 
-    fun commentsReplyDialog(id: String) {
+    private fun commentsReplyDialog(id: String) {
         var close: ImageView? = null
         var addComment: ImageView? = null
         var edtComment: EditText? = null
@@ -1634,7 +1634,7 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
                                         blankData3!!.visibility = View.GONE
                                         val replyAdapter = AllCommentsReplysAdapter(
                                             context,
-                                            response.body()!!.data.reply_list, this@HomeFragment
+                                            response.body()!!.data.reply_list
                                         )
                                         val layoutManager = LinearLayoutManager(
                                             context,
@@ -1677,7 +1677,7 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
         }
     }
 
-    fun deleteCommentDialog(commentId: String, userId: String) {
+    private fun deleteCommentDialog(commentId: String, userId: String) {
         val delete: RelativeLayout?
         val report: RelativeLayout?
         val dialog = context?.let { Dialog(it) }
@@ -1959,7 +1959,7 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
         coinDialog!!.show()
     }
 
-    fun addCoinsDialog() {
+    private fun addCoinsDialog() {
         val done: LinearLayout?
         val edtCoin: EditText?
         val dialog = context?.let { Dialog(it) }
@@ -1991,7 +1991,7 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
         dialog.show()
     }
 
-    fun toastDialog() {
+    private fun toastDialog() {
         val errorTxt: TextView?
         val close: ImageView?
         val dialog = context?.let { Dialog(it) }
@@ -2021,7 +2021,7 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
         dialog.show()
     }
 
-    fun donateCoins(coin: String) {
+    private fun donateCoins(coin: String) {
         val myDialog = ProjectUtill.showProgressDialog(context)
         context?.let { it1 ->
             WebServiceRequest.getInstance().addPostCoin(
@@ -2208,6 +2208,14 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
     override fun onItemClick(parentPos: Int, childPos: Int, data: Any, type: String) {
         if (type == "reason_layout") {
             showReasonLayout(childPos.toString())
+        }else if (type=="delete"){
+            deleteCommentDialog((data as CommentListResponse.DataBean.CommentsBean).id.toString(),(data).commented_by.id.toString())
+        }else if (type == "reply"){
+            commentsReplyDialog((data as CommentListResponse.DataBean.CommentsBean).id.toString())
+        }else if (type == "toast"){
+            toastDialog()
+        }else if (type == "donate"){
+            donateCoins((data as String).toString())
         }
     }
 }

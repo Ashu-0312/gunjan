@@ -57,7 +57,7 @@ class EditProfileActivity : BaseActivity(){
     private var mDay: Int = 0
     private var dob = ""
     private val codee = "+91"
-    var fromDateValue: String? = null
+    private var fromDateValue: String? = null
     private var progressdialog: ProgressDialog? = null
     private var genderList: ArrayList<String> = ArrayList()
     private var selectedInterestList: ArrayList<String> = ArrayList()
@@ -832,7 +832,7 @@ class EditProfileActivity : BaseActivity(){
                                             if (position == 0) { // Set the hint text color gray
                                                 tv.setTextColor(Color.BLACK)
                                             } else {
-                                                tv.setTextColor(resources.getColor(R.color.txt_color))
+                                                tv.setTextColor(ContextCompat.getColor(this@EditProfileActivity,R.color.txt_color))
                                             }
                                             return view
                                         }
@@ -931,7 +931,7 @@ class EditProfileActivity : BaseActivity(){
                                             if (position == 0) { // Set the hint text color gray
                                                 tv.setTextColor(Color.BLACK)
                                             } else {
-                                                tv.setTextColor(resources.getColor(R.color.txt_color))
+                                                tv.setTextColor(ContextCompat.getColor(this@EditProfileActivity,R.color.txt_color))
                                             }
                                             return view
                                         }

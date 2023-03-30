@@ -16,10 +16,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
-import app.gunjan.activities.HomeActivity
-import app.gunjan.activities.JoinedEventUserListActivity
-import app.gunjan.activities.OthersProfileActivity
-import app.gunjan.activities.PostListResponse
+import app.gunjan.activities.*
 import app.gunjan.entity.JoinEventResponse
 import app.gunjan.entity.LikeDislikePostResponse
 import app.gunjan.fragments.HomeFragment
@@ -190,14 +187,14 @@ class HomePostsAdapter(
             var shareBodyText = ""
             if (FCSharedPreferances.getSharedPreferance(context).savE_LANG.equals("en")) {
                 shareBodyText =
-                    "Gunjan App is now live. Click on the below link to join the community -\n\nhttps://play.google.com/details?cid=${
+                    "Gunjan App is now live. Click on the below link to join the community -\n\nhttps://play.google.com/postDetails?cid=${
                         FCSharedPreferances.getSharedPreferance(
                             context
                         ).activE_COMMUNITY
                     }\n\nYou can also create your own digital community and invite member to join your community."
             } else {
                 shareBodyText =
-                    "Gunjan App अब लाइव है। संगठन / समुदाय में जुड़ने के लिए निचे दिए गए लिंक पर क्लिक करे -\n\nhttps://play.google.com/details?cid=${
+                    "Gunjan App अब लाइव है। संगठन / समुदाय में जुड़ने के लिए निचे दिए गए लिंक पर क्लिक करे -\n\nhttps://play.google.com/postDetails?cid=${
                         FCSharedPreferances.getSharedPreferance(
                             context
                         ).activE_COMMUNITY
@@ -504,6 +501,13 @@ class HomePostsAdapter(
             } else {
                 Log.d("", "")
             }
+        }
+
+        holder.itemView.setOnClickListener {
+            var intent = Intent(context,PostDetailsActivity::class.java)
+            intent.putExtra("post_data",data[position])
+            intent.putExtra("id",data[position].id)
+            context?.startActivity(intent)
         }
     }
 

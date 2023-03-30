@@ -12,15 +12,16 @@ import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
 import app.gunjan.fragments.HomeFragment
 import app.gunjan.utill.FCSharedPreferances
+import app.gunjan.utill.RecyclerItemClickListener
 import kotlin.collections.ArrayList
 
 class CoinsAdapter(
     var context: Context?,
     data: ArrayList<String>,
-    fragment: HomeFragment
+    listener: RecyclerItemClickListener,
 ) : RecyclerView.Adapter<CoinsAdapter.ViewHolder>() {
     private var data: ArrayList<String> = data
-    private var fragment: HomeFragment = fragment
+    private var listener = listener
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val listItem: View = layoutInflater.inflate(R.layout.coin_item, parent, false)
@@ -79,9 +80,9 @@ class CoinsAdapter(
                     context
                 ).totaL_COINS.toInt() < data[position].toString().toInt())
             ) {
-               fragment.toastDialog()
+                listener.onItemClick(position,position,data[position],"toast")
             } else {
-                fragment.donateCoins(data[position])
+                listener.onItemClick(position,position,data[position],"donate")
             }
         }
     }
