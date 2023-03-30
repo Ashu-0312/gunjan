@@ -19,6 +19,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MobileRegisterActivity : BaseActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mobile_register)
@@ -42,7 +43,7 @@ class MobileRegisterActivity : BaseActivity() {
             if (validate()) {
                 val myDialog = ProjectUtill.showProgressDialog(this@MobileRegisterActivity)
                 WebServiceRequest.getInstance().signup(
-                    "en",edtMobile.text.toString().trim(),"+91","android",
+                    "en", edtMobile.text.toString().trim(), "+91", "android",
                     object : Callback<SignupResponse> {
                         override fun onResponse(
                             call: Call<SignupResponse>,
@@ -52,7 +53,8 @@ class MobileRegisterActivity : BaseActivity() {
                             if (response != null) {
                                 if (response.isSuccessful) {
                                     if (response.body()!!.code == 1) {
-                                        FCSharedPreferances.getSharedPreferance(this@MobileRegisterActivity).token=""
+                                        FCSharedPreferances.getSharedPreferance(this@MobileRegisterActivity).token =
+                                            ""
                                         Toast.makeText(
                                             this@MobileRegisterActivity,
                                             "" + response.body()!!.message,

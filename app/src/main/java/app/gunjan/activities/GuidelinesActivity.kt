@@ -20,6 +20,7 @@ class GuidelinesActivity : BaseActivity() {
     }
 
     private fun initData() {
+
         back.setOnClickListener { finish() }
 
         val myDialog = ProjectUtill.showProgressDialog(this@GuidelinesActivity)
@@ -34,8 +35,10 @@ class GuidelinesActivity : BaseActivity() {
                     if (response != null) {
                         if (response.isSuccessful) {
                             if (response.body()!!.code == 1) {
-                                content.text = HtmlCompat.fromHtml(response.body()!!.data.community_guideline,
-                                    HtmlCompat.FROM_HTML_MODE_LEGACY)
+                                content.text = HtmlCompat.fromHtml(
+                                    response.body()!!.data.community_guideline,
+                                    HtmlCompat.FROM_HTML_MODE_LEGACY
+                                )
                             } else {
                                 ProjectUtill.printMessage(
                                     this@GuidelinesActivity.window.decorView,

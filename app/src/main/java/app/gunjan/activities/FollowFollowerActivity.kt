@@ -14,6 +14,7 @@ class FollowFollowerActivity : BaseActivity() {
     }
 
     private fun initData() {
+
         tab_layout!!.addTab(tab_layout!!.newTab().setText("Followers"))
         tab_layout!!.addTab(tab_layout!!.newTab().setText("Following"))
         val tabsAdapter =

@@ -142,6 +142,7 @@ class NotificationActivity : BaseActivity() {
                                     notificationRecycler!!.visibility = View.VISIBLE
                                     if (response.body()!!.data.notification.size < 10) {
                                         isLastPage = true
+
                                     }
                                     if (notificationList.size == 10) {
                                         notificationAdapter!!.notifyDataSetChanged()
