@@ -1121,6 +1121,20 @@ class WebServiceRequest private constructor() {
         registrationResponseCall.enqueue(registrationResponseCallback)
     }
 
+    fun postDetails(
+        context: Context,
+        input: String,
+        registrationResponseCallback: Callback<PostDetailsRes>
+    ) {
+        var params = HashMap<String, String>()
+        params["input"] = input
+        val headers = HashMap<String, String>()
+        headers[Constants.Keys.token] = FCSharedPreferances.getSharedPreferance(context).token
+        val registrationResponseCall: Call<PostDetailsRes> =
+            apiInterface.postDetails(input, headers)
+        registrationResponseCall.enqueue(registrationResponseCallback)
+    }
+
     fun donationList(
         context: Context,
         type: String,

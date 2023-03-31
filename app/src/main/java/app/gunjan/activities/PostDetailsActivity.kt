@@ -69,12 +69,12 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
             getDetails()
         } else {
             if (FCSharedPreferances.getSharedPreferance(this).statuS_LOGIN.equals("true")) {
-              /*  val appLinkAction: String? = intent?.action
+                val appLinkAction: String? = intent?.action
                 val appLinkData: Uri? = intent?.data
                 if (Intent.ACTION_VIEW == appLinkAction && appLinkData != null) {
                     id = appLinkData.getQueryParameter("cid")
                     getDetails()
-                }*/
+                }
             } else {
                 val intent = Intent(this@PostDetailsActivity, LoginActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -662,124 +662,218 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
     }
 
     private fun getDetails() {
-        data = intent.getSerializableExtra("post_data") as PostListResponse.DataBean.PostBean
-        name.text = data!!.created_by.first_name + " " + data!!.created_by.last_name
-        total_comment.text = data!!.total_comment.toString()
-        total_like.text = data!!.total_like.toString()
-        total_dislike.text = data!!.total_unlike.toString()
 
-        if (data!!.isJoinedThisEvent) {
-            join_txt.text = getString(R.string.joined)
-        } else {
-            join_txt.text = getString(R.string.join_event)
-        }
+        val myDialog = ProjectUtill.showProgressDialog(this)
+        WebServiceRequest.getInstance().postDetails(
+            this,
+            id!!,
+            object : Callback<PostDetailsRes> {
+                override fun onResponse(
+                    call: Call<PostDetailsRes>,
+                    response: Response<PostDetailsRes>
+                ) {
+                    myDialog.dismiss()
+                    if (response != null) {
+                        if (response.isSuccessful) {
+                            if (response.body()!!.code == 1) {
+                                if (response.body()!!.data.post == null) {
+                                    if (FCSharedPreferances.getSharedPreferance(this@PostDetailsActivity).statuS_LOGIN.equals(
+                                            "true"
+                                        )
+                                    ) {
+                                        val intent = Intent(
+                                            this@PostDetailsActivity,
+                                            HomeActivity::class.java
+                                        )
+                                        intent.flags =
+                                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        startActivity(intent)
+                                        finish()
+                                    } else {
+                                        val intent = Intent(
+                                            this@PostDetailsActivity,
+                                            LoginActivity::class.java
+                                        )
+                                        intent.flags =
+                                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        startActivity(intent)
+                                        finish()
+                                    }
+                                } else {
+                                    name.text =
+                                        response.body()!!.data.post.created_by.first_name + " " + response.body()!!.data.post.created_by.last_name
+                                    total_comment.text =
+                                        response.body()!!.data.post.total_comment.toString()
+                                    total_like.text =
+                                        response.body()!!.data.post.total_like.toString()
+                                    total_dislike.text =
+                                        response.body()!!.data.post.total_unlike.toString()
 
-        total_users.text =
-            data!!.total_joined_member + " " + getString(R.string._0_users_joined)
+                                    if (response.body()!!.data.post.isJoinedThisEvent) {
+                                        join_txt.text = getString(R.string.joined)
+                                    } else {
+                                        join_txt.text = getString(R.string.join_event)
+                                    }
+
+                                    total_users.text =
+                                        response.body()!!.data.post.total_joined_member + " " + getString(
+                                            R.string._0_users_joined
+                                        )
 
 
-        val input = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-        val output = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                                    val input = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+                                    val output = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
-        var d: Date? = null
-        try {
-            d = input.parse(data!!.createdAt)
-        } catch (e: ParseException) {
-            e.printStackTrace()
-        }
-        val formatted = output.format(d)
-        Log.i("DATE", "" + formatted)
+                                    var d: Date? = null
+                                    try {
+                                        d = input.parse(response.body()!!.data.post.createdAt)
+                                    } catch (e: ParseException) {
+                                        e.printStackTrace()
+                                    }
+                                    val formatted = output.format(d)
+                                    Log.i("DATE", "" + formatted)
 
-        time.text = convertTimeToText(formatted)
-        Glide.with(this).load(data!!.created_by.image)
-            .placeholder(R.drawable.user_avatar)
-            .into(user_profile)
+                                    time.text = convertTimeToText(formatted)
+                                    Glide.with(this@PostDetailsActivity)
+                                        .load(response.body()!!.data.post.created_by.image)
+                                        .placeholder(R.drawable.user_avatar)
+                                        .into(user_profile)
 
-        if (data!!.feed_type == "event") {
-            event_layout.visibility = View.VISIBLE
-            joined_event.visibility = View.VISIBLE
-            join_event.visibility = View.VISIBLE
-            var format = SimpleDateFormat("yyyy-MM-dd")
-            val date1 = format.parse(data!!.start_date)
-            val date2 = format.format(date1)
+                                    if (response.body()!!.data.post.feed_type == "event") {
+                                        event_layout.visibility = View.VISIBLE
+                                        joined_event.visibility = View.VISIBLE
+                                        join_event.visibility = View.VISIBLE
+                                        var format = SimpleDateFormat("yyyy-MM-dd")
+                                        val date1 =
+                                            format.parse(response.body()!!.data.post.start_date)
+                                        val date2 = format.format(date1)
 
-            format =
-                if (date2.endsWith("01") && !date2.endsWith("11")) SimpleDateFormat("d'st'") else if (date2.endsWith(
-                        "02"
-                    ) && !date2.endsWith("12")
-                ) SimpleDateFormat("d'nd'") else if (date2.endsWith("03") && !date2.endsWith("13")) SimpleDateFormat(
-                    "d'rd'"
-                ) else SimpleDateFormat("d'th'")
+                                        format =
+                                            if (date2.endsWith("01") && !date2.endsWith("11")) SimpleDateFormat(
+                                                "d'st'"
+                                            ) else if (date2.endsWith(
+                                                    "02"
+                                                ) && !date2.endsWith("12")
+                                            ) SimpleDateFormat("d'nd'") else if (date2.endsWith("03") && !date2.endsWith(
+                                                    "13"
+                                                )
+                                            ) SimpleDateFormat(
+                                                "d'rd'"
+                                            ) else SimpleDateFormat("d'th'")
 
-            val yourDate = format.format(date1)
-            activity_day.text = yourDate
+                                        val yourDate = format.format(date1)
+                                        activity_day.text = yourDate
 
-            var format2 = SimpleDateFormat("yyyy-MM-dd")
-            val date3 = format2.parse(data!!.start_date)
-            val date4 = format2.format(date3)
+                                        var format2 = SimpleDateFormat("yyyy-MM-dd")
+                                        val date3 =
+                                            format2.parse(response.body()!!.data.post.start_date)
+                                        val date4 = format2.format(date3)
 
-            format2 =
-                if (date4.endsWith("01") && !date4.endsWith("11")) SimpleDateFormat("MMM") else if (date4.endsWith(
-                        "02"
-                    ) && !date4.endsWith("12")
-                ) SimpleDateFormat("MMM") else if (date4.endsWith("03") && !date4.endsWith("13")) SimpleDateFormat(
-                    "MMM"
-                ) else SimpleDateFormat("MMM")
+                                        format2 =
+                                            if (date4.endsWith("01") && !date4.endsWith("11")) SimpleDateFormat(
+                                                "MMM"
+                                            ) else if (date4.endsWith(
+                                                    "02"
+                                                ) && !date4.endsWith("12")
+                                            ) SimpleDateFormat("MMM") else if (date4.endsWith("03") && !date4.endsWith(
+                                                    "13"
+                                                )
+                                            ) SimpleDateFormat(
+                                                "MMM"
+                                            ) else SimpleDateFormat("MMM")
 
-            val yourMonth = format2.format(date3)
-            activity_month.text = yourMonth
+                                        val yourMonth = format2.format(date3)
+                                        activity_month.text = yourMonth
 
-            val tk =
-                StringTokenizer(data!!.start_date.toString() + " " + data!!.start_time)
-            val date = tk.nextToken()
-            val time = tk.nextToken()
+                                        val tk =
+                                            StringTokenizer(response.body()!!.data.post.start_date.toString() + " " + response.body()!!.data.post.start_time)
+                                        val date = tk.nextToken()
+                                        val time = tk.nextToken()
 
-            val sdf = SimpleDateFormat("hh:mm:ss")
-            val sdfs = SimpleDateFormat("hh:mmaa")
-            val dt: Date
-            try {
-                dt = sdf.parse(time)
-                activity_time.text = sdfs.format(dt)
-            } catch (e: ParseException) {
-                e.printStackTrace()
-            }
-        } else {
-            event_layout.visibility = View.GONE
-            joined_event.visibility = View.GONE
-            join_event.visibility = View.GONE
-        }
+                                        val sdf = SimpleDateFormat("hh:mm:ss")
+                                        val sdfs = SimpleDateFormat("hh:mmaa")
+                                        val dt: Date
+                                        try {
+                                            dt = sdf.parse(time)
+                                            activity_time.text = sdfs.format(dt)
+                                        } catch (e: ParseException) {
+                                            e.printStackTrace()
+                                        }
+                                    } else {
+                                        event_layout.visibility = View.GONE
+                                        joined_event.visibility = View.GONE
+                                        join_event.visibility = View.GONE
+                                    }
 
-        when (data!!.content_type) {
-            "image" -> {
-                pic_layout.visibility = View.VISIBLE
-                txt_layout.visibility = View.VISIBLE
-                video_layout.visibility = View.GONE
-                media_video.visibility = View.GONE
-                Glide.with(this).load(data!!.file).placeholder(R.drawable.user_avatar)
-                    .into(pic_layout)
-                description.text = data!!.description
-            }
-            "video" -> {
-                pic_layout.visibility = View.GONE
-                txt_layout.visibility = View.VISIBLE
-                video_layout.visibility = View.VISIBLE
-                media_video.visibility = View.VISIBLE
-                val display = getSystemService<DisplayManager>()
-                    ?.getDisplay(Display.DEFAULT_DISPLAY)
-                val width = display!!.width
-                val height = display.height
-                media_video.layoutParams = FrameLayout.LayoutParams(width, height)
-                media_video.setVideoPath(data!!.file)
-                description.text = data!!.description
-            }
-            "text" -> {
-                pic_layout.visibility = View.GONE
-                txt_layout.visibility = View.VISIBLE
-                video_layout.visibility = View.GONE
-                media_video.visibility = View.GONE
-                description.text = data!!.description
-            }
-        }
+                                    when (response.body()!!.data.post.content_type) {
+                                        "image" -> {
+                                            pic_layout.visibility = View.VISIBLE
+                                            txt_layout.visibility = View.VISIBLE
+                                            video_layout.visibility = View.GONE
+                                            media_video.visibility = View.GONE
+                                            Glide.with(this@PostDetailsActivity)
+                                                .load(response.body()!!.data.post.file)
+                                                .placeholder(R.drawable.user_avatar)
+                                                .into(pic_layout)
+                                            description.text =
+                                                response.body()!!.data.post.description
+                                        }
+                                        "video" -> {
+                                            pic_layout.visibility = View.GONE
+                                            txt_layout.visibility = View.VISIBLE
+                                            video_layout.visibility = View.VISIBLE
+                                            media_video.visibility = View.VISIBLE
+                                            val display = getSystemService<DisplayManager>()
+                                                ?.getDisplay(Display.DEFAULT_DISPLAY)
+                                            val width = display!!.width
+                                            val height = display.height
+                                            media_video.layoutParams =
+                                                FrameLayout.LayoutParams(width, height)
+                                            media_video.setVideoPath(response.body()!!.data.post.file)
+                                            description.text =
+                                                response.body()!!.data.post.description
+                                        }
+                                        "text" -> {
+                                            pic_layout.visibility = View.GONE
+                                            txt_layout.visibility = View.VISIBLE
+                                            video_layout.visibility = View.GONE
+                                            media_video.visibility = View.GONE
+                                            description.text =
+                                                response.body()!!.data.post.description
+                                        }
+                                    }
+                                }
+                            } else {
+                                ProjectUtill.printMessage(
+                                    this@PostDetailsActivity.window.decorView,
+                                    response.body()?.message
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                this@PostDetailsActivity.window.decorView,
+                                ""
+                            )
+                        }
+                    } else {
+                        ProjectUtill.printErrorMessage(
+                            this@PostDetailsActivity.window.decorView,
+                            ""
+                        )
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<PostDetailsRes>,
+                    t: Throwable
+                ) {
+                    myDialog.dismiss()
+                    ProjectUtill.printErrorMessage(
+                        this@PostDetailsActivity.window.decorView,
+                        ""
+                    )
+                }
+            })
     }
 
     private fun convertTimeToText(dataDate: String?): String? {

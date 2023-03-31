@@ -188,16 +188,12 @@ class HomePostsAdapter(
             if (FCSharedPreferances.getSharedPreferance(context).savE_LANG.equals("en")) {
                 shareBodyText =
                     "Gunjan App is now live. Click on the below link to join the community -\n\nhttps://play.google.com/postDetails?cid=${
-                        FCSharedPreferances.getSharedPreferance(
-                            context
-                        ).activE_COMMUNITY
+                        data[position].id.toString()
                     }\n\nYou can also create your own digital community and invite member to join your community."
             } else {
                 shareBodyText =
                     "Gunjan App अब लाइव है। संगठन / समुदाय में जुड़ने के लिए निचे दिए गए लिंक पर क्लिक करे -\n\nhttps://play.google.com/postDetails?cid=${
-                        FCSharedPreferances.getSharedPreferance(
-                            context
-                        ).activE_COMMUNITY
+                        data[position].id.toString()
                     }\n\nआप अपना खुद का डिजिटल समुदाय भी बना सकते हैं और सदस्य को अपने समुदाय में शामिल होने के लिए आमंत्रित कर सकते हैं।"
             }
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here")
@@ -505,8 +501,7 @@ class HomePostsAdapter(
 
         holder.itemView.setOnClickListener {
             var intent = Intent(context,PostDetailsActivity::class.java)
-            intent.putExtra("post_data",data[position])
-            intent.putExtra("id",data[position].id)
+            intent.putExtra("id",data[position].id.toString())
             context?.startActivity(intent)
         }
     }

@@ -389,6 +389,12 @@ interface ApiInterface {
         @HeaderMap headers: Map<String, String>
     ): Call<EventJoinedUsersResponse>
 
+    @GET("post/postDetails/{input}")
+    fun postDetails(
+        @Path("input") input: String?,
+        @HeaderMap headers: Map<String, String>
+    ): Call<PostDetailsRes>
+
     @GET(Constants.Partial.getAllDonationList)
     fun getAllDonationList(
         @Query(Constants.Keys.type) type: String?,
