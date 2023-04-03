@@ -38,38 +38,34 @@ class CommunityDetailsActivity : AppCompatActivity() {
 
     private fun initData() {
 
-        val installed: Boolean = appInstalledOrNot("app.gunjan")
-        if (installed) {
-            if (intent.hasExtra("id")) {
-                btnTxt.text = getString(R.string.leave_community)
-                Leave.visibility = View.VISIBLE
-                communityId = intent.getStringExtra("id").toString()
-                getDetails()
-            } else {
-                if (FCSharedPreferances.getSharedPreferance(this).statuS_LOGIN.equals("true")) {
-                    btnTxt.text = getString(R.string.join_community)
-                    val appLinkAction: String? = intent?.action
-                    val appLinkData: Uri? = intent?.data
-                    if (Intent.ACTION_VIEW == appLinkAction && appLinkData != null) {
-                        communityId = appLinkData.getQueryParameter("cid")
-                        if (FCSharedPreferances.getSharedPreferance(this).activE_COMMUNITY.equals(communityId)){
-                            Leave.visibility = View.GONE
-                        }else{
-                            Leave.visibility = View.VISIBLE
-                        }
-                        getDetails()
-                    }
-                } else {
-                    val intent = Intent(this@CommunityDetailsActivity, LoginActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
-                    finish()
-                }
-            }
+        if (intent.hasExtra("id")) {
+            btnTxt.text = getString(R.string.leave_community)
+            Leave.visibility = View.VISIBLE
+            communityId = intent.getStringExtra("id").toString()
+            getDetails()
         } else {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("market://details?id=app.gunjan")
-            startActivity(intent)
+            if (FCSharedPreferances.getSharedPreferance(this).statuS_LOGIN.equals("true")) {
+                btnTxt.text = getString(R.string.join_community)
+                val appLinkAction: String? = intent?.action
+                val appLinkData: Uri? = intent?.data
+                if (Intent.ACTION_VIEW == appLinkAction && appLinkData != null) {
+                    communityId = appLinkData.getQueryParameter("cid")
+                    if (FCSharedPreferances.getSharedPreferance(this).activE_COMMUNITY.equals(
+                            communityId
+                        )
+                    ) {
+                        Leave.visibility = View.GONE
+                    } else {
+                        Leave.visibility = View.VISIBLE
+                    }
+                    getDetails()
+                }
+            } else {
+                val intent = Intent(this@CommunityDetailsActivity, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
+            }
         }
 
         back.setOnClickListener { finish() }
@@ -79,10 +75,10 @@ class CommunityDetailsActivity : AppCompatActivity() {
                 val intent = Intent(this, LeaveCommunityActivity::class.java)
                 intent.putExtra("community_id", communityId)
                 startActivity(intent)
-            }else{
+            } else {
                 val myDialog = ProjectUtill.showProgressDialog(this@CommunityDetailsActivity)
                 WebServiceRequest.getInstance().sendCommunityRequest(
-                    this,communityId!!,
+                    this, communityId!!,
                     object : Callback<SendCommunityRequestResponse> {
                         override fun onResponse(
                             call: Call<SendCommunityRequestResponse>,
@@ -92,8 +88,11 @@ class CommunityDetailsActivity : AppCompatActivity() {
                             if (response != null) {
                                 if (response.isSuccessful) {
                                     if (response.body()!!.code == 1) {
-                                        Toast.makeText(this@CommunityDetailsActivity,""+ response.body()!!.message,
-                                            Toast.LENGTH_LONG).show()
+                                        Toast.makeText(
+                                            this@CommunityDetailsActivity,
+                                            "" + response.body()!!.message,
+                                            Toast.LENGTH_LONG
+                                        ).show()
                                         joinDialog()
                                     } else {
                                         ProjectUtill.printMessage(
@@ -152,15 +151,17 @@ class CommunityDetailsActivity : AppCompatActivity() {
         apply = dialog.findViewById(R.id.submit)
         title = dialog.findViewById(R.id.title)
         pic = dialog.findViewById(R.id.pic)
-        title.text=intent.getStringExtra("title")
-        Glide.with(this).load(intent.getStringExtra("pic")).placeholder(R.drawable.user_avatar).into(pic)
+        title.text = intent.getStringExtra("title")
+        Glide.with(this).load(intent.getStringExtra("pic")).placeholder(R.drawable.user_avatar)
+            .into(pic)
         close.setOnClickListener { dialog.cancel() }
 
         apply.setOnClickListener {
             dialog.cancel()
-            FCSharedPreferances.getSharedPreferance(this@CommunityDetailsActivity).statuS_LOGIN="true"
-            val intent = Intent(this,HomeActivity::class.java)
-            intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            FCSharedPreferances.getSharedPreferance(this@CommunityDetailsActivity).statuS_LOGIN =
+                "true"
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
         dialog.show()
