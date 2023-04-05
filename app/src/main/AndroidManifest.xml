@@ -35,10 +35,29 @@
 
                 <data
                     android:host="play.google.com"
-                    android:pathPattern="/postDetails"
-                    android:scheme="https" />
+                    android:scheme="https"
+                    android:pathPattern="/postDetails" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activities.CommunityDetailsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/LoginTheme">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="play.google.com"
+                    android:scheme="https"
+                    android:pathPattern="/details" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".activities.SearchAddCommunityActivity"
             android:exported="false"
@@ -74,23 +93,7 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LoginTheme" />
-        <activity
-            android:name=".activities.CommunityDetailsActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme">
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="play.google.com"
-                    android:pathPattern="/details"
-                    android:scheme="https" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".activities.JoinedCommunitesActivity"
             android:exported="false"
