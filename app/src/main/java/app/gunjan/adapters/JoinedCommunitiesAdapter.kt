@@ -43,6 +43,7 @@ class JoinedCommunitiesAdapter(
         holder.itemView!!.setOnClickListener {
             var intent = Intent(context,CommunityDetailsActivity::class.java)
             intent.putExtra("id",data[position].id.toString())
+            intent.putExtra("type","normal")
             context!!.startActivity(intent)
         }
     }

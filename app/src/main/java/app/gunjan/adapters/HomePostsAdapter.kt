@@ -182,18 +182,19 @@ class HomePostsAdapter(
         }
 
         holder.share!!.setOnClickListener {
+
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
             var shareBodyText = ""
             if (FCSharedPreferances.getSharedPreferance(context).savE_LANG.equals("en")) {
                 shareBodyText =
-                    "Gunjan App is now live. Click on the below link to join the community -\n\nhttps://play.google.com/postDetails?cid=${
-                        data[position].id.toString()
+                    "Gunjan App is now live. Click on the below link to join the community -\n\nhttp://gunjanapp.com/post/${
+                        ProjectUtill.enCodeId(data[position].id.toString())
                     }\n\nYou can also create your own digital community and invite member to join your community."
             } else {
                 shareBodyText =
-                    "Gunjan App अब लाइव है। संगठन / समुदाय में जुड़ने के लिए निचे दिए गए लिंक पर क्लिक करे -\n\nhttps://play.google.com/postDetails?cid=${
-                        data[position].id.toString()
+                    "Gunjan App अब लाइव है। संगठन / समुदाय में जुड़ने के लिए निचे दिए गए लिंक पर क्लिक करे -\n\nhttp://gunjanapp.com/post/${
+                        ProjectUtill.enCodeId(data[position].id.toString())
                     }\n\nआप अपना खुद का डिजिटल समुदाय भी बना सकते हैं और सदस्य को अपने समुदाय में शामिल होने के लिए आमंत्रित कर सकते हैं।"
             }
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here")
@@ -502,6 +503,7 @@ class HomePostsAdapter(
         holder.itemView.setOnClickListener {
             var intent = Intent(context,PostDetailsActivity::class.java)
             intent.putExtra("id",data[position].id.toString())
+            intent.putExtra("type","normal")
             context?.startActivity(intent)
         }
     }

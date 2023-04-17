@@ -28,6 +28,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -271,5 +272,19 @@ public class ProjectUtill {
             formattedDate = writeFormat.format(date);
         }
         return formattedDate;
+    }
+
+    public static String enCodeId(String id) {
+        byte[] data = id.getBytes();
+        String text = Base64.encodeToString(data, Base64.DEFAULT);
+        Log.d("DECODEVALUE1",text);
+        return text;
+    }
+
+    public static String deCodeId(String id) {
+        byte[] data = Base64.decode(id, Base64.DEFAULT);
+        String text = new String(data, StandardCharsets.UTF_8);
+        Log.d("DECODEVALUE2",text);
+        return text;
     }
 }

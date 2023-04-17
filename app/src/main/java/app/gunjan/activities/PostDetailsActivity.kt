@@ -64,17 +64,13 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
         dialogComment = Dialog(this)
         dialogCommentReply = Dialog(this)
 
-        if (intent.hasExtra("id")) {
+        if (intent.getStringExtra("type").equals("normal")) {
             id = intent.getStringExtra("id").toString()
             getDetails()
         } else {
             if (FCSharedPreferances.getSharedPreferance(this).statuS_LOGIN.equals("true")) {
-                val appLinkAction: String? = intent?.action
-                val appLinkData: Uri? = intent?.data
-                if (Intent.ACTION_VIEW == appLinkAction && appLinkData != null) {
-                    id = appLinkData.getQueryParameter("cid")
+                    id = intent.getStringExtra("id").toString()
                     getDetails()
-                }
             } else {
                 val intent = Intent(this@PostDetailsActivity, LoginActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

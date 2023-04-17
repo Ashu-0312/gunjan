@@ -233,17 +233,17 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
             var shareBodyText = ""
             if (FCSharedPreferances.getSharedPreferance(context).savE_LANG.equals("en")) {
                 shareBodyText =
-                    "Gunjan App is now live. Click on the below link to join the community -\n\nhttps://play.google.com/details?cid=${
-                        FCSharedPreferances.getSharedPreferance(
-                            context
-                        ).activE_COMMUNITY
+                    "Gunjan App is now live. Click on the below link to join the community -\n\nhttp://gunjanapp.com/${
+                       ProjectUtill.enCodeId(FCSharedPreferances.getSharedPreferance(
+                           context
+                       ).activE_COMMUNITY)
                     }\n\nYou can also create your own digital community and invite member to join your community."
             } else {
                 shareBodyText =
-                    "Gunjan App अब लाइव है। संगठन / समुदाय में जुड़ने के लिए निचे दिए गए लिंक पर क्लिक करे -\n\nhttps://play.google.com/details?cid=${
-                        FCSharedPreferances.getSharedPreferance(
+                    "Gunjan App अब लाइव है। संगठन / समुदाय में जुड़ने के लिए निचे दिए गए लिंक पर क्लिक करे -\n\nhttp://gunjanapp.com/${
+                        ProjectUtill.enCodeId( FCSharedPreferances.getSharedPreferance(
                             context
-                        ).activE_COMMUNITY
+                        ).activE_COMMUNITY)
                     }\n\nआप अपना खुद का डिजिटल समुदाय भी बना सकते हैं और सदस्य को अपने समुदाय में शामिल होने के लिए आमंत्रित कर सकते हैं।"
             }
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here")

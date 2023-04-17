@@ -38,7 +38,7 @@ class CommunityDetailsActivity : AppCompatActivity() {
 
     private fun initData() {
 
-        if (intent.hasExtra("id")) {
+        if (intent.getStringExtra("type").equals("normal")) {
             btnTxt.text = getString(R.string.leave_community)
             Leave.visibility = View.VISIBLE
             communityId = intent.getStringExtra("id").toString()
@@ -46,10 +46,7 @@ class CommunityDetailsActivity : AppCompatActivity() {
         } else {
             if (FCSharedPreferances.getSharedPreferance(this).statuS_LOGIN.equals("true")) {
                 btnTxt.text = getString(R.string.join_community)
-                val appLinkAction: String? = intent?.action
-                val appLinkData: Uri? = intent?.data
-                if (Intent.ACTION_VIEW == appLinkAction && appLinkData != null) {
-                    communityId = appLinkData.getQueryParameter("cid")
+                    communityId = intent.getStringExtra("id").toString()
                     if (FCSharedPreferances.getSharedPreferance(this).activE_COMMUNITY.equals(
                             communityId
                         )
@@ -59,7 +56,6 @@ class CommunityDetailsActivity : AppCompatActivity() {
                         Leave.visibility = View.VISIBLE
                     }
                     getDetails()
-                }
             } else {
                 val intent = Intent(this@CommunityDetailsActivity, LoginActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

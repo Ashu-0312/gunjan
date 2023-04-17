@@ -12,10 +12,8 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import app.gunjan.R
-import app.gunjan.activities.CommunityDetailsActivity
 import app.gunjan.activities.SwitchCommunityActivity
 import app.gunjan.entity.CommunityListResponse
-import app.gunjan.entity.PrivacyPolicyResponse
 import app.gunjan.entity.SwitchCommunityResponse
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest

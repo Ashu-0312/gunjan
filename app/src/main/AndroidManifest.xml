@@ -24,39 +24,15 @@
         tools:replace="allowBackup">
         <activity
             android:name=".activities.PostDetailsActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme">
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="play.google.com"
-                    android:scheme="https"
-                    android:pathPattern="/postDetails" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/LoginTheme"/>
 
         <activity
             android:name=".activities.CommunityDetailsActivity"
-            android:exported="true"
+            android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme">
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="play.google.com"
-                    android:scheme="https"
-                    android:pathPattern="/details" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/LoginTheme"/>
 
         <activity
             android:name=".activities.SearchAddCommunityActivity"
@@ -224,6 +200,27 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activities.DeepLinkingActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/LoginTheme">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="gunjanapp.com"
+                    android:scheme="http" />
+
+                <data
+                    android:host="gunjanapp.com"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
 
