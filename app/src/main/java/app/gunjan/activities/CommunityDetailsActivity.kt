@@ -64,10 +64,18 @@ class CommunityDetailsActivity : AppCompatActivity() {
             }
         }
 
-        back.setOnClickListener { finish() }
+        back.setOnClickListener {
+            if (intent.getStringExtra("type").equals("normal")){
+                finish()
+            }else{
+                val intent = Intent(this@CommunityDetailsActivity, HomeActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            }
+        }
 
         Leave.setOnClickListener {
-            if (intent.hasExtra("id")) {
+            if (intent.getStringExtra("type").equals("normal")) {
                 val intent = Intent(this, LeaveCommunityActivity::class.java)
                 intent.putExtra("community_id", communityId)
                 startActivity(intent)
@@ -214,15 +222,14 @@ class CommunityDetailsActivity : AppCompatActivity() {
             })
     }
 
-    private fun appInstalledOrNot(uri: String): Boolean {
-        val pm = packageManager
-        var app_installed = false
-        app_installed = try {
-            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES)
-            true
-        } catch (e: PackageManager.NameNotFoundException) {
-            false
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (intent.getStringExtra("type").equals("normal")){
+            finish()
+        }else{
+            val intent = Intent(this@CommunityDetailsActivity, HomeActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
         }
-        return app_installed
     }
 }

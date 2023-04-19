@@ -16,7 +16,6 @@ class DeepLinkingActivity: AppCompatActivity() {
         Log.e("Gunjan", "${appLinkData}")
         Log.e("Gunjan", "${appLinkAction}")
         if (Intent.ACTION_VIEW == appLinkAction && appLinkData != null) {
-            //http://gunjanapp.com/post/747/
             val url = appLinkData.toString().split("/")
             if (appLinkData.toString().contains("gunjanapp.com/post")) {
                 //Post

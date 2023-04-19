@@ -46,13 +46,14 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
     var commentRecycler: RecyclerView? = null
     var replyRecycler: RecyclerView? = null
     private var reasonLayout: LinearLayout? = null
-    var data: PostListResponse.DataBean.PostBean? = null
+    var data: String? = null
+    var contentType: String? = null
+    var isJoinedThisEvent: Boolean? = null
     private var Status: String? = "2"
     private var id: String? = ""
     var coinDialog: Dialog? = null
     var totalCoins: TextView? = null
     private var coinList: ArrayList<String> = ArrayList()
-
     var idd: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +79,50 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
                 finish()
             }
         }
+
+        user_profile.setOnClickListener {
+            if (data != FCSharedPreferances.getSharedPreferance(
+                    this
+                ).useR_ID
+            ) {
+                FCSharedPreferances.getSharedPreferance(this).otheR_ID =
+                    data
+               startActivity(Intent(this, OthersProfileActivity::class.java))
+            } else {
+                FCSharedPreferances.getSharedPreferance(this).status =
+                    "edit"
+                FCSharedPreferances.getSharedPreferance(this).otheR_ID =
+                    data
+                var intent = Intent(
+                    this,
+                    HomeActivity::class.java
+                )
+                intent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            }
+        }
+
+        share.setOnClickListener {
+            val sharingIntent = Intent(Intent.ACTION_SEND)
+            sharingIntent.type = "text/plain"
+            var shareBodyText = ""
+            if (FCSharedPreferances.getSharedPreferance(this).savE_LANG.equals("en")) {
+                shareBodyText =
+                    "Gunjan App is now live. Click on the below link to join the community -\n\nhttp://gunjanapp.com/post/${
+                        ProjectUtill.enCodeId(id)
+                    }\n\nYou can also create your own digital community and invite member to join your community."
+            } else {
+                shareBodyText =
+                    "Gunjan App अब लाइव है। संगठन / समुदाय में जुड़ने के लिए निचे दिए गए लिंक पर क्लिक करे -\n\nhttp://gunjanapp.com/post/${
+                        ProjectUtill.enCodeId(id)
+                    }\n\nआप अपना खुद का डिजिटल समुदाय भी बना सकते हैं और सदस्य को अपने समुदाय में शामिल होने के लिए आमंत्रित कर सकते हैं।"
+            }
+            sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here")
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText)
+            startActivity(sharingIntent)
+        }
+
         show_more.setOnClickListener {
             if (show_more.text.toString() == getString(R.string.showmore)) {
                 description.maxLines = Int.MAX_VALUE //your TextView
@@ -90,10 +135,10 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
 
         menu.setOnClickListener {
 
-            if (data!!.created_by.id.toString() == FCSharedPreferances.getSharedPreferance(
+            if (data.equals(FCSharedPreferances.getSharedPreferance(
                     this
                 ).useR_ID
-            ) {
+                )) {
                 val popup = PopupMenu(this, menu)
 
                 //inflating menu from xml resource
@@ -119,7 +164,7 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
 
                     when (item!!.itemId) {
                         R.id.block -> {
-                            blockDialog(data!!.created_by.id.toString())
+                            blockDialog(data!!)
                         }
                         R.id.copy -> {
                             copyText(description.text.toString().trim())
@@ -162,7 +207,7 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
         like.setOnClickListener {
             val myDialog = ProjectUtill.showProgressDialog(this)
             WebServiceRequest.getInstance().likeDislikePost(
-                this, data!!.id.toString(), "love", "1",
+                this, id!!, "love", "1",
                 object : Callback<LikeDislikePostResponse> {
                     override fun onResponse(
                         call: Call<LikeDislikePostResponse>,
@@ -212,7 +257,7 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
         dislike.setOnClickListener {
             val myDialog = ProjectUtill.showProgressDialog(this)
             WebServiceRequest.getInstance().likeDislikePost(
-                this, data!!.id.toString(), "love", "0",
+                this,id!!, "love", "0",
                 object : Callback<LikeDislikePostResponse> {
                     override fun onResponse(
                         call: Call<LikeDislikePostResponse>,
@@ -260,28 +305,28 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
         }
 
         comment_layout.setOnClickListener {
-            commentsDialog(data!!.id.toString())
+            commentsDialog(id!!)
         }
 
         comment_layout2.setOnClickListener {
-            commentsDialog(data!!.id.toString())
+            commentsDialog(id!!)
         }
 
         reward.setOnClickListener {
-            coinsDialog(data!!.id.toString())
+            coinsDialog(data!!)
         }
 
         joined_event.setOnClickListener {
             val intent = Intent(this, JoinedEventUserListActivity::class.java)
-            intent.putExtra("id", data!!.id.toString())
+            intent.putExtra("id", data!!)
             startActivity(intent)
         }
 
         join_event.setOnClickListener {
-            if (!data!!.isJoinedThisEvent) {
+            if (!isJoinedThisEvent!!) {
                 val myDialog = ProjectUtill.showProgressDialog(this)
                 WebServiceRequest.getInstance().joinEvent(
-                    this, data!!.id.toString(),
+                    this,id!!,
                     object : Callback<JoinEventResponse> {
                         override fun onResponse(
                             call: Call<JoinEventResponse>,
@@ -293,7 +338,7 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
                                     if (response.body()!!.code == 1) {
                                         join_txt.text =
                                             getString(R.string.joined)
-                                        data!!.isJoinedThisEvent = true
+                                        isJoinedThisEvent = true
                                         total_users.text =
                                             response.body()!!.data.total_member + " " + getString(
                                                 R.string._0_users_joined
@@ -333,7 +378,7 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
         }
 
         video_layout.setOnClickListener {
-            if (data!!.content_type == "video") {
+            if (contentType == "video") {
                 play.visibility = View.VISIBLE
                 pause.visibility = View.GONE
                 media_video.pause()
@@ -610,7 +655,7 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
     private fun donateCoins(coin: String) {
         val myDialog = ProjectUtill.showProgressDialog(this)
         WebServiceRequest.getInstance().addPostCoin(
-            this, coin, idd!!,
+            this, coin, id!!,
             object : Callback<DonateCoinResponse> {
                 override fun onResponse(
                     call: Call<DonateCoinResponse>,
@@ -696,6 +741,9 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
                                         finish()
                                     }
                                 } else {
+                                    data = response.body()!!.data.post.created_by.id
+                                    contentType = response.body()!!.data.post.content_type
+                                    isJoinedThisEvent = response.body()!!.data.post.isJoinedThisEvent
                                     name.text =
                                         response.body()!!.data.post.created_by.first_name + " " + response.body()!!.data.post.created_by.last_name
                                     total_comment.text =
@@ -1707,5 +1755,16 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
                     )
                 }
             })
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (intent.getStringExtra("type").equals("normal")){
+            finish()
+        }else{
+            val intent = Intent(this@PostDetailsActivity, HomeActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
     }
 }
