@@ -30,6 +30,7 @@ import retrofit2.Response
 
 class CommunityDetailsActivity : AppCompatActivity() {
     private var communityId: String? = null
+    var isMemberOfCommunity: Boolean? = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_community_details)
@@ -37,37 +38,12 @@ class CommunityDetailsActivity : AppCompatActivity() {
     }
 
     private fun initData() {
-
-        if (intent.getStringExtra("type").equals("normal")) {
-            btnTxt.text = getString(R.string.leave_community)
-            Leave.visibility = View.VISIBLE
-            communityId = intent.getStringExtra("id").toString()
-            getDetails()
-        } else {
-            if (FCSharedPreferances.getSharedPreferance(this).statuS_LOGIN.equals("true")) {
-                btnTxt.text = getString(R.string.join_community)
-                    communityId = intent.getStringExtra("id").toString()
-                    if (FCSharedPreferances.getSharedPreferance(this).activE_COMMUNITY.equals(
-                            communityId
-                        )
-                    ) {
-                        Leave.visibility = View.GONE
-                    } else {
-                        Leave.visibility = View.VISIBLE
-                    }
-                    getDetails()
-            } else {
-                val intent = Intent(this@CommunityDetailsActivity, LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-                finish()
-            }
-        }
-
+        communityId = intent.getStringExtra("id").toString()
+        getDetails()
         back.setOnClickListener {
-            if (intent.getStringExtra("type").equals("normal")){
+            if (intent.getStringExtra("type").equals("normal")) {
                 finish()
-            }else{
+            } else {
                 val intent = Intent(this@CommunityDetailsActivity, HomeActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
@@ -184,11 +160,45 @@ class CommunityDetailsActivity : AppCompatActivity() {
                     if (response != null) {
                         if (response.isSuccessful) {
                             if (response.body()!!.code == 1) {
+                                isMemberOfCommunity = response.body()!!.data.isMemberOfCommunity
                                 Glide.with(this@CommunityDetailsActivity)
                                     .load(response.body()!!.data.community_details.image)
                                     .placeholder(R.drawable.user_avatar).into(Pic)
                                 Title.text = response.body()!!.data.community_details.title
                                 About.text = response.body()!!.data.community_details.about
+                                if (intent.getStringExtra("type").equals("normal")) {
+                                    btnTxt.text = getString(R.string.leave_community)
+                                    Leave.visibility = View.VISIBLE
+                                } else {
+                                    if (FCSharedPreferances.getSharedPreferance(this@CommunityDetailsActivity).statuS_LOGIN.equals(
+                                            "true"
+                                        )
+                                    ) {
+                                        if (isMemberOfCommunity == false) {
+                                            btnTxt.text = getString(R.string.join_community)
+                                            Leave.visibility = View.VISIBLE
+                                        } else {
+                                            Leave.visibility = View.GONE
+                                            val intent = Intent(
+                                                this@CommunityDetailsActivity,
+                                                HomeActivity::class.java
+                                            )
+                                            intent.flags =
+                                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                            startActivity(intent)
+                                            finish()
+                                        }
+                                    } else {
+                                        val intent = Intent(
+                                            this@CommunityDetailsActivity,
+                                            LoginActivity::class.java
+                                        )
+                                        intent.flags =
+                                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        startActivity(intent)
+                                        finish()
+                                    }
+                                }
                             } else {
                                 ProjectUtill.printMessage(
                                     this@CommunityDetailsActivity.window.decorView,
@@ -224,9 +234,9 @@ class CommunityDetailsActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        if (intent.getStringExtra("type").equals("normal")){
+        if (intent.getStringExtra("type").equals("normal")) {
             finish()
-        }else{
+        } else {
             val intent = Intent(this@CommunityDetailsActivity, HomeActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)

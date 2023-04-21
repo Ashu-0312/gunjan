@@ -291,6 +291,34 @@ public class PostDetailsRes implements Serializable {
             private String total_coins;
             private boolean isLiked;
             private boolean isCommented;
+
+            public boolean isYourPost() {
+                return isYourPost;
+            }
+
+            public void setYourPost(boolean yourPost) {
+                isYourPost = yourPost;
+            }
+
+            public boolean isMemberOfPostCommunity() {
+                return isMemberOfPostCommunity;
+            }
+
+            public void setMemberOfPostCommunity(boolean memberOfPostCommunity) {
+                isMemberOfPostCommunity = memberOfPostCommunity;
+            }
+
+            public boolean isActiveInPostCommunity() {
+                return isActiveInPostCommunity;
+            }
+
+            public void setActiveInPostCommunity(boolean activeInPostCommunity) {
+                isActiveInPostCommunity = activeInPostCommunity;
+            }
+
+            private boolean isYourPost;
+            private boolean isMemberOfPostCommunity;
+            private boolean isActiveInPostCommunity;
             private String my_liked_type;
             private String time;
             private String start_date;

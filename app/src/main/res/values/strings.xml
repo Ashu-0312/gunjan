@@ -278,4 +278,5 @@
     <string name="logo_coomunity">Please enter your community logo</string>
     <string name="min_interest">Please select at least 2 interests</string>
     <string name="max_interest">Please select maximum 6 interests</string>
+    <string name="not_member">You are not member of this post community</string>
 </resources>

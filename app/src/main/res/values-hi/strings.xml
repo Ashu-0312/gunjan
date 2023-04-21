@@ -278,6 +278,6 @@
     <string name="logo_coomunity">कृपया अपने समुदाय का लोगो दर्ज करें</string>
     <string name="min_interest">कृपया कम से कम 2 रुचियां चुनें</string>
     <string name="max_interest">कृपया अधिकतम 6 रुचियों का चयन करें</string>
-
+    <string name="not_member">आप इस पोस्ट समुदाय के सदस्य नहीं हैं</string>
 
 </resources>

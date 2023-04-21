@@ -37,9 +37,37 @@ public class CommunityDetailsResponse implements Serializable {
     }
 
     private String message;
+
     private DataBean data;
 
     public static class DataBean implements Serializable {
+        public boolean isMemberOfCommunity() {
+            return isMemberOfCommunity;
+        }
+
+        public void setMemberOfCommunity(boolean memberOfCommunity) {
+            isMemberOfCommunity = memberOfCommunity;
+        }
+
+        public boolean isActiveInCommunity() {
+            return isActiveInCommunity;
+        }
+
+        public void setActiveInCommunity(boolean activeInCommunity) {
+            isActiveInCommunity = activeInCommunity;
+        }
+
+        public boolean isAdmin() {
+            return isAdmin;
+        }
+
+        public void setAdmin(boolean admin) {
+            isAdmin = admin;
+        }
+
+        private boolean isMemberOfCommunity;
+        private boolean isActiveInCommunity;
+        private boolean isAdmin;
         public CommunityDetailsBean getCommunity_details() {
             return community_details;
         }

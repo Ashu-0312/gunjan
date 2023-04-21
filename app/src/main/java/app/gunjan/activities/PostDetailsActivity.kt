@@ -55,6 +55,7 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
     var totalCoins: TextView? = null
     private var coinList: ArrayList<String> = ArrayList()
     var idd: String? = null
+    var isMemberOfCommunity: Boolean? = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_details)
@@ -205,144 +206,25 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
         })
 
         like.setOnClickListener {
-            val myDialog = ProjectUtill.showProgressDialog(this)
-            WebServiceRequest.getInstance().likeDislikePost(
-                this, id!!, "love", "1",
-                object : Callback<LikeDislikePostResponse> {
-                    override fun onResponse(
-                        call: Call<LikeDislikePostResponse>,
-                        response: Response<LikeDislikePostResponse>
-                    ) {
-                        myDialog.dismiss()
-                        if (response != null) {
-                            if (response.isSuccessful) {
-                                if (response.body()!!.code == 1) {
-                                    total_like.text =
-                                        response.body()!!.data.post.total_like.toString()
-                                    total_dislike.text =
-                                        response.body()!!.data.post.total_unlike.toString()
-                                } else {
-                                    ProjectUtill.printMessage(
-                                        this@PostDetailsActivity.window.decorView,
-                                        response.body()?.message
-                                    )
-                                }
-                            } else {
-                                ProjectUtill.printErrorMessage(
-                                    this@PostDetailsActivity.window.decorView,
-                                    ""
-                                )
-                            }
-                        } else {
-                            ProjectUtill.printErrorMessage(
-                                this@PostDetailsActivity.window.decorView,
-                                ""
-                            )
-                        }
-                    }
-
-                    override fun onFailure(
-                        call: Call<LikeDislikePostResponse>,
-                        t: Throwable
-                    ) {
-                        myDialog.dismiss()
-                        ProjectUtill.printErrorMessage(
-                            this@PostDetailsActivity.window.decorView,
-                            ""
-                        )
-                    }
-                })
-        }
-
-        dislike.setOnClickListener {
-            val myDialog = ProjectUtill.showProgressDialog(this)
-            WebServiceRequest.getInstance().likeDislikePost(
-                this,id!!, "love", "0",
-                object : Callback<LikeDislikePostResponse> {
-                    override fun onResponse(
-                        call: Call<LikeDislikePostResponse>,
-                        response: Response<LikeDislikePostResponse>
-                    ) {
-                        myDialog.dismiss()
-                        if (response != null) {
-                            if (response.isSuccessful) {
-                                if (response.body()!!.code == 1) {
-                                    total_like.text =
-                                        response.body()!!.data.post.total_like.toString()
-                                    total_dislike.text =
-                                        response.body()!!.data.post.total_unlike.toString()
-                                } else {
-                                    ProjectUtill.printMessage(
-                                        this@PostDetailsActivity.window.decorView,
-                                        response.body()?.message
-                                    )
-                                }
-                            } else {
-                                ProjectUtill.printErrorMessage(
-                                    this@PostDetailsActivity.window.decorView,
-                                    ""
-                                )
-                            }
-                        } else {
-                            ProjectUtill.printErrorMessage(
-                                this@PostDetailsActivity.window.decorView,
-                                ""
-                            )
-                        }
-                    }
-
-                    override fun onFailure(
-                        call: Call<LikeDislikePostResponse>,
-                        t: Throwable
-                    ) {
-                        myDialog.dismiss()
-                        ProjectUtill.printErrorMessage(
-                            this@PostDetailsActivity.window.decorView,
-                            ""
-                        )
-                    }
-                })
-        }
-
-        comment_layout.setOnClickListener {
-            commentsDialog(id!!)
-        }
-
-        comment_layout2.setOnClickListener {
-            commentsDialog(id!!)
-        }
-
-        reward.setOnClickListener {
-            coinsDialog(data!!)
-        }
-
-        joined_event.setOnClickListener {
-            val intent = Intent(this, JoinedEventUserListActivity::class.java)
-            intent.putExtra("id", data!!)
-            startActivity(intent)
-        }
-
-        join_event.setOnClickListener {
-            if (!isJoinedThisEvent!!) {
+            if (isMemberOfCommunity==false){
+                Toast.makeText(this, getString(R.string.not_member), Toast.LENGTH_SHORT).show()
+            }else {
                 val myDialog = ProjectUtill.showProgressDialog(this)
-                WebServiceRequest.getInstance().joinEvent(
-                    this,id!!,
-                    object : Callback<JoinEventResponse> {
+                WebServiceRequest.getInstance().likeDislikePost(
+                    this, id!!, "love", "1",
+                    object : Callback<LikeDislikePostResponse> {
                         override fun onResponse(
-                            call: Call<JoinEventResponse>,
-                            response: Response<JoinEventResponse>
+                            call: Call<LikeDislikePostResponse>,
+                            response: Response<LikeDislikePostResponse>
                         ) {
                             myDialog.dismiss()
                             if (response != null) {
                                 if (response.isSuccessful) {
                                     if (response.body()!!.code == 1) {
-                                        join_txt.text =
-                                            getString(R.string.joined)
-                                        isJoinedThisEvent = true
-                                        total_users.text =
-                                            response.body()!!.data.total_member + " " + getString(
-                                                R.string._0_users_joined
-                                            )
+                                        total_like.text =
+                                            response.body()!!.data.post.total_like.toString()
+                                        total_dislike.text =
+                                            response.body()!!.data.post.total_unlike.toString()
                                     } else {
                                         ProjectUtill.printMessage(
                                             this@PostDetailsActivity.window.decorView,
@@ -364,7 +246,7 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
                         }
 
                         override fun onFailure(
-                            call: Call<JoinEventResponse>,
+                            call: Call<LikeDislikePostResponse>,
                             t: Throwable
                         ) {
                             myDialog.dismiss()
@@ -374,6 +256,153 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
                             )
                         }
                     })
+            }
+        }
+
+        dislike.setOnClickListener {
+            if (isMemberOfCommunity==false){
+                Toast.makeText(this, getString(R.string.not_member), Toast.LENGTH_SHORT).show()
+            }else {
+                val myDialog = ProjectUtill.showProgressDialog(this)
+                WebServiceRequest.getInstance().likeDislikePost(
+                    this, id!!, "love", "0",
+                    object : Callback<LikeDislikePostResponse> {
+                        override fun onResponse(
+                            call: Call<LikeDislikePostResponse>,
+                            response: Response<LikeDislikePostResponse>
+                        ) {
+                            myDialog.dismiss()
+                            if (response != null) {
+                                if (response.isSuccessful) {
+                                    if (response.body()!!.code == 1) {
+                                        total_like.text =
+                                            response.body()!!.data.post.total_like.toString()
+                                        total_dislike.text =
+                                            response.body()!!.data.post.total_unlike.toString()
+                                    } else {
+                                        ProjectUtill.printMessage(
+                                            this@PostDetailsActivity.window.decorView,
+                                            response.body()?.message
+                                        )
+                                    }
+                                } else {
+                                    ProjectUtill.printErrorMessage(
+                                        this@PostDetailsActivity.window.decorView,
+                                        ""
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    this@PostDetailsActivity.window.decorView,
+                                    ""
+                                )
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<LikeDislikePostResponse>,
+                            t: Throwable
+                        ) {
+                            myDialog.dismiss()
+                            ProjectUtill.printErrorMessage(
+                                this@PostDetailsActivity.window.decorView,
+                                ""
+                            )
+                        }
+                    })
+            }
+        }
+
+        comment_layout.setOnClickListener {
+            if (isMemberOfCommunity==false){
+                Toast.makeText(this, getString(R.string.not_member), Toast.LENGTH_SHORT).show()
+            }else {
+                commentsDialog(id!!)
+            }
+        }
+
+        comment_layout2.setOnClickListener {
+            if (isMemberOfCommunity==false){
+                Toast.makeText(this, getString(R.string.not_member), Toast.LENGTH_SHORT).show()
+            }else {
+                commentsDialog(id!!)
+            }
+        }
+
+        reward.setOnClickListener {
+            if (isMemberOfCommunity==false){
+                Toast.makeText(this, getString(R.string.not_member), Toast.LENGTH_SHORT).show()
+            }else {
+                coinsDialog(data!!)
+            }
+        }
+
+        joined_event.setOnClickListener {
+            if (isMemberOfCommunity==false){
+                Toast.makeText(this, getString(R.string.not_member), Toast.LENGTH_SHORT).show()
+            }else {
+                val intent = Intent(this, JoinedEventUserListActivity::class.java)
+                intent.putExtra("id", data!!)
+                startActivity(intent)
+            }
+        }
+
+        join_event.setOnClickListener {
+            if (isMemberOfCommunity==false){
+                Toast.makeText(this, getString(R.string.not_member), Toast.LENGTH_SHORT).show()
+            }else {
+                if (!isJoinedThisEvent!!) {
+                    val myDialog = ProjectUtill.showProgressDialog(this)
+                    WebServiceRequest.getInstance().joinEvent(
+                        this, id!!,
+                        object : Callback<JoinEventResponse> {
+                            override fun onResponse(
+                                call: Call<JoinEventResponse>,
+                                response: Response<JoinEventResponse>
+                            ) {
+                                myDialog.dismiss()
+                                if (response != null) {
+                                    if (response.isSuccessful) {
+                                        if (response.body()!!.code == 1) {
+                                            join_txt.text =
+                                                getString(R.string.joined)
+                                            isJoinedThisEvent = true
+                                            total_users.text =
+                                                response.body()!!.data.total_member + " " + getString(
+                                                    R.string._0_users_joined
+                                                )
+                                        } else {
+                                            ProjectUtill.printMessage(
+                                                this@PostDetailsActivity.window.decorView,
+                                                response.body()?.message
+                                            )
+                                        }
+                                    } else {
+                                        ProjectUtill.printErrorMessage(
+                                            this@PostDetailsActivity.window.decorView,
+                                            ""
+                                        )
+                                    }
+                                } else {
+                                    ProjectUtill.printErrorMessage(
+                                        this@PostDetailsActivity.window.decorView,
+                                        ""
+                                    )
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<JoinEventResponse>,
+                                t: Throwable
+                            ) {
+                                myDialog.dismiss()
+                                ProjectUtill.printErrorMessage(
+                                    this@PostDetailsActivity.window.decorView,
+                                    ""
+                                )
+                            }
+                        })
+                }
             }
         }
 
@@ -741,6 +770,7 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
                                         finish()
                                     }
                                 } else {
+                                    isMemberOfCommunity = response.body()!!.data.post.isMemberOfPostCommunity
                                     data = response.body()!!.data.post.created_by.id
                                     contentType = response.body()!!.data.post.content_type
                                     isJoinedThisEvent = response.body()!!.data.post.isJoinedThisEvent
