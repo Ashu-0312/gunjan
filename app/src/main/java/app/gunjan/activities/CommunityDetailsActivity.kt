@@ -1,5 +1,6 @@
 package app.gunjan.activities
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import app.gunjan.R
 import app.gunjan.entity.CommunityDetailsResponse
 import app.gunjan.entity.SendCommunityRequestResponse
+import app.gunjan.entity.SwitchCommunityResponse
 import app.gunjan.utill.FCSharedPreferances
 import app.gunjan.utill.ProjectUtill
 import app.gunjan.webservices.WebServiceRequest
@@ -178,15 +180,19 @@ class CommunityDetailsActivity : AppCompatActivity() {
                                             btnTxt.text = getString(R.string.join_community)
                                             Leave.visibility = View.VISIBLE
                                         } else {
-                                            Leave.visibility = View.GONE
-                                            val intent = Intent(
-                                                this@CommunityDetailsActivity,
-                                                HomeActivity::class.java
-                                            )
-                                            intent.flags =
-                                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                            startActivity(intent)
-                                            finish()
+                                            if (FCSharedPreferances.getSharedPreferance(this@CommunityDetailsActivity).activE_COMMUNITY.equals(communityId)){
+                                                Leave.visibility = View.GONE
+                                                val intent = Intent(
+                                                    this@CommunityDetailsActivity,
+                                                    HomeActivity::class.java
+                                                )
+                                                intent.flags =
+                                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                startActivity(intent)
+                                                finish()
+                                            }else {
+                                                switchCommunity()
+                                            }
                                         }
                                     } else {
                                         val intent = Intent(
@@ -230,6 +236,61 @@ class CommunityDetailsActivity : AppCompatActivity() {
                     )
                 }
             })
+    }
+
+    private fun switchCommunity() {
+        val myDialog = ProjectUtill.showProgressDialog(this)
+            WebServiceRequest.getInstance().switchCommunity(
+                this,communityId!!,
+                object : Callback<SwitchCommunityResponse> {
+                    override fun onResponse(
+                        call: Call<SwitchCommunityResponse>,
+                        response: Response<SwitchCommunityResponse>
+                    ) {
+                        myDialog.dismiss()
+                        if (response != null) {
+                            if (response.isSuccessful) {
+                                if (response.body()!!.code == 1) {
+                                    Leave.visibility = View.GONE
+                                    val intent = Intent(
+                                        this@CommunityDetailsActivity,
+                                        HomeActivity::class.java
+                                    )
+                                    intent.flags =
+                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    startActivity(intent)
+                                    finish()
+                                } else {
+                                    ProjectUtill.printMessage(
+                                        this@CommunityDetailsActivity.window.decorView,
+                                        response.body()?.message
+                                    )
+                                }
+                            } else {
+                                ProjectUtill.printErrorMessage(
+                                    this@CommunityDetailsActivity.window.decorView,
+                                    ""
+                                )
+                            }
+                        } else {
+                            ProjectUtill.printErrorMessage(
+                                this@CommunityDetailsActivity.window.decorView,
+                                ""
+                            )
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<SwitchCommunityResponse>,
+                        t: Throwable
+                    ) {
+                        myDialog.dismiss()
+                        ProjectUtill.printErrorMessage(
+                           this@CommunityDetailsActivity.window.decorView,
+                            ""
+                        )
+                    }
+                })
     }
 
     override fun onBackPressed() {
