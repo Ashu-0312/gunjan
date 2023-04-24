@@ -276,6 +276,16 @@ public class PostDetailsRes implements Serializable {
              */
 
             private String id;
+
+            public String getCommunity() {
+                return community;
+            }
+
+            public void setCommunity(String community) {
+                this.community = community;
+            }
+
+            private String community;
             private String title;
             private String feed_type;
             private String description;

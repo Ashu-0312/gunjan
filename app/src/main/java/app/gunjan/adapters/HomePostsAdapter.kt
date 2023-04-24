@@ -182,20 +182,27 @@ class HomePostsAdapter(
         }
 
         holder.share!!.setOnClickListener {
-
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
             var shareBodyText = ""
             if (FCSharedPreferances.getSharedPreferance(context).savE_LANG.equals("en")) {
                 shareBodyText =
-                    "Click to see more posts like this and join the ${FCSharedPreferances.getSharedPreferance(context).communitY_NAME} Community\n\nhttp://gunjanapp.com/post/${
+                    "Click to see more posts like this and join the ${
+                        FCSharedPreferances.getSharedPreferance(
+                            context
+                        ).communitY_NAME
+                    } Community\n\nhttp://gunjanapp.com/post/${
                         ProjectUtill.enCodeId(data[position].id.toString())
                     }"
             } else {
                 shareBodyText =
-                    "इस तरह की और पोस्ट देखने के लिए क्लिक करें और ${FCSharedPreferances.getSharedPreferance(context).communitY_NAME} कम्युनिटी/समुदाय \uD83D\uDC47\uD83D\uDC47 से जुड़ें\n\nhttp://gunjanapp.com/post/${
-                    ProjectUtill.enCodeId(data[position].id.toString())
-                }"
+                    "इस तरह की और पोस्ट देखने के लिए क्लिक करें और ${
+                        FCSharedPreferances.getSharedPreferance(
+                            context
+                        ).communitY_NAME
+                    } कम्युनिटी/समुदाय \uD83D\uDC47\uD83D\uDC47 से जुड़ें\n\nhttp://gunjanapp.com/post/${
+                        ProjectUtill.enCodeId(data[position].id.toString())
+                    }"
             }
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here")
             sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText)
@@ -235,9 +242,11 @@ class HomePostsAdapter(
                         R.id.block -> {
                             homeFragment.blockDialog(data[position].created_by.id.toString())
                         }
+
                         R.id.copy -> {
                             copyText(holder.description!!.text.toString().trim())
                         }
+
                         R.id.report -> {
                             homeFragment.reportDialog(data[position].id.toString(), "user")
                         }
@@ -501,9 +510,9 @@ class HomePostsAdapter(
         }
 
         holder.itemView.setOnClickListener {
-            var intent = Intent(context,PostDetailsActivity::class.java)
-            intent.putExtra("id",data[position].id.toString())
-            intent.putExtra("type","normal")
+            var intent = Intent(context, PostDetailsActivity::class.java)
+            intent.putExtra("id", data[position].id.toString())
+            intent.putExtra("type", "normal")
             context?.startActivity(intent)
         }
     }

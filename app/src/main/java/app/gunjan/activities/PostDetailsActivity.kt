@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.*
 import android.hardware.display.DisplayManager
 import android.media.MediaPlayer
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -27,6 +26,7 @@ import app.gunjan.utill.RecyclerItemClickListener
 import app.gunjan.webservices.WebServiceRequest
 import com.bumptech.glide.Glide
 import com.cashfree.pg.CFPaymentService
+import kotlinx.android.synthetic.main.activity_community_details.Leave
 import kotlinx.android.synthetic.main.activity_post_details.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -55,6 +55,7 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
     var totalCoins: TextView? = null
     private var coinList: ArrayList<String> = ArrayList()
     var idd: String? = null
+    var communityId: String? = null
     var isMemberOfCommunity: Boolean? = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,8 +72,8 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
             getDetails()
         } else {
             if (FCSharedPreferances.getSharedPreferance(this).statuS_LOGIN.equals("true")) {
-                    id = intent.getStringExtra("id").toString()
-                    getDetails()
+                id = intent.getStringExtra("id").toString()
+                getDetails()
             } else {
                 val intent = Intent(this@PostDetailsActivity, LoginActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -88,13 +89,13 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
             ) {
                 FCSharedPreferances.getSharedPreferance(this).otheR_ID =
                     data
-               startActivity(Intent(this, OthersProfileActivity::class.java))
+                startActivity(Intent(this, OthersProfileActivity::class.java))
             } else {
                 FCSharedPreferances.getSharedPreferance(this).status =
                     "edit"
                 FCSharedPreferances.getSharedPreferance(this).otheR_ID =
                     data
-                var intent = Intent(
+                val intent = Intent(
                     this,
                     HomeActivity::class.java
                 )
@@ -105,19 +106,28 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
         }
 
         share.setOnClickListener {
+
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
             var shareBodyText = ""
             if (FCSharedPreferances.getSharedPreferance(this).savE_LANG.equals("en")) {
                 shareBodyText =
-                    "Gunjan App is now live. Click on the below link to join the community -\n\nhttp://gunjanapp.com/post/${
+                    "Click to see more posts like this and join the ${
+                        FCSharedPreferances.getSharedPreferance(
+                            this
+                        ).communitY_NAME
+                    } Community\n\nhttp://gunjanapp.com/post/${
                         ProjectUtill.enCodeId(id)
-                    }\n\nYou can also create your own digital community and invite member to join your community."
+                    }"
             } else {
                 shareBodyText =
-                    "Gunjan App अब लाइव है। संगठन / समुदाय में जुड़ने के लिए निचे दिए गए लिंक पर क्लिक करे -\n\nhttp://gunjanapp.com/post/${
+                    "इस तरह की और पोस्ट देखने के लिए क्लिक करें और ${
+                        FCSharedPreferances.getSharedPreferance(
+                            this
+                        ).communitY_NAME
+                    } कम्युनिटी/समुदाय \uD83D\uDC47\uD83D\uDC47 से जुड़ें\n\nhttp://gunjanapp.com/post/${
                         ProjectUtill.enCodeId(id)
-                    }\n\nआप अपना खुद का डिजिटल समुदाय भी बना सकते हैं और सदस्य को अपने समुदाय में शामिल होने के लिए आमंत्रित कर सकते हैं।"
+                    }"
             }
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here")
             sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText)
@@ -136,10 +146,12 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
 
         menu.setOnClickListener {
 
-            if (data.equals(FCSharedPreferances.getSharedPreferance(
-                    this
-                ).useR_ID
-                )) {
+            if (data.equals(
+                    FCSharedPreferances.getSharedPreferance(
+                        this
+                    ).useR_ID
+                )
+            ) {
                 val popup = PopupMenu(this, menu)
 
                 //inflating menu from xml resource
@@ -159,7 +171,6 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
             } else {
                 val popup = PopupMenu(this, menu)
                 //inflating menu from xml resource
-                //inflating menu from xml resource
                 popup.inflate(R.menu.options_menu)
                 popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
 
@@ -167,9 +178,11 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
                         R.id.block -> {
                             blockDialog(data!!)
                         }
+
                         R.id.copy -> {
                             copyText(description.text.toString().trim())
                         }
+
                         R.id.report -> {
                             // reportDialog(data.id.toString(), "user")
                         }
@@ -206,9 +219,9 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
         })
 
         like.setOnClickListener {
-            if (isMemberOfCommunity==false){
+            if (isMemberOfCommunity == false) {
                 Toast.makeText(this, getString(R.string.not_member), Toast.LENGTH_SHORT).show()
-            }else {
+            } else {
                 val myDialog = ProjectUtill.showProgressDialog(this)
                 WebServiceRequest.getInstance().likeDislikePost(
                     this, id!!, "love", "1",
@@ -260,9 +273,9 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
         }
 
         dislike.setOnClickListener {
-            if (isMemberOfCommunity==false){
+            if (isMemberOfCommunity == false) {
                 Toast.makeText(this, getString(R.string.not_member), Toast.LENGTH_SHORT).show()
-            }else {
+            } else {
                 val myDialog = ProjectUtill.showProgressDialog(this)
                 WebServiceRequest.getInstance().likeDislikePost(
                     this, id!!, "love", "0",
@@ -314,33 +327,33 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
         }
 
         comment_layout.setOnClickListener {
-            if (isMemberOfCommunity==false){
+            if (isMemberOfCommunity == false) {
                 Toast.makeText(this, getString(R.string.not_member), Toast.LENGTH_SHORT).show()
-            }else {
+            } else {
                 commentsDialog(id!!)
             }
         }
 
         comment_layout2.setOnClickListener {
-            if (isMemberOfCommunity==false){
+            if (isMemberOfCommunity == false) {
                 Toast.makeText(this, getString(R.string.not_member), Toast.LENGTH_SHORT).show()
-            }else {
+            } else {
                 commentsDialog(id!!)
             }
         }
 
         reward.setOnClickListener {
-            if (isMemberOfCommunity==false){
+            if (isMemberOfCommunity == false) {
                 Toast.makeText(this, getString(R.string.not_member), Toast.LENGTH_SHORT).show()
-            }else {
+            } else {
                 coinsDialog(data!!)
             }
         }
 
         joined_event.setOnClickListener {
-            if (isMemberOfCommunity==false){
+            if (isMemberOfCommunity == false) {
                 Toast.makeText(this, getString(R.string.not_member), Toast.LENGTH_SHORT).show()
-            }else {
+            } else {
                 val intent = Intent(this, JoinedEventUserListActivity::class.java)
                 intent.putExtra("id", data!!)
                 startActivity(intent)
@@ -348,9 +361,9 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
         }
 
         join_event.setOnClickListener {
-            if (isMemberOfCommunity==false){
+            if (isMemberOfCommunity == false) {
                 Toast.makeText(this, getString(R.string.not_member), Toast.LENGTH_SHORT).show()
-            }else {
+            } else {
                 if (!isJoinedThisEvent!!) {
                     val myDialog = ProjectUtill.showProgressDialog(this)
                     WebServiceRequest.getInstance().joinEvent(
@@ -480,7 +493,7 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
         val edtCoin: EditText?
         val dialog = Dialog(this)
         // Include dialog.xml file
-        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.addcoin_dialog)
         dialog.setCancelable(true)
         val window = dialog.window
@@ -770,10 +783,13 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
                                         finish()
                                     }
                                 } else {
-                                    isMemberOfCommunity = response.body()!!.data.post.isMemberOfPostCommunity
+                                    communityId = response.body()!!.data.post.community
+                                    isMemberOfCommunity =
+                                        response.body()!!.data.post.isMemberOfPostCommunity
                                     data = response.body()!!.data.post.created_by.id
                                     contentType = response.body()!!.data.post.content_type
-                                    isJoinedThisEvent = response.body()!!.data.post.isJoinedThisEvent
+                                    isJoinedThisEvent =
+                                        response.body()!!.data.post.isJoinedThisEvent
                                     name.text =
                                         response.body()!!.data.post.created_by.first_name + " " + response.body()!!.data.post.created_by.last_name
                                     total_comment.text =
@@ -892,6 +908,7 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
                                             description.text =
                                                 response.body()!!.data.post.description
                                         }
+
                                         "video" -> {
                                             pic_layout.visibility = View.GONE
                                             txt_layout.visibility = View.VISIBLE
@@ -907,6 +924,7 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
                                             description.text =
                                                 response.body()!!.data.post.description
                                         }
+
                                         "text" -> {
                                             pic_layout.visibility = View.GONE
                                             txt_layout.visibility = View.VISIBLE
@@ -1789,12 +1807,75 @@ class PostDetailsActivity : AppCompatActivity(), RecyclerItemClickListener {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        if (intent.getStringExtra("type").equals("normal")){
+        if (intent.getStringExtra("type").equals("normal")) {
             finish()
-        }else{
-            val intent = Intent(this@PostDetailsActivity, HomeActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
+        } else {
+            if (FCSharedPreferances.getSharedPreferance(this@PostDetailsActivity).activE_COMMUNITY.equals(
+                    communityId
+                )
+            ) {
+              callHome()
+            } else {
+                if (isMemberOfCommunity==true) {
+                    val myDialog = ProjectUtill.showProgressDialog(this)
+                    WebServiceRequest.getInstance().switchCommunity(
+                        this, communityId!!,
+                        object : Callback<SwitchCommunityResponse> {
+                            override fun onResponse(
+                                call: Call<SwitchCommunityResponse>,
+                                response: Response<SwitchCommunityResponse>
+                            ) {
+                                myDialog.dismiss()
+                                if (response != null) {
+                                    if (response.isSuccessful) {
+                                        if (response.body()!!.code == 1) {
+                                            callHome()
+                                        } else {
+                                            ProjectUtill.printMessage(
+                                                this@PostDetailsActivity.window.decorView,
+                                                response.body()?.message
+                                            )
+                                        }
+                                    } else {
+                                        ProjectUtill.printErrorMessage(
+                                            this@PostDetailsActivity.window.decorView,
+                                            ""
+                                        )
+                                    }
+                                } else {
+                                    ProjectUtill.printErrorMessage(
+                                        this@PostDetailsActivity.window.decorView,
+                                        ""
+                                    )
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<SwitchCommunityResponse>,
+                                t: Throwable
+                            ) {
+                                myDialog.dismiss()
+                                ProjectUtill.printErrorMessage(
+                                    this@PostDetailsActivity.window.decorView,
+                                    ""
+                                )
+                            }
+                        })
+                }else{
+                    callHome()
+                }
+            }
         }
+    }
+
+    private fun callHome() {
+        val intent = Intent(
+            this@PostDetailsActivity,
+            HomeActivity::class.java
+        )
+        intent.flags =
+            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }

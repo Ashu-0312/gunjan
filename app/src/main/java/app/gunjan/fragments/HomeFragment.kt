@@ -233,18 +233,38 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
             var shareBodyText = ""
             if (FCSharedPreferances.getSharedPreferance(context).savE_LANG.equals("en")) {
                 shareBodyText =
-                    "Gunjan App is now live. Click on the below link to join the community -\n\nhttp://gunjanapp.com/${
-                       ProjectUtill.enCodeId(FCSharedPreferances.getSharedPreferance(
-                           context
-                       ).activE_COMMUNITY)
-                    }\n\nYou can also create your own digital community and invite member to join your community."
+                    "Your ${
+                        FCSharedPreferances.getSharedPreferance(
+                            context
+                        ).communitY_NAME
+                    } community is LIVE on the Gunjan app. Click on the link below to join the Community Membership -\n\n${
+                        FCSharedPreferances.getSharedPreferance(
+                            context
+                        ).communitY_NAME
+                    }'s Gunjan App is live.\n\nAll the members can join by clicking on the link given below and invite their friends to join -\n\nhttp://gunjanapp.com/${
+                        ProjectUtill.enCodeId(
+                            FCSharedPreferances.getSharedPreferance(
+                                context
+                            ).activE_COMMUNITY
+                        )
+                    }"
             } else {
                 shareBodyText =
-                    "Gunjan App अब लाइव है। संगठन / समुदाय में जुड़ने के लिए निचे दिए गए लिंक पर क्लिक करे -\n\nhttp://gunjanapp.com/${
-                        ProjectUtill.enCodeId( FCSharedPreferances.getSharedPreferance(
+                    "आपका ${
+                        FCSharedPreferances.getSharedPreferance(
                             context
-                        ).activE_COMMUNITY)
-                    }\n\nआप अपना खुद का डिजिटल समुदाय भी बना सकते हैं और सदस्य को अपने समुदाय में शामिल होने के लिए आमंत्रित कर सकते हैं।"
+                        ).communitY_NAME
+                    } कम्युनिटी / समुदाय का Gunjan App अब लाइव है। जुड़ने के लिए नीचे दिए गए लिंक पर क्लिक करें -\n\n${
+                        FCSharedPreferances.getSharedPreferance(
+                            context
+                        ).communitY_NAME
+                    } का Gunjan App आ गया है।\n\nसभी सदस्य नीचे दिए गए लिंक पर क्लिक करके जुड़ें और अपने दोस्तों को शामिल होने के लिए आमंत्रित करें -\n\nhttp://gunjanapp.com/${
+                        ProjectUtill.enCodeId(
+                            FCSharedPreferances.getSharedPreferance(
+                                context
+                            ).activE_COMMUNITY
+                        )
+                    }"
             }
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here")
             sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText)
@@ -357,6 +377,7 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
                                             0 -> {
                                                 memberFrame!!.visibility = View.GONE
                                             }
+
                                             1 -> {
                                                 memberFrame!!.visibility = View.VISIBLE
                                                 Glide.with(context!!)
@@ -365,6 +386,7 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
                                                         R.drawable.user_avatar
                                                     ).into(image1!!)
                                             }
+
                                             2 -> {
                                                 memberFrame!!.visibility = View.VISIBLE
                                                 Glide.with(context!!)
@@ -378,6 +400,7 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
                                                         R.drawable.user_avatar
                                                     ).into(image2!!)
                                             }
+
                                             3 -> {
                                                 memberFrame!!.visibility = View.VISIBLE
                                                 Glide.with(context!!)
@@ -396,6 +419,7 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
                                                         R.drawable.user_avatar
                                                     ).into(image3!!)
                                             }
+
                                             4 -> {
                                                 memberFrame!!.visibility = View.VISIBLE
                                                 Glide.with(context!!)
@@ -419,6 +443,7 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
                                                         R.drawable.user_avatar
                                                     ).into(image4!!)
                                             }
+
                                             5 -> {
                                                 memberFrame!!.visibility = View.VISIBLE
                                                 Glide.with(context!!)
@@ -447,6 +472,7 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
                                                         R.drawable.user_avatar
                                                     ).into(image5!!)
                                             }
+
                                             else -> {
                                                 memberFrame!!.visibility = View.VISIBLE
                                                 Glide.with(context!!)
@@ -2208,13 +2234,16 @@ class HomeFragment() : Fragment(), RecyclerItemClickListener {
     override fun onItemClick(parentPos: Int, childPos: Int, data: Any, type: String) {
         if (type == "reason_layout") {
             showReasonLayout(childPos.toString())
-        }else if (type=="delete"){
-            deleteCommentDialog((data as CommentListResponse.DataBean.CommentsBean).id.toString(),(data).commented_by.id.toString())
-        }else if (type == "reply"){
+        } else if (type == "delete") {
+            deleteCommentDialog(
+                (data as CommentListResponse.DataBean.CommentsBean).id.toString(),
+                (data).commented_by.id.toString()
+            )
+        } else if (type == "reply") {
             commentsReplyDialog((data as CommentListResponse.DataBean.CommentsBean).id.toString())
-        }else if (type == "toast"){
+        } else if (type == "toast") {
             toastDialog()
-        }else if (type == "donate"){
+        } else if (type == "donate") {
             donateCoins((data as String).toString())
         }
     }
