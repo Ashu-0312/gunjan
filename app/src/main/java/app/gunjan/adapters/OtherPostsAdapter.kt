@@ -186,14 +186,14 @@ class OtherPostsAdapter(
             var shareBodyText = ""
             if (FCSharedPreferances.getSharedPreferance(context).savE_LANG.equals("en")) {
                 shareBodyText =
-                    "Gunjan App is now live. Click on the below link to join the community -\n\nhttp://gunjanapp.com/post/${
+                    "Click to see more posts like this and join the ${FCSharedPreferances.getSharedPreferance(context).communitY_NAME} Community\n\nhttp://gunjanapp.com/post/${
                         ProjectUtill.enCodeId(data[position].id.toString())
-                    }\n\nYou can also create your own digital community and invite member to join your community."
+                    }"
             } else {
                 shareBodyText =
-                    "Gunjan App अब लाइव है। संगठन / समुदाय में जुड़ने के लिए निचे दिए गए लिंक पर क्लिक करे -\n\nhttp://gunjanapp.com/post/${
+                    "इस तरह की और पोस्ट देखने के लिए क्लिक करें और ${FCSharedPreferances.getSharedPreferance(context).communitY_NAME} कम्युनिटी/समुदाय \uD83D\uDC47\uD83D\uDC47 से जुड़ें\n\nhttp://gunjanapp.com/post/${
                         ProjectUtill.enCodeId(data[position].id.toString())
-                    }\n\nआप अपना खुद का डिजिटल समुदाय भी बना सकते हैं और सदस्य को अपने समुदाय में शामिल होने के लिए आमंत्रित कर सकते हैं।"
+                    }"
             }
             sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here")
             sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBodyText)
