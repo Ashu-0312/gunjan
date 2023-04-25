@@ -29,15 +29,15 @@ class SplashActivity : AppCompatActivity() {
         FCSharedPreferances.getSharedPreferance(this).totaL_COINS = ""
         FCSharedPreferances.getSharedPreferance(this).tokeN_STATUS = "true"
         handler = Handler(Looper.getMainLooper())
-        handler!!.postDelayed(Runnable {
+        handler!!.postDelayed( {
             if (FCSharedPreferances.getSharedPreferance(this@SplashActivity).savE_LANG.equals("")){
                 setLocale("hi")
-                txt.text = "कनेक्टिंग लोग एक साथ आते हैं"
+                txt.text = "भारत का डिजिटल समुदाय"
             }else if (FCSharedPreferances.getSharedPreferance(this@SplashActivity).savE_LANG.equals("en")){
-                txt.text = "Connecting people come together"
+                txt.text = "India's digital community"
                 setLocale("en")
             }else{
-                txt.text = "कनेक्टिंग लोग एक साथ आते हैं"
+                txt.text = "भारत का डिजिटल समुदाय"
                 setLocale("hi")
             }
             FCSharedPreferances.getSharedPreferance(this@SplashActivity).status = ""
